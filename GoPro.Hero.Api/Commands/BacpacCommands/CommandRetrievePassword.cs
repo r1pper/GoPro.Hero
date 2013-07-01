@@ -8,9 +8,16 @@ namespace GoPro.Hero.Api.Commands.BacpacCommands
 {
     class CommandRetrievePassword:CommandRequest
     {
+        protected override void Initialize()
+        {
+            base.command = HeroCommands.BACPAC_GET_PASSWORD;
+            base.parameter = null;
+            base.passPhrase = null;
+        }
+
         public static CommandRetrievePassword Create(string address)
         {
-            return new CommandRetrievePassword() { commandUri = CommandRequest.CreateUri(address, HeroCommands.BACPAC_GET_PASSWORD) };
+            return CommandRequest.Create<CommandRetrievePassword>(address, HeroCommands.BACPAC_GET_PASSWORD);
         }
     }
 }

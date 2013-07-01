@@ -10,7 +10,7 @@ namespace GoPro.Hero.Api.Tests
         public void Initialize()
         {
             var bacpac=Bacpac.Create("10.5.5.9");
-
+            
             Assert.AreEqual(ExpectedParameters.IP_ADDRESS, bacpac.Address);
             Assert.AreEqual(ExpectedParameters.PASSWORD, bacpac.Password);
         }
