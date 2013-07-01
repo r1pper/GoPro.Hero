@@ -16,6 +16,7 @@ namespace GoPro.Hero.Api
         public string Address { get; private set; }
 
         public BacpacInformation Information { get; private set; }
+        public BacpacStatus Status { get; private set; }
 
         private T CreateCommand<T>(string parameter = null)where T:CommandRequest
         {
@@ -37,18 +38,26 @@ namespace GoPro.Hero.Api
 
         public void UpdateStatus()
         {
+            var request = this.CreateCommand<CommandStatus>();
+            var response = Commando.Send(request);
+
+            if (response.Status != CommandResponse.ResponseStatus.Ok)
+                throw new BacpacException();
+
+            var stream = response.GetResponseStream();
+            this.Status.Update(stream);
         }
 
         public void UpdateInformation()
         {
             var request = this.CreateCommand<CommandInformation>();
             var response = Commando.Send(request);
+
             if (response.Status != CommandResponse.ResponseStatus.Ok)
                 throw new BacpacException();
 
             var stream = response.GetResponseStream();
             this.Information.Update(stream);
-
         }
 
         public void Shoot()
@@ -59,6 +68,7 @@ namespace GoPro.Hero.Api
         {
             this.Address = address;
             this.Information = new BacpacInformation();
+            this.Status = new BacpacStatus();
 
             this.UpdatePassword();
             this.UpdateInformation();

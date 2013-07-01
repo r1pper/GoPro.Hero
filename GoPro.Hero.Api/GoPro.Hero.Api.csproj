@@ -39,8 +39,10 @@
   <ItemGroup>
     <Compile Include="Bacpac.cs" />
     <Compile Include="BacpacInformation.cs" />
+    <Compile Include="BacpacStatus.cs" />
     <Compile Include="Commands\BacpacCommands\CommandInformation.cs" />
     <Compile Include="Commands\BacpacCommands\CommandRetrievePassword.cs" />
+    <Compile Include="Commands\BacpacCommands\CommandStatus.cs" />
     <Compile Include="Commands\Commando.cs" />
     <Compile Include="Commands\CommandRequest.cs" />
     <Compile Include="Commands\CommandResponse.cs" />
