@@ -32,7 +32,7 @@ namespace GoPro.Hero.Api
 
         public void UpdateStatus()
         {
-            var request = this.CreateCommand<CommandStatus>();
+            var request = this.CreateCommand<BacpacCommandStatus>();
             var response = Commando.Send(request);
 
             if (response.Status != CommandResponse.ResponseStatus.Ok)
@@ -44,7 +44,7 @@ namespace GoPro.Hero.Api
 
         public void UpdateInformation()
         {
-            var request = this.CreateCommand<CommandInformation>();
+            var request = this.CreateCommand<BacpacCommandInformation>();
             var response = Commando.Send(request);
 
             if (response.Status != CommandResponse.ResponseStatus.Ok)

@@ -34,20 +34,25 @@
   </PropertyGroup>
   <ItemGroup>
     <!-- A reference to the entire .NET Framework is automatically included -->
-    <Folder Include="Commands\CameraCommands\" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Bacpac.cs" />
     <Compile Include="BacpacInformation.cs" />
     <Compile Include="BacpacStatus.cs" />
-    <Compile Include="Commands\BacpacCommands\CommandInformation.cs" />
+    <Compile Include="Camera.cs" />
+    <Compile Include="CameraExtendedSettings.cs" />
+    <Compile Include="CameraInformation.cs" />
+    <Compile Include="CameraSettings.cs" />
+    <Compile Include="Commands\BacpacCommands\BacpacCommandInformation.cs" />
     <Compile Include="Commands\BacpacCommands\CommandPowerUp.cs" />
     <Compile Include="Commands\BacpacCommands\CommandRetrievePassword.cs" />
-    <Compile Include="Commands\BacpacCommands\CommandStatus.cs" />
+    <Compile Include="Commands\BacpacCommands\BacpacCommandStatus.cs" />
+    <Compile Include="Commands\CameraCommands\CameraInformationCommand.cs" />
     <Compile Include="Commands\Commando.cs" />
     <Compile Include="Commands\CommandRequest.cs" />
     <Compile Include="Commands\CommandResponse.cs" />
     <Compile Include="Exceptions\BacpacException.cs" />
+    <Compile Include="Exceptions\CameraException.cs" />
     <Compile Include="Exceptions\GoProException.cs" />
     <Compile Include="Commands\HeroCommands.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

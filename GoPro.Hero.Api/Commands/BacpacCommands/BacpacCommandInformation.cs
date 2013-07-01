@@ -5,7 +5,7 @@ using System.Text;
 
 namespace GoPro.Hero.Api.Commands.BacpacCommands
 {
-    class CommandInformation:CommandRequest
+    class BacpacCommandInformation:CommandRequest
     {
         protected override void Initialize()
         {
@@ -14,9 +14,9 @@ namespace GoPro.Hero.Api.Commands.BacpacCommands
             base.passPhrase = null;
         }
 
-        public static CommandInformation Create(string address)
+        public static BacpacCommandInformation Create(string address)
         {
-            return CommandRequest.Create<CommandInformation>(address, HeroCommands.BACPAC_INFORMATION);
+            return CommandRequest.Create<BacpacCommandInformation>(address, HeroCommands.BACPAC_INFORMATION);
         }
     }
 }

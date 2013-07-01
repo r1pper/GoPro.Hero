@@ -27,9 +27,9 @@ namespace GoPro.Hero.Api.Commands.BacpacCommands
             }
         }
 
-        public static CommandInformation Create(string address, string passPhrase,bool powerUp)
+        public static BacpacCommandInformation Create(string address, string passPhrase,bool powerUp)
         {
-            return CommandRequest.Create<CommandInformation>(address, HeroCommands.BACPAC_POWER, passPhrase, powerUp ? ON : OFF);
+            return CommandRequest.Create<BacpacCommandInformation>(address, HeroCommands.BACPAC_POWER, passPhrase, powerUp ? ON : OFF);
         }
     }
 }
