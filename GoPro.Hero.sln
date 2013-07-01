@@ -1,0 +1,26 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GoPro.Hero.Api", "GoPro.Hero.Api\GoPro.Hero.Api.csproj", "{5C83722F-198B-451D-8531-2AA0722F55B9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GoPro.Hero.Api.Tests", "GoPro.Hero.Api.Tests\GoPro.Hero.Api.Tests.csproj", "{DDC8EACC-D2E6-4BDC-A8DE-839D056569F7}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{5C83722F-198B-451D-8531-2AA0722F55B9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5C83722F-198B-451D-8531-2AA0722F55B9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5C83722F-198B-451D-8531-2AA0722F55B9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5C83722F-198B-451D-8531-2AA0722F55B9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DDC8EACC-D2E6-4BDC-A8DE-839D056569F7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DDC8EACC-D2E6-4BDC-A8DE-839D056569F7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DDC8EACC-D2E6-4BDC-A8DE-839D056569F7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DDC8EACC-D2E6-4BDC-A8DE-839D056569F7}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
