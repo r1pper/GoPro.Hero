@@ -9,7 +9,7 @@ namespace GoPro.Hero.Api.Tests
         [TestMethod]
         public void Initialize()
         {
-            var bacpac=Bacpac.Create("10.5.5.9");
+            var bacpac=Bacpac.Create(ExpectedParameters.IP_ADDRESS);
             
             Assert.AreEqual(ExpectedParameters.IP_ADDRESS, bacpac.Address);
             Assert.AreEqual(ExpectedParameters.PASSWORD, bacpac.Password);
@@ -18,7 +18,7 @@ namespace GoPro.Hero.Api.Tests
         [TestMethod]
         public void RetrievePassword()
         {
-            var bacpac=Bacpac.Create("10.5.5.9");
+            var bacpac = Bacpac.Create(ExpectedParameters.IP_ADDRESS);
 
             bacpac.UpdatePassword();
             Assert.AreEqual(ExpectedParameters.PASSWORD, bacpac.Password);
@@ -27,11 +27,9 @@ namespace GoPro.Hero.Api.Tests
         [TestMethod]
         public void PowerUp()
         {
-            var bacpac = Bacpac.Create("10.5.5.9");
+            var bacpac = Bacpac.Create(ExpectedParameters.IP_ADDRESS);
 
             bacpac.Power(true);
-
-            bacpac.Power(false);
         }
     }
 }

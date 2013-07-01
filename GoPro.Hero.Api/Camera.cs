@@ -30,7 +30,7 @@ namespace GoPro.Hero.Api
             var response = request.Send();
 
             var stream = response.GetResponseStream();
-            this.Information.Update(stream);
+            this.Settings.Update(stream);
         }
 
         public void UpdateExtendedSettings()
@@ -39,7 +39,7 @@ namespace GoPro.Hero.Api
             var response = request.Send();
 
             var stream = response.GetResponseStream();
-            this.Information.Update(stream);
+            this.ExtendedSettings.Update(stream);
         }
 
         private T CreateCommand<T>(string parameter = null) where T : CommandRequest
@@ -54,6 +54,16 @@ namespace GoPro.Hero.Api
             this.Information = new CameraInformation();
             this.ExtendedSettings = new CameraExtendedSettings();
             this.Settings = new CameraSettings();
+
+            this.UpdateInformation();
+            this.UpdateSettings();
+            this.UpdateExtendedSettings();
+        }
+
+        public static Camera Create(Bacpac bacpac)
+        {
+            var camera = new Camera(bacpac);
+            return camera;
         }
     }
 }

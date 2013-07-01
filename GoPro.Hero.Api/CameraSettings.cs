@@ -33,10 +33,10 @@ namespace GoPro.Hero.Api
 
         public byte Battery { get; protected set; }
         public byte UsbMode { get; protected set; }
-        public short PhotosAvailableSpace { get; protected set; }
-        public short PhotosCount { get; protected set; }
-        public short VideosAvailableSpace { get; protected set; }
-        public short VideosCount { get; protected set; }
+        public ushort PhotosAvailableSpace { get; protected set; }
+        public ushort PhotosCount { get; protected set; }
+        public ushort VideosAvailableSpace { get; protected set; }
+        public ushort VideosCount { get; protected set; }
         public byte Shutter { get; protected set; }
 
         public byte Busy { get; protected set; }
@@ -79,10 +79,10 @@ namespace GoPro.Hero.Api
 
             this.Battery = binReader.ReadByte();
             this.UsbMode = binReader.ReadByte();
-            this.PhotosAvailableSpace = binReader.ReadInt16();
-            this.PhotosCount = binReader.ReadInt16();
-            this.VideosAvailableSpace = binReader.ReadInt16();
-            this.VideosCount = binReader.ReadInt16();
+            this.PhotosAvailableSpace = binReader.ReadUInt16();
+            this.PhotosCount = binReader.ReadUInt16();
+            this.VideosAvailableSpace = binReader.ReadUInt16();
+            this.VideosCount = binReader.ReadUInt16();
             this.Shutter = binReader.ReadByte();
 
             field = binReader.ReadByte();
