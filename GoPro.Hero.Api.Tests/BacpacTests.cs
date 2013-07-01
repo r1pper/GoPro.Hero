@@ -23,5 +23,15 @@ namespace GoPro.Hero.Api.Tests
             bacpac.UpdatePassword();
             Assert.AreEqual(ExpectedParameters.PASSWORD, bacpac.Password);
         }
+
+        [TestMethod]
+        public void PowerUp()
+        {
+            var bacpac = Bacpac.Create("10.5.5.9");
+
+            bacpac.Power(true);
+
+            bacpac.Power(false);
+        }
     }
 }

@@ -51,7 +51,7 @@ namespace GoPro.Hero.Api.Commands
             if (!string.IsNullOrEmpty(parameter))
                 builder.Query = string.IsNullOrEmpty(builder.Query)
                     ? string.Format("p={0}", parameter)
-                    : string.Format("{0}&p={1}", builder.Query, parameter);
+                    : string.Format("t={0}&p={1}", passPhrase, parameter);
             return builder.Uri;
         }
     }
