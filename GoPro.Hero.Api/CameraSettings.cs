@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 
@@ -7,39 +8,87 @@ namespace GoPro.Hero.Api
 {
     public class CameraSettings
     {
-        public byte Mode { get; private set; }
-        public byte MicrophoneMode { get; private set; }
-        public byte OnDefault { get; private set; }
-        public byte Exposure { get; private set; }
-        public byte TimeLapse { get; private set; }
-        public byte AutoPowerOff { get; private set; }
-        public byte FieldOfView { get; private set; }
-        public byte PhotoResolution { get; private set; }
-        public byte VideoResolution { get; private set; }
-        public byte AudioInput { get; private set; }
-        public byte PlayMode { get; private set; }
-        public byte PlaybackPosition { get; private set; }
-        public byte BeepSound { get; private set; }
-        public byte LedBlink { get; private set; }
+        public byte Mode { get; protected set; }
+        public byte MicrophoneMode { get; protected set; }
+        public byte OnDefault { get; protected set; }
+        public byte Exposure { get; protected set; }
+        public byte TimeLapse { get; protected set; }
+        public byte AutoPowerOff { get; protected set; }
+        public byte FieldOfView { get; protected set; }
+        public byte PhotoResolution { get; protected set; }
+        public byte VideoResolution { get; protected set; }
+        public byte AudioInput { get; protected set; }
+        public byte PlayMode { get; protected set; }
+        public byte PlaybackPosition { get; protected set; }
+        public byte BeepSound { get; protected set; }
+        public byte LedBlink { get; protected set; }
 
-        public bool OnScreen { get; private set; }
-        public bool OneButton { get; private set; }
-        public bool Orientation { get; private set; }
-        public bool LiveFeed { get; private set; }
-        public bool LocateCamera { get; private set; }
-        public bool Ntsc { get; private set; }
-        public bool PreviewAvailable { get; private set; }
+        public byte OnScreen { get; protected set; }
+        public byte OneButton { get; protected set; }
+        public byte Orientation { get; protected set; }
+        public byte LiveFeed { get; protected set; }
+        public byte LocateCamera { get; protected set; }
+        public byte Ntsc { get; protected set; }
+        public byte PreviewActive { get; protected set; }
 
-        public byte Battery { get; private set; }
-        public byte UsbMode { get; private set; }
-        public byte PhotosAvailableSpace { get; private set; }
-        public byte PhotosCount { get; private set; }
-        public byte VideosAvailableSpace { get; private set; }
-        public byte VideosCount { get; private set; }
-        public byte Shutter { get; private set; }
+        public byte Battery { get; protected set; }
+        public byte UsbMode { get; protected set; }
+        public short PhotosAvailableSpace { get; protected set; }
+        public short PhotosCount { get; protected set; }
+        public short VideosAvailableSpace { get; protected set; }
+        public short VideosCount { get; protected set; }
+        public byte Shutter { get; protected set; }
 
-        public bool Busy { get; private set; }
-        public bool ProTune { get; private set; }
+        public byte Busy { get; protected set; }
+        public byte ProTune { get; protected set; }
+        public byte PreviewAvailable { get; protected set; }
 
+        internal protected virtual void Update(Stream stream)
+        {
+            using (var binReader = new BinaryReader(stream))
+            {
+                FillSettings(binReader);
+            }
+        }
+
+        protected void FillSettings(BinaryReader binReader)
+        {
+            this.Mode = binReader.ReadByte();
+            this.MicrophoneMode = binReader.ReadByte();
+            this.OnDefault = binReader.ReadByte();
+            this.Exposure = binReader.ReadByte();
+            this.TimeLapse = binReader.ReadByte();
+            this.AutoPowerOff = binReader.ReadByte();
+            this.FieldOfView = binReader.ReadByte();
+            this.PhotoResolution = binReader.ReadByte();
+            this.VideoResolution = binReader.ReadByte();
+            this.AudioInput = binReader.ReadByte();
+            this.PlayMode = binReader.ReadByte();
+            this.PlaybackPosition = binReader.ReadByte();
+            this.BeepSound = binReader.ReadByte();
+            this.LedBlink = binReader.ReadByte();
+
+            var field = binReader.ReadByte();
+            this.PreviewActive = (byte)(field & 0x1);
+            this.LiveFeed = (byte)(field & 0x2);
+            this.Orientation = (byte)(field & 0x4);
+            this.OneButton = (byte)(field & 0x8);
+            this.OnScreen = (byte)(field & 0x10);
+            this.Ntsc = (byte)(field & 0x20);
+            this.LocateCamera = (byte)(field & 0x40);
+
+            this.Battery = binReader.ReadByte();
+            this.UsbMode = binReader.ReadByte();
+            this.PhotosAvailableSpace = binReader.ReadInt16();
+            this.PhotosCount = binReader.ReadInt16();
+            this.VideosAvailableSpace = binReader.ReadInt16();
+            this.VideosCount = binReader.ReadInt16();
+            this.Shutter = binReader.ReadByte();
+
+            field = binReader.ReadByte();
+            this.Busy = (byte)(field & 0x1);
+            this.ProTune = (byte)(field & 0x2);
+            this.PreviewAvailable = (byte)(field & 0x4);
+        }
     }
 }

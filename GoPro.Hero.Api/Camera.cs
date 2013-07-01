@@ -17,11 +17,26 @@ namespace GoPro.Hero.Api
 
         public void UpdateInformation()
         {
-            var request = this.CreateCommand<CameraInformationCommand>();
-            var response = Commando.Send(request);
+            var request = this.CreateCommand<CommandCameraInformation>();
+            var response = request.Send();
 
-            if (response.Status != CommandResponse.ResponseStatus.Ok)
-                throw new CameraException();
+            var stream = response.GetResponseStream();
+            this.Information.Update(stream);
+        }
+
+        public void UpdateSettings()
+        {
+            var request = this.CreateCommand<CommandCameraSettings>();
+            var response = request.Send();
+
+            var stream = response.GetResponseStream();
+            this.Information.Update(stream);
+        }
+
+        public void UpdateExtendedSettings()
+        {
+            var request = this.CreateCommand<CommandCameraExtendedSettings>();
+            var response = request.Send();
 
             var stream = response.GetResponseStream();
             this.Information.Update(stream);

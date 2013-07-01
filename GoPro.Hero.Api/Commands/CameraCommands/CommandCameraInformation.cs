@@ -5,7 +5,7 @@ using System.Text;
 
 namespace GoPro.Hero.Api.Commands.CameraCommands
 {
-    class CameraInformationCommand:CommandRequest
+    class CommandCameraInformation:CommandRequest
     {
         protected override void Initialize()
         {
@@ -13,9 +13,9 @@ namespace GoPro.Hero.Api.Commands.CameraCommands
             base.parameter = null;
         }
 
-        public static CameraInformationCommand Create(string address, string passPhrase)
+        public static CommandCameraInformation Create(string address, string passPhrase)
         {
-            return CommandRequest.Create<CameraInformationCommand>(address, HeroCommands.CAMREA_INFORMATION, passPhrase);
+            return CommandRequest.Create<CommandCameraInformation>(address, HeroCommands.CAMREA_INFORMATION, passPhrase);
         }
     }
 }

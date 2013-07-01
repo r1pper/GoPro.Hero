@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Net;
+using GoPro.Hero.Api.Exceptions;
+using System.IO;
 
 namespace GoPro.Hero.Api.Commands
 {
@@ -16,6 +18,16 @@ namespace GoPro.Hero.Api.Commands
         public virtual Uri GetUri()
         {
             return CreateUri(address, command, passPhrase, parameter);
+        }
+
+        public CommandResponse Send()
+        {
+            var response = Commando.Send(this);
+
+            if (response.Status != CommandResponse.ResponseStatus.Ok)
+                throw new CommandFailedException();
+
+            return response;
         }
 
         protected CommandRequest() { }

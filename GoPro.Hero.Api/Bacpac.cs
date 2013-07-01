@@ -21,10 +21,7 @@ namespace GoPro.Hero.Api
         public void UpdatePassword()
         {
             var request = this.CreateCommand<CommandRetrievePassword>();
-            var response = Commando.Send(request);
-
-            if (response.Status != CommandResponse.ResponseStatus.Ok)
-                throw new BacpacException();
+            var response = request.Send();
 
             var length = response.RawResponse[1];
             this.Password = Encoding.UTF8.GetString(response.RawResponse, 2, length);
@@ -32,11 +29,8 @@ namespace GoPro.Hero.Api
 
         public void UpdateStatus()
         {
-            var request = this.CreateCommand<BacpacCommandStatus>();
-            var response = Commando.Send(request);
-
-            if (response.Status != CommandResponse.ResponseStatus.Ok)
-                throw new BacpacException();
+            var request = this.CreateCommand<CommandBacpacStatus>();
+            var response = request.Send();
 
             var stream = response.GetResponseStream();
             this.Status.Update(stream);
@@ -44,11 +38,8 @@ namespace GoPro.Hero.Api
 
         public void UpdateInformation()
         {
-            var request = this.CreateCommand<BacpacCommandInformation>();
-            var response = Commando.Send(request);
-
-            if (response.Status != CommandResponse.ResponseStatus.Ok)
-                throw new BacpacException();
+            var request = this.CreateCommand<CommandBacpacInformation>();
+            var response = request.Send();
 
             var stream = response.GetResponseStream();
             this.Information.Update(stream);
@@ -62,10 +53,7 @@ namespace GoPro.Hero.Api
         {
             var request = this.CreateCommand<CommandPowerUp>();
             request.PowerUp = on;
-            var response=Commando.Send(request);
-
-            if (response.Status != CommandResponse.ResponseStatus.Ok)
-                throw new BacpacException();
+            var response = request.Send();
         }
 
         private T CreateCommand<T>(string parameter = null) where T : CommandRequest
