@@ -34,6 +34,8 @@ namespace GoPro.Hero.Api
         {
             using (var binReader = new BinaryReader(stream))
             {
+                binReader.ReadByte();
+
                 base.FillSettings(binReader);
 
                 this.HlsSegmentSize = binReader.ReadByte();

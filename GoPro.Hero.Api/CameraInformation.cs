@@ -17,6 +17,8 @@ namespace GoPro.Hero.Api
         {
             using (var binReader = new BinaryReader(stream))
             {
+                binReader.ReadByte();
+
                 this.Protocol = binReader.ReadByte();
                 this.Model = binReader.ReadByte();
                 var versionLength=binReader.ReadByte();

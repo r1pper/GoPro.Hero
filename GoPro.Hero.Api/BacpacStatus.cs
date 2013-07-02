@@ -12,7 +12,7 @@ namespace GoPro.Hero.Api
         public byte WifiMode { get; private set; }
         public byte BluetoothMode { get; private set; }
         public byte Rssi { get; private set; }
-        public byte ShutterState { get; private set; }
+        public byte ShutterStatus { get; private set; }
         public byte AutoPowerOff { get; private set; }
         public byte BluetoothAudioChannel { get; private set; }
         public byte FileServer { get; private set; }
@@ -28,11 +28,13 @@ namespace GoPro.Hero.Api
         {
             using (var binReader = new BinaryReader(stream))
             {
+                binReader.ReadByte();
+
                 this.BacpacBattery = binReader.ReadByte();
                 this.WifiMode = binReader.ReadByte();
                 this.BluetoothMode = binReader.ReadByte();
                 this.Rssi = binReader.ReadByte();
-                this.ShutterState = binReader.ReadByte();
+                this.ShutterStatus = binReader.ReadByte();
                 this.AutoPowerOff = binReader.ReadByte();
                 this.BluetoothAudioChannel = binReader.ReadByte();
                 this.FileServer = binReader.ReadByte();

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using GoPro.Hero.Api.Utilities;
 
 namespace GoPro.Hero.Api
 {
@@ -19,7 +20,7 @@ namespace GoPro.Hero.Api
         public byte VideoResolution { get; protected set; }
         public byte AudioInput { get; protected set; }
         public byte PlayMode { get; protected set; }
-        public byte PlaybackPosition { get; protected set; }
+        public uint PlaybackPosition { get; protected set; }
         public byte BeepSound { get; protected set; }
         public byte LedBlink { get; protected set; }
 
@@ -47,6 +48,8 @@ namespace GoPro.Hero.Api
         {
             using (var binReader = new BinaryReader(stream))
             {
+                binReader.ReadByte();
+
                 FillSettings(binReader);
             }
         }
@@ -64,7 +67,7 @@ namespace GoPro.Hero.Api
             this.VideoResolution = binReader.ReadByte();
             this.AudioInput = binReader.ReadByte();
             this.PlayMode = binReader.ReadByte();
-            this.PlaybackPosition = binReader.ReadByte();
+            this.PlaybackPosition = binReader.ReadUInt32();
             this.BeepSound = binReader.ReadByte();
             this.LedBlink = binReader.ReadByte();
 
@@ -79,10 +82,10 @@ namespace GoPro.Hero.Api
 
             this.Battery = binReader.ReadByte();
             this.UsbMode = binReader.ReadByte();
-            this.PhotosAvailableSpace = binReader.ReadUInt16();
-            this.PhotosCount = binReader.ReadUInt16();
-            this.VideosAvailableSpace = binReader.ReadUInt16();
-            this.VideosCount = binReader.ReadUInt16();
+            this.PhotosAvailableSpace = binReader.ReadUInt16BigEndian();
+            this.PhotosCount = binReader.ReadUInt16BigEndian();
+            this.VideosAvailableSpace = binReader.ReadUInt16BigEndian();
+            this.VideosCount = binReader.ReadUInt16BigEndian();
             this.Shutter = binReader.ReadByte();
 
             field = binReader.ReadByte();
