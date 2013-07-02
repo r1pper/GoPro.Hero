@@ -43,13 +43,10 @@
     <Compile Include="CameraExtendedSettings.cs" />
     <Compile Include="CameraInformation.cs" />
     <Compile Include="CameraSettings.cs" />
-    <Compile Include="Commands\BacpacCommands\CommandBacpacInformation.cs" />
-    <Compile Include="Commands\BacpacCommands\CommandPowerUp.cs" />
-    <Compile Include="Commands\BacpacCommands\CommandRetrievePassword.cs" />
-    <Compile Include="Commands\BacpacCommands\CommandBacpacStatus.cs" />
-    <Compile Include="Commands\CameraCommands\CommandCameraExtendedSettings.cs" />
-    <Compile Include="Commands\CameraCommands\CommandCameraInformation.cs" />
-    <Compile Include="Commands\CameraCommands\CommandCameraSettings.cs" />
+    <Compile Include="Commands\BacpacCommands.cs" />
+    <Compile Include="Commands\CameraCommands.cs" />
+    <Compile Include="Commands\CommandAttribute.cs" />
+    <Compile Include="Commands\CommandBoolean.cs" />
     <Compile Include="Commands\Commando.cs" />
     <Compile Include="Commands\CommandRequest.cs" />
     <Compile Include="Commands\CommandResponse.cs" />

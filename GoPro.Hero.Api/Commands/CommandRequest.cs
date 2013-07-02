@@ -32,7 +32,16 @@ namespace GoPro.Hero.Api.Commands
 
         protected CommandRequest() { }
 
-        protected virtual void Initialize() { }
+        protected virtual void Initialize()
+        {
+            var type = this.GetType();
+            var att = type.GetCustomAttributes(typeof(CommandAttribute), true);
+            if (att.Length == 0) return;
+            var commandAtt = att[0] as CommandAttribute;
+            this.command = commandAtt.Command;
+            if (commandAtt.InSecure) this.passPhrase = null;
+            if (commandAtt.Parameterless) this.parameter = null;
+        }
 
         public static CommandRequest Create(string address, string command, string passPhrase = null, string parameter = null)
         {
@@ -65,6 +74,11 @@ namespace GoPro.Hero.Api.Commands
                     ? string.Format("p={0}", parameter)
                     : string.Format("t={0}&p={1}", passPhrase, parameter);
             return builder.Uri;
+        }
+
+        public override string ToString()
+        {
+            return this.GetUri().ToString();
         }
     }
 }

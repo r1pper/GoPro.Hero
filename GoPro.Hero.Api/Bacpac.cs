@@ -52,7 +52,7 @@ namespace GoPro.Hero.Api
         public void Power(bool on)
         {
             var request = this.CreateCommand<CommandPowerUp>();
-            request.PowerUp = on;
+            request.Enable = on;
             var response = request.Send();
         }
 
