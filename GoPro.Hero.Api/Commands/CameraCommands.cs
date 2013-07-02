@@ -20,7 +20,7 @@ namespace GoPro.Hero.Api.Commands.CameraCommands
     {
     }
 
-    [Command(HeroCommands.CAMREA_EXPOSURE)]
+    [Command(HeroCommands.CAMERA_PROTUNE)]
     class CommandCameraProtune : CommandBoolean
     {
     }
@@ -33,5 +33,29 @@ namespace GoPro.Hero.Api.Commands.CameraCommands
     [Command(HeroCommands.CAMREA_EXPOSURE)]
     class CommandCameraSpotMeter : CommandBoolean
     {
+    }
+
+    [Command(HeroCommands.CAMERA_ORIENTATION)]
+    class CommandCameraOrientation : CommandRequest
+    {
+        public enum CameraOrientation { Up, Down }
+
+        private const string UP = "%00";
+        private const string DOWN = "%01";
+
+        public CameraOrientation Orientation
+        {
+            get
+            {
+                return string.IsNullOrEmpty(base.parameter)
+                ? CameraOrientation.Up: base.parameter == UP
+                ? CameraOrientation.Up: CameraOrientation.Down;
+            }
+
+            set
+            {
+                base.parameter = value == CameraOrientation.Up ? UP : DOWN;
+            }
+        }
     }
 }

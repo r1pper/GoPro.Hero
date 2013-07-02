@@ -22,7 +22,7 @@ namespace GoPro.Hero.Api.Commands
 
         public CommandResponse Send()
         {
-            var response = Commando.Send(this);
+            var response = Send(this);
 
             if (response.Status != CommandResponse.ResponseStatus.Ok)
                 throw new CommandFailedException();
@@ -74,6 +74,27 @@ namespace GoPro.Hero.Api.Commands
                     ? string.Format("p={0}", parameter)
                     : string.Format("t={0}&p={1}", passPhrase, parameter);
             return builder.Uri;
+        }
+
+        private static CommandResponse Send(CommandRequest command)
+        {
+            var request = HttpWebRequest.Create(command.GetUri()) as HttpWebRequest;
+            //request.KeepAlive=true;
+            //request.ProtocolVersion=HttpVersion.Version11;
+            //request.SendChunked = true;
+            //request.TransferEncoding="ISO-8859-1";
+
+            var asyncResponse = request.BeginGetResponse(null, null);
+            asyncResponse.AsyncWaitHandle.WaitOne();
+
+            using (var response = request.EndGetResponse(asyncResponse) as HttpWebResponse)
+            {
+                var stream = response.GetResponseStream();
+                var buffer = new byte[response.ContentLength];
+                stream.Read(buffer, 0, buffer.Length);
+                stream.Dispose();
+                return CommandResponse.Create(buffer);
+            }
         }
 
         public override string ToString()

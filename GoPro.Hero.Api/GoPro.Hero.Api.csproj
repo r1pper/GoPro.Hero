@@ -47,7 +47,6 @@
     <Compile Include="Commands\CameraCommands.cs" />
     <Compile Include="Commands\CommandAttribute.cs" />
     <Compile Include="Commands\CommandBoolean.cs" />
-    <Compile Include="Commands\Commando.cs" />
     <Compile Include="Commands\CommandRequest.cs" />
     <Compile Include="Commands\CommandResponse.cs" />
     <Compile Include="Exceptions\BacpacException.cs" />
