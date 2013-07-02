@@ -15,31 +15,46 @@ namespace GoPro.Hero.Api
         public CameraExtendedSettings ExtendedSettings { get; private set; }
         public CameraSettings Settings { get; private set; }
 
-        public void UpdateInformation()
+        public Camera UpdateInformation()
         {
             var request = this.CreateCommand<CommandCameraInformation>();
             var response = request.Send();
 
             var stream = response.GetResponseStream();
             this.Information.Update(stream);
+
+            return this;
         }
 
-        public void UpdateSettings()
+        public Camera UpdateSettings()
         {
             var request = this.CreateCommand<CommandCameraSettings>();
             var response = request.Send();
 
             var stream = response.GetResponseStream();
             this.Settings.Update(stream);
+
+            return this;
         }
 
-        public void UpdateExtendedSettings()
+        public Camera UpdateExtendedSettings()
         {
             var request = this.CreateCommand<CommandCameraExtendedSettings>();
             var response = request.Send();
 
             var stream = response.GetResponseStream();
             this.ExtendedSettings.Update(stream);
+
+            return this;
+        }
+
+        public Camera LocateCamera(bool locate)
+        {
+            var request = this.CreateCommand<CommandCameraLocate>();
+            request.Enable = locate;
+            request.Send();
+
+            return this;
         }
 
         private T CreateCommand<T>(string parameter = null) where T : CommandRequest

@@ -38,23 +38,21 @@ namespace GoPro.Hero.Api.Commands.CameraCommands
     [Command(HeroCommands.CAMERA_ORIENTATION)]
     class CommandCameraOrientation : CommandRequest
     {
-        public enum CameraOrientation { Up, Down }
-
         private const string UP = "%00";
         private const string DOWN = "%01";
 
-        public CameraOrientation Orientation
+        public Orientation Orientation
         {
             get
             {
                 return string.IsNullOrEmpty(base.parameter)
-                ? CameraOrientation.Up: base.parameter == UP
-                ? CameraOrientation.Up: CameraOrientation.Down;
+                ? Orientation.Up: base.parameter == UP
+                ? Orientation.Up: Orientation.Down;
             }
 
             set
             {
-                base.parameter = value == CameraOrientation.Up ? UP : DOWN;
+                base.parameter = value == Orientation.Up ? UP : DOWN;
             }
         }
     }

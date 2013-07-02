@@ -18,42 +18,51 @@ namespace GoPro.Hero.Api
         public BacpacInformation Information { get; private set; }
         public BacpacStatus Status { get; private set; }
 
-        public void UpdatePassword()
+        public Bacpac UpdatePassword()
         {
             var request = this.CreateCommand<CommandRetrievePassword>();
             var response = request.Send();
 
             var length = response.RawResponse[1];
             this.Password = Encoding.UTF8.GetString(response.RawResponse, 2, length);
+
+            return this;
         }
 
-        public void UpdateStatus()
+        public Bacpac UpdateStatus()
         {
             var request = this.CreateCommand<CommandBacpacStatus>();
             var response = request.Send();
 
             var stream = response.GetResponseStream();
             this.Status.Update(stream);
+
+            return this;
         }
 
-        public void UpdateInformation()
+        public Bacpac UpdateInformation()
         {
             var request = this.CreateCommand<CommandBacpacInformation>();
             var response = request.Send();
 
             var stream = response.GetResponseStream();
             this.Information.Update(stream);
+
+            return this;
         }
 
-        public void Shoot()
+        public Bacpac Shoot()
         {
+            return this;
         }
 
-        public void Power(bool on)
+        public Bacpac Power(bool on)
         {
             var request = this.CreateCommand<CommandPowerUp>();
             request.Enable = on;
             var response = request.Send();
+
+            return this;
         }
 
         private T CreateCommand<T>(string parameter = null) where T : CommandRequest
