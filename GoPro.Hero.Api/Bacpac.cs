@@ -56,7 +56,7 @@ namespace GoPro.Hero.Api
             var request = this.CreateCommand<CommandBacpacShutter>();
             request.Enable = trigger;
             var response = request.Send();
-            return this;
+            return this.UpdateStatus();
         }
 
         public Bacpac Power(bool on)
@@ -65,7 +65,7 @@ namespace GoPro.Hero.Api
             request.Enable = on;
             var response = request.Send();
 
-            return this;
+            return this.UpdateStatus();
         }
 
         private T CreateCommand<T>(string parameter = null) where T : CommandRequest

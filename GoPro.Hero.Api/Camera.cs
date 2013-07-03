@@ -54,7 +54,7 @@ namespace GoPro.Hero.Api
             request.Enable = locate;
             request.Send();
 
-            return this;
+            return this.UpdateSettings().UpdateExtendedSettings();
         }
 
         public Camera SetMode(Mode mode)
@@ -63,7 +63,7 @@ namespace GoPro.Hero.Api
             request.Select = mode;
             request.Send();
 
-            return this;
+            return this.UpdateSettings().UpdateExtendedSettings();
         }
 
         private T CreateCommand<T>(string parameter = null) where T : CommandRequest

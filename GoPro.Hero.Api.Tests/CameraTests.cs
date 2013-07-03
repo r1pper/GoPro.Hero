@@ -35,7 +35,7 @@ namespace GoPro.Hero.Api.Tests
         {
             var bacpac = Bacpac.Create(ExpectedParameters.IP_ADDRESS);
             var camera = Camera.Create(bacpac);
-            camera.SetMode(Mode.Photo);
+            camera.SetMode(Mode.Video);
         }
     }
 }

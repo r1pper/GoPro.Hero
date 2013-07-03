@@ -3,15 +3,16 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using GoPro.Hero.Api.Utilities;
 
 namespace GoPro.Hero.Api
 {
     public class CameraExtendedSettings:CameraSettings
     {
         public byte HlsSegmentSize{get;private set;}
-        public byte BurstMode{get;private set;}
-        public byte ContiniousShot{get;private set;}
-        public byte WhiteBalance {get;private set;}
+        public BurstRate BurstRate{get;private set;}
+        public ContinuousShot ContinuousShot{get;private set;}
+        public WhiteBalance WhiteBalance {get;private set;}
         public byte BracketingMode {get;private set;}
         public byte PhotoInVideo {get;private set;}
         public byte LoopingVideoMode {get;private set;}
@@ -20,17 +21,17 @@ namespace GoPro.Hero.Api
         public byte TimeLapseStyle{get;private set;}
         public int VideoLoopCounter{get;private set;}
         public byte ExternalBattery {get;private set;}
-        public byte BombieAttached {get;private set;}
-        public byte LcdAttached {get;private set;}
-        public byte IsBroadcasting {get;private set;}
-        public byte IsUploading {get;private set;}
+        public bool IsBombieAttached {get;private set;}
+        public bool IsLcdAttached {get;private set;}
+        public bool IsBroadcasting {get;private set;}
+        public bool IsUploading {get;private set;}
         public byte LcdVolume {get;private set;}
         public byte LcdBrightness{get;private set;}
         public byte LcdSleepTimer {get;private set;}
-        public byte VideoResolution {get;private set;}
-        public byte FrameRate{get;private set;}
+        public new VideoResolution VideoResolution {get;private set;}
+        public FrameRate FrameRate{get;private set;}
 
-        internal void Update(Stream stream)
+        internal protected override void Update(Stream stream)
         {
             using (var binReader = new BinaryReader(stream))
             {
@@ -39,9 +40,9 @@ namespace GoPro.Hero.Api
                 base.FillSettings(binReader);
 
                 this.HlsSegmentSize = binReader.ReadByte();
-                this.BurstMode = binReader.ReadByte();
-                this.ContiniousShot = binReader.ReadByte();
-                this.WhiteBalance = binReader.ReadByte();
+                this.BurstRate = binReader.ReadEnum<BurstRate>();
+                this.ContinuousShot = binReader.ReadEnum<ContinuousShot>();
+                this.WhiteBalance = binReader.ReadEnum<WhiteBalance>();
                 this.BracketingMode = binReader.ReadByte();
                 this.PhotoInVideo = binReader.ReadByte();
                 this.LoopingVideoMode = binReader.ReadByte();
@@ -52,16 +53,16 @@ namespace GoPro.Hero.Api
                 this.ExternalBattery = binReader.ReadByte();
 
                 var field = binReader.ReadByte();
-                this.BombieAttached = (byte)(field & 0x8);
-                this.LcdAttached = (byte)(field & 0x4);
-                this.IsBroadcasting = (byte)(field & 0x2);
-                this.IsUploading = (byte)(field & 0x1);
+                this.IsBombieAttached = (byte)(field & 0x8)>0;
+                this.IsLcdAttached = (byte)(field & 0x4)>0;
+                this.IsBroadcasting = (byte)(field & 0x2)>0;
+                this.IsUploading = (byte)(field & 0x1)>0;
 
                 this.LcdVolume = binReader.ReadByte();
                 this.LcdBrightness = binReader.ReadByte();
                 this.LcdSleepTimer = binReader.ReadByte();
-                this.VideoResolution = binReader.ReadByte();
-                this.FrameRate = binReader.ReadByte();
+                this.VideoResolution = binReader.ReadEnum<VideoResolution>();
+                this.FrameRate = binReader.ReadEnum<FrameRate>();
             }
         }
   

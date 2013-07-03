@@ -26,14 +26,14 @@ namespace GoPro.Hero.Api
 
         public bool OnScreen { get; protected set; }
         public bool OneButton { get; protected set; }
-        public bool Orientation { get; protected set; }
+        public Orientation Orientation { get; protected set; }
         public bool LiveFeed { get; protected set; }
         public bool LocateCamera { get; protected set; }
         public VideoStandard Ntsc { get; protected set; }
         public bool PreviewActive { get; protected set; }
 
         public byte Battery { get; protected set; }
-        public bool UsbMode { get; protected set; }
+        public byte UsbMode { get; protected set; }
         public ushort PhotosAvailableSpace { get; protected set; }
         public ushort PhotosCount { get; protected set; }
         public ushort VideosAvailableSpace { get; protected set; }
@@ -74,14 +74,14 @@ namespace GoPro.Hero.Api
             var field = binReader.ReadByte();
             this.PreviewActive = (byte)(field & 0x1)>0;
             this.LiveFeed = (byte)(field & 0x2)>0;
-            this.Orientation = (byte)(field & 0x4)>0;
+            this.Orientation = (Orientation)(field & 0x4);
             this.OneButton = (byte)(field & 0x8)>0;
             this.OnScreen = (byte)(field & 0x10)>0;
             this.Ntsc = (VideoStandard)(field & 0x20);
             this.LocateCamera = (byte)(field & 0x40)>0;
 
             this.Battery = binReader.ReadByte();
-            this.UsbMode = binReader.ReadByte()>0;
+            this.UsbMode = binReader.ReadByte();
             this.PhotosAvailableSpace = binReader.ReadUInt16BigEndian();
             this.PhotosCount = binReader.ReadUInt16BigEndian();
             this.VideosAvailableSpace = binReader.ReadUInt16BigEndian();
