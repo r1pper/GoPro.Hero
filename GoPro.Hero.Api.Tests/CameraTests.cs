@@ -24,7 +24,18 @@ namespace GoPro.Hero.Api.Tests
             var camera = Camera.Create(bacpac);
             camera.LocateCamera(true);
             var res = camera.UpdateExtendedSettings().ExtendedSettings.LocateCamera;
+            //Assert.AreEqual(true, res);
             camera.LocateCamera(false);
+            res = camera.UpdateExtendedSettings().ExtendedSettings.LocateCamera;
+            //Assert.AreEqual(false, res);
+        }
+
+        [TestMethod]
+        public void ChangeMode()
+        {
+            var bacpac = Bacpac.Create(ExpectedParameters.IP_ADDRESS);
+            var camera = Camera.Create(bacpac);
+            camera.SetMode(Mode.Photo);
         }
     }
 }

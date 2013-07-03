@@ -57,6 +57,15 @@ namespace GoPro.Hero.Api
             return this;
         }
 
+        public Camera SetMode(Mode mode)
+        {
+            var request = this.CreateCommand<CommandCameraMode>();
+            request.Select = mode;
+            request.Send();
+
+            return this;
+        }
+
         private T CreateCommand<T>(string parameter = null) where T : CommandRequest
         {
             var request = CommandRequest.Create<T>(this.Bacpac.Address, passPhrase: this.Bacpac.Password, parameter: parameter);

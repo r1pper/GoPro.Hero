@@ -7,16 +7,16 @@ namespace GoPro.Hero.Api
 {
     public enum Orientation:byte { Up = 0, Down = 1 }
     public enum VideoStandard:byte { Ntsc = 0, Pal = 1 }
-    public enum WhiteBalance { Auto, Wb3000K, Wb5500K, Wb6500K, Raw }
-    public enum Sound { S100Percent, S70Percent, Off }
-    public enum Led { Four, Two, Zero }
+    public enum WhiteBalance:byte { Auto=0, Wb3000K=1, Wb5500K=2, Wb6500K=3, Raw=4 }
+    public enum Sound:byte { S100Percent=2, S70Percent=1, Off=0 }
+    public enum Led { Four=2, Two=1, Zero=0 }
     public enum Mode:byte { Video=0, Photo=1, Burst=2, TimeLapse=3 }
-    public enum TimeLapse { Half, One, Two, Five, Ten, Thirty, Sixty }
-    public enum BurstRate { Sec3Per1, Sec5Per1, Sec10Per1, Sec10Per2, Sec30Per1, Sec30Per2, Sec30Per3 }
-    public enum ContiniusShot { Single, Sps3, Sps5, Sps10 }
-    public enum PhotoResolution { Wide12Mp, Wide7Mp, Medium7Mp, Medium5Mp }
-    public enum FieldOfView { Wide, Medium, Narrow }
+    public enum TimeLapse { Half=0x0, One=0x1, Two=0x2, Five=0x5, Ten=0xa, Thirty=0x1e, Sixty=0x3c }
+    public enum BurstRate { Sec3Per1=0, Sec5Per1=1, Sec10Per1=2, Sec10Per2=3, Sec30Per1=4, Sec30Per2=5, Sec30Per3=6 }
+    public enum ContinuousShot { Single=0x0, Sps3=0x3, Sps5=0x5, Sps10=0xa }
+    public enum PhotoResolution { Wide12Mp=5, Wide7Mp=4, Medium7Mp=6, Medium5Mp=3 }
+    public enum FieldOfView { Wide=0, Medium=1, Narrow=2 }
     public enum VideoResolution:byte { Vr4kCin=8, Vr4K=6, Vr2Point7KCin=7, Vr2Point7=5, Vr1440=4, Vr1080=3, Vr960=2, Vr720=1 }
-    public enum FrameRate { Fps12, Fps24Fps25, Fps30, Fps48, Fps50, Fps60, Fps100, Fps120, Fps240 }
+    public enum FrameRate { Fps12=0x0,Fps15=0x1, Fps12p5=0xb, Fps24=0x2,Fps25=0x3, Fps30=0x4, Fps48=0x5, Fps50=0x6, Fps60=0x7, Fps100=0x8, Fps120=0x9, Fps240=0xa }
 
 }
