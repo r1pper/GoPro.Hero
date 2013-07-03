@@ -56,4 +56,51 @@ namespace GoPro.Hero.Api.Commands.CameraCommands
             }
         }
     }
+
+    [Command(HeroCommands.CAMERA_MODE)]
+    class CommandCameraMode : CommandRequest
+    {
+        private const string VIDEO = "%00";
+        private const string PHOTO = "%01";
+        private const string BURST = "%02";
+        private const string TIME_LAPSE = "%03";
+
+        public Mode Mode
+        {
+            get
+            {
+                switch (base.parameter)
+                {
+                    case VIDEO: return Mode.Video;
+                    case PHOTO: return Mode.Photo;
+                    case BURST: return Mode.Burst;
+                    case TIME_LAPSE: return Mode.TimeLapse;
+                    default: return Mode.Video;
+                }
+            }
+
+            set
+            {
+                base.parameter = string.Format("%0{0}", (byte)value);
+            }
+        }
+    }
+
+    [Command(HeroCommands.CAMREA_LIVE_PREVIEW)]
+    class CommandCameraPreview : CommandBoolean
+    {
+        private const string PREVIEW_ON = "%02";
+
+        public override bool Enable
+        {
+            get
+            {
+                return string.IsNullOrEmpty(base.parameter) ? false : base.parameter == OFF ? false : true;
+            }
+            set
+            {
+                base.parameter = value ? PREVIEW_ON : OFF;
+            }
+        }
+    }
 }

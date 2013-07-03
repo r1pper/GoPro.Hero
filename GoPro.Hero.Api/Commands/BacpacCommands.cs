@@ -24,4 +24,9 @@ namespace GoPro.Hero.Api.Commands.BacpacCommands
     class CommandRetrievePassword : CommandRequest
     {
     }
+
+    [Command(HeroCommands.BACPAC_SHUTTER)]
+    class CommandBacpacShutter : CommandBoolean
+    {
+    }
 }

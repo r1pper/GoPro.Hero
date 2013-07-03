@@ -10,7 +10,7 @@ namespace GoPro.Hero.Api
     public enum WhiteBalance { Auto, Wb3000K, Wb5500K, Wb6500K, Raw }
     public enum Sound { S100Percent, S70Percent, Off }
     public enum Led { Four, Two, Zero }
-    public enum Mode { Video, Photo, Burst, TimeLapse }
+    public enum Mode { Video=0, Photo=1, Burst=2, TimeLapse=3 }
     public enum TimeLapse { Half, One, Two, Five, Ten, Thirty, Sixty }
     public enum BurstRate { Sec3Per1, Sec5Per1, Sec10Per1, Sec10Per2, Sec30Per1, Sec30Per2, Sec30Per3 }
     public enum ContiniusShot { Single, Sps3, Sps5, Sps10 }

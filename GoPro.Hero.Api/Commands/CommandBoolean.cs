@@ -10,7 +10,7 @@ namespace GoPro.Hero.Api.Commands
         protected const string ON = "%01";
         protected const string OFF = "%00";
 
-        public bool Enable
+        public virtual bool Enable
         {
             get
             {

@@ -51,8 +51,11 @@ namespace GoPro.Hero.Api
             return this;
         }
 
-        public Bacpac Shoot()
+        public Bacpac Shutter(bool trigger)
         {
+            var request = this.CreateCommand<CommandBacpacShutter>();
+            request.Enable = trigger;
+            var response = request.Send();
             return this;
         }
 
