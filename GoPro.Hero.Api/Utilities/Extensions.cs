@@ -21,5 +21,11 @@ namespace GoPro.Hero.Api.Utilities
             var b1 = binReader.ReadByte();
             return BitConverter.ToUInt16(new byte[] { b1, b0 }, 0);
         }
+
+        public static T ReadEnum<T>(this BinaryReader binReader)
+        {
+            var val = binReader.ReadByte();
+            return (T)Enum.ToObject(typeof(T), val);
+        }
     }
 }

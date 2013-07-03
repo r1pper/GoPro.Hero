@@ -62,27 +62,6 @@ namespace GoPro.Hero.Api.Commands.CameraCommands
     {
     }
 
-    //[Command(HeroCommands.CAMERA_MODE)]
-    //class CommandCameraMode : CommandRequest
-    //{
-    //    public Mode Mode
-    //    {
-    //        get
-    //        {
-    //            if (string.IsNullOrEmpty(base.parameter))
-    //                return Mode.Video;
-
-    //            var num = int.Parse(base.parameter.Substring(1));
-    //            return (Mode)num;
-    //        }
-
-    //        set
-    //        {
-    //            base.parameter = string.Format("%0{0}", (byte)value);
-    //        }
-    //    }
-    //}
-
     [Command(HeroCommands.CAMREA_LIVE_PREVIEW)]
     class CommandCameraPreview : CommandBoolean
     {
