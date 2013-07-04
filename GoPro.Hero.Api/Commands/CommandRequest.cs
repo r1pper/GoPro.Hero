@@ -8,7 +8,7 @@ using System.IO;
 
 namespace GoPro.Hero.Api.Commands
 {
-    class CommandRequest
+    public class CommandRequest
     {
         protected string address;
         protected string command;
@@ -20,9 +20,11 @@ namespace GoPro.Hero.Api.Commands
             return CreateUri(address, command, passPhrase, parameter);
         }
 
-        public CommandResponse Send()
+        public CommandResponse Send(bool checkStatus=true)
         {
             var response = Send(this);
+
+            if (!checkStatus) return response;
 
             if (response.Status != CommandResponse.ResponseStatus.Ok)
                 throw new CommandFailedException();

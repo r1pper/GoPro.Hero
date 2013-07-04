@@ -10,13 +10,30 @@ using System.IO;
 
 namespace GoPro.Hero.Api
 {
-    public class Bacpac
+    public sealed class Bacpac
     {
+        private BacpacInformation _information;
+        private BacpacStatus _status;
+
         public string Password { get; private set; }
         public string Address { get; private set; }
 
-        public BacpacInformation Information { get; private set; }
-        public BacpacStatus Status { get; private set; }
+        public BacpacInformation Information
+        {
+            get
+            {
+                this.UpdateInformation();
+                return _information;
+            }
+        }
+        public BacpacStatus Status
+        {
+            get
+            {
+                this.UpdateStatus();
+                return _status;
+            }
+        }
 
         public Bacpac UpdatePassword()
         {
@@ -29,34 +46,32 @@ namespace GoPro.Hero.Api
             return this;
         }
 
-        public Bacpac UpdateStatus()
+        private void UpdateStatus()
         {
             var request = this.CreateCommand<CommandBacpacStatus>();
             var response = request.Send();
 
             var stream = response.GetResponseStream();
-            this.Status.Update(stream);
-
-            return this;
+            this._status.Update(stream);
         }
 
-        public Bacpac UpdateInformation()
+        private void UpdateInformation()
         {
             var request = this.CreateCommand<CommandBacpacInformation>();
             var response = request.Send();
 
             var stream = response.GetResponseStream();
-            this.Information.Update(stream);
-
-            return this;
+            this._information.Update(stream);
         }
 
-        public Bacpac Shutter(bool trigger)
+        public Bacpac Shutter(bool open)
         {
             var request = this.CreateCommand<CommandBacpacShutter>();
-            request.Enable = trigger;
+            request.Enable = open;
             var response = request.Send();
-            return this.UpdateStatus();
+
+            this.UpdateStatus();
+            return this;
         }
 
         public Bacpac Power(bool on)
@@ -65,7 +80,8 @@ namespace GoPro.Hero.Api
             request.Enable = on;
             var response = request.Send();
 
-            return this.UpdateStatus();
+            this.UpdateStatus();
+            return this;
         }
 
         private T CreateCommand<T>(string parameter = null) where T : CommandRequest
@@ -77,8 +93,8 @@ namespace GoPro.Hero.Api
         private Bacpac(string address)
         {
             this.Address = address;
-            this.Information = new BacpacInformation();
-            this.Status = new BacpacStatus();
+            this._information = new BacpacInformation();
+            this._status = new BacpacStatus();
 
             this.UpdatePassword();
             this.UpdateInformation();

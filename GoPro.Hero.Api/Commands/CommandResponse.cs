@@ -6,7 +6,7 @@ using System.Text;
 
 namespace GoPro.Hero.Api.Commands
 {
-    class CommandResponse
+    public class CommandResponse
     {
         public enum ResponseStatus:byte{Ok=0,Busy=2};
 

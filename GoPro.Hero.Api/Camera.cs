@@ -8,86 +8,122 @@ using GoPro.Hero.Api.Exceptions;
 
 namespace GoPro.Hero.Api
 {
-    public class Camera
+    public class Camera:IHeroCamera
     {
-        public Bacpac Bacpac { get; private set; }
-        public CameraInformation Information { get; private set; }
-        public CameraExtendedSettings ExtendedSettings { get; private set; }
-        public CameraSettings Settings { get; private set; }
+        private Bacpac _bacpac;
 
-        public Camera UpdateInformation()
+        private CameraInformation _information;
+        private CameraExtendedSettings _extendedSettings;
+        private CameraSettings _settings;
+
+        public CameraInformation Information
         {
-            var request = this.CreateCommand<CommandCameraInformation>();
+            get
+            {
+                this.GetInformation();
+                return _information;
+            }
+        }
+        public CameraExtendedSettings ExtendedSettings
+        {
+            get
+            {
+                this.GetExtendedSettings();
+                return _extendedSettings;
+            }
+        }
+        public CameraSettings Settings
+        {
+            get
+            {
+                this.GetSettings();
+                return _settings;
+            }
+        }
+        public BacpacStatus BacpacStatus
+        {
+            get { return this._bacpac.Status; }
+        }
+        public BacpacInformation BacpacInformation
+        {
+            get { return this._bacpac.Information; }
+        }
+
+        private void GetInformation()
+        {
+            var request = this.PrepareCommand<CommandCameraInformation>();
             var response = request.Send();
 
             var stream = response.GetResponseStream();
-            this.Information.Update(stream);
-
-            return this;
+            this._information.Update(stream);
         }
-
-        public Camera UpdateSettings()
+        private void GetSettings()
         {
-            var request = this.CreateCommand<CommandCameraSettings>();
+            var request = this.PrepareCommand<CommandCameraSettings>();
             var response = request.Send();
 
             var stream = response.GetResponseStream();
-            this.Settings.Update(stream);
-
-            return this;
+            this._settings.Update(stream);
         }
-
-        public Camera UpdateExtendedSettings()
+        private void GetExtendedSettings()
         {
-            var request = this.CreateCommand<CommandCameraExtendedSettings>();
+            var request = this.PrepareCommand<CommandCameraExtendedSettings>();
             var response = request.Send();
 
             var stream = response.GetResponseStream();
-            this.ExtendedSettings.Update(stream);
+            this._extendedSettings.Update(stream);
+        }
 
+        public IHeroCamera Shutter(bool open)
+        {
+            _bacpac.Shutter(open);
+            return this;
+        }
+        public IHeroCamera Power(bool on)
+        {
+            _bacpac.Power(on);
             return this;
         }
 
-        public Camera LocateCamera(bool locate)
+        public IHeroCamera Command(CommandRequest command)
         {
-            var request = this.CreateCommand<CommandCameraLocate>();
-            request.Enable = locate;
-            request.Send();
-
-            return this.UpdateSettings().UpdateExtendedSettings();
+            var response = command.Send();
+            return this;
+        }
+        public IHeroCamera Command(CommandRequest command,out CommandResponse commandResponse,bool checkStatus=true)
+        {
+            commandResponse = this.Command(command,checkStatus);
+            return this;
+        }
+        public CommandResponse Command(CommandRequest command, bool checkStatus = true)
+        {
+            return command.Send(checkStatus);
         }
 
-        public Camera SetMode(Mode mode)
+        public T PrepareCommand<T>() where T : CommandRequest
         {
-            var request = this.CreateCommand<CommandCameraMode>();
-            request.Select = mode;
-            request.Send();
-
-            return this.UpdateSettings().UpdateExtendedSettings();
+            return CommandRequest.Create<T>(this._bacpac.Address, passPhrase: this._bacpac.Password);
+        }
+        public IHeroCamera PrepareCommand<T>(out T command) where T : CommandRequest
+        {
+            command = this.PrepareCommand<T>();
+            return this;
         }
 
-        private T CreateCommand<T>(string parameter = null) where T : CommandRequest
+        private Camera()
         {
-            var request = CommandRequest.Create<T>(this.Bacpac.Address, passPhrase: this.Bacpac.Password, parameter: parameter);
-            return request;
+            this._information = new CameraInformation();
+            this._extendedSettings = new CameraExtendedSettings();
+            this._settings = new CameraSettings();
         }
 
-        private Camera(Bacpac bacpac)
+        public static T Create<T>(Bacpac bacpac) where T : Camera,IHeroCamera
         {
-            this.Bacpac = bacpac;
-            this.Information = new CameraInformation();
-            this.ExtendedSettings = new CameraExtendedSettings();
-            this.Settings = new CameraSettings();
+            var camera = Activator.CreateInstance<T>();
+            camera._bacpac = bacpac;
 
-            this.UpdateInformation();
-            this.UpdateSettings();
-            this.UpdateExtendedSettings();
-        }
-
-        public static Camera Create(Bacpac bacpac)
-        {
-            var camera = new Camera(bacpac);
             return camera;
+            //return camera.UpdateInformation().UpdateStatus() as T;
         }
     }
 }

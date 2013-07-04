@@ -5,7 +5,7 @@ using System.Text;
 
 namespace GoPro.Hero.Api.Commands
 {
-    abstract class CommandMultiChoice<T>:CommandRequest
+    public abstract class CommandMultiChoice<T>:CommandRequest
     {
        public T Select
         {

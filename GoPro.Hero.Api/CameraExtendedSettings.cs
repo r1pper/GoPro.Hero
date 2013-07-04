@@ -7,7 +7,7 @@ using GoPro.Hero.Api.Utilities;
 
 namespace GoPro.Hero.Api
 {
-    public class CameraExtendedSettings:CameraSettings
+    public sealed class CameraExtendedSettings:CameraSettings
     {
         public byte HlsSegmentSize{get;private set;}
         public BurstRate BurstRate{get;private set;}
@@ -65,6 +65,8 @@ namespace GoPro.Hero.Api
                 this.FrameRate = binReader.ReadEnum<FrameRate>();
             }
         }
+
+        internal CameraExtendedSettings() { }
   
     }
 }

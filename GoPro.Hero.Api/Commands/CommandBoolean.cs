@@ -5,7 +5,7 @@ using System.Text;
 
 namespace GoPro.Hero.Api.Commands
 {
-    abstract class CommandBoolean:CommandRequest
+    public abstract class CommandBoolean:CommandRequest
     {
         protected const string ON = "%01";
         protected const string OFF = "%00";

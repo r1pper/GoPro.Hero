@@ -29,7 +29,11 @@ namespace GoPro.Hero.Api.Tests
         {
             var bacpac = Bacpac.Create(ExpectedParameters.IP_ADDRESS);
 
-            bacpac.Power(true);
+            var res = bacpac.Power(true).Status.CameraPower;
+            Assert.AreEqual(true, res);
+
+            res = bacpac.Power(false).Status.CameraPower;
+            Assert.AreEqual(false, res);
         }
     }
 }
