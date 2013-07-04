@@ -21,7 +21,7 @@ namespace GoPro.Hero.Api.Tests
             return camera;
         }
 
-        private void ChangeSelection<T, S>(Camera camera, S select, Func<IHeroCamera, S> valueRetriever) where T : CommandMultiChoice<S,IHeroCamera>
+        private void ChangeSelection<T, S>(Camera camera, S select, Func<ICamera, S> valueRetriever) where T : CommandMultiChoice<S,ICamera>
         {
             var command = camera.PrepareCommand<T>();
             command.Selection = select;
@@ -30,7 +30,7 @@ namespace GoPro.Hero.Api.Tests
             Assert.AreEqual(select, res);
         }
 
-        public void CheckMultiChoiceCommand<T, S>(Func<IHeroCamera, S> valueRetriever)where T:CommandMultiChoice<S,IHeroCamera>
+        public void CheckMultiChoiceCommand<T, S>(Func<ICamera, S> valueRetriever)where T:CommandMultiChoice<S,ICamera>
         {
             var camera = GetCamera();
             var init = valueRetriever(camera);
@@ -46,7 +46,7 @@ namespace GoPro.Hero.Api.Tests
             ChangeSelection<T,S>(camera,init,valueRetriever);
         }
 
-        private void CheckBooleanCommand<T>(Func<IHeroCamera, bool> valueRetriever) where T : CommandBoolean<IHeroCamera>
+        private void CheckBooleanCommand<T>(Func<ICamera, bool> valueRetriever) where T : CommandBoolean<ICamera>
         {
             var camera = GetCamera();
             var init = valueRetriever(camera);

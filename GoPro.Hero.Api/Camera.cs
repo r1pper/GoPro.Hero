@@ -9,7 +9,7 @@ using GoPro.Hero.Api.Utilities;
 
 namespace GoPro.Hero.Api
 {
-    public class Camera:IHeroCamera
+    public class Camera:ICamera
     {
         private Bacpac _bacpac;
 
@@ -61,13 +61,13 @@ namespace GoPro.Hero.Api
             if (!string.IsNullOrEmpty(name)) return name;
             return this.Information.Name.Substring(4);
         }
-        public IHeroCamera GetName(out string name)
+        public ICamera GetName(out string name)
         {
             name = this.GetName();
 
             return this;
         }
-        public IHeroCamera SetName(string name)
+        public ICamera SetName(string name)
         {
             name = name.UrlEncode();
 
@@ -104,37 +104,37 @@ namespace GoPro.Hero.Api
             _extendedSettings.Update(stream);
         }
 
-        public IHeroCamera Shutter(bool open)
+        public ICamera Shutter(bool open)
         {
             _bacpac.Shutter(open);
             return this;
         }
-        public IHeroCamera Power(bool on)
+        public ICamera Power(bool on)
         {
             _bacpac.Power(on);
             return this;
         }
 
-        public IHeroCamera Command(CommandRequest<IHeroCamera> command)
+        public ICamera Command(CommandRequest<ICamera> command)
         {
             var response = command.Send();
             return this;
         }
-        public IHeroCamera Command(CommandRequest<IHeroCamera> command,out CommandResponse commandResponse,bool checkStatus=true)
+        public ICamera Command(CommandRequest<ICamera> command,out CommandResponse commandResponse,bool checkStatus=true)
         {
             commandResponse = this.Command(command,checkStatus);
             return this;
         }
-        public CommandResponse Command(CommandRequest<IHeroCamera> command, bool checkStatus = true)
+        public CommandResponse Command(CommandRequest<ICamera> command, bool checkStatus = true)
         {
             return command.Send(checkStatus);
         }
 
-        public T PrepareCommand<T>() where T : CommandRequest<IHeroCamera>
+        public T PrepareCommand<T>() where T : CommandRequest<ICamera>
         {
-            return CommandRequest<IHeroCamera>.Create<T>(this._bacpac.Address, passPhrase: this._bacpac.Password);
+            return CommandRequest<ICamera>.Create<T>(this._bacpac.Address, passPhrase: this._bacpac.Password);
         }
-        public IHeroCamera PrepareCommand<T>(out T command) where T : CommandRequest<IHeroCamera>
+        public ICamera PrepareCommand<T>(out T command) where T : CommandRequest<ICamera>
         {
             command = this.PrepareCommand<T>();
             return this;
@@ -149,7 +149,7 @@ namespace GoPro.Hero.Api
             _bacpac = bacpac;
         }
 
-        public static T Create<T>(Bacpac bacpac) where T : Camera,IHeroCamera
+        public static T Create<T>(Bacpac bacpac) where T : Camera,ICamera
         {
             var camera = Activator.CreateInstance(typeof(T), bacpac) as T;
             return camera;
