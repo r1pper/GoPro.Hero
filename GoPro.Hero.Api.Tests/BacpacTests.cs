@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace GoPro.Hero.Api.Tests
@@ -29,10 +30,14 @@ namespace GoPro.Hero.Api.Tests
         {
             var bacpac = Bacpac.Create(ExpectedParameters.IP_ADDRESS);
 
-            var res = bacpac.Power(true).Status.CameraPower;
+            bacpac.Power(true);
+            Thread.Sleep(2000);
+            var res = bacpac.Status.CameraPower;
             Assert.AreEqual(true, res);
 
-            res = bacpac.Power(false).Status.CameraPower;
+            bacpac.Power(false);
+            Thread.Sleep(2000);
+            res = bacpac.Status.CameraPower;
             Assert.AreEqual(false, res);
         }
     }

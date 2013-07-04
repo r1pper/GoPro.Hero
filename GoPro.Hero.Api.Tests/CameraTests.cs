@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using GoPro.Hero.Api.Commands;
 using GoPro.Hero.Api.Commands.CameraCommands;
@@ -18,7 +19,9 @@ namespace GoPro.Hero.Api.Tests
             var bacpac=Bacpac.Create(ExpectedParameters.IP_ADDRESS);
             var camera = Camera.Create<Camera>(bacpac);
 
-            var res = camera.Power(true).BacpacStatus.CameraPower;
+            camera.Power(true);
+            Thread.Sleep(2000);
+            var res = camera.BacpacStatus.CameraPower;
             Assert.AreEqual(true, res);
         }
 

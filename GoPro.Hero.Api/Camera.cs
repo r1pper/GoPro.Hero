@@ -110,20 +110,19 @@ namespace GoPro.Hero.Api
             return this;
         }
 
-        private Camera()
+        public Camera(Bacpac bacpac)
         {
-            this._information = new CameraInformation();
-            this._extendedSettings = new CameraExtendedSettings();
-            this._settings = new CameraSettings();
+            _information = new CameraInformation();
+            _extendedSettings = new CameraExtendedSettings();
+            _settings = new CameraSettings();
+
+            _bacpac = bacpac;
         }
 
         public static T Create<T>(Bacpac bacpac) where T : Camera,IHeroCamera
         {
-            var camera = Activator.CreateInstance<T>();
-            camera._bacpac = bacpac;
-
+            var camera = Activator.CreateInstance(typeof(T), bacpac) as T;
             return camera;
-            //return camera.UpdateInformation().UpdateStatus() as T;
         }
     }
 }
