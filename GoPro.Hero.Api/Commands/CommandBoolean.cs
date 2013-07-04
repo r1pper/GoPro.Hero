@@ -22,7 +22,7 @@ namespace GoPro.Hero.Api.Commands
             }
         }
 
-        public CommandBoolean<O> SetState(bool state)
+        public CommandBoolean<O> Set(bool state)
         {
             this.State = state;
             return this;

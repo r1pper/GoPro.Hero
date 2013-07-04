@@ -5,7 +5,7 @@ using System.Text;
 
 namespace GoPro.Hero.Api
 {
-    public static class HeroCommands
+    static class HeroCommands
     {
         public const string CAMERA_GET_NAME = "/camera/cn";
         public const string CAMERA_SET_NAME = "/camera/CN";

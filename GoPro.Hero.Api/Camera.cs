@@ -11,7 +11,7 @@ namespace GoPro.Hero.Api
 {
     public class Camera:ICamera
     {
-        private Bacpac _bacpac;
+        protected Bacpac bacpac;
 
         private CameraInformation _information;
         private CameraExtendedSettings _extendedSettings;
@@ -43,11 +43,11 @@ namespace GoPro.Hero.Api
         }
         public BacpacStatus BacpacStatus
         {
-            get { return this._bacpac.Status; }
+            get { return this.bacpac.Status; }
         }
         public BacpacInformation BacpacInformation
         {
-            get { return this._bacpac.Information; }
+            get { return this.bacpac.Information; }
         }
 
         public string GetName()
@@ -106,12 +106,12 @@ namespace GoPro.Hero.Api
 
         public ICamera Shutter(bool open)
         {
-            _bacpac.Shutter(open);
+            bacpac.Shutter(open);
             return this;
         }
         public ICamera Power(bool on)
         {
-            _bacpac.Power(on);
+            bacpac.Power(on);
             return this;
         }
 
@@ -132,7 +132,7 @@ namespace GoPro.Hero.Api
 
         public T PrepareCommand<T>() where T : CommandRequest<ICamera>
         {
-            return CommandRequest<ICamera>.Create<T>(this._bacpac.Address, passPhrase: this._bacpac.Password);
+            return CommandRequest<ICamera>.Create<T>(this.bacpac.Address, passPhrase: this.bacpac.Password);
         }
         public ICamera PrepareCommand<T>(out T command) where T : CommandRequest<ICamera>
         {
@@ -146,7 +146,7 @@ namespace GoPro.Hero.Api
             _extendedSettings = new CameraExtendedSettings();
             _settings = new CameraSettings();
 
-            _bacpac = bacpac;
+            bacpac = bacpac;
         }
 
         public static T Create<T>(Bacpac bacpac) where T : Camera,ICamera

@@ -123,7 +123,7 @@ namespace GoPro.Hero.Api.Tests
         [TestMethod]
         public void CheckProtune()
         {
-            CheckBooleanCommand<CommandCameraProtune>((c) => c.ExtendedSettings.ProTune);
+            CheckBooleanCommand<CommandCameraProtune>((c) => c.ExtendedSettings.Protune);
         }
 
         [TestMethod]
@@ -241,7 +241,7 @@ namespace GoPro.Hero.Api.Tests
         public void CheckWhiteBalance()
         {
             var camera = GetCamera();
-            var protune = camera.ExtendedSettings.ProTune;
+            var protune = camera.ExtendedSettings.Protune;
             Assert.AreEqual(protune, true);
 
             CheckMultiChoiceCommand<CommandCameraWhiteBalance, WhiteBalance>((c) => c.ExtendedSettings.WhiteBalance);

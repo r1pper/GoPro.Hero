@@ -20,5 +20,5 @@ namespace GoPro.Hero.Api
     public enum FrameRate { Fps12=0x0,Fps15=0x1, Fps12p5=0xb, Fps24=0x2,Fps25=0x3, Fps30=0x4, Fps48=0x5, Fps50=0x6, Fps60=0x7, Fps100=0x8, Fps120=0x9, Fps240=0xa }
     public enum Model : byte { Hero2 = 1, Hero3White = 2, Hero3Silver = 3, Hero3Black = 4 }
     public enum LoopingVideo : byte { Off = 0x0, Max = 5, Min5 = 1, Min20 = 2, Min60 = 3, Min120 = 4 }
-
+    public enum SignalStrength : byte { Excellent = 4, Good = 3, Normal = 2, Weak = 1, Poor = 0 };
 }

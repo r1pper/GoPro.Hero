@@ -12,7 +12,7 @@ namespace GoPro.Hero.Api
         public short Model { get; private set; }
         public string Id { get; private set; } //fixed 2 char
         public Version BootloaderVersion { get; private set; }
-        public Version DeviceVersion { get; private set; }
+        public Version FirmwareVersion { get; private set; }
         public string MacAddress { get; private set; }
         public string Ssid { get; private set; }
 
@@ -31,7 +31,7 @@ namespace GoPro.Hero.Api
                     binReader.ReadByte(),
                     binReader.ReadByte()
                     );
-                this.DeviceVersion = new Version(
+                this.FirmwareVersion = new Version(
                     binReader.ReadByte(),
                     binReader.ReadByte(),
                     binReader.ReadByte(),

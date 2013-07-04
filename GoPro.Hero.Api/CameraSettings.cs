@@ -42,7 +42,7 @@ namespace GoPro.Hero.Api
         public bool Shutter { get; protected set; }
 
         public bool Busy { get; protected set; }
-        public bool ProTune { get; protected set; }
+        public bool Protune { get; protected set; }
         public bool PreviewAvailable { get; protected set; }
 
         internal protected virtual void Update(Stream stream)
@@ -91,7 +91,7 @@ namespace GoPro.Hero.Api
 
             field = binReader.ReadByte();
             this.Busy = (byte)(field & 0x1)>0;
-            this.ProTune = (byte)(field & 0x2)>0;
+            this.Protune = (byte)(field & 0x2)>0;
             this.PreviewAvailable = (byte)(field & 0x4)>0;
         }
     }
