@@ -31,6 +31,8 @@ namespace GoPro.Hero.Api
         //public const string CAMERA_NAME = "/camera/cn";
         public const string CAMERA_SETTINGS = "/camera/se";
         public const string CAMERA_EXTENDED_SETTINGS = "/camera/sx";
+        public const string CAMERA_WHITE_BALANCE = "/camera/WB"; //only with protune
+        public const string CAMERA_LOOPING_VIDEO = "/camera/LO"; 
 
         public const string BACPAC_SHUTTER = "/bacpac/SH";
         public const string BACPAC_POWER = "/bacpac/PW";

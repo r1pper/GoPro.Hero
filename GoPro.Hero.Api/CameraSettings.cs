@@ -17,6 +17,7 @@ namespace GoPro.Hero.Api
         public bool AutoPowerOff { get; protected set; }
         public FieldOfView FieldOfView { get; protected set; }
         public PhotoResolution PhotoResolution { get; protected set; }
+        [Obsolete("NOTE: does not work for Hero3 Black Edition use ExtendedSettings.")]
         public VideoResolution VideoResolution { get; protected set; }
         public byte AudioInput { get; protected set; }
         public byte PlayMode { get; protected set; }

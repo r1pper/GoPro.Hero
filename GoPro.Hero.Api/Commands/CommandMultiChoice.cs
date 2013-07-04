@@ -20,7 +20,7 @@ namespace GoPro.Hero.Api.Commands
 
             set
             {
-                base.parameter = string.Format("%0{0}", Convert.ToString(Convert.ToByte(value), 16));
+                base.parameter = "%" + Convert.ToInt32(value).ToString("x2"); //string.Format("%0{0}", Convert.ToString(Convert.ToByte(value), 16));
             }
         }
     }

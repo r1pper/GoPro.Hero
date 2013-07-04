@@ -15,7 +15,7 @@ namespace GoPro.Hero.Api
         public WhiteBalance WhiteBalance {get;private set;}
         public byte BracketingMode {get;private set;}
         public byte PhotoInVideo {get;private set;}
-        public byte LoopingVideoMode {get;private set;}
+        public LoopingVideo LoopingVideoMode {get;private set;}
         public byte  SlideshowSettings {get;private set;}
         public byte BroadcastSettings {get;private set;}
         public byte TimeLapseStyle{get;private set;}
@@ -45,7 +45,7 @@ namespace GoPro.Hero.Api
                 this.WhiteBalance = binReader.ReadEnum<WhiteBalance>();
                 this.BracketingMode = binReader.ReadByte();
                 this.PhotoInVideo = binReader.ReadByte();
-                this.LoopingVideoMode = binReader.ReadByte();
+                this.LoopingVideoMode = binReader.ReadEnum<LoopingVideo>();
                 this.SlideshowSettings = binReader.ReadByte();
                 this.BroadcastSettings = binReader.ReadByte();
                 this.TimeLapseStyle = binReader.ReadByte();

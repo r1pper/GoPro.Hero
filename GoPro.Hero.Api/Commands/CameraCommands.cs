@@ -20,6 +20,11 @@ namespace GoPro.Hero.Api.Commands.CameraCommands
     {
     }
 
+    [Command(HeroCommands.CAMERA_OSD, Parameterless = true)]
+    public class CommandCameraOsd : CommandRequest
+    {
+    }
+
     [Command(HeroCommands.CAMERA_NAME, Parameterless = true)]
     public class CommandCameraName : CommandRequest
     {
@@ -115,6 +120,16 @@ namespace GoPro.Hero.Api.Commands.CameraCommands
 
     [Command(HeroCommands.CAMERA_ORIENTATION)]
     public class CommandCameraOrientation : CommandMultiChoice<Orientation>
+    {
+    }
+
+    [Command(HeroCommands.CAMERA_WHITE_BALANCE)]
+    public class CommandCameraWhiteBalance : CommandMultiChoice<WhiteBalance>
+    {
+    }
+
+    [Command(HeroCommands.CAMERA_LOOPING_VIDEO)]
+    public class CommandCameraLoopingVideo : CommandMultiChoice<LoopingVideo>
     {
     }
 }
