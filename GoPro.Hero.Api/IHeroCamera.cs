@@ -16,6 +16,9 @@ namespace GoPro.Hero.Api
         T PrepareCommand<T>() where T : CommandRequest;
         CommandResponse Command(CommandRequest command,bool checkStatus=true);
 
+        IHeroCamera SetName(string name);
+        string GetName();
+
         CameraSettings Settings { get; }
         CameraExtendedSettings ExtendedSettings {get;}
   

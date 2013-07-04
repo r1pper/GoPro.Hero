@@ -7,8 +7,10 @@ namespace GoPro.Hero.Api
 {
     public static class HeroCommands
     {
-        public const string CAMERA_NAME = "/camera/CN";
-        public const string CAMERA_HLS_SEGMENT = "/camera/HS";
+        public const string CAMERA_GET_NAME = "/camera/cn";
+        public const string CAMERA_SET_NAME = "/camera/CN";
+        public const string CAMERA_GET_HLS_SEGMENT = "/camera/hs";
+        public const string CAMERA_SET_HLS_SEGMENT = "/camera/HS";
         public const string CAMERA_VIDEO_RESOLUTION="/camera/VR";
         public const string CAMERA_ORIENTATION="/camera/UP"; //up-down
         public const string CAMERA_TIMELAPSE_TI="/camera/TI";
@@ -28,11 +30,13 @@ namespace GoPro.Hero.Api
         public const string CAMREA_DELETE_ALL_SD = "/camera/DA";
         public const string CAMERA_DELETE_LAST_SD = "/camera/DL";
         public const string CAMREA_INFORMATION = "/camera/cv";
-        //public const string CAMERA_NAME = "/camera/cn";
         public const string CAMERA_SETTINGS = "/camera/se";
         public const string CAMERA_EXTENDED_SETTINGS = "/camera/sx";
         public const string CAMERA_WHITE_BALANCE = "/camera/WB"; //only with protune
-        public const string CAMERA_LOOPING_VIDEO = "/camera/LO"; 
+        public const string CAMERA_LOOPING_VIDEO = "/camera/LO";
+        public const string CAMERA_FRAMERATE = "/camera/FS";
+        public const string CAMERA_BURSTRATE = "/camera/BU";
+        public const string CAMERA_CONTINUOUS = "/camera/CS";
 
         public const string BACPAC_SHUTTER = "/bacpac/SH";
         public const string BACPAC_POWER = "/bacpac/PW";

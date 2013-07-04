@@ -5,6 +5,30 @@ using System.Text;
 
 namespace GoPro.Hero.Api.Commands.CameraCommands
 {
+    [Command(HeroCommands.CAMERA_GET_NAME, Parameterless = true)]
+    class CommandCameraGetName : CommandRequest
+    {
+    }
+
+    [Command(HeroCommands.CAMERA_SET_NAME)]
+    class CommandCameraSetName : CommandRequest
+    {
+        public string Name
+        {
+            get
+            {
+                if (string.IsNullOrEmpty(base.parameter))
+                    return string.Empty;
+
+                return base.parameter.Substring(2);
+            }
+            set
+            {
+                base.parameter = string.Format("%0{0}", value);
+            }
+        }
+    }
+
     [Command(HeroCommands.CAMERA_MODE)]
     public class CommandCameraMode : CommandMultiChoice<Mode>
     {
@@ -17,16 +41,6 @@ namespace GoPro.Hero.Api.Commands.CameraCommands
 
     [Command(HeroCommands.CAMREA_DELETE_ALL_SD, Parameterless = true)]
     public class CommandCameraDeleteAllFilesOnSd : CommandRequest
-    {
-    }
-
-    [Command(HeroCommands.CAMERA_OSD, Parameterless = true)]
-    public class CommandCameraOsd : CommandRequest
-    {
-    }
-
-    [Command(HeroCommands.CAMERA_NAME, Parameterless = true)]
-    public class CommandCameraName : CommandRequest
     {
     }
 
@@ -130,6 +144,26 @@ namespace GoPro.Hero.Api.Commands.CameraCommands
 
     [Command(HeroCommands.CAMERA_LOOPING_VIDEO)]
     public class CommandCameraLoopingVideo : CommandMultiChoice<LoopingVideo>
+    {
+    }
+
+    [Command(HeroCommands.CAMERA_FRAMERATE)]
+    public class CommandCameraFrameRate : CommandMultiChoice<FrameRate>
+    {
+    }
+
+    [Command(HeroCommands.CAMERA_BURSTRATE)]
+    public class CommandCameraBurstRate : CommandMultiChoice<BurstRate>
+    {
+    }
+
+    [Command(HeroCommands.CAMERA_CONTINUOUS)]
+    public class CommandCameraContinuousShot : CommandMultiChoice<ContinuousShot>
+    {
+    }
+
+    [Command(HeroCommands.CAMERA_OSD)]
+    public class CommandCameraOnScreenDisplay : CommandBoolean
     {
     }
 }

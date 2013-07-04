@@ -146,5 +146,63 @@ namespace GoPro.Hero.Api.Tests
         {
             CheckMultiChoiceCommand<CommandCameraMode, Mode>((c) => c.ExtendedSettings.Mode);
         }
+
+        [TestMethod]
+        public void CheckOrientation()
+        {
+            CheckMultiChoiceCommand<CommandCameraOrientation, Orientation>((c) => c.ExtendedSettings.Orientation);
+        }
+
+        [TestMethod]
+        public void CheckVideoResolution()
+        {
+            CheckMultiChoiceCommand<CommandCameraVideoResolution, VideoResolution>((c) => c.ExtendedSettings.VideoResolution);
+        }
+
+        [TestMethod]
+        public void CheckPhotoResolution()
+        {
+            CheckMultiChoiceCommand<CommandCameraPhotoResolution, PhotoResolution>((c) => c.ExtendedSettings.PhotoResolution);
+        }
+
+        [TestMethod]
+        public void CheckFrameRate()
+        {
+            CheckMultiChoiceCommand<CommandCameraFrameRate, FrameRate>((c) => c.ExtendedSettings.FrameRate);
+        }
+
+        [TestMethod]
+        public void CheckDeleteLastOnSdCard()
+        {
+            var camera = this.GetCamera();
+            var initPhoto = camera.ExtendedSettings.PhotosCount;
+            var initVideo = camera.ExtendedSettings.VideosCount;
+
+            CommandCameraDeleteLastFileOnSd command;
+            var photo = camera.PrepareCommand<CommandCameraDeleteLastFileOnSd>(out command).Command(command).ExtendedSettings.PhotosCount;
+            var video = camera.ExtendedSettings.VideosCount;
+
+            Assert.IsTrue(photo < initPhoto || video < initVideo);
+        }
+        [TestMethod]
+        public void CheckDeleteAllOnSdCard()
+        {
+            var camera = this.GetCamera();
+
+            CommandCameraDeleteAllFilesOnSd command;
+            var photo = camera.PrepareCommand<CommandCameraDeleteAllFilesOnSd>(out command).Command(command).ExtendedSettings.PhotosCount;
+            var video = camera.ExtendedSettings.VideosCount;
+
+            Assert.IsTrue(photo == 0 && video == 0);
+        }
+
+        [TestMethod]
+        public void CheckGetName()
+        {
+            var camera = this.GetCamera();
+
+            var name = camera.GetName();
+        }
+
     }
 }

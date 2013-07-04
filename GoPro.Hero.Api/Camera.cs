@@ -5,6 +5,7 @@ using System.Text;
 using GoPro.Hero.Api.Commands;
 using GoPro.Hero.Api.Commands.CameraCommands;
 using GoPro.Hero.Api.Exceptions;
+using GoPro.Hero.Api.Utilities;
 
 namespace GoPro.Hero.Api
 {
@@ -49,6 +50,28 @@ namespace GoPro.Hero.Api
             get { return this._bacpac.Information; }
         }
 
+        public string GetName()
+        {
+            var request = this.PrepareCommand<CommandCameraGetName>();
+            var response = request.Send();
+
+            var raw = response.RawResponse;
+            var length=response.RawResponse[1];
+            return Encoding.UTF8.GetString(raw, 1, length);
+        }
+
+        public IHeroCamera SetName(string name)
+        {
+            name = name.UrlEncode();
+
+            var request = this.PrepareCommand<CommandCameraSetName>();
+            request.Name = name;
+
+            request.Send();
+
+            return this;
+        }
+
         private void GetInformation()
         {
             var request = this.PrepareCommand<CommandCameraInformation>();
@@ -71,7 +94,7 @@ namespace GoPro.Hero.Api
             var response = request.Send();
 
             var stream = response.GetResponseStream();
-            this._extendedSettings.Update(stream);
+            _extendedSettings.Update(stream);
         }
 
         public IHeroCamera Shutter(bool open)
