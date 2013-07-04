@@ -37,7 +37,7 @@ namespace GoPro.Hero.Api
 
         public Bacpac UpdatePassword()
         {
-            var request = this.CreateCommand<CommandRetrievePassword>();
+            var request = this.CreateCommand<CommandBacpacRetrievePassword>();
             var response = request.Send();
 
             var length = response.RawResponse[1];
@@ -67,7 +67,7 @@ namespace GoPro.Hero.Api
         public Bacpac Shutter(bool open)
         {
             var request = this.CreateCommand<CommandBacpacShutter>();
-            request.Enable = open;
+            request.State = open;
             var response = request.Send();
 
             this.UpdateStatus();
@@ -76,17 +76,17 @@ namespace GoPro.Hero.Api
 
         public Bacpac Power(bool on)
         {
-            var request = this.CreateCommand<CommandPowerUp>();
-            request.Enable = on;
+            var request = this.CreateCommand<CommandBacpacPowerUp>();
+            request.State = on;
             var response = request.Send();
 
             this.UpdateStatus();
             return this;
         }
 
-        private T CreateCommand<T>(string parameter = null) where T : CommandRequest
+        private T CreateCommand<T>(string parameter = null) where T : CommandRequest<Bacpac>
         {
-            var request = CommandRequest.Create<T>(this.Address, passPhrase: this.Password, parameter: parameter);
+            var request = CommandRequest<Bacpac>.Create<T>(this.Address, passPhrase: this.Password, parameter: parameter);
             return request;
         }
 

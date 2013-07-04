@@ -30,7 +30,7 @@ namespace GoPro.Hero.Api
         public Orientation Orientation { get; protected set; }
         public bool LiveFeed { get; protected set; }
         public bool LocateCamera { get; protected set; }
-        public VideoStandard Ntsc { get; protected set; }
+        public VideoStandard VideoStandard { get; protected set; }
         public bool PreviewActive { get; protected set; }
 
         public byte Battery { get; protected set; }
@@ -78,7 +78,7 @@ namespace GoPro.Hero.Api
             this.Orientation = (Orientation)(field & 0x4);
             this.OneButton = (byte)(field & 0x8)>0;
             this.OnScreen = (byte)(field & 0x10)>0;
-            this.Ntsc = (VideoStandard)(field & 0x20);
+            this.VideoStandard = (VideoStandard)(field & 0x20);
             this.LocateCamera = (byte)(field & 0x40)>0;
 
             this.Battery = binReader.ReadByte();

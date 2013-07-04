@@ -5,12 +5,12 @@ using System.Text;
 
 namespace GoPro.Hero.Api.Commands
 {
-    public abstract class CommandBoolean:CommandRequest
+    public abstract class CommandBoolean<O>:CommandRequest<O>
     {
         protected const string ON = "%01";
         protected const string OFF = "%00";
 
-        public virtual bool Enable
+        public virtual bool State
         {
             get
             {
@@ -20,6 +20,24 @@ namespace GoPro.Hero.Api.Commands
             {
                 base.parameter = value ? ON : OFF;
             }
+        }
+
+        public CommandBoolean<O> SetState(bool state)
+        {
+            this.State = state;
+            return this;
+        }
+
+        public CommandBoolean<O> Enable()
+        {
+            this.State = true;
+            return this;
+        }
+
+        public CommandBoolean<O> Disable()
+        {
+            this.State = false;
+            return this;
         }
     }
 }

@@ -57,9 +57,16 @@ namespace GoPro.Hero.Api
 
             var raw = response.RawResponse;
             var length=response.RawResponse[1];
-            return Encoding.UTF8.GetString(raw, 1, length);
+            var name= Encoding.UTF8.GetString(raw, 1, length);
+            if (!string.IsNullOrEmpty(name)) return name;
+            return this.Information.Name.Substring(4);
         }
+        public IHeroCamera GetName(out string name)
+        {
+            name = this.GetName();
 
+            return this;
+        }
         public IHeroCamera SetName(string name)
         {
             name = name.UrlEncode();
@@ -108,26 +115,26 @@ namespace GoPro.Hero.Api
             return this;
         }
 
-        public IHeroCamera Command(CommandRequest command)
+        public IHeroCamera Command(CommandRequest<IHeroCamera> command)
         {
             var response = command.Send();
             return this;
         }
-        public IHeroCamera Command(CommandRequest command,out CommandResponse commandResponse,bool checkStatus=true)
+        public IHeroCamera Command(CommandRequest<IHeroCamera> command,out CommandResponse commandResponse,bool checkStatus=true)
         {
             commandResponse = this.Command(command,checkStatus);
             return this;
         }
-        public CommandResponse Command(CommandRequest command, bool checkStatus = true)
+        public CommandResponse Command(CommandRequest<IHeroCamera> command, bool checkStatus = true)
         {
             return command.Send(checkStatus);
         }
 
-        public T PrepareCommand<T>() where T : CommandRequest
+        public T PrepareCommand<T>() where T : CommandRequest<IHeroCamera>
         {
-            return CommandRequest.Create<T>(this._bacpac.Address, passPhrase: this._bacpac.Password);
+            return CommandRequest<IHeroCamera>.Create<T>(this._bacpac.Address, passPhrase: this._bacpac.Password);
         }
-        public IHeroCamera PrepareCommand<T>(out T command) where T : CommandRequest
+        public IHeroCamera PrepareCommand<T>(out T command) where T : CommandRequest<IHeroCamera>
         {
             command = this.PrepareCommand<T>();
             return this;

@@ -21,25 +21,16 @@ namespace GoPro.Hero.Api.Tests
             return camera;
         }
 
-        private  void ChangeMode(Camera camera, Mode mode)
-        {
-            var command = camera.PrepareCommand<CommandCameraMode>();
-            command.Select = mode;
-
-            var res = camera.Command(command).ExtendedSettings.Mode;
-            Assert.AreEqual(mode, res);
-        }
-
-        private void ChangeSelection<T, S>(Camera camera, S select, Func<IHeroCamera, S> valueRetriever) where T : CommandMultiChoice<S>
+        private void ChangeSelection<T, S>(Camera camera, S select, Func<IHeroCamera, S> valueRetriever) where T : CommandMultiChoice<S,IHeroCamera>
         {
             var command = camera.PrepareCommand<T>();
-            command.Select = select;
+            command.Selection = select;
 
             var res = valueRetriever(camera.Command(command));
             Assert.AreEqual(select, res);
         }
 
-        public void CheckMultiChoiceCommand<T, S>(Func<IHeroCamera, S> valueRetriever)where T:CommandMultiChoice<S>
+        public void CheckMultiChoiceCommand<T, S>(Func<IHeroCamera, S> valueRetriever)where T:CommandMultiChoice<S,IHeroCamera>
         {
             var camera = GetCamera();
             var init = valueRetriever(camera);
@@ -55,26 +46,26 @@ namespace GoPro.Hero.Api.Tests
             ChangeSelection<T,S>(camera,init,valueRetriever);
         }
 
-        private void CheckBooleanCommand<T>(Func<IHeroCamera, bool> valueRetriever) where T : CommandBoolean
+        private void CheckBooleanCommand<T>(Func<IHeroCamera, bool> valueRetriever) where T : CommandBoolean<IHeroCamera>
         {
             var camera = GetCamera();
             var init = valueRetriever(camera);
 
             var command = camera.PrepareCommand<T>();
 
-            command.Enable = true;
+            command.State = true;
             var res = valueRetriever(camera.Command(command));
             Assert.AreEqual(true, res);
 
-            command.Enable = false;
+            command.State = false;
             res = valueRetriever(camera.Command(command));
             Assert.AreEqual(false, res);
 
-            command.Enable = init;
+            command.State = init;
             camera.Command(command);
         }
 
-        [TestMethod]
+        [TestInitialize]
         public void InitializeCamera()
         {
             var camera = GetCamera();
@@ -83,6 +74,74 @@ namespace GoPro.Hero.Api.Tests
             Thread.Sleep(2000);
             var res = camera.BacpacStatus.CameraPower;
             Assert.AreEqual(true, res);
+        }
+
+        [TestMethod]
+        public void CheckGetName()
+        {
+            var camera = this.GetCamera();
+
+            var name = camera.GetName();
+            Assert.AreEqual(ExpectedParameters.REAL_NAME, name);
+        }
+
+        [TestMethod]
+        public void CheckSetName()
+        {
+            var camera = GetCamera();
+            var init = camera.GetName();
+
+            camera.SetName(ExpectedParameters.TEMP_NAME);
+            var tempName=camera.GetName();
+            Assert.AreEqual(ExpectedParameters.TEMP_NAME, tempName);
+        }
+
+        [TestMethod]
+        public void CheckVideoResolution()
+        {
+            CheckMultiChoiceCommand<CommandCameraVideoResolution, VideoResolution>((c) => c.ExtendedSettings.VideoResolution);
+        }
+
+        [TestMethod]
+        public void CheckOrientation()
+        {
+            CheckMultiChoiceCommand<CommandCameraOrientation, Orientation>((c) => c.ExtendedSettings.Orientation);
+        }
+
+        [TestMethod]
+        public void CheckTimeLapse()
+        {
+            CheckMultiChoiceCommand<CommandCameraTimeLapse, TimeLapse>((c) => c.ExtendedSettings.TimeLapse);
+        }
+
+        [TestMethod]
+        public void CheckBeepSound()
+        {
+            CheckMultiChoiceCommand<CommandCameraBeepSound, BeepSound>((c) => c.ExtendedSettings.BeepSound);
+        }
+
+        [TestMethod]
+        public void CheckProtune()
+        {
+            CheckBooleanCommand<CommandCameraProtune>((c) => c.ExtendedSettings.ProTune);
+        }
+
+        [TestMethod]
+        public void CheckPhotoResolution()
+        {
+            CheckMultiChoiceCommand<CommandCameraPhotoResolution, PhotoResolution>((c) => c.ExtendedSettings.PhotoResolution);
+        }
+
+        [TestMethod]
+        public void CheckVideoStandard()
+        {
+            CheckMultiChoiceCommand<CommandCameraVideoStandard, VideoStandard>((c) => c.ExtendedSettings.VideoStandard);
+        }
+
+        [TestMethod]
+        public void CheckModes()
+        {
+            CheckMultiChoiceCommand<CommandCameraMode, Mode>((c) => c.ExtendedSettings.Mode);
         }
 
         [TestMethod]
@@ -102,9 +161,15 @@ namespace GoPro.Hero.Api.Tests
         }
 
         [TestMethod]
-        public void CheckProtune()
+        public void CheckLedBlinks()
         {
-            CheckBooleanCommand<CommandCameraProtune>((c) => c.ExtendedSettings.ProTune);
+            CheckMultiChoiceCommand<CommandCameraLedBlink, LedBlink>((c) => c.ExtendedSettings.LedBlink);
+        }
+
+        [TestMethod]
+        public void CheckFieldOfView()
+        {
+            CheckMultiChoiceCommand<CommandCameraFieldOfView, FieldOfView>((c) => c.ExtendedSettings.FieldOfView);
         }
 
         [TestMethod]
@@ -114,9 +179,62 @@ namespace GoPro.Hero.Api.Tests
         }
 
         [TestMethod]
-        public void CheckBeepSound()
+        public void CheckOnDefaultMode()
         {
-            CheckMultiChoiceCommand<CommandCameraBeepSound, BeepSound>((c) => c.ExtendedSettings.BeepSound);
+            CheckMultiChoiceCommand<CommandCameraDefaultMode, Mode>((c) => c.ExtendedSettings.OnDefault);
+        }
+
+        [TestMethod]
+        public void CheckDeleteAllOnSdCard()
+        {
+            var camera = this.GetCamera();
+
+            CommandCameraDeleteAllFilesOnSd command;
+            var photo = camera.PrepareCommand<CommandCameraDeleteAllFilesOnSd>(out command).Command(command).ExtendedSettings.PhotosCount;
+            var video = camera.ExtendedSettings.VideosCount;
+
+            Assert.IsTrue(photo == 0 && video == 0);
+        }
+
+        [TestMethod]
+        public void CheckDeleteLastOnSdCard()
+        {
+            var camera = this.GetCamera();
+            var initPhoto = camera.ExtendedSettings.PhotosCount;
+            var initVideo = camera.ExtendedSettings.VideosCount;
+
+            CommandCameraDeleteLastFileOnSd command;
+            var photo = camera.PrepareCommand<CommandCameraDeleteLastFileOnSd>(out command).Command(command).ExtendedSettings.PhotosCount;
+            var video = camera.ExtendedSettings.VideosCount;
+
+            Assert.IsTrue(photo < initPhoto || video < initVideo);
+        }
+
+        [TestMethod]
+        public void CheckCameraInformation()
+        {
+            var camera = this.GetCamera();
+            var info=camera.Information;
+
+            Assert.AreEqual(ExpectedParameters.NAME, info.Name);
+        }
+
+        [TestMethod]
+        public void CheckCameraSettings()
+        {
+            var camera = this.GetCamera();
+            var settings = camera.Settings;
+
+            Assert.AreEqual(ExpectedParameters.DEFAULT_VIDEO, settings.VideoStandard);
+        }
+
+        [TestMethod]
+        public void CheckCameraExtendedSettings()
+        {
+            var camera = this.GetCamera();
+            var extendedSettings = camera.ExtendedSettings;
+
+            Assert.AreEqual(ExpectedParameters.DEFAULT_VIDEO, extendedSettings.VideoStandard);
         }
 
         [TestMethod]
@@ -135,35 +253,6 @@ namespace GoPro.Hero.Api.Tests
             CheckMultiChoiceCommand<CommandCameraLoopingVideo, LoopingVideo>((c) => c.ExtendedSettings.LoopingVideoMode);
         }
 
-        [TestMethod]
-        public void CheckTimeLapse()
-        {
-            CheckMultiChoiceCommand<CommandCameraTimeLapse, TimeLapse>((c) => c.ExtendedSettings.TimeLapse);
-        }
-
-        [TestMethod]
-        public void CheckModes()
-        {
-            CheckMultiChoiceCommand<CommandCameraMode, Mode>((c) => c.ExtendedSettings.Mode);
-        }
-
-        [TestMethod]
-        public void CheckOrientation()
-        {
-            CheckMultiChoiceCommand<CommandCameraOrientation, Orientation>((c) => c.ExtendedSettings.Orientation);
-        }
-
-        [TestMethod]
-        public void CheckVideoResolution()
-        {
-            CheckMultiChoiceCommand<CommandCameraVideoResolution, VideoResolution>((c) => c.ExtendedSettings.VideoResolution);
-        }
-
-        [TestMethod]
-        public void CheckPhotoResolution()
-        {
-            CheckMultiChoiceCommand<CommandCameraPhotoResolution, PhotoResolution>((c) => c.ExtendedSettings.PhotoResolution);
-        }
 
         [TestMethod]
         public void CheckFrameRate()
@@ -172,37 +261,15 @@ namespace GoPro.Hero.Api.Tests
         }
 
         [TestMethod]
-        public void CheckDeleteLastOnSdCard()
+        public void CheckBurstRate()
         {
-            var camera = this.GetCamera();
-            var initPhoto = camera.ExtendedSettings.PhotosCount;
-            var initVideo = camera.ExtendedSettings.VideosCount;
-
-            CommandCameraDeleteLastFileOnSd command;
-            var photo = camera.PrepareCommand<CommandCameraDeleteLastFileOnSd>(out command).Command(command).ExtendedSettings.PhotosCount;
-            var video = camera.ExtendedSettings.VideosCount;
-
-            Assert.IsTrue(photo < initPhoto || video < initVideo);
-        }
-        [TestMethod]
-        public void CheckDeleteAllOnSdCard()
-        {
-            var camera = this.GetCamera();
-
-            CommandCameraDeleteAllFilesOnSd command;
-            var photo = camera.PrepareCommand<CommandCameraDeleteAllFilesOnSd>(out command).Command(command).ExtendedSettings.PhotosCount;
-            var video = camera.ExtendedSettings.VideosCount;
-
-            Assert.IsTrue(photo == 0 && video == 0);
+            CheckMultiChoiceCommand<CommandCameraBurstRate, BurstRate>((c) => c.ExtendedSettings.BurstRate);
         }
 
         [TestMethod]
-        public void CheckGetName()
+        public void CheckContinuousShot()
         {
-            var camera = this.GetCamera();
-
-            var name = camera.GetName();
+            CheckMultiChoiceCommand<CommandCameraContinuousShot, ContinuousShot>((c) => c.ExtendedSettings.ContinuousShot);
         }
-
     }
 }

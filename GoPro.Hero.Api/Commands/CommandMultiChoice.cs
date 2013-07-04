@@ -5,9 +5,9 @@ using System.Text;
 
 namespace GoPro.Hero.Api.Commands
 {
-    public abstract class CommandMultiChoice<T>:CommandRequest
+    public abstract class CommandMultiChoice<T, O> : CommandRequest<O>
     {
-       public T Select
+        public T Selection
         {
             get
             {
@@ -20,8 +20,14 @@ namespace GoPro.Hero.Api.Commands
 
             set
             {
-                base.parameter = "%" + Convert.ToInt32(value).ToString("x2"); //string.Format("%0{0}", Convert.ToString(Convert.ToByte(value), 16));
+                base.parameter = "%" + Convert.ToInt32(value).ToString("x2");
             }
+        }
+
+        public CommandMultiChoice<T, O> Select(T mode)
+        {
+            this.Selection = mode;
+            return this;
         }
     }
 }

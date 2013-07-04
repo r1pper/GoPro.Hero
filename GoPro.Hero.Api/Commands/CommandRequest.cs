@@ -8,12 +8,14 @@ using System.IO;
 
 namespace GoPro.Hero.Api.Commands
 {
-    public class CommandRequest
+    public class CommandRequest<O>
     {
         protected string address;
         protected string command;
         protected string passPhrase;
         protected string parameter;
+
+        public O Owner { get; internal set; }
 
         public virtual Uri GetUri()
         {
@@ -32,6 +34,18 @@ namespace GoPro.Hero.Api.Commands
             return response;
         }
 
+        public O Execute(bool checkStatus = true)
+        {
+            this.Send(checkStatus);
+            return this.Owner;
+        }
+
+        public CommandRequest<O> ExecuteSelf(bool checkStatus = true)
+        {
+            this.Send(checkStatus);
+            return this;
+        }
+
         protected CommandRequest() { }
 
         protected virtual void Initialize()
@@ -45,12 +59,12 @@ namespace GoPro.Hero.Api.Commands
             if (commandAtt.Parameterless) this.parameter = null;
         }
 
-        public static CommandRequest Create(string address, string command, string passPhrase = null, string parameter = null)
+        public static CommandRequest<O> Create(string address, string command, string passPhrase = null, string parameter = null)
         {
-            return new CommandRequest { address = address, command = command, passPhrase = passPhrase, parameter = parameter };
+            return new CommandRequest<O> { address = address, command = command, passPhrase = passPhrase, parameter = parameter };
         }
 
-        public static T Create<T>(string address=null, string command=null, string passPhrase = null, string parameter = null) where T : CommandRequest
+        public static T Create<T>(string address=null, string command=null, string passPhrase = null, string parameter = null) where T : CommandRequest<O>
         {
             var request = Activator.CreateInstance<T>();
             request.address = address;
@@ -78,7 +92,7 @@ namespace GoPro.Hero.Api.Commands
             return builder.Uri;
         }
 
-        private static CommandResponse Send(CommandRequest command)
+        private static CommandResponse Send(CommandRequest<O> command)
         {
             var request = HttpWebRequest.Create(command.GetUri()) as HttpWebRequest;
             //request.KeepAlive=true;

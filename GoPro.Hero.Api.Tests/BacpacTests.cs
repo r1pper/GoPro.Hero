@@ -7,28 +7,33 @@ namespace GoPro.Hero.Api.Tests
     [TestClass]
     public class BacpacTests
     {
-        [TestMethod]
-        public void Initialize()
+        private Bacpac GetBacpac()
         {
-            var bacpac=Bacpac.Create(ExpectedParameters.IP_ADDRESS);
+            return Bacpac.Create(ExpectedParameters.IP_ADDRESS);
+        }
+
+        [TestInitialize]
+        public void BacpacInitialize()
+        {
+            var bacpac= GetBacpac();
             
             Assert.AreEqual(ExpectedParameters.IP_ADDRESS, bacpac.Address);
             Assert.AreEqual(ExpectedParameters.PASSWORD, bacpac.Password);
         }
 
         [TestMethod]
-        public void RetrievePassword()
+        public void CheckPassword()
         {
-            var bacpac = Bacpac.Create(ExpectedParameters.IP_ADDRESS);
+            var bacpac = GetBacpac();
 
             bacpac.UpdatePassword();
             Assert.AreEqual(ExpectedParameters.PASSWORD, bacpac.Password);
         }
 
         [TestMethod]
-        public void PowerUp()
+        public void CheckPowerUp()
         {
-            var bacpac = Bacpac.Create(ExpectedParameters.IP_ADDRESS);
+            var bacpac = GetBacpac();
 
             bacpac.Power(true);
             Thread.Sleep(2000);
@@ -39,6 +44,22 @@ namespace GoPro.Hero.Api.Tests
             Thread.Sleep(2000);
             res = bacpac.Status.CameraPower;
             Assert.AreEqual(false, res);
+        }
+
+        [TestMethod]
+        public void CheckInformation()
+        {
+            var bacpac = GetBacpac();
+            //bacpac.Information.MacAddress;
+        }
+
+        [TestMethod]
+        public void CheckStatus()
+        {
+            var bacpac = GetBacpac();
+            var status = bacpac.Status;
+
+            Assert.IsTrue(status.CameraAttached);
         }
     }
 }
