@@ -42,6 +42,11 @@ namespace GoPro.Hero.Api.Utilities
             return s;
         }
 
+        public static string Fix(this string s)
+        {
+            return s.Trim('\0');
+        }
+
     }
 }
 

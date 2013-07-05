@@ -5,8 +5,8 @@ using System.Text;
 
 namespace GoPro.Hero.Api
 {
-    public enum Orientation:byte { Up = 0, Down = 1 }
-    public enum VideoStandard:byte { Ntsc = 0, Pal = 1 }
+    public enum Orientation:byte { Up = 0, Down = 4 }
+    public enum VideoStandard:byte { Ntsc = 0, Pal = 32 }
     public enum WhiteBalance:byte { Auto=0, Wb3000K=1, Wb5500K=2, Wb6500K=3, Raw=4 }
     public enum BeepSound:byte { S100Percent=2, S70Percent=1, Off=0 }
     public enum LedBlink { Four=2, Two=1, Zero=0 }

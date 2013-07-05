@@ -56,10 +56,11 @@ namespace GoPro.Hero.Api
             var response = request.Send();
 
             var raw = response.RawResponse;
-            var length=response.RawResponse[1];
-            var name= Encoding.UTF8.GetString(raw, 1, length);
+            var length = response.RawResponse[1];
+            var name = Encoding.UTF8.GetString(raw, 2, length);
             if (!string.IsNullOrEmpty(name)) return name;
-            return this.Information.Name.Substring(4);
+            name = this.Information.Name;
+            return name.Fix();
         }
         public ICamera GetName(out string name)
         {
@@ -132,7 +133,7 @@ namespace GoPro.Hero.Api
 
         public T PrepareCommand<T>() where T : CommandRequest<ICamera>
         {
-            return CommandRequest<ICamera>.Create<T>(this.bacpac.Address, passPhrase: this.bacpac.Password);
+            return CommandRequest<ICamera>.Create<T>(this,this.bacpac.Address, passPhrase: this.bacpac.Password);
         }
         public ICamera PrepareCommand<T>(out T command) where T : CommandRequest<ICamera>
         {
@@ -146,7 +147,7 @@ namespace GoPro.Hero.Api
             _extendedSettings = new CameraExtendedSettings();
             _settings = new CameraSettings();
 
-            bacpac = bacpac;
+            this.bacpac = bacpac;
         }
 
         public static T Create<T>(Bacpac bacpac) where T : Camera,ICamera

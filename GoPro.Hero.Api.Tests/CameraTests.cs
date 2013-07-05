@@ -6,6 +6,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using GoPro.Hero.Api.Commands;
 using GoPro.Hero.Api.Commands.CameraCommands;
+using GoPro.Hero.Api.Utilities;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace GoPro.Hero.Api.Tests
@@ -70,8 +71,11 @@ namespace GoPro.Hero.Api.Tests
         {
             var camera = GetCamera();
 
+            var init = camera.BacpacStatus.CameraPower;
+            if (init) return;
+
             camera.Power(true);
-            Thread.Sleep(2000);
+            Thread.Sleep(5000);
             var res = camera.BacpacStatus.CameraPower;
             Assert.AreEqual(true, res);
         }
@@ -94,6 +98,9 @@ namespace GoPro.Hero.Api.Tests
             camera.SetName(ExpectedParameters.TEMP_NAME);
             var tempName=camera.GetName();
             Assert.AreEqual(ExpectedParameters.TEMP_NAME, tempName);
+
+            camera.SetName(init);
+            Assert.AreEqual(init, camera.GetName());
         }
 
         [TestMethod]
@@ -189,11 +196,11 @@ namespace GoPro.Hero.Api.Tests
         {
             var camera = this.GetCamera();
 
-            CommandCameraDeleteAllFilesOnSd command;
-            var photo = camera.PrepareCommand<CommandCameraDeleteAllFilesOnSd>(out command).Command(command).ExtendedSettings.PhotosCount;
-            var video = camera.ExtendedSettings.VideosCount;
-
-            Assert.IsTrue(photo == 0 && video == 0);
+            camera.PrepareCommand<CommandCameraDeleteAllFilesOnSd>().Execute();
+            Thread.Sleep(5000);
+            var info = camera.ExtendedSettings;
+            Assert.AreEqual(info.PhotosCount, 0);
+            Assert.AreEqual(info.VideosCount, 0);
         }
 
         [TestMethod]
@@ -204,10 +211,11 @@ namespace GoPro.Hero.Api.Tests
             var initVideo = camera.ExtendedSettings.VideosCount;
 
             CommandCameraDeleteLastFileOnSd command;
-            var photo = camera.PrepareCommand<CommandCameraDeleteLastFileOnSd>(out command).Command(command).ExtendedSettings.PhotosCount;
+            var photo = camera.PrepareCommand<CommandCameraDeleteLastFileOnSd>().Execute().ExtendedSettings.PhotosCount;
+            //var photo = camera.PrepareCommand<CommandCameraDeleteLastFileOnSd>(out command).Command(command).ExtendedSettings.PhotosCount;
             var video = camera.ExtendedSettings.VideosCount;
 
-            Assert.IsTrue(photo < initPhoto || video < initVideo);
+            Assert.IsTrue(photo <= initPhoto || video <= initVideo);
         }
 
         [TestMethod]
@@ -216,7 +224,8 @@ namespace GoPro.Hero.Api.Tests
             var camera = this.GetCamera();
             var info=camera.Information;
 
-            Assert.AreEqual(ExpectedParameters.NAME, info.Name);
+            var trimmedName = info.Name.Fix();
+            Assert.AreEqual(ExpectedParameters.REAL_NAME,trimmedName);
         }
 
         [TestMethod]
@@ -241,16 +250,32 @@ namespace GoPro.Hero.Api.Tests
         public void CheckWhiteBalance()
         {
             var camera = GetCamera();
+
+            var protuneInit = camera.ExtendedSettings.Protune;
+            camera.PrepareCommand<CommandCameraProtune>().Set(true).Execute();
+
             var protune = camera.ExtendedSettings.Protune;
             Assert.AreEqual(protune, true);
 
             CheckMultiChoiceCommand<CommandCameraWhiteBalance, WhiteBalance>((c) => c.ExtendedSettings.WhiteBalance);
+
+            camera.PrepareCommand<CommandCameraProtune>().Set(protuneInit).Execute();
         }
 
         [TestMethod]
         public void CheckLoopingVideo()
         {
+            var camera = GetCamera();
+
+            var protuneInit = camera.ExtendedSettings.Protune;
+            camera.PrepareCommand<CommandCameraProtune>().Set(false).Execute();
+
+            var protune = camera.ExtendedSettings.Protune;
+            Assert.AreEqual(protune, false);
+
             CheckMultiChoiceCommand<CommandCameraLoopingVideo, LoopingVideo>((c) => c.ExtendedSettings.LoopingVideoMode);
+
+            camera.PrepareCommand<CommandCameraProtune>().Set(protuneInit).Execute();
         }
 
 

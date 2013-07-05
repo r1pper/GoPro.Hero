@@ -15,7 +15,7 @@ namespace GoPro.Hero.Api.Commands
         protected string passPhrase;
         protected string parameter;
 
-        public O Owner { get; internal set; }
+        public O Owner { get; protected set; }
 
         public virtual Uri GetUri()
         {
@@ -59,18 +59,19 @@ namespace GoPro.Hero.Api.Commands
             if (commandAtt.Parameterless) this.parameter = null;
         }
 
-        public static CommandRequest<O> Create(string address, string command, string passPhrase = null, string parameter = null)
+        public static CommandRequest<O> Create(O owner,string address, string command, string passPhrase = null, string parameter = null)
         {
-            return new CommandRequest<O> { address = address, command = command, passPhrase = passPhrase, parameter = parameter };
+            return new CommandRequest<O> {Owner=owner, address = address, command = command, passPhrase = passPhrase, parameter = parameter };
         }
 
-        public static T Create<T>(string address=null, string command=null, string passPhrase = null, string parameter = null) where T : CommandRequest<O>
+        public static T Create<T>(O owner,string address=null, string command=null, string passPhrase = null, string parameter = null) where T : CommandRequest<O>
         {
             var request = Activator.CreateInstance<T>();
             request.address = address;
             request.command = command;
             request.parameter = parameter;
             request.passPhrase = passPhrase;
+            request.Owner = owner;
             request.Initialize();
             
             return request;

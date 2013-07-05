@@ -12,7 +12,7 @@ namespace GoPro.Hero.Api.Tests
             return Bacpac.Create(ExpectedParameters.IP_ADDRESS);
         }
 
-        [TestInitialize]
+        [TestMethod]
         public void BacpacInitialize()
         {
             var bacpac= GetBacpac();
@@ -36,12 +36,12 @@ namespace GoPro.Hero.Api.Tests
             var bacpac = GetBacpac();
 
             bacpac.Power(true);
-            Thread.Sleep(2000);
+            Thread.Sleep(5000);
             var res = bacpac.Status.CameraPower;
             Assert.AreEqual(true, res);
 
             bacpac.Power(false);
-            Thread.Sleep(2000);
+            Thread.Sleep(5000);
             res = bacpac.Status.CameraPower;
             Assert.AreEqual(false, res);
         }

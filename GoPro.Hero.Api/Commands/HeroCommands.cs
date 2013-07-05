@@ -11,7 +11,8 @@ namespace GoPro.Hero.Api
         public const string CAMERA_SET_NAME = "/camera/CN";
         public const string CAMERA_GET_HLS_SEGMENT = "/camera/hs";
         public const string CAMERA_SET_HLS_SEGMENT = "/camera/HS";
-        public const string CAMERA_VIDEO_RESOLUTION="/camera/VR";
+        //public const string CAMERA_VIDEO_RESOLUTION = "/camera/VR";
+        public const string CAMERA_VIDEO_RESOLUTION="/camera/VV";
         public const string CAMERA_ORIENTATION="/camera/UP"; //up-down
         public const string CAMERA_TIMELAPSE_TI="/camera/TI";
         public const string CAMERA_BEEP = "/camera/BS";

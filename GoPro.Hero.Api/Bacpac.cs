@@ -86,7 +86,7 @@ namespace GoPro.Hero.Api
 
         private T CreateCommand<T>(string parameter = null) where T : CommandRequest<Bacpac>
         {
-            var request = CommandRequest<Bacpac>.Create<T>(this.Address, passPhrase: this.Password, parameter: parameter);
+            var request = CommandRequest<Bacpac>.Create<T>(this,this.Address, passPhrase: this.Password, parameter: parameter);
             return request;
         }
 
