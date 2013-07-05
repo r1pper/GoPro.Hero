@@ -47,6 +47,35 @@ namespace GoPro.Hero.Api.Utilities
             return s.Trim('\0');
         }
 
+        public static string ToHeroDateTime(this DateTime dateTime)
+        {
+            var yearOld = dateTime.Year % 100;
+            var year = yearOld.ToString("x2");
+            var month = dateTime.Month.ToString("x2");
+            var day = dateTime.Day.ToString("x2");
+            var hour = dateTime.Hour.ToString("x2");
+            var minute = dateTime.Minute.ToString("x2");
+            var second = dateTime.Second.ToString("x2");
+
+            var heroDateTime = string.Format("%{0}%{1}%{2}%{3}%{4}%{5}", year, month, day, hour, minute, second);
+            return heroDateTime;
+        }
+
+        public static DateTime ToDateTimeHeroString(this string heroDateTime)
+        {
+            var split = heroDateTime.Split('%');
+
+            var year = Convert.ToInt32(split[0], 16) + 2000;
+            var month = Convert.ToInt32(split[1], 16);
+            var day = Convert.ToInt32(split[2], 16);
+            var hour = Convert.ToInt32(split[3], 16);
+            var minute = Convert.ToInt32(split[4], 16);
+            var second = Convert.ToInt32(split[5], 16);
+
+            var time = new DateTime(year, month, day, hour, minute, second);
+            return time;
+        }
+
     }
 }
 

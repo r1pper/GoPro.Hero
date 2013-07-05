@@ -7,6 +7,7 @@ namespace GoPro.Hero.Api
 {
     static class HeroCommands
     {
+        public const string CAMERA_TIME = "/camera/TM";
         public const string CAMERA_GET_NAME = "/camera/cn";
         public const string CAMERA_SET_NAME = "/camera/CN";
         public const string CAMERA_GET_HLS_SEGMENT = "/camera/hs";

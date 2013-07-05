@@ -81,6 +81,13 @@ namespace GoPro.Hero.Api.Tests
         }
 
         [TestMethod]
+        public void CheckSetDateTime()
+        {
+            var camera = GetCamera();
+            camera.PrepareCommand<CommandCameraSetTime>().Set(DateTime.Now).Execute();
+        }
+
+        [TestMethod]
         public void CheckGetName()
         {
             var camera = this.GetCamera();

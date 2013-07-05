@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using GoPro.Hero.Api.Utilities;
 
 namespace GoPro.Hero.Api.Commands.CameraCommands
 {
@@ -27,6 +28,37 @@ namespace GoPro.Hero.Api.Commands.CameraCommands
                 var length=value.Length.ToString("x2");
                 base.parameter = string.Format("%{0}{1}",length, value);
             }
+        }
+
+        public CommandCameraSetName Set(string name)
+        {
+            this.Name = name;
+            return this;
+        }
+    }
+
+    [Command(HeroCommands.CAMERA_TIME)]
+    public class CommandCameraSetTime : CommandRequest<ICamera>
+    {
+        public DateTime Date
+        {
+            get
+            {
+                if (string.IsNullOrEmpty(base.parameter))
+                    return DateTime.Now;
+
+                return base.parameter.ToDateTimeHeroString();
+            }
+            set
+            {
+                base.parameter = value.ToHeroDateTime();
+            }
+        }
+
+        public CommandCameraSetTime Set(DateTime dateTime)
+        {
+            this.Date = dateTime;
+            return this;
         }
     }
 
