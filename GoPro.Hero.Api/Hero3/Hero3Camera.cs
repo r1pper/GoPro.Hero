@@ -148,7 +148,7 @@ namespace GoPro.Hero.Api.Hero3
 
         public Hero3Camera LivePreview(out bool state)
         {
-            state = base.ExtendedSettings.PreviewAvailable;
+            state = base.ExtendedSettings.PreviewActive;
             return this;
         }
 
@@ -401,6 +401,12 @@ namespace GoPro.Hero.Api.Hero3
         public Hero3Camera Version(out string version)
         {
             version = base.Information.Version;
+            return this;
+        }
+
+        public Hero3Camera LivePreviewAvailable(out bool state)
+        {
+            state = base.ExtendedSettings.PreviewAvailable;
             return this;
         }
     }

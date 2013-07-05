@@ -154,5 +154,13 @@ namespace GoPro.Hero.Api
             var camera = Activator.CreateInstance(typeof(T), bacpac) as T;
             return camera;
         }
+
+        public static T Create<T>(string address) where T : Camera, ICamera
+        {
+            var bacpac = Bacpac.Create(address);
+            var camera = Create<T>(bacpac);
+
+            return camera;
+        }
     }
 }
