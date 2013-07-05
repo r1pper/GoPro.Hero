@@ -176,7 +176,14 @@ namespace GoPro.Hero.Api.Tests
         [TestMethod]
         public void CheckFieldOfView()
         {
+            var camera = GetCamera();
+            var initResolution = camera.ExtendedSettings.VideoResolution;
+            var currentResolution=camera.PrepareCommand<CommandCameraVideoResolution>().Select(VideoResolution.Vr1080).Execute().ExtendedSettings.VideoResolution;
+            Assert.AreEqual(VideoResolution.Vr1080,currentResolution);
+
             CheckMultiChoiceCommand<CommandCameraFieldOfView, FieldOfView>((c) => c.ExtendedSettings.FieldOfView);
+
+            camera.PrepareCommand<CommandCameraVideoResolution>().Select(initResolution).Execute();
         }
 
         [TestMethod]
@@ -199,8 +206,8 @@ namespace GoPro.Hero.Api.Tests
             camera.PrepareCommand<CommandCameraDeleteAllFilesOnSd>().Execute();
             Thread.Sleep(5000);
             var info = camera.ExtendedSettings;
-            Assert.AreEqual(info.PhotosCount, 0);
-            Assert.AreEqual(info.VideosCount, 0);
+            Assert.AreEqual(0, info.PhotosCount);
+            Assert.AreEqual(0, info.VideosCount);
         }
 
         [TestMethod]
@@ -212,7 +219,6 @@ namespace GoPro.Hero.Api.Tests
 
             CommandCameraDeleteLastFileOnSd command;
             var photo = camera.PrepareCommand<CommandCameraDeleteLastFileOnSd>().Execute().ExtendedSettings.PhotosCount;
-            //var photo = camera.PrepareCommand<CommandCameraDeleteLastFileOnSd>(out command).Command(command).ExtendedSettings.PhotosCount;
             var video = camera.ExtendedSettings.VideosCount;
 
             Assert.IsTrue(photo <= initPhoto || video <= initVideo);
@@ -282,7 +288,27 @@ namespace GoPro.Hero.Api.Tests
         [TestMethod]
         public void CheckFrameRate()
         {
-            CheckMultiChoiceCommand<CommandCameraFrameRate, FrameRate>((c) => c.ExtendedSettings.FrameRate);
+            var camera = GetCamera();
+            var initResolution = camera.ExtendedSettings.VideoResolution;
+            var initVideoStandard = camera.ExtendedSettings.VideoStandard;
+
+            var currentResolution = camera.PrepareCommand<CommandCameraVideoResolution>().Select(VideoResolution.Vr1080).Execute().ExtendedSettings.VideoResolution;
+            Assert.AreEqual(VideoResolution.Vr1080, currentResolution);
+
+            var currentStandard = camera.PrepareCommand<CommandCameraVideoStandard>().Select(VideoStandard.Ntsc).Execute().ExtendedSettings.VideoStandard;
+            Assert.AreEqual(VideoStandard.Ntsc, currentStandard);
+
+            var availableFrameRates = new[] { FrameRate.Fps24, FrameRate.Fps30, FrameRate.Fps48, FrameRate.Fps60 };
+            var command = camera.PrepareCommand<CommandCameraFrameRate>();
+            foreach (var frameRate in availableFrameRates)
+            {
+                var currentFrameRate = command.Select(frameRate).Execute().ExtendedSettings.FrameRate;
+                Assert.AreEqual(frameRate, currentFrameRate);
+            }
+
+            camera
+                .PrepareCommand<CommandCameraVideoStandard>().Select(initVideoStandard).Execute()
+                .PrepareCommand<CommandCameraVideoResolution>().Select(initResolution).Execute();
         }
 
         [TestMethod]
