@@ -3,11 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using GoPro.Hero.Api.Commands;
+using GoPro.Hero.Api.Filtering;
 
 namespace GoPro.Hero.Api
 {
-    public interface ICamera
+    public interface ICamera:IFilterProvider
     {
+        ICamera SetFilter(IFilter<ICamera> filter);
+
         ICamera Shutter(bool open);
         ICamera Command(CommandRequest<ICamera> command);
         ICamera Command(CommandRequest<ICamera> command,out CommandResponse commandResponse,bool checkStatus=true);

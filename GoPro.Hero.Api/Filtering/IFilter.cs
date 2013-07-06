@@ -6,8 +6,10 @@ using GoPro.Hero.Api.Commands;
 
 namespace GoPro.Hero.Api.Filtering
 {
-    interface IFiltering<O>
+    public interface IFilter<O>where O:IFilterProvider
     {
+        void Initialize(O owner);
+
         bool IsAvailable(CommandRequest<O> command);
         bool IsAvailable<C>() where C : CommandRequest<O>;
         O Available<C>(out bool state) where C : CommandRequest<O>;

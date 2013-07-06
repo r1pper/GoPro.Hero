@@ -5,6 +5,7 @@ using System.Text;
 using GoPro.Hero.Api.Commands;
 using GoPro.Hero.Api.Commands.CameraCommands;
 using GoPro.Hero.Api.Exceptions;
+using GoPro.Hero.Api.Filtering;
 using GoPro.Hero.Api.Utilities;
 
 namespace GoPro.Hero.Api
@@ -16,6 +17,7 @@ namespace GoPro.Hero.Api
         private CameraInformation _information;
         private CameraExtendedSettings _extendedSettings;
         private CameraSettings _settings;
+        private IFilter<ICamera> _filter;
 
         public CameraInformation Information
         {
@@ -41,6 +43,13 @@ namespace GoPro.Hero.Api
                 return _settings;
             }
         }
+
+        public ICamera SetFilter(IFilter<ICamera> filter)
+        {
+            _filter=filter;
+            return this;
+        }
+
         public BacpacStatus BacpacStatus
         {
             get { return this.bacpac.Status; }
@@ -62,6 +71,7 @@ namespace GoPro.Hero.Api
             name = this.Information.Name;
             return name.Fix();
         }
+
         public ICamera GetName(out string name)
         {
             name = this.GetName();
@@ -141,8 +151,14 @@ namespace GoPro.Hero.Api
             return this;
         }
 
+        object IFilterProvider.Filter()
+        {
+            return _filter;
+        }
+
         public Camera(Bacpac bacpac)
         {
+            _filter = new NoFilter<ICamera>();
             _information = new CameraInformation();
             _extendedSettings = new CameraExtendedSettings();
             _settings = new CameraSettings();

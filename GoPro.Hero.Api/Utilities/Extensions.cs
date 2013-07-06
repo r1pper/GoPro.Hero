@@ -76,6 +76,21 @@ namespace GoPro.Hero.Api.Utilities
             return time;
         }
 
+        public static IEnumerable<T> GetValues<T>()
+        {
+            if (!typeof(T).IsEnum)
+                throw new InvalidOperationException("Type must be enumeration type.");
+
+            return GetEnumValues<T>();
+        }
+
+        private static IEnumerable<T> GetEnumValues<T>()
+        {
+            return from field in typeof(T).GetFields()
+                   where field.IsLiteral && !string.IsNullOrEmpty(field.Name)
+                   select (T)field.GetValue(null);
+        }
+
     }
 }
 

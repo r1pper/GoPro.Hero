@@ -292,7 +292,7 @@ namespace GoPro.Hero.Api.Hero3
             return this;
         }
 
-        public Hero3Camera Power(bool state)
+        public new Hero3Camera Power(bool state)
         {
             return base.Power(state) as Hero3Camera;
         }

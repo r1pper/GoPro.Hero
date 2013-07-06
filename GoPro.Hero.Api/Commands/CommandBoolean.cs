@@ -2,10 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using GoPro.Hero.Api.Filtering;
 
 namespace GoPro.Hero.Api.Commands
 {
-    public abstract class CommandBoolean<O>:CommandRequest<O>
+    public abstract class CommandBoolean<O>:CommandRequest<O> where O:IFilterProvider
     {
         protected const string ON = "%01";
         protected const string OFF = "%00";

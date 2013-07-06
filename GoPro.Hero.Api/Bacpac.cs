@@ -7,11 +7,13 @@ using GoPro.Hero.Api.Commands.BacpacCommands;
 using GoPro.Hero.Api.Commands;
 using GoPro.Hero.Api.Exceptions;
 using System.IO;
+using GoPro.Hero.Api.Filtering;
 
 namespace GoPro.Hero.Api
 {
-    public sealed class Bacpac
+    public sealed class Bacpac:IFilterProvider
     {
+        private IFilter<Bacpac> _filter;
         private BacpacInformation _information;
         private BacpacStatus _status;
 
@@ -90,11 +92,17 @@ namespace GoPro.Hero.Api
             return request;
         }
 
+        object IFilterProvider.Filter()
+        {
+            return _filter;
+        }
+
         private Bacpac(string address)
         {
             this.Address = address;
-            this._information = new BacpacInformation();
-            this._status = new BacpacStatus();
+            _information = new BacpacInformation();
+            _status = new BacpacStatus();
+            _filter =  new NoFilter<Bacpac>();
 
             this.UpdatePassword();
             this.UpdateInformation();

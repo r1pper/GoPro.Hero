@@ -5,11 +5,14 @@ using System.Text;
 using System.Net;
 using GoPro.Hero.Api.Exceptions;
 using System.IO;
+using GoPro.Hero.Api.Filtering;
 
 namespace GoPro.Hero.Api.Commands
 {
-    public class CommandRequest<O>
+    public class CommandRequest<O>where O:IFilterProvider
     {
+        private IFilter<O> _filter;
+
         protected string address;
         protected string command;
         protected string passPhrase;
@@ -24,6 +27,9 @@ namespace GoPro.Hero.Api.Commands
 
         public CommandResponse Send(bool checkStatus=true)
         {
+            if (!_filter.IsValid(this))
+                throw new CommandFailedException();
+
             var response = Send(this);
 
             if (!checkStatus) return response;
@@ -50,6 +56,8 @@ namespace GoPro.Hero.Api.Commands
 
         protected virtual void Initialize()
         {
+            _filter = (this.Owner as IFilterProvider).Filter() as IFilter<O>;
+
             var type = this.GetType();
             var att = type.GetCustomAttributes(typeof(CommandAttribute), true);
             if (att.Length == 0) return;
