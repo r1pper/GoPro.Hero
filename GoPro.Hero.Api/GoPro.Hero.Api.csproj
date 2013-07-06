@@ -55,6 +55,7 @@
     <Compile Include="Exceptions\CommandFailedException.cs" />
     <Compile Include="Exceptions\GoProException.cs" />
     <Compile Include="Commands\HeroCommands.cs" />
+    <Compile Include="Filtering\IFiltering.cs" />
     <Compile Include="Hero3\Hero3Camera.cs" />
     <Compile Include="ICamera.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
