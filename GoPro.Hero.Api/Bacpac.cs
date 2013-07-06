@@ -103,6 +103,7 @@ namespace GoPro.Hero.Api
             _information = new BacpacInformation();
             _status = new BacpacStatus();
             _filter =  new NoFilter<Bacpac>();
+            _filter.Initialize(this);
 
             this.UpdatePassword();
             this.UpdateInformation();

@@ -159,6 +159,8 @@ namespace GoPro.Hero.Api
         public Camera(Bacpac bacpac)
         {
             _filter = new NoFilter<ICamera>();
+            _filter.Initialize(this);
+
             _information = new CameraInformation();
             _extendedSettings = new CameraExtendedSettings();
             _settings = new CameraSettings();
