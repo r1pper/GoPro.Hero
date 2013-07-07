@@ -55,7 +55,7 @@
     <Compile Include="Exceptions\CommandFailedException.cs" />
     <Compile Include="Exceptions\GoProException.cs" />
     <Compile Include="Commands\HeroCommands.cs" />
-    <Compile Include="Filtering\GenericFilter.cs" />
+    <Compile Include="Filtering\FilterGeneric.cs" />
     <Compile Include="Filtering\IFilter.cs" />
     <Compile Include="Filtering\NoFilter.cs" />
     <Compile Include="Hero3\Hero3Camera.cs" />

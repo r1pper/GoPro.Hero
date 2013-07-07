@@ -40,5 +40,16 @@ namespace GoPro.Hero.Api.Commands
             this.State = false;
             return this;
         }
+
+        public IEnumerable<bool> ValidStates()
+        {
+            return base.filter.GetValidStates<CommandBoolean<O>>();
+        }
+
+        public CommandBoolean<O> ValidStates(out IEnumerable<bool> validStates)
+        {
+            validStates = base.filter.GetValidStates<CommandBoolean<O>>();
+            return this;
+        }
     }
 }
