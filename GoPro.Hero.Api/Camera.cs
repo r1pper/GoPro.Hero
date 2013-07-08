@@ -47,6 +47,7 @@ namespace GoPro.Hero.Api
         public ICamera SetFilter(IFilter<ICamera> filter)
         {
             _filter=filter;
+            filter.Initialize(this);
             return this;
         }
 
@@ -158,8 +159,7 @@ namespace GoPro.Hero.Api
 
         public Camera(Bacpac bacpac)
         {
-            _filter = new NoFilter<ICamera>();
-            _filter.Initialize(this);
+            this.SetFilter(new NoFilter<ICamera>());
 
             _information = new CameraInformation();
             _extendedSettings = new CameraExtendedSettings();

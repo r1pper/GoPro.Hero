@@ -8,7 +8,10 @@ namespace GoPro.Hero.Api.Hero3
 {
     public class Hero3Camera:Camera
     {
-        public Hero3Camera(Bacpac bacpac) : base(bacpac) { }
+        public Hero3Camera(Bacpac bacpac) : base(bacpac) {
+            var filter = Filtering.FilterGeneric.Create("Hero3FilterScheme.xml");
+            base.SetFilter(filter);
+        }
 
         public Hero3Camera(string address) : base(Bacpac.Create(address)) { }
 
@@ -20,6 +23,18 @@ namespace GoPro.Hero.Api.Hero3
         public Hero3Camera VideoResolution(out VideoResolution resolution)
         {
             resolution = base.ExtendedSettings.VideoResolution;
+            return this;
+        }
+
+        public IEnumerable<VideoResolution> ValidVideoResolution()
+        {
+            var valid = base.PrepareCommand<CommandCameraVideoResolution>().ValidStates();
+            return valid;
+        }
+
+        public Hero3Camera ValidVideoResolution(out IEnumerable<VideoResolution> validVideoResolution)
+        {
+            validVideoResolution = this.ValidVideoResolution();
             return this;
         }
 
@@ -85,6 +100,18 @@ namespace GoPro.Hero.Api.Hero3
         public Hero3Camera PhotoResolution(out PhotoResolution resolution)
         {
             resolution = base.ExtendedSettings.PhotoResolution;
+            return this;
+        }
+
+        public IEnumerable<PhotoResolution> ValidPhotoResolution()
+        {
+            var valid = this.PrepareCommand<CommandCameraPhotoResolution>().ValidStates();
+            return valid;
+        }
+
+        public Hero3Camera ValidPhotoResolution(out IEnumerable<PhotoResolution> validPhotoResolution)
+        {
+            validPhotoResolution = this.ValidPhotoResolution();
             return this;
         }
 
@@ -227,6 +254,18 @@ namespace GoPro.Hero.Api.Hero3
             return this;
         }
 
+        public IEnumerable<WhiteBalance> ValidWhiteBalance()
+        {
+            var valid = this.PrepareCommand<CommandCameraWhiteBalance>().ValidStates();
+            return valid;
+        }
+
+        public Hero3Camera ValidWhiteBalance(out IEnumerable<WhiteBalance> validWhiteBalance)
+        {
+            validWhiteBalance = this.ValidWhiteBalance();
+            return this;
+        }
+
         public Hero3Camera LoopingVideo(LoopingVideo loopingVideo)
         {
             return base.PrepareCommand<CommandCameraLoopingVideo>().Select(loopingVideo).Execute() as Hero3Camera;
@@ -238,6 +277,18 @@ namespace GoPro.Hero.Api.Hero3
             return this;
         }
 
+        public IEnumerable<LoopingVideo> ValidLoopingVideo()
+        {
+            var valid = this.PrepareCommand<CommandCameraLoopingVideo>().ValidStates();
+            return valid;
+        }
+
+        public Hero3Camera ValidLoopingVideo(out IEnumerable<LoopingVideo> validLoopingVideo)
+        {
+            validLoopingVideo = this.ValidLoopingVideo();
+            return this;
+        }
+
         public Hero3Camera FrameRate(FrameRate frameRate)
         {
             return base.PrepareCommand<CommandCameraFrameRate>().Select(frameRate).Execute() as Hero3Camera;
@@ -246,6 +297,18 @@ namespace GoPro.Hero.Api.Hero3
         public Hero3Camera FrameRate(out FrameRate frameRate)
         {
             frameRate = base.ExtendedSettings.FrameRate;
+            return this;
+        }
+
+        public IEnumerable<FrameRate> ValidFrameRate()
+        {
+            var valid = this.PrepareCommand<CommandCameraFrameRate>().ValidStates();
+            return valid;
+        }
+
+        public Hero3Camera ValidFrameRate(out IEnumerable<FrameRate> validFrameRate)
+        {
+            validFrameRate = this.ValidFrameRate();
             return this;
         }
 
