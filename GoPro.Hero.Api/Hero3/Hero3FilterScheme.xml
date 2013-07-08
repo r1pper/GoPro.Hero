@@ -1,0 +1,157 @@
+<Filter>
+
+	<CommandCameraWhiteBalance Protune="true">
+		<Auto/>
+		<Wb3000K/>
+		<Wb5500K/>
+		<Wb6500K/>
+		<Raw/>
+	</CommandCameraWhiteBalance>
+	<CommandCameraWhiteBalance Protune="false"/>
+
+
+	<CommandCameraLoopingVideo Protune="true"/>
+	<CommandCameraLoopingVideo Protune="false">
+		<Off/>
+		<Max/>
+		<Min5/>
+		<Min20/>
+		<Min60/>
+		<Min120/>
+	</CommandCameraLoopingVideo>
+
+
+	<CommandCameraVideoResolution Protune="true">
+		<Vr4kCin/>
+		<Vr4K/>
+		<Vr2Point7KCin/>
+		<Vr2Point7/>
+		<Vr1440/>
+		<Vr1080/>
+		<Vr960/>
+		<Vr720/>
+	</CommandCameraVideoResolution>
+	<CommandCameraVideoResolution Protune="false">
+		<Vr4kCin/>
+		<Vr4K/>
+		<Vr2Point7KCin/>
+		<Vr2Point7/>
+		<Vr1440/>
+		<Vr1080/>
+		<Vr960/>
+		<Vr720/>
+		<Wvga/>
+	</CommandCameraVideoResolution>
+
+
+	<CommandCameraFieldOfView VideoResolution="Vr4kCin">
+		<Wide/>
+	</CommandCameraFieldOfView>
+	<CommandCameraFieldOfView VideoResolution="Vr4K">
+		<Wide/>
+	</CommandCameraFieldOfView>
+	<CommandCameraFieldOfView VideoResolution="Vr2Point7KCin">
+		<Wide/>
+	</CommandCameraFieldOfView>
+	<CommandCameraFieldOfView VideoResolution="Vr2Point7">
+		<Wide/>
+	</CommandCameraFieldOfView>
+	<CommandCameraFieldOfView VideoResolution="Vr1440">
+		<Wide/>
+	</CommandCameraFieldOfView>
+	<CommandCameraFieldOfView VideoResolution="Vr1080">
+		<Wide/>
+		<Medium/>
+		<Narrow/>
+	</CommandCameraFieldOfView>
+	<CommandCameraFieldOfView VideoResolution="Vr960">
+		<Wide/>
+	</CommandCameraFieldOfView>
+	<CommandCameraFieldOfView VideoResolution="Vr720" FrameRate="Fps60" Protune="false">
+		<Wide/>
+	</CommandCameraFieldOfView>
+	<CommandCameraFieldOfView VideoResolution="Vr720" FrameRate="Fps60" Protune="true">
+		<Wide/>
+		<Medium/>
+		<Narrow/>
+	</CommandCameraFieldOfView>
+	<CommandCameraFieldOfView VideoResolution="Vr720" FrameRate="Fps50" Protune="false">
+		<Wide/>
+	</CommandCameraFieldOfView>
+	<CommandCameraFieldOfView VideoResolution="Vr720" FrameRate="Fps50" Protune="true">
+		<Wide/>
+		<Medium/>
+		<Narrow/>
+	</CommandCameraFieldOfView>
+	<CommandCameraFieldOfView VideoResolution="Vr720" FrameRate="Fps120">
+		<Wide/>
+		<Narrow/>
+	</CommandCameraFieldOfView>
+	<CommandCameraFieldOfView VideoResolution="Vr720" FrameRate="Fps100">
+		<Wide/>
+		<Narrow/>
+	</CommandCameraFieldOfView>
+	<CommandCameraFieldOfView VideoResolution="Wvga">
+		<Wide/>
+	</CommandCameraFieldOfView>
+	<CommandCameraFrameRate VideoResolution="Vr4kCin">
+		<Fps12/>
+	</CommandCameraFrameRate>
+	<CommandCameraFrameRate VideoResolution="Vr4K" VideoStandard="Ntsc">
+		<Fps15/>
+	</CommandCameraFrameRate>
+	<CommandCameraFrameRate VideoResolution="Vr4K" VideoStandard="Pal">
+		<Fps12p5/>
+	</CommandCameraFrameRate>
+	<CommandCameraFrameRate VideoResolution="Vr2Point7KCin">
+		<Fps24/>
+	</CommandCameraFrameRate>
+	<CommandCameraFrameRate VideoResolution="Vr2Point7" VideoStandard="Ntsc">
+		<Fps30/>
+	</CommandCameraFrameRate>
+	<CommandCameraFrameRate VideoResolution="Vr2Point7" VideoStandard="Pal">
+		<Fps25/>
+	</CommandCameraFrameRate>
+	<CommandCameraFrameRate VideoResolution="Vr1440" VideoStandard="Ntsc">
+		<Fps24/>
+		<Fps30/>
+		<Fps48/>
+	</CommandCameraFrameRate>
+	<CommandCameraFrameRate VideoResolution="Vr1440" VideoStandard="Pal">
+		<Fps24/>
+		<Fps25/>
+		<Fps48/>
+	</CommandCameraFrameRate>
+	<CommandCameraFrameRate VideoResolution="Vr1080" VideoStandard="Ntsc">
+		<Fps24/>
+		<Fps30/>
+		<Fps48/>
+		<Fps60/>
+	</CommandCameraFrameRate>
+	<CommandCameraFrameRate VideoResolution="Vr1080" VideoStandard="Pal">
+		<Fps24/>
+		<Fps25/>
+		<Fps48/>
+		<Fps50/>
+	</CommandCameraFrameRate>
+	<CommandCameraFrameRate VideoResolution="Vr960" Protune="false">
+		<Fps48/>
+		<Fps100/>
+	</CommandCameraFrameRate>
+	<CommandCameraFrameRate VideoResolution="Vr960" VideoStandard="Ntsc" Protune="true">
+		<Fps100/>
+	</CommandCameraFrameRate>
+	<CommandCameraFrameRate VideoResolution="Vr720" VideoStandard="Ntsc">
+		<Fps60/>
+		<Fps120/>
+	</CommandCameraFrameRate>
+	<CommandCameraFrameRate VideoResolution="Vr720" VideoStandard="Pal">
+		<Fps50/>
+		<Fps100/>
+	</CommandCameraFrameRate>
+	<CommandCameraFrameRate VideoResolution="VrWvga" Protune="false">
+		<Fps240/>
+	</CommandCameraFrameRate>
+	<CommandCameraFrameRate VideoResolution="VrWvga" Protune="true"/>
+	
+</Filter>
