@@ -9,7 +9,7 @@ namespace GoPro.Hero.Api.Hero3
     public class Hero3Camera:Camera
     {
         public Hero3Camera(Bacpac bacpac) : base(bacpac) {
-            var filter = Filtering.FilterGeneric.Create("Hero3FilterScheme.xml");
+            var filter = Filtering.FilterGeneric.Create("GoPro.Hero.Api.Hero3.Hero3FilterScheme.xml");
             base.SetFilter(filter);
         }
 

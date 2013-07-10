@@ -6,6 +6,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using GoPro.Hero.Api.Commands;
 using GoPro.Hero.Api.Commands.CameraCommands;
+using GoPro.Hero.Api.Filtering;
 using GoPro.Hero.Api.Utilities;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -14,6 +15,25 @@ namespace GoPro.Hero.Api.Tests
     [TestClass]
     public class CameraTests
     {
+        private class FilterTest : IFilter<ICamera>
+        {
+            public void Initialize(ICamera owner)
+            {
+                if (owner == null)
+                    Assert.Fail("Owner is Null");
+            }
+
+            public IEnumerable<T> GetValidStates<T, C>() where C : CommandMultiChoice<T, ICamera>
+            {
+                throw new NotImplementedException();
+            }
+
+            public IEnumerable<bool> GetValidStates<C>() where C : CommandBoolean<ICamera>
+            {
+                throw new NotImplementedException();
+            }
+        }
+
         private Camera GetCamera()
         {
             var bacpac = Bacpac.Create(ExpectedParameters.IP_ADDRESS);
@@ -328,6 +348,14 @@ namespace GoPro.Hero.Api.Tests
         public void CheckContinuousShot()
         {
             CheckMultiChoiceCommand<CommandCameraContinuousShot, ContinuousShot>((c) => c.ExtendedSettings.ContinuousShot);
+        }
+
+        [TestMethod]
+        public void CheckSetFilter()
+        {
+            var camera = GetCamera();
+            var testFilter = new FilterTest();
+            camera.SetFilter(testFilter);
         }
     }
 }

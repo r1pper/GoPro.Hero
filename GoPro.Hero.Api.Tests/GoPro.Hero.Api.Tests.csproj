@@ -53,6 +53,7 @@
     <Compile Include="BacpacTests.cs" />
     <Compile Include="CameraTests.cs" />
     <Compile Include="ExpectedParameters.cs" />
+    <Compile Include="Hero3CameraTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
