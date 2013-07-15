@@ -1,9 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
 using GoPro.Hero.Api.Commands.CameraCommands;
 using GoPro.Hero.Api.Hero3;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -91,15 +87,6 @@ namespace GoPro.Hero.Api.Tests
         }
 
         [TestMethod]
-        public void CheckIpAddress()
-        {
-            string ipAddress;
-            GetCamera().IpAddress(out ipAddress);
-
-            Assert.AreEqual(ExpectedParameters.IP_ADDRESS, ipAddress);
-        }
-
-        [TestMethod]
         public void CheckBeep()
         {
             CheckMultipleChoice<BeepSound,CommandCameraBeepSound>(
@@ -123,8 +110,8 @@ namespace GoPro.Hero.Api.Tests
         public void CheckBootloaderVersion()
         {
             Version version;
-            GetCamera().BootLoader(out version);
-            Assert.AreEqual(ExpectedParameters.VERSION, version.ToString());
+            var versionState=GetCamera().BootLoader(out version).BacpacInformation.BootloaderVersion;
+            Assert.AreEqual(versionState, version);
         }
 
         [TestMethod]
@@ -321,6 +308,303 @@ namespace GoPro.Hero.Api.Tests
             spotMeterState = !spotMeterInit;
             GetCamera().SpotMeter(spotMeterInit).SpotMeter(out spotMeterState);
             Assert.AreEqual(spotMeterInit, spotMeterState);
+        }
+
+        [TestMethod]
+        public void CheckFieldOfView()
+        {
+            FieldOfView fieldOfViewInit;
+            FieldOfView fieldOfViewState;
+
+            var validStates = GetCamera().FieldOfView(out fieldOfViewInit).ValidFieldOfView();
+
+            foreach (var fieldOfView in validStates)
+            {        
+                GetCamera().FieldOfView(fieldOfView).FieldOfView(out fieldOfViewState);
+                Assert.AreEqual(fieldOfView, fieldOfViewState);
+            }
+
+            GetCamera().FieldOfView(fieldOfViewInit).FieldOfView(out fieldOfViewState);
+            Assert.AreEqual(fieldOfViewInit, fieldOfViewState);
+        }
+
+        [TestMethod]
+        public void CheckFrameRate()
+        {
+            FrameRate frameRateInit;
+            FrameRate frameRateState;
+
+            var validStates = GetCamera().FrameRate(out frameRateInit).ValidFrameRate();
+
+            foreach (var frameRate in validStates)
+            {
+                GetCamera().FrameRate(frameRate).FrameRate(out frameRateState);
+                Assert.AreEqual(frameRate, frameRateState);
+            }
+
+            GetCamera().FrameRate(frameRateInit).FrameRate(out frameRateState);
+            Assert.AreEqual(frameRateInit, frameRateState);
+        }
+
+        [TestMethod]
+        public void CheckFullName()
+        {
+            string fullName;
+
+            var fullnameState=GetCamera().FullName(out fullName).Information.Name;
+            Assert.AreEqual(fullnameState, fullName);
+        }
+
+        [TestMethod]
+        public void CheckIpAddress()
+        {
+            string ipAddress;
+
+            GetCamera().IpAddress(out ipAddress);
+            Assert.AreEqual(ExpectedParameters.IP_ADDRESS, ipAddress);
+        }
+
+        [TestMethod]
+        public void CheckLedBlink()
+        {
+            CheckMultipleChoice<LedBlink, CommandCameraLedBlink>(
+                (v) =>
+                {
+                    LedBlink ledBlink;
+                    GetCamera().LedBlink(v).LedBlink(out ledBlink);
+                    return ledBlink;
+                }
+            ,
+                () =>
+                {
+                    LedBlink ledBlink;
+                    GetCamera().LedBlink(out ledBlink);
+                    return ledBlink;
+                }
+            );
+        }
+
+        [TestMethod]
+        public void CheckModes()
+        {
+            CheckMultipleChoice<Mode, CommandCameraMode>(
+                (v) =>
+                {
+                    Mode mode;
+                    GetCamera().Mode(v).Mode(out mode);
+                    return mode;
+                }
+            ,
+                () =>
+                {
+                    Mode mode;
+                    GetCamera().Mode(out mode);
+                    return mode;
+                }
+            );
+        }
+
+        [TestMethod]
+        public void CheckModel()
+        {
+            Model model;
+
+            var modelState = GetCamera().Model(out model).BacpacStatus.CameraModel;
+            Assert.AreEqual(modelState, model);
+        }
+
+        [TestMethod]
+        public void CheckOrientation()
+        {
+            CheckMultipleChoice<Orientation, CommandCameraOrientation>(
+                (v) =>
+                {
+                    Orientation orientation;
+                    GetCamera().Orientation(v).Orientation(out orientation);
+                    return orientation;
+                }
+            ,
+                () =>
+                {
+                    Orientation orientation;
+                    GetCamera().Orientation(out orientation);
+                    return orientation;
+                }
+            );
+        }
+
+        [TestMethod]
+        public void CheckPassword()
+        {
+            string password;
+
+            GetCamera().Password(out password);
+            Assert.AreEqual(ExpectedParameters.PASSWORD, password);
+        }
+
+        [TestMethod]
+        public void CheckPhotoCount()
+        {
+            int count;
+            
+            var countState=GetCamera().PhotoCount(out count).ExtendedSettings.PhotosCount;
+            Assert.AreEqual(countState, count);
+        }
+
+        [TestMethod]
+        public void CheckVideoCount()
+        {
+            int count;
+
+            var countState = GetCamera().VideoCount(out count).ExtendedSettings.VideosCount;
+            Assert.AreEqual(countState, count);
+        }
+
+
+        [TestMethod]
+        public void CheckVideoResolution()
+        {
+            VideoResolution videoResolutionInit;
+            VideoResolution videoResolutionState;
+
+            var validStates = GetCamera().VideoResolution(out videoResolutionInit).ValidVideoResolution();
+
+            foreach (var videoResolution in validStates)
+            {
+                GetCamera().VideoResolution(videoResolution).VideoResolution(out videoResolutionState);
+                Assert.AreEqual(videoResolution, videoResolutionState);
+            }
+
+            GetCamera().VideoResolution(videoResolutionInit).VideoResolution(out videoResolutionState);
+            Assert.AreEqual(videoResolutionInit, videoResolutionState);
+        }
+
+        [TestMethod]
+        public void CheckPhotoResolution()
+        {
+            PhotoResolution photoResolutionInit;
+            PhotoResolution photoResolutionState;
+
+            var validStates = GetCamera().PhotoResolution(out photoResolutionInit).ValidPhotoResolution();
+
+            foreach (var photoResolution in validStates)
+            {
+                GetCamera().PhotoResolution(photoResolution).PhotoResolution(out photoResolutionState);
+                Assert.AreEqual(photoResolution, photoResolutionState);
+            }
+
+            GetCamera().PhotoResolution(photoResolutionInit).PhotoResolution(out photoResolutionState);
+            Assert.AreEqual(photoResolutionInit, photoResolutionState);
+        }
+
+        [TestMethod]
+        public void CheckPower()
+        {
+            bool powerInit;
+            bool powerState;
+
+            GetCamera().Power(out powerInit).PowerOff().Power(out powerState);
+            Assert.IsFalse(powerState);
+
+            GetCamera().PowerOn().Power(out powerState);
+            Assert.IsTrue(powerState);
+
+            GetCamera().Power(powerInit).Power(out powerState);
+            Assert.AreEqual(powerInit, powerState);
+        }
+
+        [TestMethod]
+        public void CheckSignalStrength()
+        {
+            SignalStrength signalStrength;
+
+            var signalState = GetCamera().SignalStrength(out signalStrength).BacpacStatus.Rssi;
+            Assert.AreEqual(signalState, signalStrength);
+        }
+
+        [TestMethod]
+        public void CheckSsid()
+        {
+            string ssid;
+
+            var ssidState = GetCamera().Ssid(out ssid).BacpacInformation.Ssid;
+            Assert.AreEqual(ssidState, ssid);
+        }
+
+        [TestMethod]
+        public void CheckTimeLapse()
+        {
+            CheckMultipleChoice<TimeLapse, CommandCameraTimeLapse>(
+                (v) =>
+                {
+                    TimeLapse timeLapse;
+                    GetCamera().TimeLapse(v).TimeLapse(out timeLapse);
+                    return timeLapse;
+                }
+            ,
+                () =>
+                {
+                    TimeLapse timeLapse;
+                    GetCamera().TimeLapse(out timeLapse);
+                    return timeLapse;
+                }
+            );
+        }
+
+        [TestMethod]
+        public void CheckVersion()
+        {
+            string version;
+
+            var versionState = GetCamera().Version(out version).Information.Version;
+            Assert.AreEqual(versionState, version);
+        }
+
+        [TestMethod]
+        public void CheckWhiteBalance()
+        {
+            WhiteBalance whiteBalanceInit;
+            WhiteBalance whiteBalanceState;
+
+            var validStates = GetCamera().WhiteBalance(out whiteBalanceInit).ValidWhiteBalance();
+
+            foreach (var whiteBalance in validStates)
+            {
+                GetCamera().WhiteBalance(whiteBalance).WhiteBalance(out whiteBalanceState);
+                Assert.AreEqual(whiteBalance, whiteBalanceState);
+            }
+
+            GetCamera().WhiteBalance(whiteBalanceInit).WhiteBalance(out whiteBalanceState);
+            Assert.AreEqual(whiteBalanceInit, whiteBalanceState);
+        }
+
+        [TestMethod]
+        public void CheckVideoStandard()
+        {
+            CheckMultipleChoice<VideoStandard, CommandCameraVideoStandard>(
+                (v) =>
+                {
+                    VideoStandard videoStandard;
+                    GetCamera().VideoStandard(v).VideoStandard(out videoStandard);
+                    return videoStandard;
+                }
+            ,
+                () =>
+                {
+                    VideoStandard videoStandard;
+                    GetCamera().VideoStandard(out videoStandard);
+                    return videoStandard;
+                }
+            );
+        }
+
+        [TestMethod]
+        public void CheckFirmware()
+        {
+            Version version;
+            var versionState=GetCamera().Firmware(out version).BacpacInformation.FirmwareVersion;
+
+            Assert.Equals(versionState, version);
         }
 
         [TestMethod]

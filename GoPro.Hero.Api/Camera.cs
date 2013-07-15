@@ -1,10 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text;
 using GoPro.Hero.Api.Commands;
 using GoPro.Hero.Api.Commands.CameraCommands;
-using GoPro.Hero.Api.Exceptions;
 using GoPro.Hero.Api.Filtering;
 using GoPro.Hero.Api.Utilities;
 

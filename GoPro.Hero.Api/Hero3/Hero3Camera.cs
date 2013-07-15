@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using GoPro.Hero.Api.Commands.CameraCommands;
 
 namespace GoPro.Hero.Api.Hero3
