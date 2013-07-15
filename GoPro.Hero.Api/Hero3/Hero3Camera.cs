@@ -92,6 +92,17 @@ namespace GoPro.Hero.Api.Hero3
             return this;
         }
 
+        public IEnumerable<bool> ValidProtune()
+        {
+            return base.PrepareCommand<CommandCameraProtune>().ValidStates();
+        }
+
+        public Hero3Camera ValidProtune(out IEnumerable<bool> validProtune)
+        {
+            validProtune = this.ValidProtune();
+            return this;
+        }
+
         public Hero3Camera PhotoResolution(PhotoResolution resolution)
         {
             return base.PrepareCommand<CommandCameraPhotoResolution>().Select(resolution).Execute() as Hero3Camera;
@@ -198,6 +209,17 @@ namespace GoPro.Hero.Api.Hero3
         public Hero3Camera FieldOfView(out FieldOfView fieldOfView)
         {
             fieldOfView = base.ExtendedSettings.FieldOfView;
+            return this;
+        }
+
+        public IEnumerable<FieldOfView> ValidFieldOfView()
+        {
+            return base.PrepareCommand<CommandCameraFieldOfView>().ValidStates();
+        }
+
+        public Hero3Camera ValidFieldOfView(out IEnumerable<FieldOfView> validFieldOfView)
+        {
+            validFieldOfView = this.ValidFieldOfView();
             return this;
         }
 
@@ -390,7 +412,7 @@ namespace GoPro.Hero.Api.Hero3
 
         public Hero3Camera BatteryStatus(out byte batteryStatus)
         {
-            batteryStatus = base.ExtendedSettings.Battery;
+            batteryStatus = base.Settings.Battery;
             return this;
         }
 

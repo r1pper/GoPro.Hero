@@ -244,7 +244,6 @@ namespace GoPro.Hero.Api.Tests
             var initPhoto = camera.ExtendedSettings.PhotosCount;
             var initVideo = camera.ExtendedSettings.VideosCount;
 
-            CommandCameraDeleteLastFileOnSd command;
             var photo = camera.PrepareCommand<CommandCameraDeleteLastFileOnSd>().Execute().ExtendedSettings.PhotosCount;
             var video = camera.ExtendedSettings.VideosCount;
 

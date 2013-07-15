@@ -14,6 +14,8 @@ namespace GoPro.Hero.Api.Tests
         public const string TEMP_NAME = "Xan Alpha";
         public const string REAL_NAME = "Hero3-Black";
 
+        public const string VERSION = "3.2.0.27";
+
         public const VideoStandard DEFAULT_VIDEO = VideoStandard.Ntsc;
     }
 }
