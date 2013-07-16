@@ -54,6 +54,7 @@
     <Compile Include="CameraTests.cs" />
     <Compile Include="ExpectedParameters.cs" />
     <Compile Include="Hero3CameraTests.cs" />
+    <Compile Include="M3u8Tests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -61,6 +62,14 @@
       <Project>{5c83722f-198b-451d-8531-2aa0722f55b9}</Project>
       <Name>GoPro.Hero.Api</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\amba.m3u8" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\main.htm" />
+    <EmbeddedResource Include="Resources\dcim.htm" />
+    <EmbeddedResource Include="Resources\live.htm" />
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">

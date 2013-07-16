@@ -56,7 +56,7 @@ namespace GoPro.Hero.Api.Utilities
             using (var sr = new StreamReader(stream))
             {
                 var line = string.Empty;
-                while (!sr.EndOfStream)
+                do
                 {
                     if (string.IsNullOrEmpty(line) || line.EndsWith(","))
                     {
@@ -73,7 +73,7 @@ namespace GoPro.Hero.Api.Utilities
                     }
 
                     line = string.Empty;
-                }
+                } while (!sr.EndOfStream || !string.IsNullOrEmpty(line));
             }
         }
     }
