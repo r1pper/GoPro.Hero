@@ -13,6 +13,7 @@ namespace GoPro.Hero.Api.Browser
         public string Name { get; private set; }
         public Uri Path { get; private set; }
         public NodeType Type { get; private set; }
+        public string Size {get;private set;}
 
         public IEnumerable<Node> Nodes()
         {
@@ -48,18 +49,19 @@ namespace GoPro.Hero.Api.Browser
         }
 
         private Node(ICamera camera, Uri address, IBrowser browser)
-            : this(camera, address, NodeType.Root, browser)
+            : this(camera, address, NodeType.Root,string.Empty, browser)
         {
             this.Type = address.AbsolutePath == "/"
                 ? NodeType.Root : this._browser.IsFile(address)
                 ? NodeType.File : NodeType.Folder;
         }
 
-        private Node(ICamera camera, Uri address, NodeType type, IBrowser browser)
+        internal Node(ICamera camera, Uri address, NodeType type,string size, IBrowser browser)
         {
             _browser = browser;
             this.Path = address;
             this.Type = type;
+            this.Size = size;
             this.Name = this.Path.AbsolutePath.Split('/').Last();
         }
 
@@ -69,15 +71,6 @@ namespace GoPro.Hero.Api.Browser
             browser.Initialize(camera, address);
 
             var node = new Node(camera,address,browser);
-            return node;
-        }
-
-        internal static Node Create<T>(ICamera camera, Uri address,NodeType type) where T : IBrowser
-        {
-            var browser = Activator.CreateInstance<T>();
-            browser.Initialize(camera, address);
-
-            var node = new Node(camera, address,type,browser);
             return node;
         }
     }

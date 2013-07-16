@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using GoPro.Hero.Api.Browser;
 using GoPro.Hero.Api.Commands.CameraCommands;
 
 namespace GoPro.Hero.Api.Hero3
@@ -12,6 +13,11 @@ namespace GoPro.Hero.Api.Hero3
         }
 
         public Hero3Camera(string address) : base(Bacpac.Create(address)) { }
+
+        public Node Browse()
+        {
+            return base.Browse<AmbrellaBrowser>();
+        }
 
         public Hero3Camera VideoResolution(VideoResolution resolution)
         {

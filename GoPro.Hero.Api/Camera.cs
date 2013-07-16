@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Text;
+using GoPro.Hero.Api.Browser;
 using GoPro.Hero.Api.Commands;
 using GoPro.Hero.Api.Commands.CameraCommands;
 using GoPro.Hero.Api.Filtering;
@@ -68,6 +69,12 @@ namespace GoPro.Hero.Api
             if (!string.IsNullOrEmpty(name)) return name;
             name = this.Information.Name;
             return name.Fix();
+        }
+
+        public Node Browse<T>(int port=8080)where T:IBrowser
+        {
+            var node = Node.Create<T>(this, new Uri(string.Format("http://{0}:{1}", this.bacpac.Address, port)));
+            return node;
         }
 
         public ICamera GetName(out string name)
