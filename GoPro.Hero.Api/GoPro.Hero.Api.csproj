@@ -40,6 +40,11 @@
     <Compile Include="Bacpac.cs" />
     <Compile Include="BacpacInformation.cs" />
     <Compile Include="BacpacStatus.cs" />
+    <Compile Include="Browser\AmbrellaBrowser.cs" />
+    <Compile Include="Browser\Browser.cs" />
+    <Compile Include="Browser\IBrowser.cs" />
+    <Compile Include="Browser\Node.cs" />
+    <Compile Include="Browser\NodeType.cs" />
     <Compile Include="Camera.cs" />
     <Compile Include="CameraExtendedSettings.cs" />
     <Compile Include="CameraInformation.cs" />
