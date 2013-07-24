@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
+  <metadata>
+    <id>TidyNetPortable</id>
+    <version>1.0.0</version>
+    <title>Tidy.net Portable</title>
+    <authors>Ripper</authors>
+    <owners>Ripper</owners>
+    <licenseUrl>http://www.w3.org/Consortium/Legal/2002/copyright-software-20021231</licenseUrl>
+    <projectUrl>https://github.com/r1pper/TidyNetPortable</projectUrl>
+    <iconUrl>http://www.w3.org/People/Raggett/tidy/tidy.gif</iconUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>PCL (Portable Class Library) Version of Dave Ragget's Tidy Library based on Tidy.NET  (http://sourceforge.net/projects/tidynet/)</description>
+    <releaseNotes />
+    <copyright />
+    <language />
+    <tags>Tidy Tidy.net Portable Class Library PCL</tags>
+    <references>
+      <reference file="TidyNetPortable.dll" />
+    </references>
+  </metadata>
+</package>

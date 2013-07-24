@@ -25,7 +25,9 @@ namespace GoPro.Hero.Api.Browser
             Path = address;
             Type = type;
             Size = size;
-            Name = Path.AbsolutePath.Split('/').Last();
+
+            var segments = Path.AbsolutePath.Split('/');
+            Name = string.IsNullOrEmpty(segments.Last())  ? segments[segments.Length - 2] : segments.Last();
         }
 
         public ICamera Camera { get; private set; }

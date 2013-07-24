@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Net;
 using System.Xml.Linq;
 using GoPro.Hero.Api.Exceptions;
+using HtmlTidy = Tidy.Core.Tidy;
 
 namespace GoPro.Hero.Api.Browser
 {
@@ -57,7 +58,8 @@ namespace GoPro.Hero.Api.Browser
             using (var response = webRequest.EndGetResponse(res))
             {
                 var stream = response.GetResponseStream();
-                var page = XElement.Load(stream);
+                var tidy = new HtmlTidy();
+                var page=tidy.ParseXml(stream);
                 stream.Dispose();
                 return page;
             }
