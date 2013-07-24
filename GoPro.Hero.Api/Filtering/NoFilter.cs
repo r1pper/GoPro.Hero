@@ -1,77 +1,26 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.Generic;
+using GoPro.Hero.Api.Commands;
 using GoPro.Hero.Api.Utilities;
 
 namespace GoPro.Hero.Api.Filtering
 {
-    class NoFilter<O>:IFilter<O>where O:IFilterProvider
+    internal class NoFilter<TO> : IFilter<TO> where TO : IFilterProvider
     {
-        private O _owner;
+        public TO Owner { get; set; }
 
-        public void Initialize(O owner)
+        public void Initialize(TO owner)
         {
-            _owner = owner;
+            Owner = owner;
         }
 
-        public bool IsAvailable(Commands.CommandRequest<O> command)
-        {
-            return true;
-        }
-
-        public bool IsAvailable<C>() where C : Commands.CommandRequest<O>
-        {
-            return true;
-        }
-
-        public O Available<C>(out bool state) where C : Commands.CommandRequest<O>
-        {
-            state = true;
-            return _owner;
-        }
-
-        public IEnumerable<T> GetValidStates<T>(Commands.CommandMultiChoice<T, O> command)
+        public IEnumerable<T> GetValidStates<T, TC>() where TC : CommandMultiChoice<T, TO>
         {
             return Extensions.GetValues<T>();
         }
 
-        public IEnumerable<T> GetValidStates<T, C>() where C : Commands.CommandMultiChoice<T, O>
+        public IEnumerable<bool> GetValidStates<TC>() where TC : CommandBoolean<TO>
         {
-            return Extensions.GetValues<T>();
-        }
-
-        public O ValidStates<T, C>(out IEnumerable<T> validStates) where C : Commands.CommandMultiChoice<T, O>
-        {
-            validStates = Extensions.GetValues<T>();
-            return _owner;
-        }
-
-        public IEnumerable<bool> GetValidStates(Commands.CommandBoolean<O> command)
-        {
-            return new[] { true, false };
-        }
-
-        public IEnumerable<bool> GetValidStates<C>() where C : Commands.CommandBoolean<O>
-        {
-            return new[] { true, false };
-        }
-
-        public O ValidStates<C>(out IEnumerable<bool> validStates) where C : Commands.CommandBoolean<O>
-        {
-            validStates = new[] { true, false };
-            return _owner;
-        }
-
-        public bool IsValid(Commands.CommandRequest<O> command)
-        {
-            return true;
-        }
-
-        public O Valid(Commands.CommandRequest<O> command, out bool state)
-        {
-            state = true;
-            return _owner;
+            return new[] {true, false};
         }
     }
 }

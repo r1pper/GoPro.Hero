@@ -1,22 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Net;
-using System.Text;
 using System.Xml.Linq;
 using GoPro.Hero.Api.Exceptions;
 
 namespace GoPro.Hero.Api.Browser
 {
-    public abstract class Browser:IBrowser
+    public abstract class Browser : IBrowser
     {
         public Uri Address { get; private set; }
         public ICamera Camera { get; private set; }
 
         public void Initialize(ICamera camera, Uri address)
         {
-            this.Camera = camera;
-            this.Address = address;
+            Camera = camera;
+            Address = address;
         }
 
 
@@ -25,7 +23,7 @@ namespace GoPro.Hero.Api.Browser
             try
             {
                 var page = LoadPage(address);
-                this.Parse(page);
+                Parse(page);
 
                 return true;
             }
@@ -37,19 +35,19 @@ namespace GoPro.Hero.Api.Browser
 
         public IEnumerable<Node> Nodes()
         {
-            var page = this.LoadPage(this.Address);
-            return this.Parse(page);
+            var page = LoadPage(Address);
+            return Parse(page);
         }
 
         public IEnumerable<Node> Nodes(Node node)
         {
-            var page = this.LoadPage(node.Path);
-            return this.Parse(page);
+            var page = LoadPage(node.Path);
+            return Parse(page);
         }
 
         private XElement LoadPage(Uri address)
         {
-            var webRequest = HttpWebRequest.CreateHttp(address);
+            var webRequest = WebRequest.CreateHttp(address);
 
             var res = webRequest.BeginGetResponse(null, null);
             res.AsyncWaitHandle.WaitOne();

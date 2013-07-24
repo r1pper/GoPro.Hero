@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Text;
 
 namespace GoPro.Hero.Api
@@ -22,16 +20,16 @@ namespace GoPro.Hero.Api
             {
                 binReader.ReadByte();
 
-                this.Version = binReader.ReadByte();
-                this.Model = binReader.ReadByte();
-                this.Id = Encoding.UTF8.GetString(binReader.ReadBytes(2), 0, 2);
-                this.BootloaderVersion = new Version(
+                Version = binReader.ReadByte();
+                Model = binReader.ReadByte();
+                Id = Encoding.UTF8.GetString(binReader.ReadBytes(2), 0, 2);
+                BootloaderVersion = new Version(
                     binReader.ReadByte(),
                     binReader.ReadByte(),
                     binReader.ReadByte(),
                     binReader.ReadByte()
                     );
-                this.FirmwareVersion = new Version(
+                FirmwareVersion = new Version(
                     binReader.ReadByte(),
                     binReader.ReadByte(),
                     binReader.ReadByte(),
@@ -40,12 +38,12 @@ namespace GoPro.Hero.Api
 
                 var macBuilder = new StringBuilder();
                 macBuilder.Append(Convert.ToString(binReader.ReadByte(), 16));
-                for (int i = 0; i < 5; i++)
+                for (var i = 0; i < 5; i++)
                     macBuilder.Append("-").Append(Convert.ToString(binReader.ReadByte(), 16));
-                this.MacAddress = macBuilder.ToString();
+                MacAddress = macBuilder.ToString();
 
                 var ssidLength = binReader.ReadByte();
-                this.Ssid = Encoding.UTF8.GetString(binReader.ReadBytes(ssidLength), 0, ssidLength);
+                Ssid = Encoding.UTF8.GetString(binReader.ReadBytes(ssidLength), 0, ssidLength);
             }
         }
     }

@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace GoPro.Hero.Api.Exceptions
+﻿namespace GoPro.Hero.Api.Exceptions
 {
-    class CommandFailedException:GoProException
+    internal class CommandFailedException : GoProException
     {
     }
 }

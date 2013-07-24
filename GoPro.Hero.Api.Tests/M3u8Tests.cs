@@ -1,18 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
 using GoPro.Hero.Api.Utilities;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace GoPro.Hero.Api.Tests
 {
     [TestClass]
-    public class M3u8Tests
+    public class M3U8Tests
     {
-        private string[] _expected = new[]{
+        private readonly string[] _expected = new[]
+            {
                 "amba_hls-7.ts",
                 "amba_hls-8.ts",
                 "amba_hls-9.ts",
@@ -20,13 +17,14 @@ namespace GoPro.Hero.Api.Tests
                 "amba_hls-11.ts",
                 "amba_hls-12.ts",
                 "amba_hls-13.ts",
-                "amba_hls-14.ts",
-        };
+                "amba_hls-14.ts"
+            };
 
-        private M3u8Parser GetParser()
+        private M3U8Parser GetParser()
         {
-            var sample = Assembly.GetExecutingAssembly().GetManifestResourceStream("GoPro.Hero.Api.Tests.Resources.amba.m3u8");
-            return new M3u8Parser(sample);
+            var sample =
+                Assembly.GetExecutingAssembly().GetManifestResourceStream("GoPro.Hero.Api.Tests.Resources.amba.m3u8");
+            return new M3U8Parser(sample);
         }
 
         [TestMethod]
@@ -49,7 +47,7 @@ namespace GoPro.Hero.Api.Tests
 
             Assert.AreEqual(8, files.Length);
 
-            for (int i = 0; i < files.Length; i++)
+            for (var i = 0; i < files.Length; i++)
                 Assert.AreEqual(_expected[i], files[i]);
         }
 
@@ -58,7 +56,7 @@ namespace GoPro.Hero.Api.Tests
         {
             var parser = GetParser();
 
-            for (int i = 0; i < _expected.Length; i++)
+            for (var i = 0; i < _expected.Length; i++)
                 Assert.AreEqual(_expected[i], parser.Dequeue());
         }
     }

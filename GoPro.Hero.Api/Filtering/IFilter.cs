@@ -1,16 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.Generic;
 using GoPro.Hero.Api.Commands;
 
 namespace GoPro.Hero.Api.Filtering
 {
-    public interface IFilter<O>where O:IFilterProvider
+    public interface IFilter<TO> where TO : IFilterProvider
     {
-        void Initialize(O owner);
+        void Initialize(TO owner);
 
-        IEnumerable<T> GetValidStates<T, C>() where C : CommandMultiChoice<T, O>;
-        IEnumerable<bool> GetValidStates<C>() where C : CommandBoolean<O>;
+        IEnumerable<T> GetValidStates<T, TC>() where TC : CommandMultiChoice<T, TO>;
+        IEnumerable<bool> GetValidStates<TC>() where TC : CommandBoolean<TO>;
     }
 }

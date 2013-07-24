@@ -1,272 +1,272 @@
 <Filter>
-  <CommandCameraProtune Model="Hero3White"/>
+  <CommandCameraProtune Model="Hero3White" />
   <CommandCameraProtune Model="Hero3Silver">
-    <true/>
-    <false/>
+    <true />
+    <false />
   </CommandCameraProtune>
   <CommandCameraProtune Model="Hero3Black">
-    <true/>
-    <false/>
+    <true />
+    <false />
   </CommandCameraProtune>
-  
+
   <CommandCameraWhiteBalance Protune="true">
-    <Auto/>
-    <Wb3000K/>
-    <Wb5500K/>
-    <Wb6500K/>
-    <Raw/>
+    <Auto />
+    <Wb3000K />
+    <Wb5500K />
+    <Wb6500K />
+    <Raw />
   </CommandCameraWhiteBalance>
-  <CommandCameraWhiteBalance Protune="false"/>
+  <CommandCameraWhiteBalance Protune="false" />
 
 
-  <CommandCameraLoopingVideo Protune="true"/>
+  <CommandCameraLoopingVideo Protune="true" />
   <CommandCameraLoopingVideo Protune="false">
-    <Off/>
-    <Max/>
-    <Min5/>
-    <Min20/>
-    <Min60/>
-    <Min120/>
+    <Off />
+    <Max />
+    <Min5 />
+    <Min20 />
+    <Min60 />
+    <Min120 />
   </CommandCameraLoopingVideo>
 
-  <CommandCameraPhotoResolution Model="Hero3White"/>
+  <CommandCameraPhotoResolution Model="Hero3White" />
   <CommandCameraPhotoResolution Model="Hero3Silver">
-    <Wide11Mp/>
-    <Medium8Mp/>
-    <Wide5Mp/>
-    <Medium5Mp/>
+    <Wide11Mp />
+    <Medium8Mp />
+    <Wide5Mp />
+    <Medium5Mp />
   </CommandCameraPhotoResolution>
   <CommandCameraPhotoResolution Model="Hero3Black">
-    <Wide12Mp/>
-    <Wide7Mp/>
-    <Medium7Mp/>
-    <Medium5Mp/>
+    <Wide12Mp />
+    <Wide7Mp />
+    <Medium7Mp />
+    <Medium5Mp />
   </CommandCameraPhotoResolution>
-  
-  <CommandCameraVideoResolution  Model="Hero3White">
-    <Vr1080/>
-    <Vr960/>
-    <Vr720/>
-    <Wvga/>
+
+  <CommandCameraVideoResolution Model="Hero3White">
+    <Vr1080 />
+    <Vr960 />
+    <Vr720 />
+    <Wvga />
   </CommandCameraVideoResolution>
   <CommandCameraVideoResolution Protune="true" Model="Hero3Silver">
-    <Vr1080/>
-    <Vr960/>
-    <Vr720/>
+    <Vr1080 />
+    <Vr960 />
+    <Vr720 />
   </CommandCameraVideoResolution>
   <CommandCameraVideoResolution Protune="false" Model="Hero3Silver">
-    <Vr1080/>
-    <Vr960/>
-    <Vr720/>
-    <Wvga/>
+    <Vr1080 />
+    <Vr960 />
+    <Vr720 />
+    <Wvga />
   </CommandCameraVideoResolution>
   <CommandCameraVideoResolution Protune="true" Model="Hero3Black">
-    <Vr4kCin/>
-    <Vr4K/>
-    <Vr2Point7KCin/>
-    <Vr2Point7/>
-    <Vr1440/>
-    <Vr1080/>
-    <Vr960/>
-    <Vr720/>
+    <Vr4kCin />
+    <Vr4K />
+    <Vr2Point7KCin />
+    <Vr2Point7 />
+    <Vr1440 />
+    <Vr1080 />
+    <Vr960 />
+    <Vr720 />
   </CommandCameraVideoResolution>
   <CommandCameraVideoResolution Protune="false" Model="Hero3Black">
-    <Vr4kCin/>
-    <Vr4K/>
-    <Vr2Point7KCin/>
-    <Vr2Point7/>
-    <Vr1440/>
-    <Vr1080/>
-    <Vr960/>
-    <Vr720/>
-    <Wvga/>
+    <Vr4kCin />
+    <Vr4K />
+    <Vr2Point7KCin />
+    <Vr2Point7 />
+    <Vr1440 />
+    <Vr1080 />
+    <Vr960 />
+    <Vr720 />
+    <Wvga />
   </CommandCameraVideoResolution>
 
 
   <CommandCameraFieldOfView VideoResolution="Vr720" Model="Hero3White">
-    <Wide/>
+    <Wide />
   </CommandCameraFieldOfView>
-    <CommandCameraFieldOfView VideoResolution="Vr1080" Model="Hero3White">
-    <Medium/>
+  <CommandCameraFieldOfView VideoResolution="Vr1080" Model="Hero3White">
+    <Medium />
   </CommandCameraFieldOfView>
   <CommandCameraFieldOfView VideoResolution="Vr720" Model="Hero3Silver">
-    <Wide/>
+    <Wide />
   </CommandCameraFieldOfView>
   <CommandCameraFieldOfView VideoResolution="Vr1080" Model="Hero3Silver">
-    <Wide/>
-    <Medium/>
-    <Narrow/>
+    <Wide />
+    <Medium />
+    <Narrow />
   </CommandCameraFieldOfView>
   <CommandCameraFieldOfView VideoResolution="Vr4kCin" Model="Hero3Black">
-    <Wide/>
+    <Wide />
   </CommandCameraFieldOfView>
   <CommandCameraFieldOfView VideoResolution="Vr4K" Model="Hero3Black">
-    <Wide/>
+    <Wide />
   </CommandCameraFieldOfView>
   <CommandCameraFieldOfView VideoResolution="Vr2Point7KCin" Model="Hero3Black">
-    <Wide/>
+    <Wide />
   </CommandCameraFieldOfView>
   <CommandCameraFieldOfView VideoResolution="Vr2Point7" Model="Hero3Black">
-    <Wide/>
+    <Wide />
   </CommandCameraFieldOfView>
   <CommandCameraFieldOfView VideoResolution="Vr1440" Model="Hero3Black">
-    <Wide/>
+    <Wide />
   </CommandCameraFieldOfView>
   <CommandCameraFieldOfView VideoResolution="Vr1080" Model="Hero3Black">
-    <Wide/>
-    <Medium/>
-    <Narrow/>
+    <Wide />
+    <Medium />
+    <Narrow />
   </CommandCameraFieldOfView>
   <CommandCameraFieldOfView VideoResolution="Vr960"><!--Same for all models-->
-    <Wide/>
+    <Wide />
   </CommandCameraFieldOfView>
   <CommandCameraFieldOfView VideoResolution="Vr720" FrameRate="Fps60" Protune="false" Model="Hero3Black">
-    <Wide/>
+    <Wide />
   </CommandCameraFieldOfView>
   <CommandCameraFieldOfView VideoResolution="Vr720" FrameRate="Fps60" Protune="true" Model="Hero3Black">
-    <Wide/>
-    <Medium/>
-    <Narrow/>
+    <Wide />
+    <Medium />
+    <Narrow />
   </CommandCameraFieldOfView>
   <CommandCameraFieldOfView VideoResolution="Vr720" FrameRate="Fps50" Protune="false" Model="Hero3Black">
-    <Wide/>
+    <Wide />
   </CommandCameraFieldOfView>
   <CommandCameraFieldOfView VideoResolution="Vr720" FrameRate="Fps50" Protune="true" Model="Hero3Black">
-    <Wide/>
-    <Medium/>
-    <Narrow/>
+    <Wide />
+    <Medium />
+    <Narrow />
   </CommandCameraFieldOfView>
   <CommandCameraFieldOfView VideoResolution="Vr720" FrameRate="Fps120" Model="Hero3Black">
-    <Wide/>
-    <Narrow/>
+    <Wide />
+    <Narrow />
   </CommandCameraFieldOfView>
   <CommandCameraFieldOfView VideoResolution="Vr720" FrameRate="Fps100" Model="Hero3Black">
-    <Wide/>
-    <Narrow/>
+    <Wide />
+    <Narrow />
   </CommandCameraFieldOfView>
   <CommandCameraFieldOfView VideoResolution="Wvga"><!--Same for all models-->
-    <Wide/>
+    <Wide />
   </CommandCameraFieldOfView>
-  
+
   <CommandCameraFrameRate VideoResolution="Vr1080" VideoStandard="Ntsc" Model="Hero3White">
-    <Fps30/>
+    <Fps30 />
   </CommandCameraFrameRate>
   <CommandCameraFrameRate VideoResolution="Vr1080" VideoStandard="Pal" Model="Hero3White">
-    <Fps25/>
+    <Fps25 />
   </CommandCameraFrameRate>
   <CommandCameraFrameRate VideoResolution="Vr960" VideoStandard="Ntsc" Model="Hero3White">
-    <Fps30/>
+    <Fps30 />
   </CommandCameraFrameRate>
   <CommandCameraFrameRate VideoResolution="Vr960" VideoStandard="Pal" Model="Hero3White">
-    <Fps25/>
+    <Fps25 />
   </CommandCameraFrameRate>
   <CommandCameraFrameRate VideoResolution="Vr720" VideoStandard="Ntsc" Model="Hero3White">
-    <Fps60/>
-    <Fps30/>
+    <Fps60 />
+    <Fps30 />
   </CommandCameraFrameRate>
   <CommandCameraFrameRate VideoResolution="Vr720" VideoStandard="Pal" Model="Hero3White">
-    <Fps50/>
-    <Fps25/>
+    <Fps50 />
+    <Fps25 />
   </CommandCameraFrameRate>
-  <CommandCameraFrameRate VideoResolution="VrWvga" VideoStandard="Ntsc"  Model="Hero3White">
-    <Fps60/>
+  <CommandCameraFrameRate VideoResolution="VrWvga" VideoStandard="Ntsc" Model="Hero3White">
+    <Fps60 />
   </CommandCameraFrameRate>
-  <CommandCameraFrameRate VideoResolution="VrWvga" VideoStandard="Pal"  Model="Hero3White">
-    <Fps50/>
-  </CommandCameraFrameRate>  
+  <CommandCameraFrameRate VideoResolution="VrWvga" VideoStandard="Pal" Model="Hero3White">
+    <Fps50 />
+  </CommandCameraFrameRate>
   <CommandCameraFrameRate VideoResolution="Vr1080" VideoStandard="Ntsc" Model="Hero3Silver">
-    <Fps30/>
-    <Fps24/>
+    <Fps30 />
+    <Fps24 />
   </CommandCameraFrameRate>
   <CommandCameraFrameRate VideoResolution="Vr1080" VideoStandard="Pal" Model="Hero3Silver">
-    <Fps25/>
-    <Fps24/>
+    <Fps25 />
+    <Fps24 />
   </CommandCameraFrameRate>
   <CommandCameraFrameRate VideoResolution="Vr960" VideoStandard="Ntsc" Model="Hero3Silver">
-    <Fps48/>
-    <Fps30/>
+    <Fps48 />
+    <Fps30 />
   </CommandCameraFrameRate>
   <CommandCameraFrameRate VideoResolution="Vr960" VideoStandard="Pal" Model="Hero3Silver">
-    <Fps50/>
-    <Fps25/>
+    <Fps50 />
+    <Fps25 />
   </CommandCameraFrameRate>
   <CommandCameraFrameRate VideoResolution="Vr720" Protune="true" VideoStandard="Ntsc" Model="Hero3Silver">
-    <Fps60/>
+    <Fps60 />
   </CommandCameraFrameRate>
   <CommandCameraFrameRate VideoResolution="Vr720" Protune="true" VideoStandard="Pal" Model="Hero3Silver">
-    <Fps50/>
+    <Fps50 />
   </CommandCameraFrameRate>
   <CommandCameraFrameRate VideoResolution="Vr720" Protune="false" VideoStandard="Ntsc" Model="Hero3Silver">
-    <Fps30/>
+    <Fps30 />
   </CommandCameraFrameRate>
   <CommandCameraFrameRate VideoResolution="Vr720" Protune="false" VideoStandard="Pal" Model="Hero3Silver">
-    <Fps25/>
+    <Fps25 />
   </CommandCameraFrameRate>
-  <CommandCameraFrameRate VideoResolution="VrWvga" Protune="false" VideoStandard="Ntsc"  Model="Hero3Silver">
-    <Fps120/>
+  <CommandCameraFrameRate VideoResolution="VrWvga" Protune="false" VideoStandard="Ntsc" Model="Hero3Silver">
+    <Fps120 />
   </CommandCameraFrameRate>
-  <CommandCameraFrameRate VideoResolution="VrWvga" Protune="false" VideoStandard="Pal"  Model="Hero3Silver">
-    <Fps100/>
+  <CommandCameraFrameRate VideoResolution="VrWvga" Protune="false" VideoStandard="Pal" Model="Hero3Silver">
+    <Fps100 />
   </CommandCameraFrameRate>
-  <CommandCameraFrameRate VideoResolution="VrWvga" Protune="true"  Model="Hero3Silver"/> 
+  <CommandCameraFrameRate VideoResolution="VrWvga" Protune="true" Model="Hero3Silver" />
   <CommandCameraFrameRate VideoResolution="Vr4kCin" Model="Hero3Black">
-    <Fps12/>
+    <Fps12 />
   </CommandCameraFrameRate>
   <CommandCameraFrameRate VideoResolution="Vr4K" VideoStandard="Ntsc" Model="Hero3Black">
-    <Fps15/>
+    <Fps15 />
   </CommandCameraFrameRate>
   <CommandCameraFrameRate VideoResolution="Vr4K" VideoStandard="Pal" Model="Hero3Black">
-    <Fps12p5/>
+    <Fps12p5 />
   </CommandCameraFrameRate>
   <CommandCameraFrameRate VideoResolution="Vr2Point7KCin" Model="Hero3Black">
-    <Fps24/>
+    <Fps24 />
   </CommandCameraFrameRate>
   <CommandCameraFrameRate VideoResolution="Vr2Point7" VideoStandard="Ntsc" Model="Hero3Black">
-    <Fps30/>
+    <Fps30 />
   </CommandCameraFrameRate>
   <CommandCameraFrameRate VideoResolution="Vr2Point7" VideoStandard="Pal" Model="Hero3Black">
-    <Fps25/>
+    <Fps25 />
   </CommandCameraFrameRate>
   <CommandCameraFrameRate VideoResolution="Vr1440" VideoStandard="Ntsc" Model="Hero3Black">
-    <Fps24/>
-    <Fps30/>
-    <Fps48/>
+    <Fps24 />
+    <Fps30 />
+    <Fps48 />
   </CommandCameraFrameRate>
   <CommandCameraFrameRate VideoResolution="Vr1440" VideoStandard="Pal" Model="Hero3Black">
-    <Fps24/>
-    <Fps25/>
-    <Fps48/>
+    <Fps24 />
+    <Fps25 />
+    <Fps48 />
   </CommandCameraFrameRate>
   <CommandCameraFrameRate VideoResolution="Vr1080" VideoStandard="Ntsc" Model="Hero3Black">
-    <Fps24/>
-    <Fps30/>
-    <Fps48/>
-    <Fps60/>
+    <Fps24 />
+    <Fps30 />
+    <Fps48 />
+    <Fps60 />
   </CommandCameraFrameRate>
   <CommandCameraFrameRate VideoResolution="Vr1080" VideoStandard="Pal" Model="Hero3Black">
-    <Fps24/>
-    <Fps25/>
-    <Fps48/>
-    <Fps50/>
+    <Fps24 />
+    <Fps25 />
+    <Fps48 />
+    <Fps50 />
   </CommandCameraFrameRate>
   <CommandCameraFrameRate VideoResolution="Vr960" Protune="false" Model="Hero3Black">
-    <Fps48/>
-    <Fps100/>
+    <Fps48 />
+    <Fps100 />
   </CommandCameraFrameRate>
-  <CommandCameraFrameRate VideoResolution="Vr960"  Protune="true" Model="Hero3Black">
-    <Fps100/>
+  <CommandCameraFrameRate VideoResolution="Vr960" Protune="true" Model="Hero3Black">
+    <Fps100 />
   </CommandCameraFrameRate>
   <CommandCameraFrameRate VideoResolution="Vr720" VideoStandard="Ntsc" Model="Hero3Black">
-    <Fps60/>
-    <Fps120/>
+    <Fps60 />
+    <Fps120 />
   </CommandCameraFrameRate>
   <CommandCameraFrameRate VideoResolution="Vr720" VideoStandard="Pal" Model="Hero3Black">
-    <Fps50/>
-    <Fps100/>
+    <Fps50 />
+    <Fps100 />
   </CommandCameraFrameRate>
   <CommandCameraFrameRate VideoResolution="VrWvga" Protune="false" Model="Hero3Black">
-    <Fps240/>
+    <Fps240 />
   </CommandCameraFrameRate>
-  <CommandCameraFrameRate VideoResolution="VrWvga" Protune="true" Model="Hero3Black"/>
+  <CommandCameraFrameRate VideoResolution="VrWvga" Protune="true" Model="Hero3Black" />
 
 </Filter>

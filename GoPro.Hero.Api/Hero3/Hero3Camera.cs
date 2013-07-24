@@ -1,18 +1,22 @@
 ﻿using System;
 using System.Collections.Generic;
 using GoPro.Hero.Api.Browser;
-using GoPro.Hero.Api.Commands.CameraCommands;
+using GoPro.Hero.Api.Commands;
+using GoPro.Hero.Api.Filtering;
 
 namespace GoPro.Hero.Api.Hero3
 {
-    public class Hero3Camera:Camera
+    public class Hero3Camera : Camera
     {
-        public Hero3Camera(Bacpac bacpac) : base(bacpac) {
-            var filter = Filtering.FilterGeneric.Create("GoPro.Hero.Api.Hero3.Hero3FilterScheme.xml");
+        public Hero3Camera(Bacpac bacpac) : base(bacpac)
+        {
+            var filter = FilterGeneric.Create("GoPro.Hero.Api.Hero3.Hero3FilterScheme.xml");
             base.SetFilter(filter);
         }
 
-        public Hero3Camera(string address) : base(Bacpac.Create(address)) { }
+        public Hero3Camera(string address) : base(Bacpac.Create(address))
+        {
+        }
 
         public Node Browse()
         {
@@ -38,7 +42,7 @@ namespace GoPro.Hero.Api.Hero3
 
         public Hero3Camera ValidVideoResolution(out IEnumerable<VideoResolution> validVideoResolution)
         {
-            validVideoResolution = this.ValidVideoResolution();
+            validVideoResolution = ValidVideoResolution();
             return this;
         }
 
@@ -82,12 +86,12 @@ namespace GoPro.Hero.Api.Hero3
 
         public Hero3Camera EnableProtune()
         {
-            return this.Protune(true);
+            return Protune(true);
         }
 
         public Hero3Camera DisableProtune()
         {
-            return this.Protune(false);
+            return Protune(false);
         }
 
         public Hero3Camera Protune(out bool state)
@@ -103,7 +107,7 @@ namespace GoPro.Hero.Api.Hero3
 
         public Hero3Camera ValidProtune(out IEnumerable<bool> validProtune)
         {
-            validProtune = this.ValidProtune();
+            validProtune = ValidProtune();
             return this;
         }
 
@@ -120,13 +124,13 @@ namespace GoPro.Hero.Api.Hero3
 
         public IEnumerable<PhotoResolution> ValidPhotoResolution()
         {
-            var valid = this.PrepareCommand<CommandCameraPhotoResolution>().ValidStates();
+            var valid = PrepareCommand<CommandCameraPhotoResolution>().ValidStates();
             return valid;
         }
 
         public Hero3Camera ValidPhotoResolution(out IEnumerable<PhotoResolution> validPhotoResolution)
         {
-            validPhotoResolution = this.ValidPhotoResolution();
+            validPhotoResolution = ValidPhotoResolution();
             return this;
         }
 
@@ -159,12 +163,12 @@ namespace GoPro.Hero.Api.Hero3
 
         public Hero3Camera EnableLocate()
         {
-            return this.Locate(true);
+            return Locate(true);
         }
 
         public Hero3Camera DisableLocate()
         {
-            return this.Locate(false);
+            return Locate(false);
         }
 
         public Hero3Camera Locate(out bool state)
@@ -180,12 +184,12 @@ namespace GoPro.Hero.Api.Hero3
 
         public Hero3Camera EnableLivePreview()
         {
-            return this.LivePreview(true);
+            return LivePreview(true);
         }
 
         public Hero3Camera DisableLivePreview()
         {
-            return this.LivePreview(false);
+            return LivePreview(false);
         }
 
         public Hero3Camera LivePreview(out bool state)
@@ -223,7 +227,7 @@ namespace GoPro.Hero.Api.Hero3
 
         public Hero3Camera ValidFieldOfView(out IEnumerable<FieldOfView> validFieldOfView)
         {
-            validFieldOfView = this.ValidFieldOfView();
+            validFieldOfView = ValidFieldOfView();
             return this;
         }
 
@@ -234,12 +238,12 @@ namespace GoPro.Hero.Api.Hero3
 
         public Hero3Camera EnableSpotMeter()
         {
-            return this.SpotMeter(true);
+            return SpotMeter(true);
         }
 
         public Hero3Camera DisableSpotMeter()
         {
-            return this.SpotMeter(false);
+            return SpotMeter(false);
         }
 
         public Hero3Camera SpotMeter(out bool state)
@@ -282,13 +286,13 @@ namespace GoPro.Hero.Api.Hero3
 
         public IEnumerable<WhiteBalance> ValidWhiteBalance()
         {
-            var valid = this.PrepareCommand<CommandCameraWhiteBalance>().ValidStates();
+            var valid = PrepareCommand<CommandCameraWhiteBalance>().ValidStates();
             return valid;
         }
 
         public Hero3Camera ValidWhiteBalance(out IEnumerable<WhiteBalance> validWhiteBalance)
         {
-            validWhiteBalance = this.ValidWhiteBalance();
+            validWhiteBalance = ValidWhiteBalance();
             return this;
         }
 
@@ -305,13 +309,13 @@ namespace GoPro.Hero.Api.Hero3
 
         public IEnumerable<LoopingVideo> ValidLoopingVideo()
         {
-            var valid = this.PrepareCommand<CommandCameraLoopingVideo>().ValidStates();
+            var valid = PrepareCommand<CommandCameraLoopingVideo>().ValidStates();
             return valid;
         }
 
         public Hero3Camera ValidLoopingVideo(out IEnumerable<LoopingVideo> validLoopingVideo)
         {
-            validLoopingVideo = this.ValidLoopingVideo();
+            validLoopingVideo = ValidLoopingVideo();
             return this;
         }
 
@@ -328,13 +332,13 @@ namespace GoPro.Hero.Api.Hero3
 
         public IEnumerable<FrameRate> ValidFrameRate()
         {
-            var valid = this.PrepareCommand<CommandCameraFrameRate>().ValidStates();
+            var valid = PrepareCommand<CommandCameraFrameRate>().ValidStates();
             return valid;
         }
 
         public Hero3Camera ValidFrameRate(out IEnumerable<FrameRate> validFrameRate)
         {
-            validFrameRate = this.ValidFrameRate();
+            validFrameRate = ValidFrameRate();
             return this;
         }
 
@@ -367,17 +371,17 @@ namespace GoPro.Hero.Api.Hero3
 
         public Hero3Camera OpenShutter()
         {
-            return this.Shutter(true);
+            return Shutter(true);
         }
 
         public Hero3Camera CloseShutter()
         {
-            return this.Shutter(false);
+            return Shutter(false);
         }
 
         public Hero3Camera Shutter(out bool state)
         {
-            state = base.ExtendedSettings.Shutter|| base.BacpacStatus.ShutterStatus>0;
+            state = base.ExtendedSettings.Shutter || base.BacpacStatus.ShutterStatus > 0;
             return this;
         }
 
@@ -388,12 +392,12 @@ namespace GoPro.Hero.Api.Hero3
 
         public Hero3Camera PowerOn()
         {
-            return this.Power(true);
+            return Power(true);
         }
 
         public Hero3Camera PowerOff()
         {
-            return this.Power(false);
+            return Power(false);
         }
 
         public Hero3Camera Power(out bool state)
@@ -453,13 +457,13 @@ namespace GoPro.Hero.Api.Hero3
 
         public Hero3Camera IpAddress(out string ipAddress)
         {
-            ipAddress = base.bacpac.Address;
+            ipAddress = base.Bacpac.Address;
             return this;
         }
 
         public Hero3Camera Password(out string password)
         {
-            password = base.bacpac.Password;
+            password = base.Bacpac.Password;
             return this;
         }
 

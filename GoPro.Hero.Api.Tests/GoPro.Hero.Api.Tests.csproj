@@ -36,6 +36,8 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
+    <Reference Include="System.XML" />
+    <Reference Include="System.Xml.Linq" />
   </ItemGroup>
   <Choose>
     <When Condition="('$(VisualStudioVersion)' == '10.0' or '$(VisualStudioVersion)' == '') and '$(TargetFrameworkVersion)' == 'v3.5'">
@@ -50,11 +52,12 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="AmbrellaBrowserTests.cs" />
     <Compile Include="BacpacTests.cs" />
     <Compile Include="CameraTests.cs" />
     <Compile Include="ExpectedParameters.cs" />
     <Compile Include="Hero3CameraTests.cs" />
-    <Compile Include="M3u8Tests.cs" />
+    <Compile Include="M3U8Tests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

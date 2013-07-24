@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace GoPro.Hero.Api
+﻿namespace GoPro.Hero.Api.Commands
 {
-    static class HeroCommands
+    internal static class HeroCommands
     {
         public const string CAMERA_TIME = "/camera/TM";
         public const string CAMERA_GET_NAME = "/camera/cn";
@@ -13,9 +8,9 @@ namespace GoPro.Hero.Api
         public const string CAMERA_GET_HLS_SEGMENT = "/camera/hs";
         public const string CAMERA_SET_HLS_SEGMENT = "/camera/HS";
         //public const string CAMERA_VIDEO_RESOLUTION = "/camera/VR";
-        public const string CAMERA_VIDEO_RESOLUTION="/camera/VV";
-        public const string CAMERA_ORIENTATION="/camera/UP"; //up-down
-        public const string CAMERA_TIMELAPSE_TI="/camera/TI";
+        public const string CAMERA_VIDEO_RESOLUTION = "/camera/VV";
+        public const string CAMERA_ORIENTATION = "/camera/UP"; //up-down
+        public const string CAMERA_TIMELAPSE_TI = "/camera/TI";
         public const string CAMERA_BEEP = "/camera/BS";
         public const string CAMERA_PROTUNE = "/camera/PT";
         public const string CAMERA_PHOTO_RESOLUTION = "/camera/PR";
@@ -46,8 +41,5 @@ namespace GoPro.Hero.Api
         public const string BACPAC_GET_PASSWORD = "/bacpac/sd";
         public const string BACPAC_INFORMATION = "/bacpac/cv";
         public const string BACPAC_STATUS = "/bacpac/se";
-
-
-
     }
 }

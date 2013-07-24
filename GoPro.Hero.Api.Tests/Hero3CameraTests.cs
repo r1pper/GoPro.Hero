@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Threading;
-using GoPro.Hero.Api.Commands.CameraCommands;
+using GoPro.Hero.Api.Commands;
 using GoPro.Hero.Api.Hero3;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -15,12 +15,13 @@ namespace GoPro.Hero.Api.Tests
             return camera;
         }
 
-        private void CheckMultipleChoice<T,C>(Func<T,T> checkDelegate, Func<T> getInit)where C:Commands.CommandMultiChoice<T,ICamera>
+        private void CheckMultipleChoice<T, TC>(Func<T, T> checkDelegate, Func<T> getInit)
+            where TC : CommandMultiChoice<T, ICamera>
         {
-            var availableValues = GetCamera().PrepareCommand<C>().ValidStates(); //Enum.GetValues(typeof(T));
+            var availableValues = GetCamera().PrepareCommand<TC>().ValidStates(); //Enum.GetValues(typeof(T));
             var init = getInit();
 
-            foreach (T value in availableValues)
+            foreach (var value in availableValues)
                 Assert.AreEqual(value, checkDelegate(value));
 
             Assert.AreEqual(init, checkDelegate(init));
@@ -51,7 +52,8 @@ namespace GoPro.Hero.Api.Tests
         {
             int photoSpaceAvailable;
 
-            var photoSpace = GetCamera().AvailablePhotoSpace(out photoSpaceAvailable).ExtendedSettings.PhotosAvailableSpace;
+            var photoSpace =
+                GetCamera().AvailablePhotoSpace(out photoSpaceAvailable).ExtendedSettings.PhotosAvailableSpace;
             Assert.AreEqual(photoSpace, photoSpaceAvailable);
         }
 
@@ -60,7 +62,8 @@ namespace GoPro.Hero.Api.Tests
         {
             TimeSpan videoSpaceAvailable;
 
-            var videoSpace = GetCamera().AvailableVideoSpace(out videoSpaceAvailable).ExtendedSettings.VideosAvailableSpace;
+            var videoSpace =
+                GetCamera().AvailableVideoSpace(out videoSpaceAvailable).ExtendedSettings.VideosAvailableSpace;
             Assert.AreEqual(videoSpace, videoSpaceAvailable);
         }
 
@@ -68,7 +71,7 @@ namespace GoPro.Hero.Api.Tests
         public void CheckBattery()
         {
             byte battery;
-            byte batteryState=GetCamera().BatteryStatus(out battery).Settings.Battery;
+            var batteryState = GetCamera().BatteryStatus(out battery).Settings.Battery;
 
             Assert.AreEqual(batteryState, battery);
             Assert.IsTrue(battery > 0 && battery <= 100);
@@ -89,89 +92,89 @@ namespace GoPro.Hero.Api.Tests
         [TestMethod]
         public void CheckBeep()
         {
-            CheckMultipleChoice<BeepSound,CommandCameraBeepSound>(
-                (v) =>
-                {
-                    BeepSound beepSound;
-                    GetCamera().BeepSound(v).BeepSound(out beepSound);
-                    return beepSound;
-                }
-            ,
+            CheckMultipleChoice<BeepSound, CommandCameraBeepSound>(
+                v =>
+                    {
+                        BeepSound beepSound;
+                        GetCamera().BeepSound(v).BeepSound(out beepSound);
+                        return beepSound;
+                    }
+                ,
                 () =>
-                {
-                    BeepSound beepSound;
-                    GetCamera().BeepSound(out beepSound);
-                    return beepSound;
-                }
-            );
+                    {
+                        BeepSound beepSound;
+                        GetCamera().BeepSound(out beepSound);
+                        return beepSound;
+                    }
+                );
         }
 
         [TestMethod]
         public void CheckBootloaderVersion()
         {
             Version version;
-            var versionState=GetCamera().BootLoader(out version).BacpacInformation.BootloaderVersion;
+            var versionState = GetCamera().BootLoader(out version).BacpacInformation.BootloaderVersion;
             Assert.AreEqual(versionState, version);
         }
 
         [TestMethod]
         public void CheckBurstRate()
         {
-            CheckMultipleChoice<BurstRate,CommandCameraBurstRate>(
-                (v) =>
-                {
-                    BurstRate burstRate;
-                    GetCamera().BurstRate(v).BurstRate(out burstRate);
-                    return burstRate;
-                }
-            ,
+            CheckMultipleChoice<BurstRate, CommandCameraBurstRate>(
+                v =>
+                    {
+                        BurstRate burstRate;
+                        GetCamera().BurstRate(v).BurstRate(out burstRate);
+                        return burstRate;
+                    }
+                ,
                 () =>
-                {
-                    BurstRate burstRate;
-                    GetCamera().BurstRate(out burstRate);
-                    return burstRate;
-                }
-            );
+                    {
+                        BurstRate burstRate;
+                        GetCamera().BurstRate(out burstRate);
+                        return burstRate;
+                    }
+                );
         }
 
         [TestMethod]
         public void CheckContinuousShot()
         {
-            CheckMultipleChoice<ContinuousShot,CommandCameraContinuousShot>(
-                (v) =>
-                {
-                    ContinuousShot continuousShot;
-                    GetCamera().ContinuousShot(v).ContinuousShot(out continuousShot);
-                    return continuousShot;
-                }
-            ,
+            CheckMultipleChoice<ContinuousShot, CommandCameraContinuousShot>(
+                v =>
+                    {
+                        ContinuousShot continuousShot;
+                        GetCamera().ContinuousShot(v).ContinuousShot(out continuousShot);
+                        return continuousShot;
+                    }
+                ,
                 () =>
-                {
-                    ContinuousShot continuousShot;
-                    GetCamera().ContinuousShot(out continuousShot);
-                    return continuousShot;
-                }
-            );
+                    {
+                        ContinuousShot continuousShot;
+                        GetCamera().ContinuousShot(out continuousShot);
+                        return continuousShot;
+                    }
+                );
         }
 
         [TestMethod]
         public void CheckDefaultMode()
         {
-            CheckMultipleChoice<Mode,CommandCameraDefaultMode>(
-                (v) =>
-                {
-                    Mode mode;
-                    GetCamera().DefaultModeOnPowerOn(v).DefaultModeOnPowerOn(out mode);
-                    return mode;
-                }
-            ,
+            CheckMultipleChoice<Mode, CommandCameraDefaultMode>(
+                v =>
+                    {
+                        Mode mode;
+                        GetCamera().DefaultModeOnPowerOn(v).DefaultModeOnPowerOn(out mode);
+                        return mode;
+                    }
+                ,
                 () =>
-                {
-                    Mode mode;
-                    GetCamera().DefaultModeOnPowerOn(out mode);
-                    return mode;
-                }
-            );
+                    {
+                        Mode mode;
+                        GetCamera().DefaultModeOnPowerOn(out mode);
+                        return mode;
+                    }
+                );
         }
 
         [TestMethod]
@@ -200,8 +203,8 @@ namespace GoPro.Hero.Api.Tests
             int afterDeletePhotoCount;
 
             GetCamera().VideoCount(out videoCount).PhotoCount(out photoCount)
-                .DeleteLastFileOnSdCard()
-                .VideoCount(out afterDeleteVideoCount).PhotoCount(out afterDeletePhotoCount);
+                       .DeleteLastFileOnSdCard()
+                       .VideoCount(out afterDeleteVideoCount).PhotoCount(out afterDeletePhotoCount);
 
             Assert.IsTrue(afterDeletePhotoCount <= photoCount);
             Assert.IsTrue(afterDeleteVideoCount <= videoCount);
@@ -214,7 +217,7 @@ namespace GoPro.Hero.Api.Tests
             int photoCount;
 
             GetCamera().DeleteLastFileOnSdCard()
-                .VideoCount(out videoCount).PhotoCount(out photoCount);
+                       .VideoCount(out videoCount).PhotoCount(out photoCount);
 
             Assert.IsTrue(photoCount == 0);
             Assert.IsTrue(videoCount == 0);
@@ -258,21 +261,21 @@ namespace GoPro.Hero.Api.Tests
         [Ignore]
         public void CheckLoopingVideo()
         {
-            CheckMultipleChoice<LoopingVideo,CommandCameraLoopingVideo>(
-                (v) =>
-                {
-                    LoopingVideo loopingVideo;
-                    GetCamera().LoopingVideo(v).LoopingVideo(out loopingVideo);
-                    return loopingVideo;
-                }
-            ,
+            CheckMultipleChoice<LoopingVideo, CommandCameraLoopingVideo>(
+                v =>
+                    {
+                        LoopingVideo loopingVideo;
+                        GetCamera().LoopingVideo(v).LoopingVideo(out loopingVideo);
+                        return loopingVideo;
+                    }
+                ,
                 () =>
-                {
-                    LoopingVideo loopingVideo;
-                    GetCamera().LoopingVideo(out loopingVideo);
-                    return loopingVideo;
-                }
-            );
+                    {
+                        LoopingVideo loopingVideo;
+                        GetCamera().LoopingVideo(out loopingVideo);
+                        return loopingVideo;
+                    }
+                );
         }
 
         [TestMethod]
@@ -319,7 +322,7 @@ namespace GoPro.Hero.Api.Tests
             var validStates = GetCamera().FieldOfView(out fieldOfViewInit).ValidFieldOfView();
 
             foreach (var fieldOfView in validStates)
-            {        
+            {
                 GetCamera().FieldOfView(fieldOfView).FieldOfView(out fieldOfViewState);
                 Assert.AreEqual(fieldOfView, fieldOfViewState);
             }
@@ -351,7 +354,7 @@ namespace GoPro.Hero.Api.Tests
         {
             string fullName;
 
-            var fullnameState=GetCamera().FullName(out fullName).Information.Name;
+            var fullnameState = GetCamera().FullName(out fullName).Information.Name;
             Assert.AreEqual(fullnameState, fullName);
         }
 
@@ -368,40 +371,40 @@ namespace GoPro.Hero.Api.Tests
         public void CheckLedBlink()
         {
             CheckMultipleChoice<LedBlink, CommandCameraLedBlink>(
-                (v) =>
-                {
-                    LedBlink ledBlink;
-                    GetCamera().LedBlink(v).LedBlink(out ledBlink);
-                    return ledBlink;
-                }
-            ,
+                v =>
+                    {
+                        LedBlink ledBlink;
+                        GetCamera().LedBlink(v).LedBlink(out ledBlink);
+                        return ledBlink;
+                    }
+                ,
                 () =>
-                {
-                    LedBlink ledBlink;
-                    GetCamera().LedBlink(out ledBlink);
-                    return ledBlink;
-                }
-            );
+                    {
+                        LedBlink ledBlink;
+                        GetCamera().LedBlink(out ledBlink);
+                        return ledBlink;
+                    }
+                );
         }
 
         [TestMethod]
         public void CheckModes()
         {
             CheckMultipleChoice<Mode, CommandCameraMode>(
-                (v) =>
-                {
-                    Mode mode;
-                    GetCamera().Mode(v).Mode(out mode);
-                    return mode;
-                }
-            ,
+                v =>
+                    {
+                        Mode mode;
+                        GetCamera().Mode(v).Mode(out mode);
+                        return mode;
+                    }
+                ,
                 () =>
-                {
-                    Mode mode;
-                    GetCamera().Mode(out mode);
-                    return mode;
-                }
-            );
+                    {
+                        Mode mode;
+                        GetCamera().Mode(out mode);
+                        return mode;
+                    }
+                );
         }
 
         [TestMethod]
@@ -417,20 +420,20 @@ namespace GoPro.Hero.Api.Tests
         public void CheckOrientation()
         {
             CheckMultipleChoice<Orientation, CommandCameraOrientation>(
-                (v) =>
-                {
-                    Orientation orientation;
-                    GetCamera().Orientation(v).Orientation(out orientation);
-                    return orientation;
-                }
-            ,
+                v =>
+                    {
+                        Orientation orientation;
+                        GetCamera().Orientation(v).Orientation(out orientation);
+                        return orientation;
+                    }
+                ,
                 () =>
-                {
-                    Orientation orientation;
-                    GetCamera().Orientation(out orientation);
-                    return orientation;
-                }
-            );
+                    {
+                        Orientation orientation;
+                        GetCamera().Orientation(out orientation);
+                        return orientation;
+                    }
+                );
         }
 
         [TestMethod]
@@ -446,8 +449,8 @@ namespace GoPro.Hero.Api.Tests
         public void CheckPhotoCount()
         {
             int count;
-            
-            var countState=GetCamera().PhotoCount(out count).ExtendedSettings.PhotosCount;
+
+            var countState = GetCamera().PhotoCount(out count).ExtendedSettings.PhotosCount;
             Assert.AreEqual(countState, count);
         }
 
@@ -467,7 +470,8 @@ namespace GoPro.Hero.Api.Tests
             VideoResolution videoResolutionInit;
             VideoResolution videoResolutionState;
 
-            var validStates = GetCamera().VideoResolution(out videoResolutionInit).ValidVideoResolution();
+            var validStates =
+                GetCamera().VideoResolution(out videoResolutionInit).ValidVideoResolution();
 
             foreach (var videoResolution in validStates)
             {
@@ -485,7 +489,8 @@ namespace GoPro.Hero.Api.Tests
             PhotoResolution photoResolutionInit;
             PhotoResolution photoResolutionState;
 
-            var validStates = GetCamera().PhotoResolution(out photoResolutionInit).ValidPhotoResolution();
+            var validStates =
+                GetCamera().PhotoResolution(out photoResolutionInit).ValidPhotoResolution();
 
             foreach (var photoResolution in validStates)
             {
@@ -535,20 +540,20 @@ namespace GoPro.Hero.Api.Tests
         public void CheckTimeLapse()
         {
             CheckMultipleChoice<TimeLapse, CommandCameraTimeLapse>(
-                (v) =>
-                {
-                    TimeLapse timeLapse;
-                    GetCamera().TimeLapse(v).TimeLapse(out timeLapse);
-                    return timeLapse;
-                }
-            ,
+                v =>
+                    {
+                        TimeLapse timeLapse;
+                        GetCamera().TimeLapse(v).TimeLapse(out timeLapse);
+                        return timeLapse;
+                    }
+                ,
                 () =>
-                {
-                    TimeLapse timeLapse;
-                    GetCamera().TimeLapse(out timeLapse);
-                    return timeLapse;
-                }
-            );
+                    {
+                        TimeLapse timeLapse;
+                        GetCamera().TimeLapse(out timeLapse);
+                        return timeLapse;
+                    }
+                );
         }
 
         [TestMethod]
@@ -582,27 +587,27 @@ namespace GoPro.Hero.Api.Tests
         public void CheckVideoStandard()
         {
             CheckMultipleChoice<VideoStandard, CommandCameraVideoStandard>(
-                (v) =>
-                {
-                    VideoStandard videoStandard;
-                    GetCamera().VideoStandard(v).VideoStandard(out videoStandard);
-                    return videoStandard;
-                }
-            ,
+                v =>
+                    {
+                        VideoStandard videoStandard;
+                        GetCamera().VideoStandard(v).VideoStandard(out videoStandard);
+                        return videoStandard;
+                    }
+                ,
                 () =>
-                {
-                    VideoStandard videoStandard;
-                    GetCamera().VideoStandard(out videoStandard);
-                    return videoStandard;
-                }
-            );
+                    {
+                        VideoStandard videoStandard;
+                        GetCamera().VideoStandard(out videoStandard);
+                        return videoStandard;
+                    }
+                );
         }
 
         [TestMethod]
         public void CheckFirmware()
         {
             Version version;
-            var versionState=GetCamera().Firmware(out version).BacpacInformation.FirmwareVersion;
+            var versionState = GetCamera().Firmware(out version).BacpacInformation.FirmwareVersion;
 
             Assert.Equals(versionState, version);
         }
@@ -612,7 +617,7 @@ namespace GoPro.Hero.Api.Tests
         {
             string macAddress;
 
-            var bacPacMacAddress=GetCamera().MacAddress(out macAddress).BacpacInformation.MacAddress;
+            var bacPacMacAddress = GetCamera().MacAddress(out macAddress).BacpacInformation.MacAddress;
             Assert.AreEqual(macAddress, bacPacMacAddress);
         }
 
@@ -621,7 +626,8 @@ namespace GoPro.Hero.Api.Tests
         {
             bool livePreviewAvailable;
 
-            var livePreview = GetCamera().LivePreviewAvailable(out livePreviewAvailable).ExtendedSettings.PreviewAvailable;
+            var livePreview =
+                GetCamera().LivePreviewAvailable(out livePreviewAvailable).ExtendedSettings.PreviewAvailable;
             Assert.AreEqual(livePreview, livePreviewAvailable);
         }
     }

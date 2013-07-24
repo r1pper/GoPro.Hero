@@ -2,92 +2,99 @@
 using System.Text;
 using GoPro.Hero.Api.Browser;
 using GoPro.Hero.Api.Commands;
-using GoPro.Hero.Api.Commands.CameraCommands;
 using GoPro.Hero.Api.Filtering;
 using GoPro.Hero.Api.Utilities;
 
 namespace GoPro.Hero.Api
 {
-    public class Camera:ICamera
+    public class Camera : ICamera
     {
-        protected Bacpac bacpac;
-
-        private CameraInformation _information;
-        private CameraExtendedSettings _extendedSettings;
-        private CameraSettings _settings;
+        private readonly CameraExtendedSettings _extendedSettings;
+        private readonly CameraInformation _information;
+        private readonly CameraSettings _settings;
         private IFilter<ICamera> _filter;
+        protected Bacpac Bacpac;
+
+        public Camera(Bacpac bacpac)
+        {
+            SetFilter(new NoFilter<ICamera>());
+
+            _information = new CameraInformation();
+            _extendedSettings = new CameraExtendedSettings();
+            _settings = new CameraSettings();
+
+            this.Bacpac = bacpac;
+        }
 
         public CameraInformation Information
         {
             get
             {
-                this.GetInformation();
+                GetInformation();
                 return _information;
             }
         }
+
         public CameraExtendedSettings ExtendedSettings
         {
             get
             {
-                this.GetExtendedSettings();
+                GetExtendedSettings();
                 return _extendedSettings;
             }
         }
+
         public CameraSettings Settings
         {
             get
             {
-                this.GetSettings();
+                GetSettings();
                 return _settings;
             }
         }
 
         public ICamera SetFilter(IFilter<ICamera> filter)
         {
-            _filter=filter;
+            _filter = filter;
             filter.Initialize(this);
             return this;
         }
 
         public BacpacStatus BacpacStatus
         {
-            get { return this.bacpac.Status; }
+            get { return Bacpac.Status; }
         }
+
         public BacpacInformation BacpacInformation
         {
-            get { return this.bacpac.Information; }
+            get { return Bacpac.Information; }
         }
 
         public string GetName()
         {
-            var request = this.PrepareCommand<CommandCameraGetName>();
+            var request = PrepareCommand<CommandCameraGetName>();
             var response = request.Send();
 
             var raw = response.RawResponse;
             var length = response.RawResponse[1];
             var name = Encoding.UTF8.GetString(raw, 2, length);
             if (!string.IsNullOrEmpty(name)) return name;
-            name = this.Information.Name;
+            name = Information.Name;
             return name.Fix();
-        }
-
-        public Node Browse<T>(int port=8080)where T:IBrowser
-        {
-            var node = Node.Create<T>(this, new Uri(string.Format("http://{0}:{1}", this.bacpac.Address, port)));
-            return node;
         }
 
         public ICamera GetName(out string name)
         {
-            name = this.GetName();
+            name = GetName();
 
             return this;
         }
+
         public ICamera SetName(string name)
         {
             name = name.UrlEncode();
 
-            var request = this.PrepareCommand<CommandCameraSetName>();
+            var request = PrepareCommand<CommandCameraSetName>();
             request.Name = name;
 
             request.Send();
@@ -95,52 +102,31 @@ namespace GoPro.Hero.Api
             return this;
         }
 
-        private void GetInformation()
-        {
-            var request = this.PrepareCommand<CommandCameraInformation>();
-            var response = request.Send();
-
-            var stream = response.GetResponseStream();
-            this._information.Update(stream);
-        }
-        private void GetSettings()
-        {
-            var request = this.PrepareCommand<CommandCameraSettings>();
-            var response = request.Send();
-
-            var stream = response.GetResponseStream();
-            this._settings.Update(stream);
-        }
-        private void GetExtendedSettings()
-        {
-            var request = this.PrepareCommand<CommandCameraExtendedSettings>();
-            var response = request.Send();
-
-            var stream = response.GetResponseStream();
-            _extendedSettings.Update(stream);
-        }
-
         public ICamera Shutter(bool open)
         {
-            bacpac.Shutter(open);
+            Bacpac.Shutter(open);
             return this;
         }
+
         public ICamera Power(bool on)
         {
-            bacpac.Power(on);
+            Bacpac.Power(on);
             return this;
         }
 
         public ICamera Command(CommandRequest<ICamera> command)
         {
-            var response = command.Send();
+            command.Send();
             return this;
         }
-        public ICamera Command(CommandRequest<ICamera> command,out CommandResponse commandResponse,bool checkStatus=true)
+
+        public ICamera Command(CommandRequest<ICamera> command, out CommandResponse commandResponse,
+                               bool checkStatus = true)
         {
-            commandResponse = this.Command(command,checkStatus);
+            commandResponse = Command(command, checkStatus);
             return this;
         }
+
         public CommandResponse Command(CommandRequest<ICamera> command, bool checkStatus = true)
         {
             return command.Send(checkStatus);
@@ -148,11 +134,12 @@ namespace GoPro.Hero.Api
 
         public T PrepareCommand<T>() where T : CommandRequest<ICamera>
         {
-            return CommandRequest<ICamera>.Create<T>(this,this.bacpac.Address, passPhrase: this.bacpac.Password);
+            return CommandRequest<ICamera>.Create<T>(this, Bacpac.Address, passPhrase: Bacpac.Password);
         }
+
         public ICamera PrepareCommand<T>(out T command) where T : CommandRequest<ICamera>
         {
-            command = this.PrepareCommand<T>();
+            command = PrepareCommand<T>();
             return this;
         }
 
@@ -161,20 +148,42 @@ namespace GoPro.Hero.Api
             return _filter;
         }
 
-        public Camera(Bacpac bacpac)
+        public Node Browse<T>(int port = 8080) where T : IBrowser
         {
-            this.SetFilter(new NoFilter<ICamera>());
-
-            _information = new CameraInformation();
-            _extendedSettings = new CameraExtendedSettings();
-            _settings = new CameraSettings();
-
-            this.bacpac = bacpac;
+            var node = Node.Create<T>(this, new Uri(string.Format("http://{0}:{1}", Bacpac.Address, port)));
+            return node;
         }
 
-        public static T Create<T>(Bacpac bacpac) where T : Camera,ICamera
+        private void GetInformation()
         {
-            var camera = Activator.CreateInstance(typeof(T), bacpac) as T;
+            var request = PrepareCommand<CommandCameraInformation>();
+            var response = request.Send();
+
+            var stream = response.GetResponseStream();
+            _information.Update(stream);
+        }
+
+        private void GetSettings()
+        {
+            var request = PrepareCommand<CommandCameraSettings>();
+            var response = request.Send();
+
+            var stream = response.GetResponseStream();
+            _settings.Update(stream);
+        }
+
+        private void GetExtendedSettings()
+        {
+            var request = PrepareCommand<CommandCameraExtendedSettings>();
+            var response = request.Send();
+
+            var stream = response.GetResponseStream();
+            _extendedSettings.Update(stream);
+        }
+
+        public static T Create<T>(Bacpac bacpac) where T : Camera, ICamera
+        {
+            var camera = Activator.CreateInstance(typeof (T), bacpac) as T;
             return camera;
         }
 

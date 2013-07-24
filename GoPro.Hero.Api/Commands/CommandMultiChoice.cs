@@ -1,44 +1,39 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using GoPro.Hero.Api.Filtering;
 
 namespace GoPro.Hero.Api.Commands
 {
-    public abstract class CommandMultiChoice<T, O> : CommandRequest<O> where O:IFilterProvider
+    public abstract class CommandMultiChoice<T, TO> : CommandRequest<TO> where TO : IFilterProvider
     {
         public T Selection
         {
             get
             {
-                if (string.IsNullOrEmpty(base.parameter))
+                if (string.IsNullOrEmpty(base.Parameter))
                     return default(T);
 
-                var num = int.Parse(base.parameter.Substring(1));
-                return (T)Enum.ToObject(typeof(T), num);
+                var num = int.Parse(base.Parameter.Substring(1));
+                return (T) Enum.ToObject(typeof (T), num);
             }
 
-            set
-            {
-                base.parameter = "%" + Convert.ToInt32(value).ToString("x2");
-            }
+            set { base.Parameter = "%" + Convert.ToInt32(value).ToString("x2"); }
         }
 
-        public CommandMultiChoice<T, O> Select(T mode)
+        public CommandMultiChoice<T, TO> Select(T mode)
         {
-            this.Selection = mode;
+            Selection = mode;
             return this;
         }
 
         public IEnumerable<T> ValidStates()
         {
-            return base.filter.GetValidStates<T,CommandMultiChoice<T, O>>();
+            return base.Filter.GetValidStates<T, CommandMultiChoice<T, TO>>();
         }
 
-        public CommandMultiChoice<T, O> ValidStates(out IEnumerable<T> validStates)
+        public CommandMultiChoice<T, TO> ValidStates(out IEnumerable<T> validStates)
         {
-            validStates = base.filter.GetValidStates<T,CommandMultiChoice<T, O>>();
+            validStates = base.Filter.GetValidStates<T, CommandMultiChoice<T, TO>>();
             return this;
         }
     }

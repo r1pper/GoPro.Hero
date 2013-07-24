@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
 
 namespace GoPro.Hero.Api.Utilities
 {
@@ -12,20 +11,20 @@ namespace GoPro.Hero.Api.Utilities
         {
             var b0 = binReader.ReadByte();
             var b1 = binReader.ReadByte();
-            return BitConverter.ToInt16(new byte[] { b1, b0 }, 0);
+            return BitConverter.ToInt16(new[] {b1, b0}, 0);
         }
 
         public static ushort ReadUInt16BigEndian(this BinaryReader binReader)
         {
             var b0 = binReader.ReadByte();
             var b1 = binReader.ReadByte();
-            return BitConverter.ToUInt16(new byte[] { b1, b0 }, 0);
+            return BitConverter.ToUInt16(new[] {b1, b0}, 0);
         }
 
         public static T ReadEnum<T>(this BinaryReader binReader)
         {
             var val = binReader.ReadByte();
-            return (T)Enum.ToObject(typeof(T), val);
+            return (T) Enum.ToObject(typeof (T), val);
         }
 
         public static string UrlEncode(this string s)
@@ -49,7 +48,7 @@ namespace GoPro.Hero.Api.Utilities
 
         public static string ToHeroDateTime(this DateTime dateTime)
         {
-            var yearOld = dateTime.Year % 100;
+            var yearOld = dateTime.Year%100;
             var year = yearOld.ToString("x2");
             var month = dateTime.Month.ToString("x2");
             var day = dateTime.Day.ToString("x2");
@@ -78,7 +77,7 @@ namespace GoPro.Hero.Api.Utilities
 
         public static IEnumerable<T> GetValues<T>()
         {
-            if (!typeof(T).IsEnum)
+            if (!typeof (T).IsEnum)
                 throw new InvalidOperationException("Type must be enumeration type.");
 
             return GetEnumValues<T>();
@@ -86,11 +85,9 @@ namespace GoPro.Hero.Api.Utilities
 
         private static IEnumerable<T> GetEnumValues<T>()
         {
-            return from field in typeof(T).GetFields()
+            return from field in typeof (T).GetFields()
                    where field.IsLiteral && !string.IsNullOrEmpty(field.Name)
-                   select (T)field.GetValue(null);
+                   select (T) field.GetValue(null);
         }
-
     }
 }
-

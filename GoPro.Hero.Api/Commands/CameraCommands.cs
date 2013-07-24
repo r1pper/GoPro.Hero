@@ -1,38 +1,35 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using GoPro.Hero.Api.Utilities;
 
-namespace GoPro.Hero.Api.Commands.CameraCommands
+namespace GoPro.Hero.Api.Commands
 {
     [Command(HeroCommands.CAMERA_GET_NAME, Parameterless = true)]
-    class CommandCameraGetName : CommandRequest<ICamera>
+    internal class CommandCameraGetName : CommandRequest<ICamera>
     {
     }
 
     [Command(HeroCommands.CAMERA_SET_NAME)]
-    class CommandCameraSetName : CommandRequest<ICamera>
+    internal class CommandCameraSetName : CommandRequest<ICamera>
     {
         public string Name
         {
             get
             {
-                if (string.IsNullOrEmpty(base.parameter))
+                if (string.IsNullOrEmpty(base.Parameter))
                     return string.Empty;
 
-                return base.parameter.Substring(2);
+                return base.Parameter.Substring(2);
             }
             set
             {
-                var length=value.Length.ToString("x2");
-                base.parameter = string.Format("%{0}{1}",length, value);
+                var length = value.Length.ToString("x2");
+                base.Parameter = string.Format("%{0}{1}", length, value);
             }
         }
 
         public CommandCameraSetName Set(string name)
         {
-            this.Name = name;
+            Name = name;
             return this;
         }
     }
@@ -44,20 +41,17 @@ namespace GoPro.Hero.Api.Commands.CameraCommands
         {
             get
             {
-                if (string.IsNullOrEmpty(base.parameter))
+                if (string.IsNullOrEmpty(base.Parameter))
                     return DateTime.Now;
 
-                return base.parameter.ToDateTimeHeroString();
+                return base.Parameter.ToDateTimeHeroString();
             }
-            set
-            {
-                base.parameter = value.ToHeroDateTime();
-            }
+            set { base.Parameter = value.ToHeroDateTime(); }
         }
 
         public CommandCameraSetTime Set(DateTime dateTime)
         {
-            this.Date = dateTime;
+            Date = dateTime;
             return this;
         }
     }
@@ -103,7 +97,7 @@ namespace GoPro.Hero.Api.Commands.CameraCommands
     }
 
     [Command(HeroCommands.CAMERA_MODE)]
-    public class CommandCameraMode : CommandMultiChoice<Mode,ICamera>
+    public class CommandCameraMode : CommandMultiChoice<Mode, ICamera>
     {
     }
 
@@ -119,14 +113,8 @@ namespace GoPro.Hero.Api.Commands.CameraCommands
 
         public override bool State
         {
-            get
-            {
-                return string.IsNullOrEmpty(base.parameter) ? false : base.parameter == OFF ? false : true;
-            }
-            set
-            {
-                base.parameter = value ? PREVIEW_ON : OFF;
-            }
+            get { return string.IsNullOrEmpty(base.Parameter) ? false : base.Parameter == OFF ? false : true; }
+            set { base.Parameter = value ? PREVIEW_ON : OFF; }
         }
     }
 
@@ -160,7 +148,7 @@ namespace GoPro.Hero.Api.Commands.CameraCommands
     {
     }
 
-    [Command(HeroCommands.CAMERA_DELETE_LAST_SD,Parameterless=true)]
+    [Command(HeroCommands.CAMERA_DELETE_LAST_SD, Parameterless = true)]
     public class CommandCameraDeleteLastFileOnSd : CommandRequest<ICamera>
     {
     }
@@ -181,28 +169,28 @@ namespace GoPro.Hero.Api.Commands.CameraCommands
     }
 
     [Command(HeroCommands.CAMERA_WHITE_BALANCE)]
-    public class CommandCameraWhiteBalance : CommandMultiChoice<WhiteBalance,ICamera>
+    public class CommandCameraWhiteBalance : CommandMultiChoice<WhiteBalance, ICamera>
     {
     }
 
     [Command(HeroCommands.CAMERA_LOOPING_VIDEO)]
-    public class CommandCameraLoopingVideo : CommandMultiChoice<LoopingVideo,ICamera>
+    public class CommandCameraLoopingVideo : CommandMultiChoice<LoopingVideo, ICamera>
     {
         //NOTE: Hero3 Black Edition does not respond to the command!
     }
 
     [Command(HeroCommands.CAMERA_FRAMERATE)]
-    public class CommandCameraFrameRate : CommandMultiChoice<FrameRate,ICamera>
+    public class CommandCameraFrameRate : CommandMultiChoice<FrameRate, ICamera>
     {
     }
 
     [Command(HeroCommands.CAMERA_BURSTRATE)]
-    public class CommandCameraBurstRate : CommandMultiChoice<BurstRate,ICamera>
+    public class CommandCameraBurstRate : CommandMultiChoice<BurstRate, ICamera>
     {
     }
 
     [Command(HeroCommands.CAMERA_CONTINUOUS)]
-    public class CommandCameraContinuousShot : CommandMultiChoice<ContinuousShot,ICamera>
+    public class CommandCameraContinuousShot : CommandMultiChoice<ContinuousShot, ICamera>
     {
     }
 }

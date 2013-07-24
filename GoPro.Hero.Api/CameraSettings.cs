@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
 using GoPro.Hero.Api.Utilities;
 
 namespace GoPro.Hero.Api
@@ -17,8 +14,10 @@ namespace GoPro.Hero.Api
         public bool AutoPowerOff { get; protected set; }
         public FieldOfView FieldOfView { get; protected set; }
         public PhotoResolution PhotoResolution { get; protected set; }
+
         [Obsolete("NOTE: does not work for Hero3 Black Edition use ExtendedSettings.")]
         public VideoResolution VideoResolution { get; protected set; }
+
         public byte AudioInput { get; protected set; }
         public byte PlayMode { get; protected set; }
         public uint PlaybackPosition { get; protected set; }
@@ -45,7 +44,7 @@ namespace GoPro.Hero.Api
         public bool Protune { get; protected set; }
         public bool PreviewAvailable { get; protected set; }
 
-        internal protected virtual void Update(Stream stream)
+        protected internal virtual void Update(Stream stream)
         {
             using (var binReader = new BinaryReader(stream))
             {
@@ -57,42 +56,42 @@ namespace GoPro.Hero.Api
 
         protected void FillSettings(BinaryReader binReader)
         {
-            this.Mode = binReader.ReadEnum<Mode>();
-            this.MicrophoneMode = binReader.ReadByte();
-            this.OnDefault = binReader.ReadEnum<Mode>();
-            this.SpotMeter = binReader.ReadByte()>0;
-            this.TimeLapse = binReader.ReadEnum<TimeLapse>();
-            this.AutoPowerOff = binReader.ReadByte()>0;
-            this.FieldOfView = binReader.ReadEnum<FieldOfView>();
-            this.PhotoResolution = binReader.ReadEnum<PhotoResolution>();
-            this.VideoResolution = binReader.ReadEnum<VideoResolution>();
-            this.AudioInput = binReader.ReadByte();
-            this.PlayMode = binReader.ReadByte();
-            this.PlaybackPosition = binReader.ReadUInt32();
-            this.BeepSound = binReader.ReadEnum<BeepSound>();
-            this.LedBlink = binReader.ReadEnum<LedBlink>();
+            Mode = binReader.ReadEnum<Mode>();
+            MicrophoneMode = binReader.ReadByte();
+            OnDefault = binReader.ReadEnum<Mode>();
+            SpotMeter = binReader.ReadByte() > 0;
+            TimeLapse = binReader.ReadEnum<TimeLapse>();
+            AutoPowerOff = binReader.ReadByte() > 0;
+            FieldOfView = binReader.ReadEnum<FieldOfView>();
+            PhotoResolution = binReader.ReadEnum<PhotoResolution>();
+            VideoResolution = binReader.ReadEnum<VideoResolution>();
+            AudioInput = binReader.ReadByte();
+            PlayMode = binReader.ReadByte();
+            PlaybackPosition = binReader.ReadUInt32();
+            BeepSound = binReader.ReadEnum<BeepSound>();
+            LedBlink = binReader.ReadEnum<LedBlink>();
 
             var field = binReader.ReadByte();
-            this.PreviewActive = (byte)(field & 0x1)>0;
-            this.LiveFeed = (byte)(field & 0x2)>0;
-            this.Orientation = (Orientation)(field & 0x4);
-            this.OneButton = (byte)(field & 0x8)>0;
-            this.OnScreen = (byte)(field & 0x10)>0;
-            this.VideoStandard = (VideoStandard)(field & 0x20);
-            this.LocateCamera = (byte)(field & 0x40)>0;
+            PreviewActive = (byte) (field & 0x1) > 0;
+            LiveFeed = (byte) (field & 0x2) > 0;
+            Orientation = (Orientation) (field & 0x4);
+            OneButton = (byte) (field & 0x8) > 0;
+            OnScreen = (byte) (field & 0x10) > 0;
+            VideoStandard = (VideoStandard) (field & 0x20);
+            LocateCamera = (byte) (field & 0x40) > 0;
 
-            this.Battery = binReader.ReadByte();
-            this.UsbMode = binReader.ReadByte();
-            this.PhotosAvailableSpace = binReader.ReadUInt16BigEndian();
-            this.PhotosCount = binReader.ReadUInt16BigEndian();
-            this.VideosAvailableSpace = binReader.ReadUInt16BigEndian();
-            this.VideosCount = binReader.ReadUInt16BigEndian();
-            this.Shutter = binReader.ReadByte()>0;
+            Battery = binReader.ReadByte();
+            UsbMode = binReader.ReadByte();
+            PhotosAvailableSpace = binReader.ReadUInt16BigEndian();
+            PhotosCount = binReader.ReadUInt16BigEndian();
+            VideosAvailableSpace = binReader.ReadUInt16BigEndian();
+            VideosCount = binReader.ReadUInt16BigEndian();
+            Shutter = binReader.ReadByte() > 0;
 
             field = binReader.ReadByte();
-            this.Busy = (byte)(field & 0x1)>0;
-            this.Protune = (byte)(field & 0x2)>0;
-            this.PreviewAvailable = (byte)(field & 0x4)>0;
+            Busy = (byte) (field & 0x1) > 0;
+            Protune = (byte) (field & 0x2) > 0;
+            PreviewAvailable = (byte) (field & 0x4) > 0;
         }
     }
 }

@@ -1,5 +1,4 @@
-﻿using System;
-using System.Threading;
+﻿using System.Threading;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace GoPro.Hero.Api.Tests
@@ -15,8 +14,8 @@ namespace GoPro.Hero.Api.Tests
         [TestMethod]
         public void BacpacInitialize()
         {
-            var bacpac= GetBacpac();
-            
+            var bacpac = GetBacpac();
+
             Assert.AreEqual(ExpectedParameters.IP_ADDRESS, bacpac.Address);
             Assert.AreEqual(ExpectedParameters.PASSWORD, bacpac.Password);
         }
@@ -50,7 +49,7 @@ namespace GoPro.Hero.Api.Tests
         public void CheckInformation()
         {
             var bacpac = GetBacpac();
-            //bacpac.Information.MacAddress;
+            var mac=bacpac.Information.MacAddress;
         }
 
         [TestMethod]

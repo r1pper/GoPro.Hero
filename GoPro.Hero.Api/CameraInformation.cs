@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Text;
 
 namespace GoPro.Hero.Api
@@ -19,13 +17,13 @@ namespace GoPro.Hero.Api
             {
                 binReader.ReadByte();
 
-                this.Protocol = binReader.ReadByte();
-                this.Model = binReader.ReadByte();
-                var versionLength=binReader.ReadByte();
-                this.Version = Encoding.UTF8.GetString(binReader.ReadBytes(versionLength), 0, versionLength);
+                Protocol = binReader.ReadByte();
+                Model = binReader.ReadByte();
+                var versionLength = binReader.ReadByte();
+                Version = Encoding.UTF8.GetString(binReader.ReadBytes(versionLength), 0, versionLength);
                 var nameLength = binReader.ReadByte();
-                nameLength = (byte)Math.Min(nameLength, (int)(stream.Length - stream.Position));
-                this.Name = Encoding.UTF8.GetString(binReader.ReadBytes(nameLength), 0,nameLength);
+                nameLength = (byte) Math.Min(nameLength, (int) (stream.Length - stream.Position));
+                Name = Encoding.UTF8.GetString(binReader.ReadBytes(nameLength), 0, nameLength);
             }
         }
     }
