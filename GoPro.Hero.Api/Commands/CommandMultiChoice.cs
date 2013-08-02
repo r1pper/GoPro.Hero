@@ -28,12 +28,12 @@ namespace GoPro.Hero.Api.Commands
 
         public IEnumerable<T> ValidStates()
         {
-            return base.Filter.GetValidStates<T, CommandMultiChoice<T, TO>>();
+            return base.Filter.GetValidStates<T, CommandMultiChoice<T, TO>>(this.GetType().Name);
         }
 
         public CommandMultiChoice<T, TO> ValidStates(out IEnumerable<T> validStates)
         {
-            validStates = base.Filter.GetValidStates<T, CommandMultiChoice<T, TO>>();
+            validStates = base.Filter.GetValidStates<T, CommandMultiChoice<T, TO>>(this.GetType().Name);
             return this;
         }
     }

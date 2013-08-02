@@ -82,6 +82,7 @@ namespace GoPro.Hero.Api.Tests
         [TestMethod]
         public void CheckSetDateTime()
         {
+            Assert.Inconclusive("cannot check it");
             var camera = GetCamera();
             camera.PrepareCommand<CommandCameraSetTime>().Set(DateTime.Now).Execute();
         }
@@ -143,6 +144,8 @@ namespace GoPro.Hero.Api.Tests
         [TestMethod]
         public void CheckPhotoResolution()
         {
+            Assert.Inconclusive("needs specific camera filtering");
+
             CheckMultiChoiceCommand<CommandCameraPhotoResolution, PhotoResolution>(
                 c => c.ExtendedSettings.PhotoResolution);
         }
@@ -352,6 +355,15 @@ namespace GoPro.Hero.Api.Tests
             camera.SetFilter(testFilter);
         }
 
+        [TestMethod]
+        public void CheckBattery()
+        {
+            var camera = GetCamera();
+            var batteryCamera = camera.Settings.Battery;
+            Assert.IsTrue(batteryCamera>0);
+            Assert.IsTrue(batteryCamera<=100);
+        }
+
         private class FilterTest : IFilter<ICamera>
         {
             public void Initialize(ICamera owner)
@@ -360,12 +372,12 @@ namespace GoPro.Hero.Api.Tests
                     Assert.Fail("Owner is Null");
             }
 
-            public IEnumerable<T> GetValidStates<T, TC>() where TC : CommandMultiChoice<T, ICamera>
+            public IEnumerable<T> GetValidStates<T, TC>(string command) where TC : CommandMultiChoice<T, ICamera>
             {
                 throw new NotImplementedException();
             }
 
-            public IEnumerable<bool> GetValidStates<TC>() where TC : CommandBoolean<ICamera>
+            public IEnumerable<bool> GetValidStates<TC>(string command) where TC : CommandBoolean<ICamera>
             {
                 throw new NotImplementedException();
             }

@@ -45,6 +45,7 @@ namespace GoPro.Hero.Api.Tests
         public void CheckHero3CameraInitialize()
         {
             var camera = GetCamera();
+            Assert.IsNotNull(camera);
         }
 
         [TestMethod]
@@ -64,7 +65,7 @@ namespace GoPro.Hero.Api.Tests
 
             var videoSpace =
                 GetCamera().AvailableVideoSpace(out videoSpaceAvailable).ExtendedSettings.VideosAvailableSpace;
-            Assert.AreEqual(videoSpace, videoSpaceAvailable);
+            Assert.AreEqual(videoSpace, videoSpaceAvailable.TotalSeconds);
         }
 
         [TestMethod]
@@ -180,13 +181,20 @@ namespace GoPro.Hero.Api.Tests
         [TestMethod]
         public void CheckShutter()
         {
+            Thread.Sleep(2000); //camera powerup cool down;
+
             bool shutterInit;
             bool shutterState;
 
-            GetCamera().Shutter(out shutterInit).OpenShutter().Shutter(out shutterState);
+            GetCamera().Shutter(out shutterInit).OpenShutter();
+            Thread.Sleep(2000);
+
+            GetCamera().Shutter(out shutterState);
             Assert.IsTrue(shutterState);
 
-            GetCamera().CloseShutter().Shutter(out shutterState);
+            GetCamera().CloseShutter();
+            Thread.Sleep(2000);
+            GetCamera().Shutter(out shutterState);
             Assert.IsFalse(shutterState);
 
             shutterState = !shutterInit;
@@ -202,12 +210,13 @@ namespace GoPro.Hero.Api.Tests
             int afterDeleteVideoCount;
             int afterDeletePhotoCount;
 
-            GetCamera().VideoCount(out videoCount).PhotoCount(out photoCount)
-                       .DeleteLastFileOnSdCard()
-                       .VideoCount(out afterDeleteVideoCount).PhotoCount(out afterDeletePhotoCount);
+            GetCamera().VideoCount(out videoCount).PhotoCount(out photoCount).DeleteLastFileOnSdCard();
 
-            Assert.IsTrue(afterDeletePhotoCount <= photoCount);
-            Assert.IsTrue(afterDeleteVideoCount <= videoCount);
+            Thread.Sleep(2000);
+            GetCamera().VideoCount(out afterDeleteVideoCount).PhotoCount(out afterDeletePhotoCount);
+
+            Assert.IsTrue((afterDeletePhotoCount < photoCount || photoCount == 0) ||
+                          (afterDeleteVideoCount < videoCount || videoCount == 0));
         }
 
         [TestMethod]
@@ -216,8 +225,10 @@ namespace GoPro.Hero.Api.Tests
             int videoCount;
             int photoCount;
 
-            GetCamera().DeleteLastFileOnSdCard()
-                       .VideoCount(out videoCount).PhotoCount(out photoCount);
+            GetCamera().DeleteAllFilesOnSdCard();
+
+            Thread.Sleep(2000);
+            GetCamera().VideoCount(out videoCount).PhotoCount(out photoCount);
 
             Assert.IsTrue(photoCount == 0);
             Assert.IsTrue(videoCount == 0);
@@ -295,6 +306,15 @@ namespace GoPro.Hero.Api.Tests
             Assert.AreEqual(protuneInit, protuneState);
         }
 
+        [TestMethod]
+        public void CheckProtuneSupport()
+        { 
+            var model = GetCamera().BacpacStatus.CameraModel;
+            var supports = GetCamera().SupportsProtune();
+
+            Assert.IsTrue((model == Model.Hero3Black && supports) || (model == Model.Hero3Silver && supports) ||
+                          (model == Model.Hero3White && !supports));
+        }
 
         [TestMethod]
         public void CheckSpotMeter()

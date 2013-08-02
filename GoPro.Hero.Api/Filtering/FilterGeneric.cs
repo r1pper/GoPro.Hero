@@ -18,8 +18,7 @@ namespace GoPro.Hero.Api.Filtering
 
         public FilterGeneric(string profileName)
         {
-            var doc = GetFilterProfile(profileName);
-            _root = doc.Element(ROOT);
+            _root = GetFilterProfile(profileName);
         }
 
         public void Initialize(ICamera owner)
@@ -27,10 +26,9 @@ namespace GoPro.Hero.Api.Filtering
             _owner = owner;
         }
 
-        public IEnumerable<T> GetValidStates<T, TC>() where TC : CommandMultiChoice<T, ICamera>
+        public IEnumerable<T> GetValidStates<T, TC>(string command) where TC : CommandMultiChoice<T, ICamera>
         {
-            var type = typeof (TC);
-            var elements = _root.Elements(type.Name).ToArray();
+            var elements = _root.Elements(command).ToArray();
             if (!elements.Any())
                 return Extensions.GetValues<T>();
 
@@ -49,10 +47,9 @@ namespace GoPro.Hero.Api.Filtering
             return result;
         }
 
-        public IEnumerable<bool> GetValidStates<TC>() where TC : CommandBoolean<ICamera>
+        public IEnumerable<bool> GetValidStates<TC>(string command) where TC : CommandBoolean<ICamera>
         {
-            var type = typeof (TC);
-            var elements = _root.Elements(type.Name).ToArray();
+            var elements = _root.Elements(command).ToArray();
             if (!elements.Any())
                 return new[] {true, false};
 

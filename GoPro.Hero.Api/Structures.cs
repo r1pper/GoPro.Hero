@@ -40,7 +40,10 @@
         Video = 0,
         Photo = 1,
         Burst = 2,
-        TimeLapse = 3
+        TimeLapse = 3,
+        //SelfTimer=4,
+        //Settings=7,
+        //Unknown=-1
     }
 
     public enum TimeLapse

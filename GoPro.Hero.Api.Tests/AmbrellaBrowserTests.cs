@@ -70,7 +70,7 @@ namespace GoPro.Hero.Api.Tests
 
             var nodes = _parseDelegate(element).ToArray();
 
-            Assert.AreEqual(nodes.Length, 0);
+            Assert.Inconclusive("should check page resources");
         }
     }
 }

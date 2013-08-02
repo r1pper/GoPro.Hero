@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using GoPro.Hero.Api.Browser;
 using GoPro.Hero.Api.Commands;
 using GoPro.Hero.Api.Filtering;
+using System.Linq;
 
 namespace GoPro.Hero.Api.Hero3
 {
@@ -92,6 +93,11 @@ namespace GoPro.Hero.Api.Hero3
         public Hero3Camera DisableProtune()
         {
             return Protune(false);
+        }
+
+        public bool SupportsProtune()
+        {
+            return base.PrepareCommand<CommandCameraProtune>().ValidStates().Any();
         }
 
         public Hero3Camera Protune(out bool state)
@@ -259,7 +265,7 @@ namespace GoPro.Hero.Api.Hero3
 
         public Hero3Camera DefaultModeOnPowerOn(out Mode mode)
         {
-            mode = base.ExtendedSettings.Mode;
+            mode = base.ExtendedSettings.OnDefault;
             return this;
         }
 
