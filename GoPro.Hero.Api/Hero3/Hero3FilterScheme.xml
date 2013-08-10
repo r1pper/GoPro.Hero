@@ -1,26 +1,26 @@
 <Filter>
   <CommandCameraProtune Model="Hero3White" />
   <CommandCameraProtune Model="Hero3Silver">
-    <true />
-    <false />
+    <True />
+    <False />
   </CommandCameraProtune>
   <CommandCameraProtune Model="Hero3Black">
-    <true />
-    <false />
+    <True />
+    <False />
   </CommandCameraProtune>
 
-  <CommandCameraWhiteBalance Protune="true">
+  <CommandCameraWhiteBalance Protune="True">
     <Auto />
     <Wb3000K />
     <Wb5500K />
     <Wb6500K />
     <Raw />
   </CommandCameraWhiteBalance>
-  <CommandCameraWhiteBalance Protune="false" />
+  <CommandCameraWhiteBalance Protune="False" />
 
 
-  <CommandCameraLoopingVideo Protune="true" />
-  <CommandCameraLoopingVideo Protune="false">
+  <CommandCameraLoopingVideo Protune="True" />
+  <CommandCameraLoopingVideo Protune="False">
     <Off />
     <Max />
     <Min5 />
@@ -49,18 +49,18 @@
     <Vr720 />
     <Wvga />
   </CommandCameraVideoResolution>
-  <CommandCameraVideoResolution Protune="true" Model="Hero3Silver">
+  <CommandCameraVideoResolution Protune="True" Model="Hero3Silver">
     <Vr1080 />
     <Vr960 />
     <Vr720 />
   </CommandCameraVideoResolution>
-  <CommandCameraVideoResolution Protune="false" Model="Hero3Silver">
+  <CommandCameraVideoResolution Protune="False" Model="Hero3Silver">
     <Vr1080 />
     <Vr960 />
     <Vr720 />
     <Wvga />
   </CommandCameraVideoResolution>
-  <CommandCameraVideoResolution Protune="true" Model="Hero3Black">
+  <CommandCameraVideoResolution Protune="True" Model="Hero3Black">
     <Vr4kCin />
     <Vr4K />
     <Vr2Point7KCin />
@@ -70,7 +70,7 @@
     <Vr960 />
     <Vr720 />
   </CommandCameraVideoResolution>
-  <CommandCameraVideoResolution Protune="false" Model="Hero3Black">
+  <CommandCameraVideoResolution Protune="False" Model="Hero3Black">
     <Vr4kCin />
     <Vr4K />
     <Vr2Point7KCin />
@@ -120,18 +120,18 @@
   <CommandCameraFieldOfView VideoResolution="Vr960"><!--Same for all models-->
     <Wide />
   </CommandCameraFieldOfView>
-  <CommandCameraFieldOfView VideoResolution="Vr720" FrameRate="Fps60" Protune="false" Model="Hero3Black">
+  <CommandCameraFieldOfView VideoResolution="Vr720" FrameRate="Fps60" Protune="False" Model="Hero3Black">
     <Wide />
   </CommandCameraFieldOfView>
-  <CommandCameraFieldOfView VideoResolution="Vr720" FrameRate="Fps60" Protune="true" Model="Hero3Black">
+  <CommandCameraFieldOfView VideoResolution="Vr720" FrameRate="Fps60" Protune="True" Model="Hero3Black">
     <Wide />
     <Medium />
     <Narrow />
   </CommandCameraFieldOfView>
-  <CommandCameraFieldOfView VideoResolution="Vr720" FrameRate="Fps50" Protune="false" Model="Hero3Black">
+  <CommandCameraFieldOfView VideoResolution="Vr720" FrameRate="Fps50" Protune="False" Model="Hero3Black">
     <Wide />
   </CommandCameraFieldOfView>
-  <CommandCameraFieldOfView VideoResolution="Vr720" FrameRate="Fps50" Protune="true" Model="Hero3Black">
+  <CommandCameraFieldOfView VideoResolution="Vr720" FrameRate="Fps50" Protune="True" Model="Hero3Black">
     <Wide />
     <Medium />
     <Narrow />
@@ -190,25 +190,25 @@
     <Fps50 />
     <Fps25 />
   </CommandCameraFrameRate>
-  <CommandCameraFrameRate VideoResolution="Vr720" Protune="true" VideoStandard="Ntsc" Model="Hero3Silver">
+  <CommandCameraFrameRate VideoResolution="Vr720" Protune="True" VideoStandard="Ntsc" Model="Hero3Silver">
     <Fps60 />
   </CommandCameraFrameRate>
-  <CommandCameraFrameRate VideoResolution="Vr720" Protune="true" VideoStandard="Pal" Model="Hero3Silver">
+  <CommandCameraFrameRate VideoResolution="Vr720" Protune="True" VideoStandard="Pal" Model="Hero3Silver">
     <Fps50 />
   </CommandCameraFrameRate>
-  <CommandCameraFrameRate VideoResolution="Vr720" Protune="false" VideoStandard="Ntsc" Model="Hero3Silver">
+  <CommandCameraFrameRate VideoResolution="Vr720" Protune="False" VideoStandard="Ntsc" Model="Hero3Silver">
     <Fps30 />
   </CommandCameraFrameRate>
-  <CommandCameraFrameRate VideoResolution="Vr720" Protune="false" VideoStandard="Pal" Model="Hero3Silver">
+  <CommandCameraFrameRate VideoResolution="Vr720" Protune="False" VideoStandard="Pal" Model="Hero3Silver">
     <Fps25 />
   </CommandCameraFrameRate>
-  <CommandCameraFrameRate VideoResolution="VrWvga" Protune="false" VideoStandard="Ntsc" Model="Hero3Silver">
+  <CommandCameraFrameRate VideoResolution="VrWvga" Protune="False" VideoStandard="Ntsc" Model="Hero3Silver">
     <Fps120 />
   </CommandCameraFrameRate>
-  <CommandCameraFrameRate VideoResolution="VrWvga" Protune="false" VideoStandard="Pal" Model="Hero3Silver">
+  <CommandCameraFrameRate VideoResolution="VrWvga" Protune="False" VideoStandard="Pal" Model="Hero3Silver">
     <Fps100 />
   </CommandCameraFrameRate>
-  <CommandCameraFrameRate VideoResolution="VrWvga" Protune="true" Model="Hero3Silver" />
+  <CommandCameraFrameRate VideoResolution="VrWvga" Protune="True" Model="Hero3Silver" />
   <CommandCameraFrameRate VideoResolution="Vr4kCin" Model="Hero3Black">
     <Fps12 />
   </CommandCameraFrameRate>
@@ -249,11 +249,11 @@
     <Fps48 />
     <Fps50 />
   </CommandCameraFrameRate>
-  <CommandCameraFrameRate VideoResolution="Vr960" Protune="false" Model="Hero3Black">
+  <CommandCameraFrameRate VideoResolution="Vr960" Protune="False" Model="Hero3Black">
     <Fps48 />
     <Fps100 />
   </CommandCameraFrameRate>
-  <CommandCameraFrameRate VideoResolution="Vr960" Protune="true" Model="Hero3Black">
+  <CommandCameraFrameRate VideoResolution="Vr960" Protune="True" Model="Hero3Black">
     <Fps100 />
   </CommandCameraFrameRate>
   <CommandCameraFrameRate VideoResolution="Vr720" VideoStandard="Ntsc" Model="Hero3Black">
@@ -264,9 +264,9 @@
     <Fps50 />
     <Fps100 />
   </CommandCameraFrameRate>
-  <CommandCameraFrameRate VideoResolution="VrWvga" Protune="false" Model="Hero3Black">
+  <CommandCameraFrameRate VideoResolution="VrWvga" Protune="False" Model="Hero3Black">
     <Fps240 />
   </CommandCameraFrameRate>
-  <CommandCameraFrameRate VideoResolution="VrWvga" Protune="true" Model="Hero3Black" />
+  <CommandCameraFrameRate VideoResolution="VrWvga" Protune="True" Model="Hero3Black" />
 
 </Filter>

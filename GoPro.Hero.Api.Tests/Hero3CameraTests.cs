@@ -181,24 +181,25 @@ namespace GoPro.Hero.Api.Tests
         [TestMethod]
         public void CheckShutter()
         {
-            Thread.Sleep(2000); //camera powerup cool down;
+            Mode initMode;
+            Thread.Sleep(5000); //camera powerup cool down;
 
             bool shutterInit;
             bool shutterState;
 
-            GetCamera().Shutter(out shutterInit).OpenShutter();
-            Thread.Sleep(2000);
+            GetCamera().Mode(out initMode).Mode(Mode.Video).Shutter(out shutterInit).OpenShutter();
+            Thread.Sleep(5000);
 
             GetCamera().Shutter(out shutterState);
             Assert.IsTrue(shutterState);
 
             GetCamera().CloseShutter();
-            Thread.Sleep(2000);
+            Thread.Sleep(5000);
             GetCamera().Shutter(out shutterState);
             Assert.IsFalse(shutterState);
 
             shutterState = !shutterInit;
-            GetCamera().Shutter(shutterInit).Shutter(out shutterState);
+            GetCamera().Mode(initMode).Shutter(shutterInit).Shutter(out shutterState);
             Assert.AreEqual(shutterInit, shutterState);
         }
 
@@ -212,7 +213,7 @@ namespace GoPro.Hero.Api.Tests
 
             GetCamera().VideoCount(out videoCount).PhotoCount(out photoCount).DeleteLastFileOnSdCard();
 
-            Thread.Sleep(2000);
+            Thread.Sleep(5000);
             GetCamera().VideoCount(out afterDeleteVideoCount).PhotoCount(out afterDeletePhotoCount);
 
             Assert.IsTrue((afterDeletePhotoCount < photoCount || photoCount == 0) ||
@@ -227,7 +228,7 @@ namespace GoPro.Hero.Api.Tests
 
             GetCamera().DeleteAllFilesOnSdCard();
 
-            Thread.Sleep(2000);
+            Thread.Sleep(5000);
             GetCamera().VideoCount(out videoCount).PhotoCount(out photoCount);
 
             Assert.IsTrue(photoCount == 0);
@@ -528,13 +529,20 @@ namespace GoPro.Hero.Api.Tests
             bool powerInit;
             bool powerState;
 
-            GetCamera().Power(out powerInit).PowerOff().Power(out powerState);
+            GetCamera().Power(out powerInit).PowerOff();
+
+            Thread.Sleep(5000);
+            GetCamera().Power(out powerState);
             Assert.IsFalse(powerState);
 
-            GetCamera().PowerOn().Power(out powerState);
+            GetCamera().PowerOn();
+            Thread.Sleep(5000);
+            GetCamera().Power(out powerState);
             Assert.IsTrue(powerState);
 
-            GetCamera().Power(powerInit).Power(out powerState);
+            GetCamera().Power(powerInit);
+            Thread.Sleep(5000);
+            GetCamera().Power(out powerState);
             Assert.AreEqual(powerInit, powerState);
         }
 
