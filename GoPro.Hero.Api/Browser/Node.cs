@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 
 namespace GoPro.Hero.Api.Browser
 {
@@ -27,7 +28,7 @@ namespace GoPro.Hero.Api.Browser
             Size = size;
 
             var segments = Path.AbsolutePath.Split('/');
-            Name = string.IsNullOrEmpty(segments.Last())  ? segments[segments.Length - 2] : segments.Last();
+            Name = string.IsNullOrEmpty(segments.Last()) ? segments[segments.Length - 2] : segments.Last();
         }
 
         public ICamera Camera { get; private set; }
@@ -35,6 +36,16 @@ namespace GoPro.Hero.Api.Browser
         public Uri Path { get; private set; }
         public NodeType Type { get; private set; }
         public string Size { get; private set; }
+
+        public Node this[string name]
+        {
+            get { return Children(name).First(); }
+        }
+
+        public IEnumerable<Node> Children(string name)
+        {
+            return this.Nodes().Where(n => n.Name == name);
+        }
 
         public IEnumerable<Node> Nodes()
         {
@@ -67,6 +78,22 @@ namespace GoPro.Hero.Api.Browser
         {
             nodes = Files();
             return this;
+        }
+
+        public WebResponse DownloadContent()
+        {
+            return _browser.DownloadContent(this);
+        }
+
+        public Node DownloadContent(out WebResponse response)
+        {
+            response = DownloadContent();
+            return this;
+        }
+
+        public override string ToString()
+        {
+            return this.Name;
         }
 
         public static Node Create<T>(ICamera camera, Uri address) where T : IBrowser

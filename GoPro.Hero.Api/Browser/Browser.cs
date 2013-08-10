@@ -21,32 +21,31 @@ namespace GoPro.Hero.Api.Browser
 
         public bool IsFile(Uri address)
         {
-            try
-            {
-                var page = LoadPage(address);
-                Parse(page);
-
-                return true;
-            }
-            catch
-            {
-                return false;
-            }
-        }
-
-        public IEnumerable<Node> Nodes()
-        {
-            var page = LoadPage(Address);
-            return Parse(page);
+            return address.ToString().EndsWith("/");
         }
 
         public IEnumerable<Node> Nodes(Node node)
         {
             var page = LoadPage(node.Path);
-            return Parse(page);
+            return Parse(page, node);
         }
 
-        private XElement LoadPage(Uri address)
+        protected abstract IEnumerable<Node> Parse(XElement page, Node parent);
+
+
+        public WebResponse DownloadContent(Node node)
+        {
+            var webRequest = WebRequest.CreateHttp(node.Path);
+
+            var res = webRequest.BeginGetResponse(null, null);
+            res.AsyncWaitHandle.WaitOne();
+            if (!res.IsCompleted)
+                throw new GoProException();
+
+            return webRequest.EndGetResponse(res);
+        }
+
+        private static XElement LoadPage(Uri address)
         {
             var webRequest = WebRequest.CreateHttp(address);
 
@@ -58,13 +57,13 @@ namespace GoPro.Hero.Api.Browser
             using (var response = webRequest.EndGetResponse(res))
             {
                 var stream = response.GetResponseStream();
+
                 var tidy = new HtmlTidy();
-                var page=tidy.ParseXml(stream);
+                var page = tidy.ParseXml(stream);
+
                 stream.Dispose();
                 return page;
             }
         }
-
-        protected abstract IEnumerable<Node> Parse(XElement page);
     }
 }

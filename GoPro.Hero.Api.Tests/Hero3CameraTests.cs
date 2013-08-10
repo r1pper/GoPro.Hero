@@ -629,7 +629,7 @@ namespace GoPro.Hero.Api.Tests
             Version version;
             var versionState = GetCamera().Firmware(out version).BacpacInformation.FirmwareVersion;
 
-            Assert.Equals(versionState, version);
+            Assert.AreEqual(versionState, version);
         }
 
         [TestMethod]

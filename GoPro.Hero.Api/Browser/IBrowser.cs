@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Net;
 
 namespace GoPro.Hero.Api.Browser
 {
@@ -10,7 +11,7 @@ namespace GoPro.Hero.Api.Browser
 
         void Initialize(ICamera camera, Uri address);
         bool IsFile(Uri address);
-        IEnumerable<Node> Nodes();
         IEnumerable<Node> Nodes(Node node);
+        WebResponse DownloadContent(Node node);
     }
 }

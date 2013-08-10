@@ -7,8 +7,13 @@ namespace GoPro.Hero.Api.Browser
 {
     public class AmbrellaBrowser : Browser
     {
-        protected override IEnumerable<Node> Parse(XElement page)
+        private const string DEFAULT = "http://10.5.5.9:8080";
+
+        protected override IEnumerable<Node> Parse(XElement page, Node parent)
         {
+            if (parent == null)
+                parent = new Node(null, new Uri(DEFAULT), NodeType.Root, string.Empty, this);
+
             var xmlns = page.GetDefaultNamespace().NamespaceName;
             var body = page.Element(XName.Get("body", xmlns));
             if (body == null) yield break;
@@ -39,8 +44,10 @@ namespace GoPro.Hero.Api.Browser
                     if (xElement1 == null) continue;
                     var size = xElement1.Value;
 
+                    var uri = path.StartsWith(parent.Path.ToString()) ? new Uri(path) : new Uri(parent.Path, path);
+
                     yield return 
-                        new Node(Camera, new Uri(path), type == "[DIR]" ? NodeType.Folder : NodeType.File, size, this);
+                        new Node(Camera, uri, type == "[DIR]" ? NodeType.Folder : NodeType.File, size, this);
                 }
         }
     }
