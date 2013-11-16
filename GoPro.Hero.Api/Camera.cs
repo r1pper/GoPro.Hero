@@ -137,9 +137,20 @@ namespace GoPro.Hero.Api
             return CommandRequest<ICamera>.Create<T>(this, Bacpac.Address, passPhrase: Bacpac.Password);
         }
 
+        public T PrepareCommand<T>(int port) where T : CommandRequest<ICamera>
+        {
+            return CommandRequest<ICamera>.Create<T>(this, string.Format("http://{0}:{1}", Bacpac.Address, port), passPhrase: Bacpac.Password);
+        }
+
         public ICamera PrepareCommand<T>(out T command) where T : CommandRequest<ICamera>
         {
             command = PrepareCommand<T>();
+            return this;
+        }
+
+        public ICamera PrepareCommand<T>(int port, out T command) where T : CommandRequest<ICamera>
+        {
+            command = PrepareCommand<T>(port);
             return this;
         }
 
