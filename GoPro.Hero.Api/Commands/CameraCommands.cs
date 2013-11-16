@@ -193,4 +193,20 @@ namespace GoPro.Hero.Api.Commands
     public class CommandCameraContinuousShot : CommandMultiChoice<ContinuousShot, ICamera>
     {
     }
+
+    [Command(HeroCommands.CAMERA_DELETE_FILE)]
+    public class CommandCameraDeleteFile : CommandRequest<ICamera>
+    {
+        public string Path
+        {
+            get { return base.Parameter.Substring(3); }
+            set { base.Parameter = string.Format("%15{0}", value); }
+        }
+
+        public CommandCameraDeleteFile Set(string path)
+        {
+            Path = path;
+            return this;
+        }
+    }
 }

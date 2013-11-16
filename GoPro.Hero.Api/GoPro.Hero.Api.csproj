@@ -56,6 +56,7 @@
     <Compile Include="Commands\CommandMultiChoice.cs" />
     <Compile Include="Commands\CommandRequest.cs" />
     <Compile Include="Commands\CommandResponse.cs" />
+    <Compile Include="Commands\GoProCommands.cs" />
     <Compile Include="Exceptions\BacpacException.cs" />
     <Compile Include="Exceptions\CameraException.cs" />
     <Compile Include="Exceptions\CommandFailedException.cs" />
