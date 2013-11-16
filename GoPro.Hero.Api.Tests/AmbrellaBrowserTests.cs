@@ -31,7 +31,7 @@ namespace GoPro.Hero.Api.Tests
         {
             var ambrellaType = typeof (AmbrellaBrowser);
             _instance = Activator.CreateInstance<AmbrellaBrowser>();
-            _instance.Initialize(null, null);
+            (_instance as IGeneralBrowser).Initialize(null, null);
 
             var method = ambrellaType.GetMethod("Parse", BindingFlags.Instance | BindingFlags.NonPublic);
             _parseDelegate = (ParseDelegate) method.CreateDelegate(typeof (ParseDelegate), _instance);

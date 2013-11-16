@@ -17,8 +17,10 @@ namespace GoPro.Hero.Api
         ICamera Command(CommandRequest<ICamera> command);
         ICamera Command(CommandRequest<ICamera> command, out CommandResponse commandResponse, bool checkStatus = true);
         ICamera PrepareCommand<T>(out T command) where T : CommandRequest<ICamera>;
+        ICamera PrepareCommand<T>(int port,out T command) where T : CommandRequest<ICamera>;
         ICamera Power(bool on);
         T PrepareCommand<T>() where T : CommandRequest<ICamera>;
+        T PrepareCommand<T>(int port) where T : CommandRequest<ICamera>;
         CommandResponse Command(CommandRequest<ICamera> command, bool checkStatus = true);
 
         ICamera SetName(string name);

@@ -43,8 +43,14 @@
     <Compile Include="Browser\AmbrellaBrowser.cs" />
     <Compile Include="Browser\Browser.cs" />
     <Compile Include="Browser\IBrowser.cs" />
+    <Compile Include="Browser\IGeneralBrowser.cs" />
+    <Compile Include="Browser\Image.cs" />
+    <Compile Include="Browser\Media.cs" />
+    <Compile Include="Browser\MediaBrowser.cs" />
     <Compile Include="Browser\Node.cs" />
     <Compile Include="Browser\NodeType.cs" />
+    <Compile Include="Browser\TimeLapse.cs" />
+    <Compile Include="Browser\Video.cs" />
     <Compile Include="Camera.cs" />
     <Compile Include="CameraExtendedSettings.cs" />
     <Compile Include="CameraInformation.cs" />
@@ -75,6 +81,9 @@
     <Compile Include="Version.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\packages\Newtonsoft.Json.5.0.8\lib\portable-net40+sl4+wp7+win8\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="TidyNetPortable">
       <HintPath>..\packages\TidyNetPortable.1.0.0\lib\TidyNetPortable.dll</HintPath>
     </Reference>
