@@ -50,7 +50,7 @@
     <Compile Include="Browser\Media\MediaBrowser.cs" />
     <Compile Include="Browser\FileSystem\Node.cs" />
     <Compile Include="Browser\FileSystem\NodeType.cs" />
-    <Compile Include="Browser\Media\TimeLapse.cs" />
+    <Compile Include="Browser\Media\TimeLapsedImage.cs" />
     <Compile Include="Browser\Media\Video.cs" />
     <Compile Include="Camera.cs" />
     <Compile Include="CameraExtendedSettings.cs" />

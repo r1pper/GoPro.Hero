@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Net;
+using System.Reflection;
 using GoPro.Hero.Api.Exceptions;
 using GoPro.Hero.Api.Filtering;
 
@@ -91,7 +92,12 @@ namespace GoPro.Hero.Api.Commands
 
         protected static Uri CreateUri(string address, string command, string passPhrase = null, string parameter = null)
         {
-            var builder = new UriBuilder {Host = address, Path = command};
+            var addressParts = address.Split(':');
+
+            var builder = addressParts.Length == 1
+               ? new UriBuilder { Host = address, Path = command }
+               : new UriBuilder { Host = addressParts[0], Port = int.Parse(addressParts[1]), Path = command };
+                
 
             if (!string.IsNullOrEmpty(passPhrase))
                 builder.Query = string.Format("t={0}", passPhrase);

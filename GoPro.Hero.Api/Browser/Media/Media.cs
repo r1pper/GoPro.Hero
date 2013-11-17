@@ -63,6 +63,18 @@ namespace GoPro.Hero.Api.Browser.Media
             Browser = browser;
         }
 
+        public override bool Equals(object obj)
+        {
+            var media = obj as Media;
+            if (media == null) return false;
+            return Name == media.Name;
+        }
+
+        public override int GetHashCode()
+        {
+            return Name.GetHashCode() * 19;
+        }
+
         void IMedia.Initialize(JToken token, IGeneralBrowser browser)
         {
             Initiaize(token, browser);

@@ -15,6 +15,9 @@ namespace GoPro.Hero.Api.Browser.Media
             return base.BigThumbnail(base.Name);
         }
 
-        private Image() { }
+        public override string ToString()
+        {
+            return string.Format("image:{0}", base.Name);
+        }
     }
 }
