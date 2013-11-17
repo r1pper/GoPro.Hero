@@ -8,6 +8,7 @@ using System.Linq;
 using HtmlTidy = Tidy.Core.Tidy;
 using GoPro.Hero.Api.Hero3;
 using GoPro.Hero.Api.Utilities;
+using GoPro.Hero.Api.Browser.FileSystem;
 
 namespace GoPro.Hero.Api.Tests
 {

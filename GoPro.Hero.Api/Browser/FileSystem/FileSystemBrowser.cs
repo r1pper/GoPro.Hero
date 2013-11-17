@@ -5,15 +5,19 @@ using System.Xml.Linq;
 using GoPro.Hero.Api.Exceptions;
 using HtmlTidy = Tidy.Core.Tidy;
 
-namespace GoPro.Hero.Api.Browser
+namespace GoPro.Hero.Api.Browser.FileSystem
 {
-    public abstract class Browser : IBrowser
+    public abstract class FileSystemBrowser : IFileSystemBrowser
     {
+        private const string DESTINATION = "videos/DCIM/100GOPRO";
+
         public Uri Address { get; private set; }
         public ICamera Camera { get; private set; }
+        public string Destination { get; set; }
 
         void IGeneralBrowser.Initialize(ICamera camera, Uri address)
         {
+            Destination = DESTINATION;
             Camera = camera;
             Address = address;
         }

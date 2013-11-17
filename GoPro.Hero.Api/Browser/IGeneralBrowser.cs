@@ -9,6 +9,7 @@ namespace GoPro.Hero.Api.Browser
     {
         Uri Address { get; }
         ICamera Camera { get; }
+        string Destination { get; }
 
         void Initialize(ICamera camera, Uri address);
     }

@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Xml.Linq;
 
-namespace GoPro.Hero.Api.Browser
+namespace GoPro.Hero.Api.Browser.FileSystem
 {
-    public class AmbrellaBrowser : Browser
+    public class AmbrellaBrowser : FileSystemBrowser
     {
         private const string DEFAULT = "http://10.5.5.9:8080";
 
@@ -49,6 +49,11 @@ namespace GoPro.Hero.Api.Browser
                     yield return 
                         new Node(Camera, uri, type == "[DIR]" ? NodeType.Folder : NodeType.File, size, this);
                 }
+        }
+
+        public Node Root()
+        {
+            return Node.Create(this);
         }
     }
 }

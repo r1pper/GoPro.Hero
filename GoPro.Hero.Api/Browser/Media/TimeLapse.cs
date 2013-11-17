@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using Newtonsoft.Json.Linq;
 
-namespace GoPro.Hero.Api.Browser
+namespace GoPro.Hero.Api.Browser.Media
 {
     public class TimeLapse:Media
     {
@@ -37,12 +37,15 @@ namespace GoPro.Hero.Api.Browser
             return base.BigThumbnail(base.Name);
         }
 
-        internal TimeLapse(JToken token, MediaBrowser browser)
-            : base(token,browser)
+        protected sealed override void Initiaize(JToken token, IGeneralBrowser browser)
         {
+            base.Initiaize(token, browser);
+
             Group = token["g"].Value<int>();
             Start = token["b"].Value<int>();
             End = token["l"].Value<int>();
         }
+
+        private TimeLapse() { }
     }
 }

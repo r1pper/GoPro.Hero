@@ -5,7 +5,7 @@ using System.Net;
 using System.Text;
 using Newtonsoft.Json.Linq;
 
-namespace GoPro.Hero.Api.Browser
+namespace GoPro.Hero.Api.Browser.Media
 {
     public class Video:Media
     {
@@ -14,15 +14,19 @@ namespace GoPro.Hero.Api.Browser
 
         public long LowResolutionSize { get; private set; }
 
-        internal Video(JToken token, MediaBrowser browser):base(token,browser)
-        {
-            LowResolutionSize = token["ls"].Value<long>();
-        }
-
         public WebResponse DownloadLowResolution()
         {
             var lowResName = Name.ToUpper().Replace(EXTENSION_HIGH, EXTENSION_LOW);
             return base.Download(lowResName);
         }
+
+        protected sealed override void Initiaize(JToken token, IGeneralBrowser browser)
+        {
+            base.Initiaize(token, browser);
+
+            LowResolutionSize = token["ls"].Value<long>();
+        }
+
+        private Video() { }
     }
 }

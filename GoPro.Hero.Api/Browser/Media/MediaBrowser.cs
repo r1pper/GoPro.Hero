@@ -7,7 +7,7 @@ using GoPro.Hero.Api.Commands;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
-namespace GoPro.Hero.Api.Browser
+namespace GoPro.Hero.Api.Browser.Media
 {
     public class MediaBrowser:IGeneralBrowser
     {
@@ -48,13 +48,13 @@ namespace GoPro.Hero.Api.Browser
                     }
 
                     if (j["ls"] != null)//unique to video media
-                        return new Video(j, this);
+                        return Media.Create<Video>(j, this);
 
                     if (j["b"] != null)//unique to burst mode
-                        return new TimeLapse(j, this);
+                        return Media.Create<TimeLapse>(j, this);
 
                     if (j["n"] != null)
-                        return new Image(j, this);
+                        return Media.Create<Image>(j, this);
 
                     return default(Media);
                 }

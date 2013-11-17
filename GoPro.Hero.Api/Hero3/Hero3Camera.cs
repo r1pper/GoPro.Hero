@@ -4,6 +4,8 @@ using GoPro.Hero.Api.Browser;
 using GoPro.Hero.Api.Commands;
 using GoPro.Hero.Api.Filtering;
 using System.Linq;
+using GoPro.Hero.Api.Browser.FileSystem;
+using GoPro.Hero.Api.Browser.Media;
 
 namespace GoPro.Hero.Api.Hero3
 {
@@ -21,7 +23,12 @@ namespace GoPro.Hero.Api.Hero3
 
         public Node Browse()
         {
-            return base.Browse<AmbrellaBrowser>();
+            return base.FileSystem<AmbrellaBrowser>();
+        }
+
+        public MediaBrowser Contents()
+        {
+            return base.Browse<MediaBrowser>();
         }
 
         public Hero3Camera VideoResolution(VideoResolution resolution)

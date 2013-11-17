@@ -3,13 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 
-namespace GoPro.Hero.Api.Browser
+namespace GoPro.Hero.Api.Browser.FileSystem
 {
     public class Node
     {
-        private readonly IBrowser _browser;
+        private readonly IFileSystemBrowser _browser;
 
-        private Node(ICamera camera, Uri address, IBrowser browser)
+        private Node(ICamera camera, Uri address, IFileSystemBrowser browser)
             : this(camera, address, NodeType.Root, string.Empty, browser)
         {
             Type = address.AbsolutePath == "/"
@@ -19,7 +19,7 @@ namespace GoPro.Hero.Api.Browser
                              : NodeType.Folder;
         }
 
-        internal Node(ICamera camera, Uri address, NodeType type, string size, IBrowser browser)
+        internal Node(ICamera camera, Uri address, NodeType type, string size, IFileSystemBrowser browser)
         {
             _browser = browser;
             Camera = camera;
@@ -96,12 +96,18 @@ namespace GoPro.Hero.Api.Browser
             return this.Name;
         }
 
-        public static Node Create<T>(ICamera camera, Uri address) where T : IBrowser
+        public static Node Create<T>(ICamera camera, Uri address) where T : IFileSystemBrowser
         {
             var browser = Activator.CreateInstance<T>();
             browser.Initialize(camera, address);
 
             var node = new Node(camera, address, browser);
+            return node;
+        }
+
+        public static Node Create(IFileSystemBrowser browser)
+        {
+            var node = new Node(browser.Camera, browser.Address, browser);
             return node;
         }
     }

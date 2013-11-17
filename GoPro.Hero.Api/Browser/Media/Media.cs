@@ -8,13 +8,13 @@ using GoPro.Hero.Api.Commands;
 using GoPro.Hero.Api.Exceptions;
 using Newtonsoft.Json.Linq;
 
-namespace GoPro.Hero.Api.Browser
+namespace GoPro.Hero.Api.Browser.Media
 {
-    public abstract class Media
+    public abstract class Media:IMedia
     {
         protected const string ABSOLUTE_PATH = "http://{0}/videos/DCIM/{1}";
  
-        public MediaBrowser Browser { get; private set; }
+        public IGeneralBrowser Browser { get; private set; }
         public string Name { get; private set; }
         public long Size { get; private set; }
 
@@ -54,13 +54,26 @@ namespace GoPro.Hero.Api.Browser
             var request = Browser.Camera.PrepareCommand<CommandGoProBigThumbnail>(Browser.Address.Port).Set(path).Send();
             return request.GetResponseStream();
         }
-
-        public Media(JToken token, MediaBrowser browser)
+     
+        protected virtual void Initiaize(JToken token, IGeneralBrowser browser)
         {
             Name = token["n"].Value<string>();
             Size = token["s"].Value<long>();
 
             Browser = browser;
+        }
+
+        void IMedia.Initialize(JToken token, IGeneralBrowser browser)
+        {
+            Initiaize(token, browser);
+        }
+
+        internal static T Create<T>(JToken token, IGeneralBrowser browser) where T:IMedia
+        {
+            var instance = Activator.CreateInstance<T>();
+            instance.Initialize(token, browser);
+
+            return instance;
         }
     }
 }

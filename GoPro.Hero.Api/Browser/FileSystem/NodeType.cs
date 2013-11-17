@@ -1,4 +1,4 @@
-﻿namespace GoPro.Hero.Api.Browser
+﻿namespace GoPro.Hero.Api.Browser.FileSystem
 {
     public enum NodeType
     {

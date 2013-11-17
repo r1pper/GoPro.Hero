@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Text;
 using GoPro.Hero.Api.Browser;
+using GoPro.Hero.Api.Browser.FileSystem;
 using GoPro.Hero.Api.Commands;
 using GoPro.Hero.Api.Filtering;
 using GoPro.Hero.Api.Utilities;
@@ -159,7 +160,14 @@ namespace GoPro.Hero.Api
             return _filter;
         }
 
-        public Node Browse<T>(int port = 8080) where T : IBrowser
+        public T Browse<T>(int port = 8080) where T : IGeneralBrowser
+        {
+            var instance = Activator.CreateInstance<T>();
+            instance.Initialize(this,new Uri(string.Format("http://{0}:{1}", Bacpac.Address, port)));
+            return instance;
+        }
+
+        public Node FileSystem<T>(int port = 8080) where T : IFileSystemBrowser
         {
             var node = Node.Create<T>(this, new Uri(string.Format("http://{0}:{1}", Bacpac.Address, port)));
             return node;
