@@ -121,7 +121,7 @@ namespace GoPro.Hero.Api.Commands
             {
                 var asyncResponse = request.BeginGetResponse(null, null);
                 asyncResponse.AsyncWaitHandle.WaitOne();
-
+          
                 using (var response = request.EndGetResponse(asyncResponse) as HttpWebResponse)
                 {
                     if (response != null)
