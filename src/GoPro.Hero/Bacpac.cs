@@ -1,4 +1,5 @@
 ﻿using System.Text;
+using System.Threading.Tasks;
 using GoPro.Hero.Commands;
 using GoPro.Hero.Filtering;
 
@@ -26,22 +27,70 @@ namespace GoPro.Hero
         public string Password { get; private set; }
         public string Address { get; private set; }
 
-        public BacpacInformation Information
+        public BacpacInformation Information()
         {
-            get
-            {
-                UpdateInformation();
-                return _information;
-            }
+            UpdateInformation();
+            return _information;
         }
 
-        public BacpacStatus Status
+        public async Task<BacpacInformation> InformationAsync()
         {
-            get
-            {
-                UpdateStatus();
-                return _status;
-            }
+            await UpdateInformationAsync();
+
+            return _information;
+        }
+
+        public BacpacInformation InformationCache()
+        {
+            return _information;
+        }
+
+        private void UpdateInformation()
+        {
+            var task = UpdateInformationAsync();
+            task.Wait();
+        }
+
+        private async Task UpdateInformationAsync()
+        {
+            var request = CreateCommand<CommandBacpacInformation>();
+            var response = await request.SendAsync();
+
+            var stream = response.GetResponseStream();
+            _information.Update(stream);
+        }
+
+        public BacpacStatus Status()
+        {
+            UpdateStatus();
+            return _status;
+        }
+
+        public async Task<BacpacStatus> StatusAsync()
+        {
+            await UpdateStatusAsync();
+
+            return _status;
+        }
+
+        public BacpacStatus StatusCache()
+        {
+            return _status;
+        }
+
+        private void UpdateStatus()
+        {
+            var task = UpdateStatusAsync();
+            task.Wait();
+        }
+
+        private async Task UpdateStatusAsync()
+        {
+            var request = CreateCommand<CommandBacpacStatus>();
+            var response = await request.SendAsync();
+
+            var stream = response.GetResponseStream();
+            _status.Update(stream);
         }
 
         object IFilterProvider.Filter()
@@ -49,10 +98,20 @@ namespace GoPro.Hero
             return _filter;
         }
 
-        public Bacpac UpdatePassword()
+        public Bacpac UpdatePassword(bool nonBlocking = false)
+        {
+            var task=UpdatePasswordAsync();
+
+            if (!nonBlocking) 
+                task.Wait();
+
+            return this;
+        }
+
+        public async Task<Bacpac> UpdatePasswordAsync()
         {
             var request = CreateCommand<CommandBacpacRetrievePassword>();
-            var response = request.Send();
+            var response = await request.SendAsync();
 
             var length = response.RawResponse[1];
             Password = Encoding.UTF8.GetString(response.RawResponse, 2, length);
@@ -60,41 +119,43 @@ namespace GoPro.Hero
             return this;
         }
 
-        private void UpdateStatus()
+        public Bacpac Shutter(bool open, bool nonBlocking = false)
         {
-            var request = CreateCommand<CommandBacpacStatus>();
-            var response = request.Send();
+            var task = ShutterAsync(open);
 
-            var stream = response.GetResponseStream();
-            _status.Update(stream);
-        }
+            if (!nonBlocking)
+                task.Wait();
 
-        private void UpdateInformation()
-        {
-            var request = CreateCommand<CommandBacpacInformation>();
-            var response = request.Send();
-
-            var stream = response.GetResponseStream();
-            _information.Update(stream);
-        }
-
-        public Bacpac Shutter(bool open)
-        {
-            var request = CreateCommand<CommandBacpacShutter>();
-            request.State = open;
-            request.Send();
-
-            UpdateStatus();
             return this;
         }
 
-        public Bacpac Power(bool on)
+        public async Task<Bacpac> ShutterAsync(bool open)
+        {
+            var request = CreateCommand<CommandBacpacShutter>();
+            request.State = open;
+            await request.SendAsync();
+
+            await UpdateStatusAsync();
+            return this;
+        }
+
+        public Bacpac Power(bool on, bool nonBlocking = false)
+        {
+            var task = PowerAsync(on);
+
+            if (!nonBlocking)
+                task.Wait();
+
+            return this;
+        }
+
+        public async Task<Bacpac> PowerAsync(bool on)
         {
             var request = CreateCommand<CommandBacpacPowerUp>();
             request.State = on;
-            request.Send();
+            await request.SendAsync();
 
-            UpdateStatus();
+            await UpdateStatusAsync();
             return this;
         }
 

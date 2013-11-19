@@ -36,12 +36,12 @@ namespace GoPro.Hero.Tests
 
             bacpac.Power(true);
             Thread.Sleep(5000);
-            var res = bacpac.Status.CameraPower;
+            var res = bacpac.Status().CameraPower;
             Assert.AreEqual(true, res);
 
             bacpac.Power(false);
             Thread.Sleep(5000);
-            res = bacpac.Status.CameraPower;
+            res = bacpac.Status().CameraPower;
             Assert.AreEqual(false, res);
         }
 
@@ -49,14 +49,14 @@ namespace GoPro.Hero.Tests
         public void CheckInformation()
         {
             var bacpac = GetBacpac();
-            var mac=bacpac.Information.MacAddress;
+            var mac=bacpac.Information().MacAddress;
         }
 
         [TestMethod]
         public void CheckStatus()
         {
             var bacpac = GetBacpac();
-            var status = bacpac.Status;
+            var status = bacpac.Status();
 
             Assert.IsTrue(status.CameraAttached);
         }

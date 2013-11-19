@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Text;
+using System.Threading.Tasks;
 using GoPro.Hero.Browser;
 using GoPro.Hero.Browser.FileSystem;
 using GoPro.Hero.Commands;
@@ -61,14 +62,47 @@ namespace GoPro.Hero
             return this;
         }
 
+        public async Task<CameraInformation> InformationAsync()
+        {
+            await GetInformationAsync();
+            return _information;
+        }
+
+        public CameraInformation InformationCache()
+        {
+            return _information;
+        }
+
+        public async Task<CameraSettings> SettingsAsync()
+        {
+            await GetSettingsAsync();
+            return _settings;
+        }
+
+        public CameraSettings SettingsCache()
+        {
+            return _settings;
+        }
+
+        public async Task<CameraExtendedSettings> ExtendedSettingsAsync()
+        {
+            await GetExtendedSettingsAsync();
+            return _extendedSettings;
+        }
+
+        public CameraExtendedSettings ExtendedSettingsCache()
+        {
+            return _extendedSettings;
+        }
+
         public BacpacStatus BacpacStatus
         {
-            get { return Bacpac.Status; }
+            get { return Bacpac.Status(); }
         }
 
         public BacpacInformation BacpacInformation
         {
-            get { return Bacpac.Information; }
+            get { return Bacpac.Information(); }
         }
 
         public string GetName()
@@ -87,7 +121,6 @@ namespace GoPro.Hero
         public ICamera GetName(out string name)
         {
             name = GetName();
-
             return this;
         }
 
@@ -175,8 +208,14 @@ namespace GoPro.Hero
 
         private void GetInformation()
         {
+            var task = GetInformationAsync();
+            task.Wait();
+        }
+
+        private async Task GetInformationAsync()
+        {
             var request = PrepareCommand<CommandCameraInformation>();
-            var response = request.Send();
+            var response = await request.SendAsync();
 
             var stream = response.GetResponseStream();
             _information.Update(stream);
@@ -184,8 +223,14 @@ namespace GoPro.Hero
 
         private void GetSettings()
         {
+            var task = GetSettingsAsync();
+            task.Wait();
+        }
+
+        private async Task GetSettingsAsync()
+        {
             var request = PrepareCommand<CommandCameraSettings>();
-            var response = request.Send();
+            var response = await request.SendAsync();
 
             var stream = response.GetResponseStream();
             _settings.Update(stream);
@@ -193,8 +238,14 @@ namespace GoPro.Hero
 
         private void GetExtendedSettings()
         {
+            var task = GetExtendedSettingsAsync();
+            task.Wait();
+        }
+
+        private async Task GetExtendedSettingsAsync()
+        {
             var request = PrepareCommand<CommandCameraExtendedSettings>();
-            var response = request.Send();
+            var response = await request.SendAsync();
 
             var stream = response.GetResponseStream();
             _extendedSettings.Update(stream);

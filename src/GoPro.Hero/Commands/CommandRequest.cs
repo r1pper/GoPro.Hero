@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Net;
 using System.Reflection;
+using System.Threading.Tasks;
 using GoPro.Hero.Exceptions;
 using GoPro.Hero.Filtering;
 
@@ -27,7 +28,14 @@ namespace GoPro.Hero.Commands
 
         public CommandResponse Send(bool checkStatus = true)
         {
-            var response = Send(this);
+            var task = SendAsync(checkStatus);
+            task.Wait();
+            return task.Result;
+        }
+
+        public async Task<CommandResponse> SendAsync(bool checkStatus = true)
+        {
+            var response = await SendRequestAsync();
 
             if (!checkStatus) return response;
 
@@ -37,15 +45,33 @@ namespace GoPro.Hero.Commands
             return response;
         }
 
-        public TO Execute(bool checkStatus = true)
+        public TO Execute(bool checkStatus = true, bool nonBlocking = false)
         {
-            Send(checkStatus);
+            if (nonBlocking)
+                SendAsync(checkStatus);
+            else
+                Send(checkStatus);
             return Owner;
         }
 
-        public CommandRequest<TO> ExecuteSelf(bool checkStatus = true)
+        public async Task<TO> ExecuteAsync(bool checkStatus = true)
         {
-            Send(checkStatus);
+            await SendAsync(checkStatus);
+            return Owner;
+        }
+
+        public CommandRequest<TO> ExecuteSelf(bool checkStatus = true, bool nonBlocking = false)
+        {
+            if (nonBlocking)
+                SendAsync(checkStatus);
+            else
+                Send(checkStatus);
+            return this;
+        }
+
+        public async Task<CommandRequest<TO>> ExecuteSelfAsync(bool checkStatus = true)
+        {
+            await SendAsync(checkStatus);
             return this;
         }
 
@@ -109,20 +135,24 @@ namespace GoPro.Hero.Commands
             return builder.Uri;
         }
 
-        private static CommandResponse Send(CommandRequest<TO> command)
+        protected CommandResponse SendRequest()
         {
-            var request = WebRequest.Create(command.GetUri()) as HttpWebRequest;
+            var task = SendRequestAsync();
+            task.Wait();
+            return task.Result;
+        }
+
+        protected virtual async Task<CommandResponse> SendRequestAsync()
+        {
+            var request = WebRequest.Create(GetUri()) as HttpWebRequest;
             //request.KeepAlive=true;
             //request.ProtocolVersion=HttpVersion.Version11;
             //request.SendChunked = true;
             //request.TransferEncoding="ISO-8859-1";
 
             if (request != null)
-            {
-                var asyncResponse = request.BeginGetResponse(null, null);
-                asyncResponse.AsyncWaitHandle.WaitOne();
-          
-                using (var response = request.EndGetResponse(asyncResponse) as HttpWebResponse)
+            {  
+                using (var response = await request.GetResponseAsync() as HttpWebResponse)
                 {
                     if (response != null)
                     {

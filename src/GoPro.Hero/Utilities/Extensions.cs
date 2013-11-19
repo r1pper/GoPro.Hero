@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace GoPro.Hero.Utilities
 {
@@ -88,6 +89,12 @@ namespace GoPro.Hero.Utilities
             return from field in typeof (T).GetFields()
                    where field.IsLiteral && !string.IsNullOrEmpty(field.Name)
                    select (T) field.GetValue(null);
+        }
+
+        public static Task WaitSelf(this Task task)
+        {
+            task.Wait();
+            return task;
         }
     }
 }
