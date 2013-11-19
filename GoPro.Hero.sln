@@ -1,9 +1,9 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2012
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GoPro.Hero.Api", "GoPro.Hero.Api\GoPro.Hero.Api.csproj", "{5C83722F-198B-451D-8531-2AA0722F55B9}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GoPro.Hero", "GoPro.Hero\GoPro.Hero.csproj", "{5C83722F-198B-451D-8531-2AA0722F55B9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GoPro.Hero.Api.Tests", "GoPro.Hero.Api.Tests\GoPro.Hero.Api.Tests.csproj", "{DDC8EACC-D2E6-4BDC-A8DE-839D056569F7}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GoPro.Hero.Tests", "GoPro.Hero.Tests\GoPro.Hero.Tests.csproj", "{DDC8EACC-D2E6-4BDC-A8DE-839D056569F7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

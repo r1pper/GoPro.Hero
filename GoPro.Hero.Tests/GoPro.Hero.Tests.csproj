@@ -66,9 +66,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\GoPro.Hero.Api\GoPro.Hero.Api.csproj">
+    <ProjectReference Include="..\GoPro.Hero\GoPro.Hero.csproj">
       <Project>{5c83722f-198b-451d-8531-2aa0722f55b9}</Project>
-      <Name>GoPro.Hero.Api</Name>
+      <Name>GoPro.Hero</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
