@@ -91,10 +91,21 @@ namespace GoPro.Hero.Utilities
                    select (T) field.GetValue(null);
         }
 
+        public static Task<T> WaitSelf<T>(this Task<T> task)
+        {
+            task.Wait();
+            return task;
+        }
+
         public static Task WaitSelf(this Task task)
         {
             task.Wait();
             return task;
+        }
+
+        public static void Result<T>(this Task<T> task, Action<T> result)
+        {
+            task.ContinueWith(t => result(t.Result));
         }
     }
 }

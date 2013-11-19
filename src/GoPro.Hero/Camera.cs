@@ -153,8 +153,16 @@ namespace GoPro.Hero
 
         public string GetName()
         {
+            var task = GetNameAsync();
+            task.Wait();
+
+            return task.Result;
+        }
+
+        public async Task<string> GetNameAsync()
+        {
             var request = PrepareCommand<CommandCameraGetName>();
-            var response = request.Send();
+            var response = await request.SendAsync();
 
             var raw = response.RawResponse;
             var length = response.RawResponse[1];
@@ -164,39 +172,73 @@ namespace GoPro.Hero
             return name.Fix();
         }
 
+        public ICamera GetNameAsync(Action<string> result)
+        {
+            GetNameAsync().Result(result);
+            return this;
+        }
+
         public ICamera GetName(out string name)
         {
             name = GetName();
             return this;
         }
 
-        public ICamera SetName(string name)
+        public async Task<ICamera> SetNameAsync(string name)
         {
             name = name.UrlEncode();
 
             var request = PrepareCommand<CommandCameraSetName>();
             request.Name = name;
 
-            request.Send();
+            await request.SendAsync();
 
             return this;
         }
 
-        public ICamera Shutter(bool open)
+        public ICamera SetName(string name, bool nonBlocking = false)
         {
-            Bacpac.Shutter(open);
+            var task = SetNameAsync(name);
+
+            if (!nonBlocking)
+                task.Wait();
+
             return this;
         }
 
-        public ICamera Power(bool on)
+        public ICamera Shutter(bool open, bool nonBlocking = false)
         {
-            Bacpac.Power(on);
+            Bacpac.Shutter(open, nonBlocking);
+            return this;
+        }
+
+        public async Task<ICamera> ShutterAsync(bool open)
+        {
+            await Bacpac.ShutterAsync(open);
+            return this;
+        }
+
+        public ICamera Power(bool on, bool nonBlocking = false)
+        {
+            Bacpac.Power(on , nonBlocking);
+            return this;
+        }
+
+        public async Task<ICamera> PowerAsync(bool on, bool nonBlocking = false)
+        {
+            await Bacpac.PowerAsync(on);
             return this;
         }
 
         public ICamera Command(CommandRequest<ICamera> command)
         {
             command.Send();
+            return this;
+        }
+
+        public async Task<ICamera> CommandAsync(CommandRequest<ICamera> command)
+        {
+            await command.SendAsync();
             return this;
         }
 
@@ -207,9 +249,22 @@ namespace GoPro.Hero
             return this;
         }
 
+        public async Task<ICamera> CommandAsync(CommandRequest<ICamera> command, Action<CommandResponse> result,
+                       bool checkStatus = true)
+        {
+            var response = await CommandAsync(command, checkStatus);
+            result(response);
+            return this;
+        }
+
         public CommandResponse Command(CommandRequest<ICamera> command, bool checkStatus = true)
         {
             return command.Send(checkStatus);
+        }
+
+        public async Task<CommandResponse> CommandAsync(CommandRequest<ICamera> command, bool checkStatus = true)
+        {
+            return await command.SendAsync(checkStatus);
         }
 
         public T PrepareCommand<T>() where T : CommandRequest<ICamera>
