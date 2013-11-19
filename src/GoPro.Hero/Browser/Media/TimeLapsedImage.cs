@@ -7,7 +7,7 @@ using System.Net;
 using System.Text;
 using Newtonsoft.Json.Linq;
 
-namespace GoPro.Hero.Api.Browser.Media
+namespace GoPro.Hero.Browser.Media
 {
     public class TimeLapsedImage:Media,IEnumerable<WebResponse>
     {

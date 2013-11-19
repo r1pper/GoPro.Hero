@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Xml.Linq;
-using GoPro.Hero.Api.Commands;
-using Extensions = GoPro.Hero.Api.Utilities.Extensions;
+using GoPro.Hero.Commands;
+using Extensions = GoPro.Hero.Utilities.Extensions;
 
-namespace GoPro.Hero.Api.Filtering
+namespace GoPro.Hero.Filtering
 {
     internal class FilterGeneric : IFilter<ICamera>
     {

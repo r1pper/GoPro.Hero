@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Xml.Linq;
 
-namespace GoPro.Hero.Api.Browser.FileSystem
+namespace GoPro.Hero.Browser.FileSystem
 {
     public class AmbrellaBrowser : FileSystemBrowser
     {

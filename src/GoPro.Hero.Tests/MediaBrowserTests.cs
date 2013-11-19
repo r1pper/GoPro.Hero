@@ -5,12 +5,12 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
-using GoPro.Hero.Api.Browser;
-using GoPro.Hero.Api.Browser.Media;
-using GoPro.Hero.Api.Hero3;
+using GoPro.Hero.Browser;
+using GoPro.Hero.Browser.Media;
+using GoPro.Hero.Hero3;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace GoPro.Hero.Api.Tests
+namespace GoPro.Hero.Tests
 {
     [TestClass]
     public class MediaBrowserTests
@@ -184,7 +184,7 @@ namespace GoPro.Hero.Api.Tests
         private Stream GetSample()
         {
             var sample =
-                Assembly.GetExecutingAssembly().GetManifestResourceStream("GoPro.Hero.Api.Tests.Resources.MediaBrowserSample.json");
+                Assembly.GetExecutingAssembly().GetManifestResourceStream("GoPro.Hero.Tests.Resources.MediaBrowserSample.json");
 
             return sample;
         }

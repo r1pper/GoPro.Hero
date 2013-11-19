@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
-using GoPro.Hero.Api.Filtering;
+using GoPro.Hero.Filtering;
 
-namespace GoPro.Hero.Api.Commands
+namespace GoPro.Hero.Commands
 {
     public abstract class CommandBoolean<TO> : CommandRequest<TO> where TO : IFilterProvider
     {

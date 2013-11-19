@@ -1,4 +1,4 @@
-﻿namespace GoPro.Hero.Api.Filtering
+﻿namespace GoPro.Hero.Filtering
 {
     public interface IFilterProvider
     {

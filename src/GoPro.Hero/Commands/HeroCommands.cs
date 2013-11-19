@@ -1,4 +1,4 @@
-﻿namespace GoPro.Hero.Api.Commands
+﻿namespace GoPro.Hero.Commands
 {
     internal static class HeroCommands
     {

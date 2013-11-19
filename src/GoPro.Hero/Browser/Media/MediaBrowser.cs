@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
-using GoPro.Hero.Api.Commands;
+using GoPro.Hero.Commands;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
-namespace GoPro.Hero.Api.Browser.Media
+namespace GoPro.Hero.Browser.Media
 {
     public class MediaBrowser:IGeneralBrowser
     {

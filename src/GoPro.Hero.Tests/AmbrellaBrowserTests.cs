@@ -2,15 +2,15 @@
 using System.Collections.Generic;
 using System.Reflection;
 using System.Xml.Linq;
-using GoPro.Hero.Api.Browser;
+using GoPro.Hero.Browser;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Linq;
 using HtmlTidy = Tidy.Core.Tidy;
-using GoPro.Hero.Api.Hero3;
-using GoPro.Hero.Api.Utilities;
-using GoPro.Hero.Api.Browser.FileSystem;
+using GoPro.Hero.Hero3;
+using GoPro.Hero.Utilities;
+using GoPro.Hero.Browser.FileSystem;
 
-namespace GoPro.Hero.Api.Tests
+namespace GoPro.Hero.Tests
 {
     [TestClass]
     public class AmbrellaBrowserTests
@@ -42,7 +42,7 @@ namespace GoPro.Hero.Api.Tests
         public void CheckMainPage()
         {
             var mainPageStream =
-                Assembly.GetExecutingAssembly().GetManifestResourceStream("GoPro.Hero.Api.Tests.Resources.main.htm");
+                Assembly.GetExecutingAssembly().GetManifestResourceStream("GoPro.Hero.Tests.Resources.main.htm");
             var tidy = new HtmlTidy();
             var element = tidy.ParseXml(mainPageStream);
 
@@ -61,7 +61,7 @@ namespace GoPro.Hero.Api.Tests
         public void CheckEmptyDcimPage()
         {
             var mainPageStream =
-                Assembly.GetExecutingAssembly().GetManifestResourceStream("GoPro.Hero.Api.Tests.Resources.dcim.htm");
+                Assembly.GetExecutingAssembly().GetManifestResourceStream("GoPro.Hero.Tests.Resources.dcim.htm");
             var tidy = new HtmlTidy();
             var element = tidy.ParseXml(mainPageStream);
 
@@ -74,7 +74,7 @@ namespace GoPro.Hero.Api.Tests
         public void CheckLivePage()
         {
             var mainPageStream =
-                Assembly.GetExecutingAssembly().GetManifestResourceStream("GoPro.Hero.Api.Tests.Resources.live.htm");
+                Assembly.GetExecutingAssembly().GetManifestResourceStream("GoPro.Hero.Tests.Resources.live.htm");
             var tidy = new HtmlTidy();
             var element = tidy.ParseXml(mainPageStream);
 

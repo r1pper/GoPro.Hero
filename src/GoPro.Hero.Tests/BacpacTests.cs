@@ -1,7 +1,7 @@
 ﻿using System.Threading;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace GoPro.Hero.Api.Tests
+namespace GoPro.Hero.Tests
 {
     [TestClass]
     public class BacpacTests

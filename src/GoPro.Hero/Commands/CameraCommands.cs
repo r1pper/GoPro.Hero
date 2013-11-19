@@ -1,7 +1,7 @@
 ﻿using System;
-using GoPro.Hero.Api.Utilities;
+using GoPro.Hero.Utilities;
 
-namespace GoPro.Hero.Api.Commands
+namespace GoPro.Hero.Commands
 {
     [Command(HeroCommands.CAMERA_GET_NAME, Parameterless = true)]
     internal class CommandCameraGetName : CommandRequest<ICamera>

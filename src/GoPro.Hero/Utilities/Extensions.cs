@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 
-namespace GoPro.Hero.Api.Utilities
+namespace GoPro.Hero.Utilities
 {
     public static class Extensions
     {

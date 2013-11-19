@@ -1,4 +1,4 @@
-﻿namespace GoPro.Hero.Api.Exceptions
+﻿namespace GoPro.Hero.Exceptions
 {
     internal class CameraException : GoProException
     {

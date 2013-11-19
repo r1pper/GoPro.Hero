@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Text;
-using GoPro.Hero.Api.Browser;
-using GoPro.Hero.Api.Browser.FileSystem;
-using GoPro.Hero.Api.Commands;
-using GoPro.Hero.Api.Filtering;
-using GoPro.Hero.Api.Utilities;
+using GoPro.Hero.Browser;
+using GoPro.Hero.Browser.FileSystem;
+using GoPro.Hero.Commands;
+using GoPro.Hero.Filtering;
+using GoPro.Hero.Utilities;
 
-namespace GoPro.Hero.Api
+namespace GoPro.Hero
 {
     public class Camera : ICamera
     {

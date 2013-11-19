@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
-using GoPro.Hero.Api.Commands;
-using GoPro.Hero.Api.Utilities;
+using GoPro.Hero.Commands;
+using GoPro.Hero.Utilities;
 
-namespace GoPro.Hero.Api.Filtering
+namespace GoPro.Hero.Filtering
 {
     internal class NoFilter<TO> : IFilter<TO> where TO : IFilterProvider
     {

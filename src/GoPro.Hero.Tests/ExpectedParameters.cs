@@ -1,4 +1,4 @@
-﻿namespace GoPro.Hero.Api.Tests
+﻿namespace GoPro.Hero.Tests
 {
     internal class ExpectedParameters
     {

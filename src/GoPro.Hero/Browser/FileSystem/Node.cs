@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 
-namespace GoPro.Hero.Api.Browser.FileSystem
+namespace GoPro.Hero.Browser.FileSystem
 {
     public class Node
     {

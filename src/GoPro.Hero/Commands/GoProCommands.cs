@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace GoPro.Hero.Api.Commands
+namespace GoPro.Hero.Commands
 {
     [Command(HeroCommands.GOPRO_MEDIALIST,InSecure=true,Parameterless=true)]
     public class CommandGoProMediaList : CommandRequest<ICamera>

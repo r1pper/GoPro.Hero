@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
-using GoPro.Hero.Api.Commands;
+using GoPro.Hero.Commands;
 
-namespace GoPro.Hero.Api.Filtering
+namespace GoPro.Hero.Filtering
 {
     public interface IFilter<TO> where TO : IFilterProvider
     {

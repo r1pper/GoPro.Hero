@@ -1,19 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
-using GoPro.Hero.Api.Browser;
-using GoPro.Hero.Api.Commands;
-using GoPro.Hero.Api.Filtering;
+using GoPro.Hero.Browser;
+using GoPro.Hero.Commands;
+using GoPro.Hero.Filtering;
 using System.Linq;
-using GoPro.Hero.Api.Browser.FileSystem;
-using GoPro.Hero.Api.Browser.Media;
+using GoPro.Hero.Browser.FileSystem;
+using GoPro.Hero.Browser.Media;
 
-namespace GoPro.Hero.Api.Hero3
+namespace GoPro.Hero.Hero3
 {
     public class Hero3Camera : Camera
     {
         public Hero3Camera(Bacpac bacpac) : base(bacpac)
         {
-            var filter = FilterGeneric.Create("GoPro.Hero.Api.Hero3.Hero3FilterScheme.xml");
+            var filter = FilterGeneric.Create("GoPro.Hero.Hero3.Hero3FilterScheme.xml");
             base.SetFilter(filter);
         }
 

@@ -1,8 +1,8 @@
 ﻿using System.Text;
-using GoPro.Hero.Api.Commands;
-using GoPro.Hero.Api.Filtering;
+using GoPro.Hero.Commands;
+using GoPro.Hero.Filtering;
 
-namespace GoPro.Hero.Api
+namespace GoPro.Hero
 {
     public sealed class Bacpac : IFilterProvider
     {

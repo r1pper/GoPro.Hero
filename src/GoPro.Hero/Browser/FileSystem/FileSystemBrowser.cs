@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using System.Net;
 using System.Xml.Linq;
-using GoPro.Hero.Api.Exceptions;
+using GoPro.Hero.Exceptions;
 using HtmlTidy = Tidy.Core.Tidy;
 
-namespace GoPro.Hero.Api.Browser.FileSystem
+namespace GoPro.Hero.Browser.FileSystem
 {
     public abstract class FileSystemBrowser : IFileSystemBrowser
     {

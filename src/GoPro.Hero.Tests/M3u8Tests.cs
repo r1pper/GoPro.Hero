@@ -1,9 +1,9 @@
 ﻿using System.Linq;
 using System.Reflection;
-using GoPro.Hero.Api.Utilities;
+using GoPro.Hero.Utilities;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace GoPro.Hero.Api.Tests
+namespace GoPro.Hero.Tests
 {
     [TestClass]
     public class M3U8Tests
@@ -23,7 +23,7 @@ namespace GoPro.Hero.Api.Tests
         private M3U8Parser GetParser()
         {
             var sample =
-                Assembly.GetExecutingAssembly().GetManifestResourceStream("GoPro.Hero.Api.Tests.Resources.amba.m3u8");
+                Assembly.GetExecutingAssembly().GetManifestResourceStream("GoPro.Hero.Tests.Resources.amba.m3u8");
             return new M3U8Parser(sample);
         }
 

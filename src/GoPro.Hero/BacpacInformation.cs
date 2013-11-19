@@ -2,7 +2,7 @@
 using System.IO;
 using System.Text;
 
-namespace GoPro.Hero.Api
+namespace GoPro.Hero
 {
     public class BacpacInformation
     {

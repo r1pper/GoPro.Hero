@@ -1,4 +1,4 @@
-﻿namespace GoPro.Hero.Api.Commands
+﻿namespace GoPro.Hero.Commands
 {
     [Command(HeroCommands.BACPAC_SHUTTER)]
     internal class CommandBacpacShutter : CommandBoolean<Bacpac>

@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading;
-using GoPro.Hero.Api.Commands;
-using GoPro.Hero.Api.Filtering;
-using GoPro.Hero.Api.Utilities;
+using GoPro.Hero.Commands;
+using GoPro.Hero.Filtering;
+using GoPro.Hero.Utilities;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace GoPro.Hero.Api.Tests
+namespace GoPro.Hero.Tests
 {
     [TestClass]
     public class CameraTests

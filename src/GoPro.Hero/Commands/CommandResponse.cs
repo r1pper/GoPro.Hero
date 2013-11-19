@@ -1,6 +1,6 @@
 ﻿using System.IO;
 
-namespace GoPro.Hero.Api.Commands
+namespace GoPro.Hero.Commands
 {
     public class CommandResponse
     {

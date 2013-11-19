@@ -1,4 +1,4 @@
-﻿namespace GoPro.Hero.Api
+﻿namespace GoPro.Hero
 {
     public enum Orientation : byte
     {

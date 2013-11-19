@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Net;
 using System.Reflection;
-using GoPro.Hero.Api.Exceptions;
-using GoPro.Hero.Api.Filtering;
+using GoPro.Hero.Exceptions;
+using GoPro.Hero.Filtering;
 
-namespace GoPro.Hero.Api.Commands
+namespace GoPro.Hero.Commands
 {
     public class CommandRequest<TO> where TO : IFilterProvider
     {

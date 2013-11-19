@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace GoPro.Hero.Api.Commands
+namespace GoPro.Hero.Commands
 {
     internal class CommandAttribute : Attribute
     {

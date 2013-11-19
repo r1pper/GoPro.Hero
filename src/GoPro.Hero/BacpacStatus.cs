@@ -1,7 +1,7 @@
 ﻿using System.IO;
-using GoPro.Hero.Api.Utilities;
+using GoPro.Hero.Utilities;
 
-namespace GoPro.Hero.Api
+namespace GoPro.Hero
 {
     public class BacpacStatus
     {

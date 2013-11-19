@@ -4,11 +4,11 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Text;
-using GoPro.Hero.Api.Commands;
-using GoPro.Hero.Api.Exceptions;
+using GoPro.Hero.Commands;
+using GoPro.Hero.Exceptions;
 using Newtonsoft.Json.Linq;
 
-namespace GoPro.Hero.Api.Browser.Media
+namespace GoPro.Hero.Browser.Media
 {
     public abstract class Media:IMedia
     {

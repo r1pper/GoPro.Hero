@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Threading;
-using GoPro.Hero.Api.Commands;
-using GoPro.Hero.Api.Hero3;
+using GoPro.Hero.Commands;
+using GoPro.Hero.Hero3;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace GoPro.Hero.Api.Tests
+namespace GoPro.Hero.Tests
 {
     [TestClass]
     public class Hero3CameraTests
