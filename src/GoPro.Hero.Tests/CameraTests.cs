@@ -70,12 +70,12 @@ namespace GoPro.Hero.Tests
         {
             var camera = GetCamera();
 
-            var init = camera.BacpacStatus.CameraPower;
+            var init = camera.BacpacStatus().CameraPower;
             if (init) return;
 
             camera.Power(true);
             Thread.Sleep(5000);
-            var res = camera.BacpacStatus.CameraPower;
+            var res = camera.BacpacStatus().CameraPower;
             Assert.AreEqual(true, res);
         }
 

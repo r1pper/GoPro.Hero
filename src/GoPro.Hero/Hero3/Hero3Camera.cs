@@ -394,7 +394,7 @@ namespace GoPro.Hero.Hero3
 
         public Hero3Camera Shutter(out bool state)
         {
-            state = base.ExtendedSettings.Shutter || base.BacpacStatus.ShutterStatus > 0;
+            state = base.ExtendedSettings.Shutter || base.BacpacStatus().ShutterStatus > 0;
             return this;
         }
 
@@ -415,19 +415,19 @@ namespace GoPro.Hero.Hero3
 
         public Hero3Camera Power(out bool state)
         {
-            state = base.BacpacStatus.CameraPower;
+            state = base.BacpacStatus().CameraPower;
             return this;
         }
 
         public Hero3Camera Model(out Model model)
         {
-            model = base.BacpacStatus.CameraModel;
+            model = base.BacpacStatus().CameraModel;
             return this;
         }
 
         public Hero3Camera SignalStrength(out SignalStrength signalStrength)
         {
-            signalStrength = base.BacpacStatus.Rssi;
+            signalStrength = base.BacpacStatus().Rssi;
             return this;
         }
 
@@ -464,7 +464,7 @@ namespace GoPro.Hero.Hero3
 
         public Hero3Camera MacAddress(out string macAddress)
         {
-            macAddress = base.BacpacInformation.MacAddress;
+            macAddress = base.BacpacInformation().MacAddress;
             return this;
         }
 
@@ -482,19 +482,19 @@ namespace GoPro.Hero.Hero3
 
         public Hero3Camera BootLoader(out Version version)
         {
-            version = base.BacpacInformation.BootloaderVersion;
+            version = base.BacpacInformation().BootloaderVersion;
             return this;
         }
 
         public Hero3Camera Firmware(out Version version)
         {
-            version = base.BacpacInformation.FirmwareVersion;
+            version = base.BacpacInformation().FirmwareVersion;
             return this;
         }
 
         public Hero3Camera Ssid(out string ssid)
         {
-            ssid = base.BacpacInformation.Ssid;
+            ssid = base.BacpacInformation().Ssid;
             return this;
         }
 

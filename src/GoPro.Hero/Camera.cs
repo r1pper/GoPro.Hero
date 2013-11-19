@@ -95,14 +95,24 @@ namespace GoPro.Hero
             return _extendedSettings;
         }
 
-        public BacpacStatus BacpacStatus
+        public BacpacStatus BacpacStatus()
         {
-            get { return Bacpac.Status(); }
+            return Bacpac.Status();
         }
 
-        public BacpacInformation BacpacInformation
+        public async Task<BacpacStatus> BacpacStatusAsync()
         {
-            get { return Bacpac.Information(); }
+            return await Bacpac.StatusAsync();
+        }
+
+        public BacpacInformation BacpacInformation()
+        {
+            return Bacpac.Information();
+        }
+
+        public async Task<BacpacInformation> BacpacInformationAsync()
+        {
+            return await Bacpac.InformationAsync();
         }
 
         public string GetName()

@@ -32,12 +32,12 @@ namespace GoPro.Hero.Tests
         {
             var camera = GetCamera();
 
-            var init = camera.BacpacStatus.CameraPower;
+            var init = camera.BacpacStatus().CameraPower;
             if (init) return;
 
             camera.Power(true);
             Thread.Sleep(5000);
-            var res = camera.BacpacStatus.CameraPower;
+            var res = camera.BacpacStatus().CameraPower;
             Assert.AreEqual(true, res);
         }
 
@@ -114,7 +114,7 @@ namespace GoPro.Hero.Tests
         public void CheckBootloaderVersion()
         {
             Version version;
-            var versionState = GetCamera().BootLoader(out version).BacpacInformation.BootloaderVersion;
+            var versionState = GetCamera().BootLoader(out version).BacpacInformation().BootloaderVersion;
             Assert.AreEqual(versionState, version);
         }
 
@@ -310,7 +310,7 @@ namespace GoPro.Hero.Tests
         [TestMethod]
         public void CheckProtuneSupport()
         { 
-            var model = GetCamera().BacpacStatus.CameraModel;
+            var model = GetCamera().BacpacStatus().CameraModel;
             var supports = GetCamera().SupportsProtune();
 
             Assert.IsTrue((model == Model.Hero3Black && supports) || (model == Model.Hero3Silver && supports) ||
@@ -433,7 +433,7 @@ namespace GoPro.Hero.Tests
         {
             Model model;
 
-            var modelState = GetCamera().Model(out model).BacpacStatus.CameraModel;
+            var modelState = GetCamera().Model(out model).BacpacStatus().CameraModel;
             Assert.AreEqual(modelState, model);
         }
 
@@ -551,7 +551,7 @@ namespace GoPro.Hero.Tests
         {
             SignalStrength signalStrength;
 
-            var signalState = GetCamera().SignalStrength(out signalStrength).BacpacStatus.Rssi;
+            var signalState = GetCamera().SignalStrength(out signalStrength).BacpacStatus().Rssi;
             Assert.AreEqual(signalState, signalStrength);
         }
 
@@ -560,7 +560,7 @@ namespace GoPro.Hero.Tests
         {
             string ssid;
 
-            var ssidState = GetCamera().Ssid(out ssid).BacpacInformation.Ssid;
+            var ssidState = GetCamera().Ssid(out ssid).BacpacInformation().Ssid;
             Assert.AreEqual(ssidState, ssid);
         }
 
@@ -635,7 +635,7 @@ namespace GoPro.Hero.Tests
         public void CheckFirmware()
         {
             Version version;
-            var versionState = GetCamera().Firmware(out version).BacpacInformation.FirmwareVersion;
+            var versionState = GetCamera().Firmware(out version).BacpacInformation().FirmwareVersion;
 
             Assert.AreEqual(versionState, version);
         }
@@ -645,7 +645,7 @@ namespace GoPro.Hero.Tests
         {
             string macAddress;
 
-            var bacPacMacAddress = GetCamera().MacAddress(out macAddress).BacpacInformation.MacAddress;
+            var bacPacMacAddress = GetCamera().MacAddress(out macAddress).BacpacInformation().MacAddress;
             Assert.AreEqual(macAddress, bacPacMacAddress);
         }
 

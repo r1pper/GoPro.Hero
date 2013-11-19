@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using System.Threading.Tasks;
 using System.Xml.Linq;
 using GoPro.Hero.Commands;
 using Extensions = GoPro.Hero.Utilities.Extensions;
@@ -26,14 +27,21 @@ namespace GoPro.Hero.Filtering
             _owner = owner;
         }
 
-        public IEnumerable<T> GetValidStates<T, TC>(string command) where TC : CommandMultiChoice<T, ICamera>
+        public  IEnumerable<T> GetValidStates<T, TC>(string command) where TC : CommandMultiChoice<T, ICamera>
+        {
+            var task = GetValidStatesAsync<T, TC>(command);
+            task.Wait();
+            return task.Result;
+        }
+
+        public async Task<IEnumerable<T>> GetValidStatesAsync<T, TC>(string command) where TC : CommandMultiChoice<T, ICamera>
         {
             var elements = _root.Elements(command).ToArray();
             if (!elements.Any())
                 return Extensions.GetValues<T>();
 
-            var extendedSettings = _owner.ExtendedSettings;
-            var bacpacStatus = _owner.BacpacStatus;
+            var extendedSettings = await _owner.ExtendedSettingsAsync();
+            var bacpacStatus = await _owner.BacpacStatusAsync();
             var selectedConfig =
                 elements.First(
                     element =>
@@ -47,14 +55,21 @@ namespace GoPro.Hero.Filtering
             return result;
         }
 
-        public IEnumerable<bool> GetValidStates<TC>(string command) where TC : CommandBoolean<ICamera>
+        public  IEnumerable<bool> GetValidStates<TC>(string command) where TC : CommandBoolean<ICamera>
+        {
+            var task = GetValidStatesAsync<TC>(command);
+            task.Wait();
+            return task.Result;
+        }
+
+        public async Task<IEnumerable<bool>> GetValidStatesAsync<TC>(string command) where TC : CommandBoolean<ICamera>
         {
             var elements = _root.Elements(command).ToArray();
             if (!elements.Any())
                 return new[] {true, false};
 
-            var extendedSettings = _owner.ExtendedSettings;
-            var bacpacStatus = _owner.BacpacStatus;
+            var extendedSettings = await _owner.ExtendedSettingsAsync();
+            var bacpacStatus = await _owner.BacpacStatusAsync();
             var selectedConfig =
                 elements.First(
                     element =>

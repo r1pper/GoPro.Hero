@@ -1,4 +1,5 @@
-﻿using GoPro.Hero.Commands;
+﻿using System.Threading.Tasks;
+using GoPro.Hero.Commands;
 using GoPro.Hero.Filtering;
 
 namespace GoPro.Hero
@@ -6,11 +7,19 @@ namespace GoPro.Hero
     public interface ICamera : IFilterProvider
     {
         CameraSettings Settings { get; }
-        CameraExtendedSettings ExtendedSettings { get; }
+        Task<CameraSettings> SettingsAsync();
 
-        BacpacStatus BacpacStatus { get; }
-        BacpacInformation BacpacInformation { get; }
+        CameraExtendedSettings ExtendedSettings { get; }
+        Task<CameraExtendedSettings> ExtendedSettingsAsync();
+
+        BacpacStatus BacpacStatus();
+        Task<BacpacStatus> BacpacStatusAsync();
+        BacpacInformation BacpacInformation();
+        Task<BacpacInformation> BacpacInformationAsync();
+
         CameraInformation Information { get; }
+        Task<CameraInformation> InformationAsync();
+
         ICamera SetFilter(IFilter<ICamera> filter);
 
         ICamera Shutter(bool open);
