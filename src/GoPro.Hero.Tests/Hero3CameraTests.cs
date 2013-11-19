@@ -54,7 +54,7 @@ namespace GoPro.Hero.Tests
             int photoSpaceAvailable;
 
             var photoSpace =
-                GetCamera().AvailablePhotoSpace(out photoSpaceAvailable).ExtendedSettings.PhotosAvailableSpace;
+                GetCamera().AvailablePhotoSpace(out photoSpaceAvailable).ExtendedSettings().PhotosAvailableSpace;
             Assert.AreEqual(photoSpace, photoSpaceAvailable);
         }
 
@@ -64,7 +64,7 @@ namespace GoPro.Hero.Tests
             TimeSpan videoSpaceAvailable;
 
             var videoSpace =
-                GetCamera().AvailableVideoSpace(out videoSpaceAvailable).ExtendedSettings.VideosAvailableSpace;
+                GetCamera().AvailableVideoSpace(out videoSpaceAvailable).ExtendedSettings().VideosAvailableSpace;
             Assert.AreEqual(videoSpace, videoSpaceAvailable.TotalSeconds);
         }
 
@@ -72,7 +72,7 @@ namespace GoPro.Hero.Tests
         public void CheckBattery()
         {
             byte battery;
-            var batteryState = GetCamera().BatteryStatus(out battery).Settings.Battery;
+            var batteryState = GetCamera().BatteryStatus(out battery).Settings().Battery;
 
             Assert.AreEqual(batteryState, battery);
             Assert.IsTrue(battery > 0 && battery <= 100);
@@ -375,7 +375,7 @@ namespace GoPro.Hero.Tests
         {
             string fullName;
 
-            var fullnameState = GetCamera().FullName(out fullName).Information.Name;
+            var fullnameState = GetCamera().FullName(out fullName).Information().Name;
             Assert.AreEqual(fullnameState, fullName);
         }
 
@@ -471,7 +471,7 @@ namespace GoPro.Hero.Tests
         {
             int count;
 
-            var countState = GetCamera().PhotoCount(out count).ExtendedSettings.PhotosCount;
+            var countState = GetCamera().PhotoCount(out count).ExtendedSettings().PhotosCount;
             Assert.AreEqual(countState, count);
         }
 
@@ -480,7 +480,7 @@ namespace GoPro.Hero.Tests
         {
             int count;
 
-            var countState = GetCamera().VideoCount(out count).ExtendedSettings.VideosCount;
+            var countState = GetCamera().VideoCount(out count).ExtendedSettings().VideosCount;
             Assert.AreEqual(countState, count);
         }
 
@@ -589,7 +589,7 @@ namespace GoPro.Hero.Tests
         {
             string version;
 
-            var versionState = GetCamera().Version(out version).Information.Version;
+            var versionState = GetCamera().Version(out version).Information().Version;
             Assert.AreEqual(versionState, version);
         }
 
@@ -655,7 +655,7 @@ namespace GoPro.Hero.Tests
             bool livePreviewAvailable;
 
             var livePreview =
-                GetCamera().LivePreviewAvailable(out livePreviewAvailable).ExtendedSettings.PreviewAvailable;
+                GetCamera().LivePreviewAvailable(out livePreviewAvailable).ExtendedSettings().PreviewAvailable;
             Assert.AreEqual(livePreview, livePreviewAvailable);
         }
     }

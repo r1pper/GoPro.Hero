@@ -38,7 +38,7 @@ namespace GoPro.Hero.Hero3
 
         public Hero3Camera VideoResolution(out VideoResolution resolution)
         {
-            resolution = base.ExtendedSettings.VideoResolution;
+            resolution = base.ExtendedSettings().VideoResolution;
             return this;
         }
 
@@ -61,7 +61,7 @@ namespace GoPro.Hero.Hero3
 
         public Hero3Camera Orientation(out Orientation orientation)
         {
-            orientation = base.ExtendedSettings.Orientation;
+            orientation = base.ExtendedSettings().Orientation;
             return this;
         }
 
@@ -72,7 +72,7 @@ namespace GoPro.Hero.Hero3
 
         public Hero3Camera TimeLapse(out TimeLapse timeLapse)
         {
-            timeLapse = base.ExtendedSettings.TimeLapse;
+            timeLapse = base.ExtendedSettings().TimeLapse;
             return this;
         }
 
@@ -83,7 +83,7 @@ namespace GoPro.Hero.Hero3
 
         public Hero3Camera BeepSound(out BeepSound beepSound)
         {
-            beepSound = base.ExtendedSettings.BeepSound;
+            beepSound = base.ExtendedSettings().BeepSound;
             return this;
         }
 
@@ -109,7 +109,7 @@ namespace GoPro.Hero.Hero3
 
         public Hero3Camera Protune(out bool state)
         {
-            state = base.ExtendedSettings.Protune;
+            state = base.ExtendedSettings().Protune;
             return this;
         }
 
@@ -131,7 +131,7 @@ namespace GoPro.Hero.Hero3
 
         public Hero3Camera PhotoResolution(out PhotoResolution resolution)
         {
-            resolution = base.ExtendedSettings.PhotoResolution;
+            resolution = base.ExtendedSettings().PhotoResolution;
             return this;
         }
 
@@ -154,7 +154,7 @@ namespace GoPro.Hero.Hero3
 
         public Hero3Camera VideoStandard(out VideoStandard videoStandard)
         {
-            videoStandard = base.ExtendedSettings.VideoStandard;
+            videoStandard = base.ExtendedSettings().VideoStandard;
             return this;
         }
 
@@ -165,7 +165,7 @@ namespace GoPro.Hero.Hero3
 
         public Hero3Camera Mode(out Mode mode)
         {
-            mode = base.ExtendedSettings.Mode;
+            mode = base.ExtendedSettings().Mode;
             return this;
         }
 
@@ -186,7 +186,7 @@ namespace GoPro.Hero.Hero3
 
         public Hero3Camera Locate(out bool state)
         {
-            state = base.ExtendedSettings.LocateCamera;
+            state = base.ExtendedSettings().LocateCamera;
             return this;
         }
 
@@ -207,7 +207,7 @@ namespace GoPro.Hero.Hero3
 
         public Hero3Camera LivePreview(out bool state)
         {
-            state = base.ExtendedSettings.PreviewActive;
+            state = base.ExtendedSettings().PreviewActive;
             return this;
         }
 
@@ -218,7 +218,7 @@ namespace GoPro.Hero.Hero3
 
         public Hero3Camera LedBlink(out LedBlink ledBlink)
         {
-            ledBlink = base.ExtendedSettings.LedBlink;
+            ledBlink = base.ExtendedSettings().LedBlink;
             return this;
         }
 
@@ -229,7 +229,7 @@ namespace GoPro.Hero.Hero3
 
         public Hero3Camera FieldOfView(out FieldOfView fieldOfView)
         {
-            fieldOfView = base.ExtendedSettings.FieldOfView;
+            fieldOfView = base.ExtendedSettings().FieldOfView;
             return this;
         }
 
@@ -261,7 +261,7 @@ namespace GoPro.Hero.Hero3
 
         public Hero3Camera SpotMeter(out bool state)
         {
-            state = base.ExtendedSettings.SpotMeter;
+            state = base.ExtendedSettings().SpotMeter;
             return this;
         }
 
@@ -272,7 +272,7 @@ namespace GoPro.Hero.Hero3
 
         public Hero3Camera DefaultModeOnPowerOn(out Mode mode)
         {
-            mode = base.ExtendedSettings.OnDefault;
+            mode = base.ExtendedSettings().OnDefault;
             return this;
         }
 
@@ -293,7 +293,7 @@ namespace GoPro.Hero.Hero3
 
         public Hero3Camera WhiteBalance(out WhiteBalance whiteBalance)
         {
-            whiteBalance = base.ExtendedSettings.WhiteBalance;
+            whiteBalance = base.ExtendedSettings().WhiteBalance;
             return this;
         }
 
@@ -316,7 +316,7 @@ namespace GoPro.Hero.Hero3
 
         public Hero3Camera LoopingVideo(out LoopingVideo loopingVideo)
         {
-            loopingVideo = base.ExtendedSettings.LoopingVideoMode;
+            loopingVideo = base.ExtendedSettings().LoopingVideoMode;
             return this;
         }
 
@@ -339,7 +339,7 @@ namespace GoPro.Hero.Hero3
 
         public Hero3Camera FrameRate(out FrameRate frameRate)
         {
-            frameRate = base.ExtendedSettings.FrameRate;
+            frameRate = base.ExtendedSettings().FrameRate;
             return this;
         }
 
@@ -362,7 +362,7 @@ namespace GoPro.Hero.Hero3
 
         public Hero3Camera BurstRate(out BurstRate burstRate)
         {
-            burstRate = base.ExtendedSettings.BurstRate;
+            burstRate = base.ExtendedSettings().BurstRate;
             return this;
         }
 
@@ -373,7 +373,7 @@ namespace GoPro.Hero.Hero3
 
         public Hero3Camera ContinuousShot(out ContinuousShot continuousShot)
         {
-            continuousShot = base.ExtendedSettings.ContinuousShot;
+            continuousShot = base.ExtendedSettings().ContinuousShot;
             return this;
         }
 
@@ -394,7 +394,7 @@ namespace GoPro.Hero.Hero3
 
         public Hero3Camera Shutter(out bool state)
         {
-            state = base.ExtendedSettings.Shutter || base.BacpacStatus().ShutterStatus > 0;
+            state = base.ExtendedSettings().Shutter || base.BacpacStatus().ShutterStatus > 0;
             return this;
         }
 
@@ -433,31 +433,31 @@ namespace GoPro.Hero.Hero3
 
         public Hero3Camera BatteryStatus(out byte batteryStatus)
         {
-            batteryStatus = base.Settings.Battery;
+            batteryStatus = base.Settings().Battery;
             return this;
         }
 
         public Hero3Camera PhotoCount(out int photoCount)
         {
-            photoCount = base.ExtendedSettings.PhotosCount;
+            photoCount = base.ExtendedSettings().PhotosCount;
             return this;
         }
 
         public Hero3Camera AvailablePhotoSpace(out int availableSpace)
         {
-            availableSpace = base.ExtendedSettings.PhotosAvailableSpace;
+            availableSpace = base.ExtendedSettings().PhotosAvailableSpace;
             return this;
         }
 
         public Hero3Camera VideoCount(out int videoCount)
         {
-            videoCount = base.ExtendedSettings.VideosCount;
+            videoCount = base.ExtendedSettings().VideosCount;
             return this;
         }
 
         public Hero3Camera AvailableVideoSpace(out TimeSpan availableSpace)
         {
-            var seconds = base.ExtendedSettings.VideosAvailableSpace;
+            var seconds = base.ExtendedSettings().VideosAvailableSpace;
             availableSpace = new TimeSpan(0, 0, seconds);
             return this;
         }
@@ -500,19 +500,19 @@ namespace GoPro.Hero.Hero3
 
         public Hero3Camera FullName(out string fullName)
         {
-            fullName = base.Information.Name;
+            fullName = base.Information().Name;
             return this;
         }
 
         public Hero3Camera Version(out string version)
         {
-            version = base.Information.Version;
+            version = base.Information().Version;
             return this;
         }
 
         public Hero3Camera LivePreviewAvailable(out bool state)
         {
-            state = base.ExtendedSettings.PreviewAvailable;
+            state = base.ExtendedSettings().PreviewAvailable;
             return this;
         }
     }

@@ -114,31 +114,31 @@ namespace GoPro.Hero.Tests
         public void CheckVideoResolution()
         {
             CheckMultiChoiceCommand<CommandCameraVideoResolution, VideoResolution>(
-                c => c.ExtendedSettings.VideoResolution);
+                c => c.ExtendedSettings().VideoResolution);
         }
 
         [TestMethod]
         public void CheckOrientation()
         {
-            CheckMultiChoiceCommand<CommandCameraOrientation, Orientation>(c => c.ExtendedSettings.Orientation);
+            CheckMultiChoiceCommand<CommandCameraOrientation, Orientation>(c => c.ExtendedSettings().Orientation);
         }
 
         [TestMethod]
         public void CheckTimeLapse()
         {
-            CheckMultiChoiceCommand<CommandCameraTimeLapse, TimeLapse>(c => c.ExtendedSettings.TimeLapse);
+            CheckMultiChoiceCommand<CommandCameraTimeLapse, TimeLapse>(c => c.ExtendedSettings().TimeLapse);
         }
 
         [TestMethod]
         public void CheckBeepSound()
         {
-            CheckMultiChoiceCommand<CommandCameraBeepSound, BeepSound>(c => c.ExtendedSettings.BeepSound);
+            CheckMultiChoiceCommand<CommandCameraBeepSound, BeepSound>(c => c.ExtendedSettings().BeepSound);
         }
 
         [TestMethod]
         public void CheckProtune()
         {
-            CheckBooleanCommand<CommandCameraProtune>(c => c.ExtendedSettings.Protune);
+            CheckBooleanCommand<CommandCameraProtune>(c => c.ExtendedSettings().Protune);
         }
 
         [TestMethod]
@@ -147,56 +147,56 @@ namespace GoPro.Hero.Tests
             Assert.Inconclusive("needs specific camera filtering");
 
             CheckMultiChoiceCommand<CommandCameraPhotoResolution, PhotoResolution>(
-                c => c.ExtendedSettings.PhotoResolution);
+                c => c.ExtendedSettings().PhotoResolution);
         }
 
         [TestMethod]
         public void CheckVideoStandard()
         {
-            CheckMultiChoiceCommand<CommandCameraVideoStandard, VideoStandard>(c => c.ExtendedSettings.VideoStandard);
+            CheckMultiChoiceCommand<CommandCameraVideoStandard, VideoStandard>(c => c.ExtendedSettings().VideoStandard);
         }
 
         [TestMethod]
         public void CheckModes()
         {
-            CheckMultiChoiceCommand<CommandCameraMode, Mode>(c => c.ExtendedSettings.Mode);
+            CheckMultiChoiceCommand<CommandCameraMode, Mode>(c => c.ExtendedSettings().Mode);
         }
 
         [TestMethod]
         public void LocateCamera()
         {
-            CheckBooleanCommand<CommandCameraLocate>(c => c.ExtendedSettings.LocateCamera);
+            CheckBooleanCommand<CommandCameraLocate>(c => c.ExtendedSettings().LocateCamera);
         }
 
         [TestMethod]
         public void CheckPreview()
         {
             var camera = GetCamera();
-            var available = camera.ExtendedSettings.PreviewAvailable;
+            var available = camera.ExtendedSettings().PreviewAvailable;
             Assert.AreEqual(true, available);
 
-            CheckBooleanCommand<CommandCameraPreview>(c => c.ExtendedSettings.PreviewActive);
+            CheckBooleanCommand<CommandCameraPreview>(c => c.ExtendedSettings().PreviewActive);
         }
 
         [TestMethod]
         public void CheckLedBlinks()
         {
-            CheckMultiChoiceCommand<CommandCameraLedBlink, LedBlink>(c => c.ExtendedSettings.LedBlink);
+            CheckMultiChoiceCommand<CommandCameraLedBlink, LedBlink>(c => c.ExtendedSettings().LedBlink);
         }
 
         [TestMethod]
         public void CheckFieldOfView()
         {
             var camera = GetCamera();
-            var initResolution = camera.ExtendedSettings.VideoResolution;
+            var initResolution = camera.ExtendedSettings().VideoResolution;
             var currentResolution =
                 camera.PrepareCommand<CommandCameraVideoResolution>()
                       .Select(VideoResolution.Vr1080)
                       .Execute()
-                      .ExtendedSettings.VideoResolution;
+                      .ExtendedSettings().VideoResolution;
             Assert.AreEqual(VideoResolution.Vr1080, currentResolution);
 
-            CheckMultiChoiceCommand<CommandCameraFieldOfView, FieldOfView>(c => c.ExtendedSettings.FieldOfView);
+            CheckMultiChoiceCommand<CommandCameraFieldOfView, FieldOfView>(c => c.ExtendedSettings().FieldOfView);
 
             camera.PrepareCommand<CommandCameraVideoResolution>().Select(initResolution).Execute();
         }
@@ -204,13 +204,13 @@ namespace GoPro.Hero.Tests
         [TestMethod]
         public void CheckSpotMeter()
         {
-            CheckBooleanCommand<CommandCameraSpotMeter>(c => c.ExtendedSettings.SpotMeter);
+            CheckBooleanCommand<CommandCameraSpotMeter>(c => c.ExtendedSettings().SpotMeter);
         }
 
         [TestMethod]
         public void CheckOnDefaultMode()
         {
-            CheckMultiChoiceCommand<CommandCameraDefaultMode, Mode>(c => c.ExtendedSettings.OnDefault);
+            CheckMultiChoiceCommand<CommandCameraDefaultMode, Mode>(c => c.ExtendedSettings().OnDefault);
         }
 
         [TestMethod]
@@ -220,7 +220,7 @@ namespace GoPro.Hero.Tests
 
             camera.PrepareCommand<CommandCameraDeleteAllFilesOnSd>().Execute();
             Thread.Sleep(5000);
-            var info = camera.ExtendedSettings;
+            var info = camera.ExtendedSettings();
             Assert.AreEqual(0, info.PhotosCount);
             Assert.AreEqual(0, info.VideosCount);
         }
@@ -229,12 +229,12 @@ namespace GoPro.Hero.Tests
         public void CheckDeleteLastOnSdCard()
         {
             var camera = GetCamera();
-            var initPhoto = camera.ExtendedSettings.PhotosCount;
-            var initVideo = camera.ExtendedSettings.VideosCount;
+            var initPhoto = camera.ExtendedSettings().PhotosCount;
+            var initVideo = camera.ExtendedSettings().VideosCount;
 
             var photo =
-                camera.PrepareCommand<CommandCameraDeleteLastFileOnSd>().Execute().ExtendedSettings.PhotosCount;
-            var video = camera.ExtendedSettings.VideosCount;
+                camera.PrepareCommand<CommandCameraDeleteLastFileOnSd>().Execute().ExtendedSettings().PhotosCount;
+            var video = camera.ExtendedSettings().VideosCount;
 
             Assert.IsTrue(photo <= initPhoto || video <= initVideo);
         }
@@ -243,7 +243,7 @@ namespace GoPro.Hero.Tests
         public void CheckCameraInformation()
         {
             var camera = GetCamera();
-            var info = camera.Information;
+            var info = camera.Information();
 
             var trimmedName = info.Name.Fix();
             Assert.AreEqual(ExpectedParameters.REAL_NAME, trimmedName);
@@ -253,7 +253,7 @@ namespace GoPro.Hero.Tests
         public void CheckCameraSettings()
         {
             var camera = GetCamera();
-            var settings = camera.Settings;
+            var settings = camera.Settings();
 
             Assert.AreEqual(ExpectedParameters.DEFAULT_VIDEO, settings.VideoStandard);
         }
@@ -262,7 +262,7 @@ namespace GoPro.Hero.Tests
         public void CheckCameraExtendedSettings()
         {
             var camera = GetCamera();
-            var extendedSettings = camera.ExtendedSettings;
+            var extendedSettings = camera.ExtendedSettings();
 
             Assert.AreEqual(ExpectedParameters.DEFAULT_VIDEO, extendedSettings.VideoStandard);
         }
@@ -272,13 +272,13 @@ namespace GoPro.Hero.Tests
         {
             var camera = GetCamera();
 
-            var protuneInit = camera.ExtendedSettings.Protune;
+            var protuneInit = camera.ExtendedSettings().Protune;
             camera.PrepareCommand<CommandCameraProtune>().Set(true).Execute();
 
-            var protune = camera.ExtendedSettings.Protune;
+            var protune = camera.ExtendedSettings().Protune;
             Assert.AreEqual(protune, true);
 
-            CheckMultiChoiceCommand<CommandCameraWhiteBalance, WhiteBalance>(c => c.ExtendedSettings.WhiteBalance);
+            CheckMultiChoiceCommand<CommandCameraWhiteBalance, WhiteBalance>(c => c.ExtendedSettings().WhiteBalance);
 
             camera.PrepareCommand<CommandCameraProtune>().Set(protuneInit).Execute();
         }
@@ -288,13 +288,13 @@ namespace GoPro.Hero.Tests
         {
             var camera = GetCamera();
 
-            var protuneInit = camera.ExtendedSettings.Protune;
+            var protuneInit = camera.ExtendedSettings().Protune;
             camera.PrepareCommand<CommandCameraProtune>().Set(false).Execute();
 
-            var protune = camera.ExtendedSettings.Protune;
+            var protune = camera.ExtendedSettings().Protune;
             Assert.AreEqual(protune, false);
 
-            CheckMultiChoiceCommand<CommandCameraLoopingVideo, LoopingVideo>(c => c.ExtendedSettings.LoopingVideoMode);
+            CheckMultiChoiceCommand<CommandCameraLoopingVideo, LoopingVideo>(c => c.ExtendedSettings().LoopingVideoMode);
 
             camera.PrepareCommand<CommandCameraProtune>().Set(protuneInit).Execute();
         }
@@ -304,28 +304,28 @@ namespace GoPro.Hero.Tests
         public void CheckFrameRate()
         {
             var camera = GetCamera();
-            var initResolution = camera.ExtendedSettings.VideoResolution;
-            var initVideoStandard = camera.ExtendedSettings.VideoStandard;
+            var initResolution = camera.ExtendedSettings().VideoResolution;
+            var initVideoStandard = camera.ExtendedSettings().VideoStandard;
 
             var currentResolution =
                 camera.PrepareCommand<CommandCameraVideoResolution>()
                       .Select(VideoResolution.Vr1080)
                       .Execute()
-                      .ExtendedSettings.VideoResolution;
+                      .ExtendedSettings().VideoResolution;
             Assert.AreEqual(VideoResolution.Vr1080, currentResolution);
 
             var currentStandard =
                 camera.PrepareCommand<CommandCameraVideoStandard>()
                       .Select(VideoStandard.Ntsc)
                       .Execute()
-                      .ExtendedSettings.VideoStandard;
+                      .ExtendedSettings().VideoStandard;
             Assert.AreEqual(VideoStandard.Ntsc, currentStandard);
 
             var availableFrameRates = new[] {FrameRate.Fps24, FrameRate.Fps30, FrameRate.Fps48, FrameRate.Fps60};
             var command = camera.PrepareCommand<CommandCameraFrameRate>();
             foreach (var frameRate in availableFrameRates)
             {
-                var currentFrameRate = command.Select(frameRate).Execute().ExtendedSettings.FrameRate;
+                var currentFrameRate = command.Select(frameRate).Execute().ExtendedSettings().FrameRate;
                 Assert.AreEqual(frameRate, currentFrameRate);
             }
 
@@ -337,14 +337,14 @@ namespace GoPro.Hero.Tests
         [TestMethod]
         public void CheckBurstRate()
         {
-            CheckMultiChoiceCommand<CommandCameraBurstRate, BurstRate>(c => c.ExtendedSettings.BurstRate);
+            CheckMultiChoiceCommand<CommandCameraBurstRate, BurstRate>(c => c.ExtendedSettings().BurstRate);
         }
 
         [TestMethod]
         public void CheckContinuousShot()
         {
             CheckMultiChoiceCommand<CommandCameraContinuousShot, ContinuousShot>(
-                c => c.ExtendedSettings.ContinuousShot);
+                c => c.ExtendedSettings().ContinuousShot);
         }
 
         [TestMethod]
@@ -359,7 +359,7 @@ namespace GoPro.Hero.Tests
         public void CheckBattery()
         {
             var camera = GetCamera();
-            var batteryCamera = camera.Settings.Battery;
+            var batteryCamera = camera.Settings().Battery;
             Assert.IsTrue(batteryCamera>0);
             Assert.IsTrue(batteryCamera<=100);
         }

@@ -6,19 +6,19 @@ namespace GoPro.Hero
 {
     public interface ICamera : IFilterProvider
     {
-        CameraSettings Settings { get; }
+        CameraSettings Settings();
         Task<CameraSettings> SettingsAsync();
 
-        CameraExtendedSettings ExtendedSettings { get; }
+        CameraExtendedSettings ExtendedSettings();
         Task<CameraExtendedSettings> ExtendedSettingsAsync();
+
+        CameraInformation Information();
+        Task<CameraInformation> InformationAsync();
 
         BacpacStatus BacpacStatus();
         Task<BacpacStatus> BacpacStatusAsync();
         BacpacInformation BacpacInformation();
         Task<BacpacInformation> BacpacInformationAsync();
-
-        CameraInformation Information { get; }
-        Task<CameraInformation> InformationAsync();
 
         ICamera SetFilter(IFilter<ICamera> filter);
 

@@ -28,31 +28,67 @@ namespace GoPro.Hero
             this.Bacpac = bacpac;
         }
 
-        public CameraInformation Information
+        public CameraInformation Information()
         {
-            get
-            {
                 GetInformation();
                 return _information;
-            }
         }
 
-        public CameraExtendedSettings ExtendedSettings
+        public CameraExtendedSettings ExtendedSettings()
         {
-            get
-            {
                 GetExtendedSettings();
                 return _extendedSettings;
-            }
         }
 
-        public CameraSettings Settings
+        public CameraSettings Settings()
         {
-            get
-            {
                 GetSettings();
                 return _settings;
-            }
+        }
+
+        private void GetInformation()
+        {
+            var task = GetInformationAsync();
+            task.Wait();
+        }
+
+        private async Task GetInformationAsync()
+        {
+            var request = PrepareCommand<CommandCameraInformation>();
+            var response = await request.SendAsync();
+
+            var stream = response.GetResponseStream();
+            _information.Update(stream);
+        }
+
+        private void GetSettings()
+        {
+            var task = GetSettingsAsync();
+            task.Wait();
+        }
+
+        private async Task GetSettingsAsync()
+        {
+            var request = PrepareCommand<CommandCameraSettings>();
+            var response = await request.SendAsync();
+
+            var stream = response.GetResponseStream();
+            _settings.Update(stream);
+        }
+
+        private void GetExtendedSettings()
+        {
+            var task = GetExtendedSettingsAsync();
+            task.Wait();
+        }
+
+        private async Task GetExtendedSettingsAsync()
+        {
+            var request = PrepareCommand<CommandCameraExtendedSettings>();
+            var response = await request.SendAsync();
+
+            var stream = response.GetResponseStream();
+            _extendedSettings.Update(stream);
         }
 
         public ICamera SetFilter(IFilter<ICamera> filter)
@@ -124,7 +160,7 @@ namespace GoPro.Hero
             var length = response.RawResponse[1];
             var name = Encoding.UTF8.GetString(raw, 2, length);
             if (!string.IsNullOrEmpty(name)) return name;
-            name = Information.Name;
+            name = Information().Name;
             return name.Fix();
         }
 
@@ -214,51 +250,6 @@ namespace GoPro.Hero
         {
             var node = Node.Create<T>(this, new Uri(string.Format("http://{0}:{1}", Bacpac.Address, port)));
             return node;
-        }
-
-        private void GetInformation()
-        {
-            var task = GetInformationAsync();
-            task.Wait();
-        }
-
-        private async Task GetInformationAsync()
-        {
-            var request = PrepareCommand<CommandCameraInformation>();
-            var response = await request.SendAsync();
-
-            var stream = response.GetResponseStream();
-            _information.Update(stream);
-        }
-
-        private void GetSettings()
-        {
-            var task = GetSettingsAsync();
-            task.Wait();
-        }
-
-        private async Task GetSettingsAsync()
-        {
-            var request = PrepareCommand<CommandCameraSettings>();
-            var response = await request.SendAsync();
-
-            var stream = response.GetResponseStream();
-            _settings.Update(stream);
-        }
-
-        private void GetExtendedSettings()
-        {
-            var task = GetExtendedSettingsAsync();
-            task.Wait();
-        }
-
-        private async Task GetExtendedSettingsAsync()
-        {
-            var request = PrepareCommand<CommandCameraExtendedSettings>();
-            var response = await request.SendAsync();
-
-            var stream = response.GetResponseStream();
-            _extendedSettings.Update(stream);
         }
 
         public static T Create<T>(Bacpac bacpac) where T : Camera, ICamera
