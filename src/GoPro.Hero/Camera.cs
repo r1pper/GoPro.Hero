@@ -234,7 +234,7 @@ namespace GoPro.Hero
             return this;
         }
 
-        public async Task<ICamera> PowerAsync(bool on, bool nonBlocking = false)
+        public async Task<ICamera> PowerAsync(bool on)
         {
             await Bacpac.PowerAsync(on);
             return this;

@@ -44,6 +44,31 @@ namespace GoPro.Hero.Browser.FileSystem
             get { return Child(name); }
         }
 
+        public long SizeAsBytes()
+        {
+            var type = Size[Size.Length - 1];
+            var value = long.Parse(Size.Substring(0, Size.Length - 2));
+            switch (type)
+            {
+                case 'M':
+                    return value * 1024 * 1024;
+                case 'K':
+                    return value * 1024;
+                default:
+                    return -1;
+            }
+        }
+
+        public string Extension()
+        {
+            return Name.Split('.').LastOrDefault();
+        }
+
+        public string NameWithoutExtension()
+        {
+            return Name.Split('.').First();
+        }
+
         public IEnumerable<Node> Children(string name)
         {
             return ChildrenAsync(name).Result;

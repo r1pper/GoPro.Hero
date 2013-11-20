@@ -44,6 +44,7 @@
     <Compile Include="Browser\FileSystem\FileSystemBrowser.cs" />
     <Compile Include="Browser\FileSystem\IFileSystemBrowser.cs" />
     <Compile Include="Browser\IGeneralBrowser.cs" />
+    <Compile Include="Browser\Media\AmbrellaMediaBrowser.cs" />
     <Compile Include="Browser\Media\GoProMediaBrowser.cs" />
     <Compile Include="Browser\Media\Image.cs" />
     <Compile Include="Browser\Media\IMedia.cs" />

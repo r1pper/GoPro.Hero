@@ -30,7 +30,7 @@ namespace GoPro.Hero.Hero3
 
         public MediaBrowser Contents()
         {
-            return base.Browse<MediaBrowser>();
+            return base.Browse<GoProMediaBrowser>();
         }
 
         public Hero3Camera VideoResolution(VideoResolution resolution, bool nonBlocking = false)

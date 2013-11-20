@@ -47,10 +47,11 @@ namespace GoPro.Hero.Commands
 
         public TO Execute(bool checkStatus = true, bool nonBlocking = false)
         {
-            if (nonBlocking)
-                SendAsync(checkStatus);
-            else
-                Send(checkStatus);
+            var task = SendAsync(checkStatus);
+
+            if (!nonBlocking)
+                task.Wait();
+
             return Owner;
         }
 
@@ -62,10 +63,11 @@ namespace GoPro.Hero.Commands
 
         public CommandRequest<TO> ExecuteSelf(bool checkStatus = true, bool nonBlocking = false)
         {
-            if (nonBlocking)
-                SendAsync(checkStatus);
-            else
-                Send(checkStatus);
+            var task = SendAsync(checkStatus);
+
+            if (!nonBlocking)
+                task.Wait();
+
             return this;
         }
 
