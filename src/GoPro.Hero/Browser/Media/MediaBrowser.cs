@@ -11,7 +11,7 @@ using GoPro.Hero.Utilities;
 
 namespace GoPro.Hero.Browser.Media
 {
-    public class MediaBrowser:IGeneralBrowser
+    public class MediaBrowser:IMediaBrowser
     {
         public Uri Address { get; private set; }
         public ICamera Camera { get; private set; }
@@ -28,6 +28,16 @@ namespace GoPro.Hero.Browser.Media
         {
             Address = address;
             Camera = camera;
+        }
+
+        public Media Content(string name)
+        {
+            return ContentAsync(name).Await();
+        }
+
+        public IEnumerable<Media> Contents()
+        {
+            return ContentsAsync().Await();
         }
 
         public async Task<Media> ContentAsync(string name)
