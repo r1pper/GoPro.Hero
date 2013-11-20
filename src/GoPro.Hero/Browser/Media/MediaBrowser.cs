@@ -3,9 +3,11 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 using GoPro.Hero.Commands;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using GoPro.Hero.Utilities;
 
 namespace GoPro.Hero.Browser.Media
 {
@@ -19,7 +21,7 @@ namespace GoPro.Hero.Browser.Media
 
         public Media this[string name]
         {
-            get { return Content(name); }
+            get { return ContentAsync(name).Await(); }
         }
 
         void IGeneralBrowser.Initialize(ICamera camera, Uri address)
@@ -28,42 +30,42 @@ namespace GoPro.Hero.Browser.Media
             Camera = camera;
         }
 
-        public Media Content(string name)
+        public async Task<Media> ContentAsync(string name)
         {
-            return Contents().Where(c => c.Name == name).FirstOrDefault();
+            return (await ContentsAsync()).Where(c => c.Name == name).FirstOrDefault();
         }
 
-        public T Content<T>(string name)where T:Media
+        public async Task<T> ContentAsync<T>(string name)where T:Media
         {
-            return Contents<T>().Where(c => c.Name == name).FirstOrDefault();
+            return (await ContentsAsync<T>()).Where(c => c.Name == name).FirstOrDefault();
         }
 
-        public IEnumerable<Media> Contents()
+        public async Task<IEnumerable<Media>> ContentsAsync()
         {
-            var response = Camera.PrepareCommand<CommandGoProMediaList>(8080).Send();
+            var response = await Camera.PrepareCommand<CommandGoProMediaList>(8080).SendAsync();
             var jsonStream = response.GetResponseStream();
 
             return Parse(jsonStream);
         }
 
-        public IEnumerable<T> Contents<T>() where T : Media
+        public async Task<IEnumerable<T>> ContentsAsync<T>() where T : Media
         {
-            return Contents().Where(c => c.GetType() == typeof(T)).Cast<T>();
+            return  (await ContentsAsync()).Where(c => c.GetType() == typeof(T)).Cast<T>();
         }
 
-        public IEnumerable<TimeLapsedImage> TimeLapses()
+        public async Task<IEnumerable<TimeLapsedImage>> TimeLapsesAsync()
         {
-            return Contents<TimeLapsedImage>();
+            return await ContentsAsync<TimeLapsedImage>();
         }
 
-        public IEnumerable<Video> Videos()
+        public async Task<IEnumerable<Video>> VideosAsync()
         {
-            return Contents<Video>();
+            return await ContentsAsync<Video>();
         }
 
-        public IEnumerable<Image> Images()
+        public async Task<IEnumerable<Image>> ImagesAsync()
         {
-            return Contents<Image>();
+            return await ContentsAsync<Image>();
         }
 
         private IEnumerable<Media> Parse(Stream jsonStream)

@@ -103,6 +103,12 @@ namespace GoPro.Hero.Utilities
             return task;
         }
 
+        public static T Await<T>(this Task<T> task)
+        {
+            task.Wait();
+            return task.Result;
+        }
+
         public static void Result<T>(this Task<T> task, Action<T> result)
         {
             task.ContinueWith(t => result(t.Result));

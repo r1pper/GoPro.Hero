@@ -18,10 +18,6 @@ namespace GoPro.Hero
             _status = new BacpacStatus();
             _filter = new NoFilter<Bacpac>();
             _filter.Initialize(this);
-
-            UpdatePassword();
-            UpdateInformation();
-            UpdateStatus();
         }
 
         public string Password { get; private set; }
@@ -165,10 +161,23 @@ namespace GoPro.Hero
             return request;
         }
 
-        public static Bacpac Create(string address)
+        public static async Task<Bacpac> CreateAsync(string address)
         {
             var bacpac = new Bacpac(address);
+
+            await bacpac.UpdatePasswordAsync();
+            await bacpac.UpdateInformationAsync();
+            await bacpac.UpdateStatusAsync();
+
             return bacpac;
+        }
+
+        public static Bacpac Create(string address)
+        {
+            var task = CreateAsync(address);
+            task.Wait();
+
+            return task.Result;
         }
     }
 }

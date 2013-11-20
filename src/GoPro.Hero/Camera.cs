@@ -141,6 +141,11 @@ namespace GoPro.Hero
             return await Bacpac.StatusAsync();
         }
 
+        public BacpacStatus BacpacStatusCache()
+        {
+            return Bacpac.StatusCache();
+        }
+
         public BacpacInformation BacpacInformation()
         {
             return Bacpac.Information();
@@ -149,6 +154,11 @@ namespace GoPro.Hero
         public async Task<BacpacInformation> BacpacInformationAsync()
         {
             return await Bacpac.InformationAsync();
+        }
+
+        public BacpacInformation BacpacInformationCache()
+        {
+            return Bacpac.InformationCache();
         }
 
         public string GetName()
