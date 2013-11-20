@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
+using System.Threading.Tasks;
+using GoPro.Hero.Utilities;
 
 namespace GoPro.Hero.Browser.FileSystem
 {
@@ -39,12 +41,27 @@ namespace GoPro.Hero.Browser.FileSystem
 
         public Node this[string name]
         {
-            get { return Children(name).First(); }
+            get { return Child(name); }
         }
 
         public IEnumerable<Node> Children(string name)
         {
-            return this.Nodes().Where(n => n.Name == name);
+            return ChildrenAsync(name).Await();
+        }
+
+        public async Task<IEnumerable<Node>> ChildrenAsync(string name)
+        {
+            return (await NodesAsync()).Where(n => n.Name == name);
+        }
+
+        public Node Child(string name)
+        {
+            return ChildAsync(name).Await();
+        }
+
+        public async Task<Node> ChildAsync(string name)
+        {
+            return (await this.ChildrenAsync(name)).FirstOrDefault();
         }
 
         public IEnumerable<Node> Nodes()
@@ -52,32 +69,29 @@ namespace GoPro.Hero.Browser.FileSystem
             return _browser.Nodes(this);
         }
 
-        public Node Nodes(out IEnumerable<Node> nodes)
+        public async Task<IEnumerable<Node>> NodesAsync()
         {
-            nodes = Nodes();
-            return this;
+            return await _browser.NodesAsync(this);
         }
 
         public IEnumerable<Node> Folders()
         {
-            return _browser.Nodes(this).Where(node => node.Type == NodeType.Folder);
+            return FoldersAsync().Await();
         }
 
-        public Node Folders(out IEnumerable<Node> nodes)
+        public async Task<IEnumerable<Node>> FoldersAsync()
         {
-            nodes = Folders();
-            return this;
+            return (await _browser.NodesAsync(this)).Where(node => node.Type == NodeType.Folder);
         }
 
         public IEnumerable<Node> Files()
         {
-            return _browser.Nodes(this).Where(node => node.Type == NodeType.File);
+            return FilesAsync().Await();
         }
 
-        public Node Files(out IEnumerable<Node> nodes)
+        public async Task<IEnumerable<Node>> FilesAsync()
         {
-            nodes = Files();
-            return this;
+            return (await _browser.NodesAsync(this)).Where(node => node.Type == NodeType.File);
         }
 
         public WebResponse DownloadContent()
@@ -85,10 +99,9 @@ namespace GoPro.Hero.Browser.FileSystem
             return _browser.DownloadContent(this);
         }
 
-        public Node DownloadContent(out WebResponse response)
+        public async Task<WebResponse> DownloadContentAsync()
         {
-            response = DownloadContent();
-            return this;
+            return await _browser.DownloadContentAsync(this);
         }
 
         public override string ToString()

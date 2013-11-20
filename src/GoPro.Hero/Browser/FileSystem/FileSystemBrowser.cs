@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Net;
+using System.Threading.Tasks;
 using System.Xml.Linq;
 using GoPro.Hero.Exceptions;
 using HtmlTidy = Tidy.Core.Tidy;
+using GoPro.Hero.Utilities;
 
 namespace GoPro.Hero.Browser.FileSystem
 {
@@ -28,37 +30,36 @@ namespace GoPro.Hero.Browser.FileSystem
             return address.ToString().EndsWith("/");
         }
 
+        public async Task<IEnumerable<Node>> NodesAsync(Node node)
+        {
+            var page = await LoadPageAsync(node.Path);
+            return Parse(page, node);
+        }
+
         public IEnumerable<Node> Nodes(Node node)
         {
-            var page = LoadPage(node.Path);
-            return Parse(page, node);
+            return NodesAsync(node).Await();
         }
 
         protected abstract IEnumerable<Node> Parse(XElement page, Node parent);
 
 
-        public WebResponse DownloadContent(Node node)
+        public async Task<WebResponse> DownloadContentAsync(Node node)
         {
             var webRequest = WebRequest.CreateHttp(node.Path);
-
-            var res = webRequest.BeginGetResponse(null, null);
-            res.AsyncWaitHandle.WaitOne();
-            if (!res.IsCompleted)
-                throw new GoProException();
-
-            return webRequest.EndGetResponse(res);
+            return await webRequest.GetResponseAsync();
         }
 
-        private static XElement LoadPage(Uri address)
+        public WebResponse DownloadContent(Node node)
+        {
+            return DownloadContentAsync(node).Await();
+        }
+
+        private static async Task<XElement> LoadPageAsync(Uri address)
         {
             var webRequest = WebRequest.CreateHttp(address);
 
-            var res = webRequest.BeginGetResponse(null, null);
-            res.AsyncWaitHandle.WaitOne();
-            if (!res.IsCompleted)
-                throw new GoProException();
-
-            using (var response = webRequest.EndGetResponse(res))
+            using (var response = await webRequest.GetResponseAsync())
             {
                 var stream = response.GetResponseStream();
 
