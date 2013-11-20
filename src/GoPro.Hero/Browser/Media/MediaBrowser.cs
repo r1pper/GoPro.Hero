@@ -21,7 +21,7 @@ namespace GoPro.Hero.Browser.Media
 
         public Media this[string name]
         {
-            get { return ContentAsync(name).Await(); }
+            get { return ContentAsync(name).Result; }
         }
 
         void IGeneralBrowser.Initialize(ICamera camera, Uri address)
@@ -32,12 +32,12 @@ namespace GoPro.Hero.Browser.Media
 
         public Media Content(string name)
         {
-            return ContentAsync(name).Await();
+            return ContentAsync(name).Result;
         }
 
         public IEnumerable<Media> Contents()
         {
-            return ContentsAsync().Await();
+            return ContentsAsync().Result;
         }
 
         public async Task<Media> ContentAsync(string name)

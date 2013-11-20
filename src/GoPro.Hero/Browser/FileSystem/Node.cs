@@ -46,7 +46,7 @@ namespace GoPro.Hero.Browser.FileSystem
 
         public IEnumerable<Node> Children(string name)
         {
-            return ChildrenAsync(name).Await();
+            return ChildrenAsync(name).Result;
         }
 
         public async Task<IEnumerable<Node>> ChildrenAsync(string name)
@@ -56,7 +56,7 @@ namespace GoPro.Hero.Browser.FileSystem
 
         public Node Child(string name)
         {
-            return ChildAsync(name).Await();
+            return ChildAsync(name).Result;
         }
 
         public async Task<Node> ChildAsync(string name)
@@ -76,7 +76,7 @@ namespace GoPro.Hero.Browser.FileSystem
 
         public IEnumerable<Node> Folders()
         {
-            return FoldersAsync().Await();
+            return FoldersAsync().Result;
         }
 
         public async Task<IEnumerable<Node>> FoldersAsync()
@@ -86,7 +86,7 @@ namespace GoPro.Hero.Browser.FileSystem
 
         public IEnumerable<Node> Files()
         {
-            return FilesAsync().Await();
+            return FilesAsync().Result;
         }
 
         public async Task<IEnumerable<Node>> FilesAsync()

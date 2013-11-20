@@ -38,7 +38,7 @@ namespace GoPro.Hero.Browser.FileSystem
 
         public IEnumerable<Node> Nodes(Node node)
         {
-            return NodesAsync(node).Await();
+            return NodesAsync(node).Result;
         }
 
         protected abstract IEnumerable<Node> Parse(XElement page, Node parent);
@@ -52,7 +52,7 @@ namespace GoPro.Hero.Browser.FileSystem
 
         public WebResponse DownloadContent(Node node)
         {
-            return DownloadContentAsync(node).Await();
+            return DownloadContentAsync(node).Result;
         }
 
         private static async Task<XElement> LoadPageAsync(Uri address)

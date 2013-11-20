@@ -46,7 +46,7 @@ namespace GoPro.Hero.Tests
         public void CheckContentsFromCamera()
         {
             var camera = GetCamera();
-            var contents=camera.Browse<MediaBrowser>().ContentsAsync().Await();
+            var contents=camera.Browse<MediaBrowser>().ContentsAsync().Result;
             Assert.IsNull(contents);
         }
 
@@ -54,10 +54,10 @@ namespace GoPro.Hero.Tests
         public void CheckImagesFromCamera()
         {
             var camera = GetCamera();
-            var first = camera.Contents().ContentsAsync<Image>().Await().ToList();
-            var second = camera.Browse<MediaBrowser>().ImagesAsync().Await().ToList();
-            var third = camera.Contents().ImagesAsync().Await().ToList();
-            var forth = camera.Browse<MediaBrowser>().ContentsAsync<Image>().Await().ToList();
+            var first = camera.Contents().ContentsAsync<Image>().Result.ToList();
+            var second = camera.Browse<MediaBrowser>().ImagesAsync().Result.ToList();
+            var third = camera.Contents().ImagesAsync().Result.ToList();
+            var forth = camera.Browse<MediaBrowser>().ContentsAsync<Image>().Result.ToList();
 
             
             CollectionAssert.AreEquivalent(first, second);
@@ -72,10 +72,10 @@ namespace GoPro.Hero.Tests
         public void CheckTimeLapsesFromCamera()
         {
             var camera = GetCamera();
-            var first = camera.Contents().ContentsAsync<TimeLapsedImage>().Await().ToList();
-            var second = camera.Browse<MediaBrowser>().TimeLapsesAsync().Await().ToList();
-            var third = camera.Contents().TimeLapsesAsync().Await().ToList();
-            var forth = camera.Browse<MediaBrowser>().ContentsAsync<TimeLapsedImage>().Await().ToList();
+            var first = camera.Contents().ContentsAsync<TimeLapsedImage>().Result.ToList();
+            var second = camera.Browse<MediaBrowser>().TimeLapsesAsync().Result.ToList();
+            var third = camera.Contents().TimeLapsesAsync().Result.ToList();
+            var forth = camera.Browse<MediaBrowser>().ContentsAsync<TimeLapsedImage>().Result.ToList();
 
 
             CollectionAssert.AreEquivalent(first, second);
@@ -90,11 +90,11 @@ namespace GoPro.Hero.Tests
         public void CheckDownloadImage()
         {
             var camera = GetCamera();
-            var image=camera.Contents().ImagesAsync().Await().FirstOrDefault();
+            var image=camera.Contents().ImagesAsync().Result.FirstOrDefault();
             if (image == null)
                 Assert.Inconclusive("no image found");
 
-            var response=image.DownloadAsync().Await().GetResponseStream();
+            var response=image.DownloadAsync().Result.GetResponseStream();
 
             var memory = ReadToMemory(response);
 
@@ -105,11 +105,11 @@ namespace GoPro.Hero.Tests
         public void CheckDownloadVideo()
         {
             var camera = GetCamera();
-            var video = camera.Contents().VideosAsync().Await().FirstOrDefault();
+            var video = camera.Contents().VideosAsync().Result.FirstOrDefault();
             if (video == null)
                 Assert.Inconclusive("no video found");
 
-            var response = video.DownloadAsync().Await().GetResponseStream();
+            var response = video.DownloadAsync().Result.GetResponseStream();
 
             var memory = ReadToMemory(response);
 
@@ -120,7 +120,7 @@ namespace GoPro.Hero.Tests
         public void CheckDownloadTimeLapsedImage()
         {
             var camera = GetCamera();
-            var timeLapsed = camera.Contents().TimeLapsesAsync().Await().FirstOrDefault();
+            var timeLapsed = camera.Contents().TimeLapsesAsync().Result.FirstOrDefault();
             if (timeLapsed == null)
                 Assert.Inconclusive("no timelapsed image found");
 
@@ -136,32 +136,32 @@ namespace GoPro.Hero.Tests
         public void CheckDownloadImageThumbnail()
         {
             var camera = GetCamera();
-            var image = camera.Contents().ImagesAsync().Await().FirstOrDefault();
-            var thumbnail=image.ThumbnailAsync().Await();
+            var image = camera.Contents().ImagesAsync().Result.FirstOrDefault();
+            var thumbnail=image.ThumbnailAsync().Result;
         }
 
         [TestMethod]
         public void CheckDownloadImageBigThumbnail()
         {
             var camera = GetCamera();
-            var image = camera.Contents().ImagesAsync().Await().FirstOrDefault();
-            var thumbnail = image.BigThumbnailAsync().Await();
+            var image = camera.Contents().ImagesAsync().Result.FirstOrDefault();
+            var thumbnail = image.BigThumbnailAsync().Result;
         }
 
         [TestMethod]
         public void CheckDownloadTimeLapsedThumbnail()
         {
             var camera = GetCamera();
-            var timeLapse = camera.Contents().TimeLapsesAsync().Await().FirstOrDefault();
-            var thumbnail = timeLapse.ThumbnailAsync().Await();
+            var timeLapse = camera.Contents().TimeLapsesAsync().Result.FirstOrDefault();
+            var thumbnail = timeLapse.ThumbnailAsync().Result;
         }
 
         [TestMethod]
         public void CheckDownloadTimeLapsedBigThumbnail()
         {
             var camera = GetCamera();
-            var timeLapse = camera.Contents().TimeLapsesAsync().Await().FirstOrDefault();
-            var thumbnail = timeLapse.BigThumbnailAsync().Await();
+            var timeLapse = camera.Contents().TimeLapsesAsync().Result.FirstOrDefault();
+            var thumbnail = timeLapse.BigThumbnailAsync().Result;
         }
 
         private MemoryStream ReadToMemory(Stream response)
