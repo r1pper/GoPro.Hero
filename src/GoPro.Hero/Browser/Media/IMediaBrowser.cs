@@ -8,10 +8,10 @@ namespace GoPro.Hero.Browser.Media
 {
     public interface IMediaBrowser:IGeneralBrowser
     {
-        Task<Media> ContentAsync(string name);
-        Media Content(string name);
+        Task<IMedia> ContentAsync(string name);
+        IMedia Content(string name);
 
-        Task<IEnumerable<Media>> ContentsAsync();
-        IEnumerable<Media> Contents();
+        Task<IEnumerable<IMedia>> ContentsAsync();
+        IEnumerable<IMedia> Contents();
     }
 }

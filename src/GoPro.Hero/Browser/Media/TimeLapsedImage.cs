@@ -10,7 +10,7 @@ using Newtonsoft.Json.Linq;
 
 namespace GoPro.Hero.Browser.Media
 {
-    public class TimeLapsedImage:Media,IEnumerable<WebResponse>
+    public class TimeLapsedImage:Media<TimeLapsedImageParameters>,IEnumerable<WebResponse>
     {
         public int Group { get; private set; }
         public int Start { get; private set; }
@@ -40,13 +40,9 @@ namespace GoPro.Hero.Browser.Media
             return await base.BigThumbnailAsync(base.Name);
         }
 
-        protected sealed override void Initiaize(JToken token, IGeneralBrowser browser)
+        protected sealed override void Initiaize(TimeLapsedImageParameters token, IGeneralBrowser browser)
         {
             base.Initiaize(token, browser);
-
-            Group = token["g"].Value<int>();
-            Start = token["b"].Value<int>();
-            End = token["l"].Value<int>();
         }
 
         public override string ToString()

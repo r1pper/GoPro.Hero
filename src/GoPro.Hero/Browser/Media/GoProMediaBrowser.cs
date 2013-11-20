@@ -1,0 +1,91 @@
+﻿using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using GoPro.Hero.Commands;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+
+namespace GoPro.Hero.Browser.Media
+{
+    public class GoProMediaBrowser:MediaBrowser
+    {
+        public override async Task<IEnumerable<IMedia>> ContentsAsync()
+        {
+            var response = await Camera.PrepareCommand<CommandGoProMediaList>(8080).SendAsync();
+            var jsonStream = response.GetResponseStream();
+
+            return Parse(jsonStream);
+        }
+
+        protected virtual IEnumerable<IMedia> Parse(Stream jsonStream)
+        {
+            using (var jsonReader = new JsonTextReader(new StreamReader(jsonStream)))
+            {
+                var mediaList = JObject.Load(jsonReader);
+
+                Id = mediaList["id"].Value<string>();
+
+                var media = mediaList["media"].ElementAt(0);
+
+                Destination = media["d"].Value<string>();
+
+                var fs = media["fs"].Select<JToken,IMedia>(j =>
+                {
+                    if (j["ls"] != null)//unique to video media
+                        return Media<VideoParameters>.Create<Video>(VideoParameters(j), this);
+
+                    if (j["b"] != null)//unique to burst mode
+                        return Media<TimeLapsedImageParameters>.Create<TimeLapsedImage>(TimeLapsedParameters(j), this);
+
+                    if (j["n"] != null)
+                        return Media<ImageParameters>.Create<Image>(ImageParameters(j), this);
+
+                    return null;
+                }
+                );
+
+                return fs.ToList();
+            }
+        }
+
+        private VideoParameters VideoParameters(JToken token)
+        {
+            var video = new VideoParameters
+            {
+                Name = token["n"].Value<string>(),
+                Size = token["s"].Value<long>(),
+                LowResolutionSize = token["ls"].Value<long>()
+            };
+
+            return video;
+        }
+
+        private ImageParameters ImageParameters(JToken token)
+        {
+            var image = new ImageParameters
+            {
+                Name = token["n"].Value<string>(),
+                Size = token["s"].Value<long>()
+            };
+
+            return image;
+        }
+
+        private TimeLapsedImageParameters TimeLapsedParameters(JToken token)
+        {
+            var timeLapsed = new TimeLapsedImageParameters
+            {
+                Name = token["n"].Value<string>(),
+                Size = token["s"].Value<long>(),
+                Group = token["g"].Value<int>(),
+                Start = token["b"].Value<int>(),
+                End = token["l"].Value<int>()
+            };
+
+            return timeLapsed;
+        }
+    }
+}

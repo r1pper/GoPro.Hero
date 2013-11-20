@@ -11,7 +11,7 @@ using Newtonsoft.Json.Linq;
 
 namespace GoPro.Hero.Browser.Media
 {
-    public class Video:Media
+    public class Video:Media<VideoParameters>
     {
         private const string EXTENSION_LOW = "LRV";
         private const string EXTENSION_HIGH = "MP4";
@@ -43,11 +43,9 @@ namespace GoPro.Hero.Browser.Media
             return await base.DownloadAsync(lowResName);
         }
 
-        protected sealed override void Initiaize(JToken token, IGeneralBrowser browser)
+        protected sealed override void Initiaize(VideoParameters token, IGeneralBrowser browser)
         {
             base.Initiaize(token, browser);
-
-            LowResolutionSize = token["ls"].Value<long>();
         }
 
         private async Task ParseInfoAsync()

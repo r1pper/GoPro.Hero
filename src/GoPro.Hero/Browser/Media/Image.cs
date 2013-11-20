@@ -9,7 +9,7 @@ using Newtonsoft.Json.Linq;
 
 namespace GoPro.Hero.Browser.Media
 {
-    public class Image : Media
+    public class Image : Media<ImageParameters>
     {
         public async Task<Stream> BigThumbnailAsync()
         {

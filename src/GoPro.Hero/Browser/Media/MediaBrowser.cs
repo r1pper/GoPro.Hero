@@ -11,15 +11,15 @@ using GoPro.Hero.Utilities;
 
 namespace GoPro.Hero.Browser.Media
 {
-    public class MediaBrowser:IMediaBrowser
+    public abstract class MediaBrowser:IMediaBrowser
     {
         public Uri Address { get; private set; }
         public ICamera Camera { get; private set; }
 
-        public string Id { get; private set; }
-        public string Destination { get; private set; }
+        public string Id { get; protected set; }
+        public string Destination { get; protected set; }
 
-        public Media this[string name]
+        public IMedia this[string name]
         {
             get { return ContentAsync(name).Result; }
         }
@@ -30,35 +30,29 @@ namespace GoPro.Hero.Browser.Media
             Camera = camera;
         }
 
-        public Media Content(string name)
+        public IMedia Content(string name)
         {
             return ContentAsync(name).Result;
         }
 
-        public IEnumerable<Media> Contents()
+        public IEnumerable<IMedia> Contents()
         {
             return ContentsAsync().Result;
         }
 
-        public async Task<Media> ContentAsync(string name)
+        public async Task<IMedia> ContentAsync(string name)
         {
             return (await ContentsAsync()).Where(c => c.Name == name).FirstOrDefault();
         }
 
-        public async Task<T> ContentAsync<T>(string name)where T:Media
+        public async Task<T> ContentAsync<T>(string name)where T:IMedia
         {
             return (await ContentsAsync<T>()).Where(c => c.Name == name).FirstOrDefault();
         }
 
-        public async Task<IEnumerable<Media>> ContentsAsync()
-        {
-            var response = await Camera.PrepareCommand<CommandGoProMediaList>(8080).SendAsync();
-            var jsonStream = response.GetResponseStream();
+        public abstract Task<IEnumerable<IMedia>> ContentsAsync();
 
-            return Parse(jsonStream);
-        }
-
-        public async Task<IEnumerable<T>> ContentsAsync<T>() where T : Media
+        public async Task<IEnumerable<T>> ContentsAsync<T>() where T : IMedia
         {
             return  (await ContentsAsync()).Where(c => c.GetType() == typeof(T)).Cast<T>();
         }
@@ -76,37 +70,6 @@ namespace GoPro.Hero.Browser.Media
         public async Task<IEnumerable<Image>> ImagesAsync()
         {
             return await ContentsAsync<Image>();
-        }
-
-        private IEnumerable<Media> Parse(Stream jsonStream)
-        {
-            using (var jsonReader = new JsonTextReader(new StreamReader(jsonStream)))
-            {
-                var mediaList = JObject.Load(jsonReader);
-
-                Id = mediaList["id"].Value<string>();
-
-                var media = mediaList["media"].ElementAt(0);
-
-                Destination = media["d"].Value<string>();
-
-                var fs = media["fs"].Select(j =>
-                {
-                    if (j["ls"] != null)//unique to video media
-                        return Media.Create<Video>(j, this);
-
-                    if (j["b"] != null)//unique to burst mode
-                        return Media.Create<TimeLapsedImage>(j, this);
-
-                    if (j["n"] != null)
-                        return Media.Create<Image>(j, this);
-
-                    return default(Media);
-                }
-                );
-
-                return fs.ToList();
-            }
         }
     }
 }

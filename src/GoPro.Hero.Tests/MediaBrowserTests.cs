@@ -16,7 +16,7 @@ namespace GoPro.Hero.Tests
     [TestClass]
     public class MediaBrowserTests
     {
-        private delegate IEnumerable<Media> ParseDelegate(Stream json);
+        private delegate IEnumerable<IMedia> ParseDelegate(Stream json);
 
         private MediaBrowser _instance;
         private ParseDelegate _parseDelegate;

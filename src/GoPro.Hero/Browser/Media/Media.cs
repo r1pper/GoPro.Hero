@@ -11,7 +11,7 @@ using Newtonsoft.Json.Linq;
 
 namespace GoPro.Hero.Browser.Media
 {
-    public abstract class Media:IMedia
+    public abstract class Media<TM>:IMedia,IMediaInitializer<TM> where TM:MediaParameters
     {
         protected const string ABSOLUTE_PATH = "http://{0}/videos/DCIM/{1}";
  
@@ -51,17 +51,20 @@ namespace GoPro.Hero.Browser.Media
             return request.GetResponseStream();
         }
      
-        protected virtual void Initiaize(JToken token, IGeneralBrowser browser)
+        protected virtual void Initiaize(TM token, IGeneralBrowser browser)
         {
-            Name = token["n"].Value<string>();
-            Size = token["s"].Value<long>();
+            //Name = token["n"].Value<string>();
+            //Size = token["s"].Value<long>();
+
+            Name = token.Name;
+            Size = token.Size;
 
             Browser = browser;
         }
 
         public override bool Equals(object obj)
         {
-            var media = obj as Media;
+            var media = obj as Media<TM>;
             if (media == null) return false;
             return Name == media.Name;
         }
@@ -71,12 +74,12 @@ namespace GoPro.Hero.Browser.Media
             return Name.GetHashCode() * 19;
         }
 
-        void IMedia.Initialize(JToken token, IGeneralBrowser browser)
+        void IMediaInitializer<TM>.Initialize(TM token, IGeneralBrowser browser)
         {
             Initiaize(token, browser);
         }
 
-        internal static T Create<T>(JToken token, IGeneralBrowser browser) where T:IMedia
+        internal protected static T Create<T>(TM token, IGeneralBrowser browser) where T:Media<TM>,IMediaInitializer<TM>
         {
             var instance = Activator.CreateInstance<T>();
             instance.Initialize(token, browser);
