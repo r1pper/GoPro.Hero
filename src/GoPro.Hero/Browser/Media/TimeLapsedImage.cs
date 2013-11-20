@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Text;
+using System.Threading.Tasks;
 using Newtonsoft.Json.Linq;
 
 namespace GoPro.Hero.Browser.Media
@@ -16,10 +17,10 @@ namespace GoPro.Hero.Browser.Media
         public int End { get; private set; }
         public int Count { get { return this.End + 1 - this.Start; } }
 
-        public Stream Thumbnail(int index)
+        public async Task<Stream> ThumbnailAsync(int index)
         {
             var name = IndexName(index);
-            return base.Thumbnail(name);
+            return await base.ThumbnailAsync(name);
         }
 
         private string IndexName(int index)
@@ -28,15 +29,15 @@ namespace GoPro.Hero.Browser.Media
             return name;
         }
 
-        public Stream BigThumbnail(int index)
+        public async Task<Stream> BigThumbnailAsync(int index)
         {
             var name = IndexName(index);
-            return base.BigThumbnail(name);
+            return await base.BigThumbnailAsync(name);
         }
 
-        public Stream BigThumbnail()
+        public async Task<Stream> BigThumbnailAsync()
         {
-            return base.BigThumbnail(base.Name);
+            return await base.BigThumbnailAsync(base.Name);
         }
 
         protected sealed override void Initiaize(JToken token, IGeneralBrowser browser)

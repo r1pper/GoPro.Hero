@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Text;
+using System.Threading.Tasks;
 using GoPro.Hero.Commands;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
@@ -20,10 +21,10 @@ namespace GoPro.Hero.Browser.Media
         public int Duration { get; private set; }
         public int Profile { get; private set; }
 
-        public WebResponse DownloadLowResolution()
+        public async Task<WebResponse> DownloadLowResolutionAsync()
         {
             var lowResName = Name.ToUpper().Replace(EXTENSION_HIGH, EXTENSION_LOW);
-            return base.Download(lowResName);
+            return await base.DownloadAsync(lowResName);
         }
 
         protected sealed override void Initiaize(JToken token, IGeneralBrowser browser)

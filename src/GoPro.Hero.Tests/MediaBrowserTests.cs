@@ -94,7 +94,7 @@ namespace GoPro.Hero.Tests
             if (image == null)
                 Assert.Inconclusive("no image found");
 
-            var response=image.Download().GetResponseStream();
+            var response=image.DownloadAsync().Await().GetResponseStream();
 
             var memory = ReadToMemory(response);
 
@@ -109,7 +109,7 @@ namespace GoPro.Hero.Tests
             if (video == null)
                 Assert.Inconclusive("no video found");
 
-            var response = video.Download().GetResponseStream();
+            var response = video.DownloadAsync().Await().GetResponseStream();
 
             var memory = ReadToMemory(response);
 
@@ -137,7 +137,7 @@ namespace GoPro.Hero.Tests
         {
             var camera = GetCamera();
             var image = camera.Contents().ImagesAsync().Await().FirstOrDefault();
-            var thumbnail=image.Thumbnail();
+            var thumbnail=image.ThumbnailAsync().Await();
         }
 
         [TestMethod]
@@ -145,7 +145,7 @@ namespace GoPro.Hero.Tests
         {
             var camera = GetCamera();
             var image = camera.Contents().ImagesAsync().Await().FirstOrDefault();
-            var thumbnail = image.BigThumbnail();
+            var thumbnail = image.BigThumbnailAsync().Await();
         }
 
         [TestMethod]
@@ -153,7 +153,7 @@ namespace GoPro.Hero.Tests
         {
             var camera = GetCamera();
             var timeLapse = camera.Contents().TimeLapsesAsync().Await().FirstOrDefault();
-            var thumbnail = timeLapse.Thumbnail();
+            var thumbnail = timeLapse.ThumbnailAsync().Await();
         }
 
         [TestMethod]
@@ -161,7 +161,7 @@ namespace GoPro.Hero.Tests
         {
             var camera = GetCamera();
             var timeLapse = camera.Contents().TimeLapsesAsync().Await().FirstOrDefault();
-            var thumbnail = timeLapse.BigThumbnail();
+            var thumbnail = timeLapse.BigThumbnailAsync().Await();
         }
 
         private MemoryStream ReadToMemory(Stream response)

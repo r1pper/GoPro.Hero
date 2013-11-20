@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Text;
+using System.Threading.Tasks;
 using GoPro.Hero.Commands;
 using GoPro.Hero.Exceptions;
 using Newtonsoft.Json.Linq;
@@ -18,40 +19,35 @@ namespace GoPro.Hero.Browser.Media
         public string Name { get; private set; }
         public long Size { get; private set; }
 
-        public virtual Stream Thumbnail()
+        public virtual async Task<Stream> ThumbnailAsync()
         {
-            return Thumbnail(Name);
+            return await ThumbnailAsync(Name);
         }
 
-        public virtual WebResponse Download()
+        public virtual async Task<WebResponse> DownloadAsync()
         {
-            return Download(Name);
+            return await DownloadAsync(Name);
         }
 
-        protected virtual WebResponse Download(string name)
+        protected virtual async Task<WebResponse> DownloadAsync(string name)
         {
             var path = string.Format(ABSOLUTE_PATH, Browser.Address, name);
             var webRequest = WebRequest.CreateHttp(path);
 
-            var res = webRequest.BeginGetResponse(null, null);
-            res.AsyncWaitHandle.WaitOne();
-            if (!res.IsCompleted)
-                throw new GoProException();
-
-            return webRequest.EndGetResponse(res);
+            return await webRequest.GetResponseAsync();
         }
 
-        protected Stream Thumbnail(string name)
+        protected async Task<Stream> ThumbnailAsync(string name)
         {
             string path = string.Format("{0}/{1}", Browser.Destination, name);
-            var request = Browser.Camera.PrepareCommand<CommandGoProThumbnail>(Browser.Address.Port).Set(path).Send();
+            var request = await Browser.Camera.PrepareCommand<CommandGoProThumbnail>(Browser.Address.Port).Set(path).SendAsync();
             return request.GetResponseStream();
         }
 
-        protected Stream BigThumbnail(string name)
+        protected async Task<Stream> BigThumbnailAsync(string name)
         {
             string path = string.Format("{0}/{1}", Browser.Destination, name);
-            var request = Browser.Camera.PrepareCommand<CommandGoProBigThumbnail>(Browser.Address.Port).Set(path).Send();
+            var request =await Browser.Camera.PrepareCommand<CommandGoProBigThumbnail>(Browser.Address.Port).Set(path).SendAsync();
             return request.GetResponseStream();
         }
      
