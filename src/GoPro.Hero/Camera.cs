@@ -319,14 +319,35 @@ namespace GoPro.Hero
 
         public static T Create<T>(Bacpac bacpac) where T : Camera, ICamera
         {
-            var camera = Activator.CreateInstance(typeof (T), bacpac) as T;
+            var task = CreateAsync<T>(bacpac);
+            task.Wait();
+
+            return task.Result;
+        }
+
+        public static async Task<T> CreateAsync<T>(Bacpac bacpac) where T : Camera, ICamera
+        {
+            var camera = Activator.CreateInstance(typeof(T), bacpac) as T;
+
+            await camera.InformationAsync();
+            await camera.SettingsAsync();
+            await camera.ExtendedSettingsAsync();
+
             return camera;
         }
 
         public static T Create<T>(string address) where T : Camera, ICamera
         {
-            var bacpac = Bacpac.Create(address);
-            var camera = Create<T>(bacpac);
+            var task = CreateAsync<T>(address);
+            task.Wait();
+
+            return task.Result;
+        }
+
+        public static async Task<T> CreateAsync<T>(string address) where T : Camera, ICamera
+        {
+            var bacpac = await Bacpac.CreateAsync(address);
+            var camera = await CreateAsync<T>(bacpac);
 
             return camera;
         }

@@ -6,8 +6,8 @@
     <ProjectGuid>{DDC8EACC-D2E6-4BDC-A8DE-839D056569F7}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>GoPro.Hero.Api.Tests</RootNamespace>
-    <AssemblyName>GoPro.Hero.Api.Tests</AssemblyName>
+    <RootNamespace>GoPro.Hero.Tests</RootNamespace>
+    <AssemblyName>GoPro.Hero.Tests</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{3AC096D0-A1C2-E12C-1390-A8335801FDAB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>

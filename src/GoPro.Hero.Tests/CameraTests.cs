@@ -97,6 +97,7 @@ namespace GoPro.Hero.Tests
         }
 
         [TestMethod]
+        [Ignore]
         public void CheckSetName()
         {
             var camera = GetCamera();
@@ -284,6 +285,7 @@ namespace GoPro.Hero.Tests
         }
 
         [TestMethod]
+        [Ignore]
         public void CheckLoopingVideo()
         {
             var camera = GetCamera();

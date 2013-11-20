@@ -38,7 +38,7 @@ namespace GoPro.Hero.Tests
         {
             var sample = GetSample();
             var contents = _parseDelegate(sample);
-            Assert.IsNull(contents);
+            Assert.IsNotNull(contents);
         }
 
 

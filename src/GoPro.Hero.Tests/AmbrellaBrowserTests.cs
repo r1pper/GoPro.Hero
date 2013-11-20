@@ -113,16 +113,18 @@ namespace GoPro.Hero.Tests
         [TestMethod]
         public void CheckCameraMainPage()
         {
+            //NOTE:new version only contains 'live' and 'videos' folders
             var mainNode = GetMainNode();
 
             var nodes=mainNode.Nodes().ToArray();
 
-            Assert.AreEqual(nodes.Length, 5);
-            Assert.AreEqual(nodes[0].Name, "DCIM");
-            Assert.AreEqual(nodes[1].Name, "live");
-            Assert.AreEqual(nodes[2].Name, "mjpeg");
-            Assert.AreEqual(nodes[3].Name, "pref");
-            Assert.AreEqual(nodes[4].Name, "shutter");
+            //Assert.AreEqual(nodes.Length, 5);
+            //Assert.AreEqual(nodes[0].Name, "DCIM");
+            Assert.AreEqual(nodes[0].Name, "live");
+            Assert.AreEqual(nodes[1].Name, "videos");
+            //Assert.AreEqual(nodes[2].Name, "mjpeg");
+            //Assert.AreEqual(nodes[3].Name, "pref");
+            //Assert.AreEqual(nodes[4].Name, "shutter");
         }
 
         [TestMethod]
