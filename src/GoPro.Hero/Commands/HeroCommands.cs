@@ -35,6 +35,7 @@
         public const string CAMERA_BURSTRATE = "/camera/BU";
         public const string CAMERA_CONTINUOUS = "/camera/CS";
         public const string CAMERA_DELETE_FILE = "/camera/DF";
+        public const string CAMERA_DELETE_GROUP = "/camera/DG";
 
         public const string BACPAC_SHUTTER = "/bacpac/SH";
         public const string BACPAC_POWER = "/bacpac/PW";
