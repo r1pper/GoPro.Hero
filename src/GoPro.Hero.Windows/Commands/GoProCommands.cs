@@ -82,7 +82,7 @@ namespace GoPro.Hero.Commands
 
         protected override sealed async Task<CommandResponse> SendRequestAsync()
         {
-            var uri = base.GetUri();
+            var uri = GetUri();
             var buffer = await WebHelper.BufferRequestAsync(uri.ToString());
 
             return CommandResponse.Create(buffer);

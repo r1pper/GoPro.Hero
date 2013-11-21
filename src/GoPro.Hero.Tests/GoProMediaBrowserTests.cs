@@ -160,6 +160,7 @@ namespace GoPro.Hero.Tests
             var timeLapse = camera.Contents().TimeLapsesAsync().Result.FirstOrDefault();
             var thumbnail = timeLapse.ThumbnailAsync().Result;
             var memory = ReadToMemory(thumbnail);
+            Assert.IsTrue(memory.Length > 1024);
         }
 
         [TestMethod]
@@ -169,6 +170,7 @@ namespace GoPro.Hero.Tests
             var timeLapse = camera.Contents().TimeLapsesAsync().Result.FirstOrDefault();
             var thumbnail = timeLapse.BigThumbnailAsync().Result;
             var memory = ReadToMemory(thumbnail);
+            Assert.IsTrue(memory.Length > 1024);
         }
 
         [TestMethod]
@@ -177,6 +179,7 @@ namespace GoPro.Hero.Tests
             var camera = GetCamera();
             var video = camera.Contents().VideosAsync().Result.FirstOrDefault();
             var videoInfo = video.InfoAsync().Result;
+            Assert.IsNotNull(videoInfo);
         }
 
         private MemoryStream ReadToMemory(Stream response)
