@@ -40,9 +40,8 @@ namespace GoPro.Hero.Browser.FileSystem
                     var attribute = element.Attribute("href");
                     if (attribute == null) continue;
                     var path = attribute.Value;
-                    var xElement1 = elements[2].LastNode as XElement;
-                    if (xElement1 == null) continue;
-                    var size = xElement1.Value;
+                    var sizeElement = elements[2] as XElement;
+                    var size = sizeElement.Elements().InDocumentOrder().Select(e=>e.Value).Aggregate((c, n) => c + n);
 
                     var uri = path.StartsWith(parent.Path.ToString()) ? new Uri(path) : new Uri(parent.Path, path);
 

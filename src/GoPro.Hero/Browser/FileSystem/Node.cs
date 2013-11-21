@@ -47,13 +47,13 @@ namespace GoPro.Hero.Browser.FileSystem
         public long SizeAsBytes()
         {
             var type = Size[Size.Length - 1];
-            var value = long.Parse(Size.Substring(0, Size.Length - 2));
+            var value = double.Parse(Size.Substring(0, Size.Length - 1));
             switch (type)
             {
                 case 'M':
-                    return value * 1024 * 1024;
+                    return (long)(value * 1024 * 1024);
                 case 'K':
-                    return value * 1024;
+                    return (long)(value * 1024);
                 default:
                     return -1;
             }

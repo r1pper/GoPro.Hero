@@ -13,7 +13,7 @@ namespace GoPro.Hero.Browser.Media
 {
     public abstract class Media<TM>:IMedia,IMediaInitializer<TM> where TM:MediaParameters
     {
-        protected const string ABSOLUTE_PATH = "http://{0}/videos/DCIM/{1}";
+        protected const string ABSOLUTE_PATH = "{0}videos/DCIM/100GOPRO/{1}";
  
         public IGeneralBrowser Browser { get; private set; }
         public string Name { get; private set; }

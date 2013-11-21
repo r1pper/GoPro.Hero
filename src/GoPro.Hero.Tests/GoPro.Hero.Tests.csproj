@@ -57,12 +57,13 @@
   </Choose>
   <ItemGroup>
     <Compile Include="AmbrellaBrowserTests.cs" />
+    <Compile Include="AmbrellaMediaBrowserTests.cs" />
     <Compile Include="BacpacTests.cs" />
     <Compile Include="CameraTests.cs" />
     <Compile Include="ExpectedParameters.cs" />
     <Compile Include="Hero3CameraTests.cs" />
     <Compile Include="M3U8Tests.cs" />
-    <Compile Include="MediaBrowserTests.cs" />
+    <Compile Include="GoProMediaBrowserTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

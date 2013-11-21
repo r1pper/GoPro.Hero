@@ -14,7 +14,7 @@ using GoPro.Hero.Utilities;
 namespace GoPro.Hero.Tests
 {
     [TestClass]
-    public class MediaBrowserTests
+    public class GoProMediaBrowserTests
     {
         private delegate IEnumerable<IMedia> ParseDelegate(Stream json);
 

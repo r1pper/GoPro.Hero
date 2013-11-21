@@ -43,6 +43,10 @@ namespace GoPro.Hero.Browser.Media
         protected sealed override void Initiaize(TimeLapsedImageParameters token, IGeneralBrowser browser)
         {
             base.Initiaize(token, browser);
+
+            Start = token.Start;
+            End = token.End;
+            Group = token.Group;
         }
 
         public override string ToString()

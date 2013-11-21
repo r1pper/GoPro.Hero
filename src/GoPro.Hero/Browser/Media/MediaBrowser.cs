@@ -24,10 +24,15 @@ namespace GoPro.Hero.Browser.Media
             get { return ContentAsync(name).Result; }
         }
 
-        void IGeneralBrowser.Initialize(ICamera camera, Uri address)
+        protected virtual void Initialize(ICamera camera, Uri address)
         {
             Address = address;
             Camera = camera;
+        }
+
+        void IGeneralBrowser.Initialize(ICamera camera, Uri address)
+        {
+            Initialize(camera, address);
         }
 
         public IMedia Content(string name)
