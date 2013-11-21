@@ -2,7 +2,7 @@
 
 namespace GoPro.Hero.Exceptions
 {
-    internal class GoProException : Exception
+    public class GoProException : Exception
     {
     }
 }

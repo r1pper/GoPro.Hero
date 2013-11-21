@@ -16,26 +16,7 @@ namespace GoPro.Hero.Browser.Media
         private const string EXTENSION_LOW = "LRV";
         private const string EXTENSION_HIGH = "MP4";
 
-        private int? _duration;
-        private int? _profile;
-
         public long LowResolutionSize { get; private set; }
-
-        public async Task<int> DurationAsync()
-        {
-            if (_duration == null)
-               await ParseInfoAsync();
-
-            return _duration.Value;
-        }
-
-        public async Task<int> ProfileAsync()
-        {
-            if (_profile == null)
-                await ParseInfoAsync();
-
-            return _profile.Value;
-        }
 
         public async Task<WebResponse> DownloadLowResolutionAsync()
         {
@@ -46,25 +27,6 @@ namespace GoPro.Hero.Browser.Media
         protected sealed override void Initiaize(VideoParameters token, IGeneralBrowser browser)
         {
             base.Initiaize(token, browser);
-        }
-
-        private async Task ParseInfoAsync()
-        {
-            var jsonStream =await ReadInfoAsync();
-            using (var jsonReader = new JsonTextReader(new StreamReader(jsonStream)))
-            {
-                var token = JObject.Load(jsonReader);
-                _duration=token["dur"].Value<int>();
-                _profile = token["profile"].Value<int>();
-            }
-        }
-
-        private async Task<Stream> ReadInfoAsync()
-        {
-            string path = string.Format("{0}/{1}", Browser.Destination, base.Name);
-            var response= await Browser.Camera.PrepareCommand<CommandGoProVideoInfo>(Browser.Address.Port).Set(path).SendAsync();
-            
-            return response.GetResponseStream();
         }
 
         public override string ToString()

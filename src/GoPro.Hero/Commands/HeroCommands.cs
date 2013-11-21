@@ -36,9 +36,6 @@
         public const string CAMERA_CONTINUOUS = "/camera/CS";
         public const string CAMERA_DELETE_FILE = "/camera/DF";
 
-        public const string GOPRO_MEDIADATA = "/gp/gpMediaMetadata";
-        public const string GOPRO_MEDIALIST = "/gp/gpMediaList";
-
         public const string BACPAC_SHUTTER = "/bacpac/SH";
         public const string BACPAC_POWER = "/bacpac/PW";
         public const string BACPAC_WIFI_MODE = "/bacpac/WI";

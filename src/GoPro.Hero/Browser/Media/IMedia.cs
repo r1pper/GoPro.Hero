@@ -20,7 +20,6 @@ namespace GoPro.Hero.Browser.Media
         string Name { get;  }
         long Size { get; }
 
-        Task<Stream> ThumbnailAsync();
         Task<WebResponse> DownloadAsync();
     }
 }

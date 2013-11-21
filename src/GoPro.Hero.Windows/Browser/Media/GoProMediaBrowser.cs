@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using GoPro.Hero.Commands;
+using GoPro.Hero.Utilities;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
@@ -12,9 +13,16 @@ namespace GoPro.Hero.Browser.Media
 {
     public class GoProMediaBrowser:MediaBrowser
     {
+        static GoProMediaBrowser()
+        {
+#if WINDOWS
+            WindowsSpecific.UseUnsafeHeaderParsing();
+#endif
+        }
+
         public override async Task<IEnumerable<IMedia>> ContentsAsync()
         {
-            var response = await Camera.PrepareCommand<CommandGoProMediaList>(8080).SendAsync();
+            var response = await Camera.PrepareCommand<CommandGoProMediaList>(8080).SendAsync(checkStatus:false);
             var jsonStream = response.GetResponseStream();
 
             return Parse(jsonStream);
@@ -35,13 +43,13 @@ namespace GoPro.Hero.Browser.Media
                 var fs = media["fs"].Select<JToken,IMedia>(j =>
                 {
                     if (j["ls"] != null)//unique to video media
-                        return Media<VideoParameters>.Create<Video>(VideoParameters(j), this);
-
+                        return MediaBuilder<VideoParameters>.Create<Video>(VideoParameters(j), this);
+                    
                     if (j["b"] != null)//unique to burst mode
-                        return Media<TimeLapsedImageParameters>.Create<TimeLapsedImage>(TimeLapsedParameters(j), this);
+                        return MediaBuilder<TimeLapsedImageParameters>.Create<TimeLapsedImage>(TimeLapsedParameters(j), this);
 
                     if (j["n"] != null)
-                        return Media<ImageParameters>.Create<Image>(ImageParameters(j), this);
+                        return MediaBuilder<ImageParameters>.Create<Image>(ImageParameters(j), this);
 
                     return null;
                 }

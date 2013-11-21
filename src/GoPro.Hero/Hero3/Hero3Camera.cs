@@ -28,11 +28,6 @@ namespace GoPro.Hero.Hero3
             return base.FileSystem<AmbrellaBrowser>();
         }
 
-        public MediaBrowser Contents()
-        {
-            return base.Browse<GoProMediaBrowser>();
-        }
-
         public Hero3Camera VideoResolution(VideoResolution resolution, bool nonBlocking = false)
         {
             return ExecuteMultiChoiceCommand<CommandCameraVideoResolution,VideoResolution>(resolution, nonBlocking);

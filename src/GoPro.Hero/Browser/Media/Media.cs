@@ -19,11 +19,6 @@ namespace GoPro.Hero.Browser.Media
         public string Name { get; private set; }
         public long Size { get; private set; }
 
-        public virtual async Task<Stream> ThumbnailAsync()
-        {
-            return await ThumbnailAsync(Name);
-        }
-
         public virtual async Task<WebResponse> DownloadAsync()
         {
             return await DownloadAsync(Name);
@@ -35,20 +30,6 @@ namespace GoPro.Hero.Browser.Media
             var webRequest = WebRequest.CreateHttp(path);
 
             return await webRequest.GetResponseAsync();
-        }
-
-        protected async Task<Stream> ThumbnailAsync(string name)
-        {
-            string path = string.Format("{0}/{1}", Browser.Destination, name);
-            var request = await Browser.Camera.PrepareCommand<CommandGoProThumbnail>(Browser.Address.Port).Set(path).SendAsync();
-            return request.GetResponseStream();
-        }
-
-        protected async Task<Stream> BigThumbnailAsync(string name)
-        {
-            string path = string.Format("{0}/{1}", Browser.Destination, name);
-            var request =await Browser.Camera.PrepareCommand<CommandGoProBigThumbnail>(Browser.Address.Port).Set(path).SendAsync();
-            return request.GetResponseStream();
         }
      
         protected virtual void Initiaize(TM token, IGeneralBrowser browser)

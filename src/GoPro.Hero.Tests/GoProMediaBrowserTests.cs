@@ -24,7 +24,7 @@ namespace GoPro.Hero.Tests
         [TestInitialize]
         public void Initialize()
         {
-            _instance = Activator.CreateInstance<MediaBrowser>();
+            _instance = Activator.CreateInstance<GoProMediaBrowser>();
 
             (_instance as IGeneralBrowser).Initialize(null, null);
 
@@ -46,8 +46,8 @@ namespace GoPro.Hero.Tests
         public void CheckContentsFromCamera()
         {
             var camera = GetCamera();
-            var contents=camera.Browse<MediaBrowser>().ContentsAsync().Result;
-            Assert.IsNull(contents);
+            var contents=camera.Browse<GoProMediaBrowser>().ContentsAsync().Result;
+            Assert.IsNotNull(contents);
         }
 
         [TestMethod]
@@ -55,9 +55,9 @@ namespace GoPro.Hero.Tests
         {
             var camera = GetCamera();
             var first = camera.Contents().ContentsAsync<Image>().Result.ToList();
-            var second = camera.Browse<MediaBrowser>().ImagesAsync().Result.ToList();
+            var second = camera.Browse<GoProMediaBrowser>().ImagesAsync().Result.ToList();
             var third = camera.Contents().ImagesAsync().Result.ToList();
-            var forth = camera.Browse<MediaBrowser>().ContentsAsync<Image>().Result.ToList();
+            var forth = camera.Browse<GoProMediaBrowser>().ContentsAsync<Image>().Result.ToList();
 
             
             CollectionAssert.AreEquivalent(first, second);
@@ -73,9 +73,9 @@ namespace GoPro.Hero.Tests
         {
             var camera = GetCamera();
             var first = camera.Contents().ContentsAsync<TimeLapsedImage>().Result.ToList();
-            var second = camera.Browse<MediaBrowser>().TimeLapsesAsync().Result.ToList();
+            var second = camera.Browse<GoProMediaBrowser>().TimeLapsesAsync().Result.ToList();
             var third = camera.Contents().TimeLapsesAsync().Result.ToList();
-            var forth = camera.Browse<MediaBrowser>().ContentsAsync<TimeLapsedImage>().Result.ToList();
+            var forth = camera.Browse<GoProMediaBrowser>().ContentsAsync<TimeLapsedImage>().Result.ToList();
 
 
             CollectionAssert.AreEquivalent(first, second);
@@ -98,7 +98,7 @@ namespace GoPro.Hero.Tests
 
             var memory = ReadToMemory(response);
 
-            Assert.AreEqual(memory.Length, response.Length);
+            Assert.AreEqual(memory.Length, image.Size);
         }
 
         [TestMethod]
@@ -113,7 +113,7 @@ namespace GoPro.Hero.Tests
 
             var memory = ReadToMemory(response);
 
-            Assert.AreEqual(memory.Length, response.Length);
+            Assert.AreEqual(memory.Length, video.Size);
         }
 
         [TestMethod]
@@ -124,12 +124,15 @@ namespace GoPro.Hero.Tests
             if (timeLapsed == null)
                 Assert.Inconclusive("no timelapsed image found");
 
+            long size = 0;
             foreach (var item in timeLapsed)
             {
                 var stream=item.GetResponseStream();
                 var memory = ReadToMemory(stream);
-                Assert.AreEqual(memory.Length, stream.Length);
+                size += memory.Length;
             }
+
+            Assert.AreEqual(size, timeLapsed.Size);
         }
 
         [TestMethod]
@@ -138,6 +141,7 @@ namespace GoPro.Hero.Tests
             var camera = GetCamera();
             var image = camera.Contents().ImagesAsync().Result.FirstOrDefault();
             var thumbnail=image.ThumbnailAsync().Result;
+            var memory = ReadToMemory(thumbnail);
         }
 
         [TestMethod]
@@ -146,6 +150,7 @@ namespace GoPro.Hero.Tests
             var camera = GetCamera();
             var image = camera.Contents().ImagesAsync().Result.FirstOrDefault();
             var thumbnail = image.BigThumbnailAsync().Result;
+            var memory = ReadToMemory(thumbnail);
         }
 
         [TestMethod]
@@ -154,6 +159,7 @@ namespace GoPro.Hero.Tests
             var camera = GetCamera();
             var timeLapse = camera.Contents().TimeLapsesAsync().Result.FirstOrDefault();
             var thumbnail = timeLapse.ThumbnailAsync().Result;
+            var memory = ReadToMemory(thumbnail);
         }
 
         [TestMethod]
@@ -162,6 +168,15 @@ namespace GoPro.Hero.Tests
             var camera = GetCamera();
             var timeLapse = camera.Contents().TimeLapsesAsync().Result.FirstOrDefault();
             var thumbnail = timeLapse.BigThumbnailAsync().Result;
+            var memory = ReadToMemory(thumbnail);
+        }
+
+        [TestMethod]
+        public void CheckVideoInfo()
+        {
+            var camera = GetCamera();
+            var video = camera.Contents().VideosAsync().Result.FirstOrDefault();
+            var videoInfo = video.InfoAsync().Result;
         }
 
         private MemoryStream ReadToMemory(Stream response)

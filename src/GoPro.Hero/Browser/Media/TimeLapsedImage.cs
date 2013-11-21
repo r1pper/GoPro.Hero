@@ -17,27 +17,16 @@ namespace GoPro.Hero.Browser.Media
         public int End { get; private set; }
         public int Count { get { return this.End + 1 - this.Start; } }
 
-        public async Task<Stream> ThumbnailAsync(int index)
+        public string IndexName(int index)
         {
-            var name = IndexName(index);
-            return await base.ThumbnailAsync(name);
-        }
-
-        private string IndexName(int index)
-        {
-            var name = string.Format("G{0:000}{1:0000}", Group, index);
+            var name = string.Format("G{0:000}{1:0000}.JPG", Group, index);
             return name;
         }
 
-        public async Task<Stream> BigThumbnailAsync(int index)
+        public async Task<WebResponse> DownloadAsync(int index)
         {
-            var name = IndexName(index);
-            return await base.BigThumbnailAsync(name);
-        }
-
-        public async Task<Stream> BigThumbnailAsync()
-        {
-            return await base.BigThumbnailAsync(base.Name);
+            var indexName = IndexName(index);
+            return await DownloadAsync(indexName);
         }
 
         protected sealed override void Initiaize(TimeLapsedImageParameters token, IGeneralBrowser browser)
@@ -74,7 +63,13 @@ namespace GoPro.Hero.Browser.Media
             public bool MoveNext()
             {
                 CurrentIndex++;
-                return CurrentIndex<=Owner.End;
+
+                if (CurrentIndex > Owner.End)
+                    return false;
+
+                Current = Owner.DownloadAsync(CurrentIndex).Result;
+
+                return true;
             }
 
             public void Reset()
@@ -90,7 +85,7 @@ namespace GoPro.Hero.Browser.Media
             public TimeLapsedImageEnumerator(TimeLapsedImage owner)
             {
                 Owner = owner;
-                CurrentIndex = Owner.Start;
+                CurrentIndex = Owner.Start -1;
             }
         }
     }

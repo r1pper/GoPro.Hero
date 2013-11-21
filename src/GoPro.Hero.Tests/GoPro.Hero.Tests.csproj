@@ -67,6 +67,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\GoPro.Hero.Windows\GoPro.Hero.Windows.csproj">
+      <Project>{6ee14717-7464-4dfe-ae63-3bbe0317724c}</Project>
+      <Name>GoPro.Hero.Windows</Name>
+    </ProjectReference>
     <ProjectReference Include="..\GoPro.Hero\GoPro.Hero.csproj">
       <Project>{5c83722f-198b-451d-8531-2aa0722f55b9}</Project>
       <Name>GoPro.Hero</Name>

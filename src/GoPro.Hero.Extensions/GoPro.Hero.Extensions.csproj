@@ -5,13 +5,13 @@
     <MinimumVisualStudioVersion>10.0</MinimumVisualStudioVersion>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{5C83722F-198B-451D-8531-2AA0722F55B9}</ProjectGuid>
+    <ProjectGuid>{D8E79372-8E8A-4D01-8A98-E9A6EE9C8627}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>GoPro.Hero</RootNamespace>
-    <AssemblyName>GoPro.Hero</AssemblyName>
+    <RootNamespace>GoPro.Hero.Extensions</RootNamespace>
+    <AssemblyName>GoPro.Hero.Extensions</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
-    <TargetFrameworkProfile>Profile96</TargetFrameworkProfile>
+    <TargetFrameworkProfile>Profile104</TargetFrameworkProfile>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{786C830F-07A1-408B-BD7F-6EE04809D6DB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
   </PropertyGroup>
@@ -33,55 +33,37 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <!-- A reference to the entire .NET Framework is automatically included -->
-    <EmbeddedResource Include="Hero3\Hero3FilterScheme.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="Bacpac.cs" />
-    <Compile Include="BacpacInformation.cs" />
-    <Compile Include="BacpacStatus.cs" />
-    <Compile Include="Browser\FileSystem\AmbrellaBrowser.cs" />
-    <Compile Include="Browser\FileSystem\FileSystemBrowser.cs" />
-    <Compile Include="Browser\FileSystem\IFileSystemBrowser.cs" />
-    <Compile Include="Browser\IGeneralBrowser.cs" />
-    <Compile Include="Browser\Media\AmbrellaMediaBrowser.cs" />
-    <Compile Include="Browser\Media\Image.cs" />
-    <Compile Include="Browser\Media\IMedia.cs" />
-    <Compile Include="Browser\Media\IMediaBrowser.cs" />
-    <Compile Include="Browser\Media\Media.cs" />
-    <Compile Include="Browser\Media\MediaBrowser.cs" />
-    <Compile Include="Browser\FileSystem\Node.cs" />
-    <Compile Include="Browser\FileSystem\NodeType.cs" />
-    <Compile Include="Browser\Media\MediaBrowserParameters.cs" />
-    <Compile Include="Browser\Media\TimeLapsedImage.cs" />
-    <Compile Include="Browser\Media\Video.cs" />
-    <Compile Include="Camera.cs" />
-    <Compile Include="CameraExtendedSettings.cs" />
-    <Compile Include="CameraInformation.cs" />
-    <Compile Include="CameraSettings.cs" />
-    <Compile Include="Commands\BacpacCommands.cs" />
-    <Compile Include="Commands\CameraCommands.cs" />
-    <Compile Include="Commands\CommandAttribute.cs" />
-    <Compile Include="Commands\CommandBoolean.cs" />
-    <Compile Include="Commands\CommandMultiChoice.cs" />
-    <Compile Include="Commands\CommandRequest.cs" />
-    <Compile Include="Commands\CommandResponse.cs" />
-    <Compile Include="Exceptions\BacpacException.cs" />
-    <Compile Include="Exceptions\CameraException.cs" />
-    <Compile Include="Exceptions\CommandFailedException.cs" />
-    <Compile Include="Exceptions\GoProException.cs" />
-    <Compile Include="Commands\HeroCommands.cs" />
-    <Compile Include="Filtering\FilterGeneric.cs" />
-    <Compile Include="Filtering\IFilter.cs" />
-    <Compile Include="Filtering\NoFilter.cs" />
-    <Compile Include="Hero3\Hero3Camera.cs" />
-    <Compile Include="ICamera.cs" />
-    <Compile Include="Filtering\IFilterProvider.cs" />
+    <Compile Include="..\GoPro.Hero.Windows\Browser\Media\GoProMediaBrowser.cs">
+      <Link>Browser\Media\GoProMediaBrowser.cs</Link>
+    </Compile>
+    <Compile Include="..\GoPro.Hero.Windows\Browser\Media\ImageExtensions.cs">
+      <Link>Browser\Media\ImageExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\GoPro.Hero.Windows\Browser\Media\MediaBuilder.cs">
+      <Link>Browser\Media\MediaBuilder.cs</Link>
+    </Compile>
+    <Compile Include="..\GoPro.Hero.Windows\Browser\Media\MediaExtensions.cs">
+      <Link>Browser\Media\MediaExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\GoPro.Hero.Windows\Browser\Media\TimeLapsedImageExtensions.cs">
+      <Link>Browser\Media\TimeLapsedImageExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\GoPro.Hero.Windows\Browser\Media\VideoExtensions.cs">
+      <Link>Browser\Media\VideoExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\GoPro.Hero.Windows\Commands\GoProCommands.cs">
+      <Link>Commands\GoProCommands.cs</Link>
+    </Compile>
+    <Compile Include="..\GoPro.Hero.Windows\Commands\HeroCommands.cs">
+      <Link>Commands\HeroCommands.cs</Link>
+    </Compile>
+    <Compile Include="..\GoPro.Hero.Windows\Hero3\Hero3CameraExtensions.cs">
+      <Link>Hero3\Hero3CameraExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\GoPro.Hero.Windows\Utilities\WebHelper.cs">
+      <Link>Utilities\WebHelper.cs</Link>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Structures.cs" />
-    <Compile Include="Utilities\Extensions.cs" />
-    <Compile Include="Utilities\M3U8Parser.cs" />
-    <Compile Include="Version.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Microsoft.Threading.Tasks">
@@ -99,12 +81,15 @@
     <Reference Include="System.Threading.Tasks">
       <HintPath>..\packages\Microsoft.Bcl.1.0.19\lib\portable-net40+sl4+win8+wp71\System.Threading.Tasks.dll</HintPath>
     </Reference>
-    <Reference Include="TidyNetPortable">
-      <HintPath>..\packages\TidyNetPortable.1.0.0\lib\TidyNetPortable.dll</HintPath>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\GoPro.Hero\GoPro.Hero.csproj">
+      <Project>{5c83722f-198b-451d-8531-2aa0722f55b9}</Project>
+      <Name>GoPro.Hero</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <Import Project="..\packages\Microsoft.Bcl.Build.1.0.13\tools\Microsoft.Bcl.Build.targets" Condition="Exists('..\packages\Microsoft.Bcl.Build.1.0.13\tools\Microsoft.Bcl.Build.targets')" />

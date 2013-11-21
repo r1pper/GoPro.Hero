@@ -2,7 +2,7 @@
 
 namespace GoPro.Hero.Commands
 {
-    internal class CommandAttribute : Attribute
+    public class CommandAttribute : Attribute
     {
         public CommandAttribute(string command)
         {
