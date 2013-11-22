@@ -18,16 +18,22 @@ namespace GoPro.Hero.Browser.Media
 
         internal static async Task<Stream> ThumbnailAsync(this IMedia media, string name)
         {
-            string path = string.Format("{0}/{1}", media.Browser.Destination, name);
+            var path = string.Format("{0}/{1}", media.Browser.Destination, name);
             var request = await media.Browser.Camera.PrepareCommand<CommandGoProThumbnail>(media.Browser.Address.Port).Set(path).SendAsync(checkStatus:false);
             return request.GetResponseStream();
         }
 
         internal static async Task<Stream> BigThumbnailAsync(this IMedia media, string name)
         {
-            string path = string.Format("{0}/{1}", media.Browser.Destination, name);
+            var path = string.Format("{0}/{1}", media.Browser.Destination, name);
             var request = await media.Browser.Camera.PrepareCommand<CommandGoProBigThumbnail>(media.Browser.Address.Port).Set(path).SendAsync(checkStatus:false);
             return request.GetResponseStream();
+        }
+
+        internal static async Task DeleteFile(this IMedia media, string name)
+        {
+            var path = string.Format("{0}/{1}", media.Browser.Destination, name);
+            await media.Browser.Camera.PrepareCommand<CommandCameraDeleteFile>(media.Browser.Address.Port).Set(path).ExecuteAsync();
         }
     }
 }

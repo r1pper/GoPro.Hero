@@ -19,6 +19,13 @@ namespace GoPro.Hero.Browser.Media
             public int Profile { get; set; }
         }
 
+
+        public static async Task<Video> Delete(this Video video)
+        {
+            await video.DeleteFile(video.Name);
+            return video;
+        }
+
         public static async Task<int> DurationAsync(this Video video)
         {
             return (await video.InfoAsync()).Duration;
