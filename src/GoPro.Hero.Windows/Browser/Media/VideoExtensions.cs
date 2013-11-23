@@ -20,7 +20,7 @@ namespace GoPro.Hero.Browser.Media
         }
 
 
-        public static async Task<Video> Delete(this Video video)
+        public static async Task<Video> DeleteAsync(this Video video)
         {
             await video.DeleteFile(video.Name);
             return video;

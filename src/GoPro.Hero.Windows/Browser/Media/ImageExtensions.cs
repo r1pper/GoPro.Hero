@@ -15,7 +15,7 @@ namespace GoPro.Hero.Browser.Media
             return await image.BigThumbnailAsync(image.Name);
         }
 
-        public static async Task<Image> Delete(this Image image)
+        public static async Task<Image> DeleteAsync(this Image image)
         {
             await image.DeleteFile(image.Name);
             return image;
