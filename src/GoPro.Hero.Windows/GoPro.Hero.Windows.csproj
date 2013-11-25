@@ -47,17 +47,37 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Browser\Media\GoProMediaBrowser.cs" />
-    <Compile Include="Browser\Media\ImageExtensions.cs" />
-    <Compile Include="Browser\Media\MediaBuilder.cs" />
-    <Compile Include="Browser\Media\MediaExtensions.cs" />
-    <Compile Include="Browser\Media\TimeLapsedImageExtensions.cs" />
-    <Compile Include="Browser\Media\VideoExtensions.cs" />
-    <Compile Include="Commands\GoProCommands.cs" />
-    <Compile Include="Commands\HeroCommands.cs" />
-    <Compile Include="Hero3\Hero3CameraExtensions.cs" />
+    <Compile Include="..\GoPro.Hero.Extensions\Browser\Media\GoProMediaBrowser.cs">
+      <Link>Browser\Media\GoProMediaBrowser.cs</Link>
+    </Compile>
+    <Compile Include="..\GoPro.Hero.Extensions\Browser\Media\ImageExtensions.cs">
+      <Link>Browser\Media\ImageExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\GoPro.Hero.Extensions\Browser\Media\MediaBuilder.cs">
+      <Link>Browser\Media\MediaBuilder.cs</Link>
+    </Compile>
+    <Compile Include="..\GoPro.Hero.Extensions\Browser\Media\MediaExtensions.cs">
+      <Link>Browser\Media\MediaExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\GoPro.Hero.Extensions\Browser\Media\TimeLapsedImageExtensions.cs">
+      <Link>Browser\Media\TimeLapsedImageExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\GoPro.Hero.Extensions\Browser\Media\VideoExtensions.cs">
+      <Link>Browser\Media\VideoExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\GoPro.Hero.Extensions\Commands\GoProCommands.cs">
+      <Link>Commands\GoProCommands.cs</Link>
+    </Compile>
+    <Compile Include="..\GoPro.Hero.Extensions\Commands\HeroCommands.cs">
+      <Link>Commands\HeroCommands.cs</Link>
+    </Compile>
+    <Compile Include="..\GoPro.Hero.Extensions\Hero3\Hero3CameraExtensions.cs">
+      <Link>Hero3\Hero3CameraExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\GoPro.Hero.Extensions\Utilities\WebHelper.cs">
+      <Link>Utilities\WebHelper.cs</Link>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Utilities\WebHelper.cs" />
     <Compile Include="Utilities\WindowsSpecific.cs" />
   </ItemGroup>
   <ItemGroup>
