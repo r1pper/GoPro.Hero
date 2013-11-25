@@ -11,12 +11,12 @@ namespace GoPro.Hero.Browser.Media
 {
     public interface IMediaInitializer<T>where T:MediaParameters
     {
-        void Initialize(T token, IGeneralBrowser browser);
+        void Initialize(T token, IMediaBrowser browser);
     }
 
     public interface IMedia
     {
-        IGeneralBrowser Browser { get; }
+        IMediaBrowser Browser { get; }
         string Name { get;  }
         long Size { get; }
 

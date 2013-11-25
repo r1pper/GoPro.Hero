@@ -27,14 +27,14 @@ namespace GoPro.Hero.Browser.Media
             return await image.BigThumbnailAsync(image.Name);
         }
 
-        public static async Task<TimeLapsedImage> DeleteAsync(this TimeLapsedImage image)
+        public static async Task<IMediaBrowser> DeleteAsync(this TimeLapsedImage image)
         {
             for (var i = image.Start; i <= image.End; i++)
             {
                 var indexName = image.IndexName(i);
                 await image.DeleteFile(indexName);
             }
-            return image;
+            return image.Browser;
         }
     }
 }

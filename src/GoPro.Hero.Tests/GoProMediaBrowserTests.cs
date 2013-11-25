@@ -117,6 +117,21 @@ namespace GoPro.Hero.Tests
         }
 
         [TestMethod]
+        public void CheckDownloadVideoLowResolution()
+        {
+            var camera = GetCamera();
+            var video = camera.Contents().VideosAsync().Result.Where(v => v.LowResolutionSize > 0).FirstOrDefault();
+            if (video == null)
+                Assert.Inconclusive("no video found");
+
+            var response = video.DownloadLowResolutionAsync().Result.GetResponseStream();
+
+            var memory = ReadToMemory(response);
+
+            Assert.AreEqual(memory.Length, video.LowResolutionSize);
+        }
+
+        [TestMethod]
         public void CheckDownloadTimeLapsedImage()
         {
             var camera = GetCamera();
@@ -174,12 +189,49 @@ namespace GoPro.Hero.Tests
         }
 
         [TestMethod]
+        public void CheckDownloadVideoThumbnail()
+        {
+            var camera = GetCamera();
+            var video = camera.Contents().VideosAsync().Result.FirstOrDefault();
+            var thumbnail = video.ThumbnailAsync().Result;
+            var memory = ReadToMemory(thumbnail);
+            Assert.IsTrue(memory.Length > 1024);
+        }
+
+        [TestMethod]
         public void CheckVideoInfo()
         {
             var camera = GetCamera();
             var video = camera.Contents().VideosAsync().Result.FirstOrDefault();
             var videoInfo = video.InfoAsync().Result;
             Assert.IsNotNull(videoInfo);
+        }
+
+        [TestMethod]
+        public void CheckDeleteVideo()
+        {
+            var camera = GetCamera();
+            var video = camera.Contents().VideosAsync().Result.FirstOrDefault();
+            var deleted=video.DeleteAsync().Result.ContentAsync(video.Name).Result;
+            Assert.IsNull(deleted);
+        }
+
+        [TestMethod]
+        public void CheckDeleteImage()
+        {
+            var camera = GetCamera();
+            var image = camera.Contents().ImagesAsync().Result.FirstOrDefault();
+            var deleted = image.DeleteAsync().Result.ContentAsync(image.Name).Result;
+            Assert.IsNull(deleted);
+        }
+
+        [TestMethod]
+        public void CheckDeleteTimeLapse()
+        {
+            var camera = GetCamera();
+            var timeLapse = camera.Contents().TimeLapsesAsync().Result.FirstOrDefault();
+            var deleted = timeLapse.DeleteAsync().Result.ContentAsync(timeLapse.Name).Result;
+            Assert.IsNull(deleted);
         }
 
         private MemoryStream ReadToMemory(Stream response)

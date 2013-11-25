@@ -24,9 +24,10 @@ namespace GoPro.Hero.Browser.Media
             return await base.DownloadAsync(lowResName);
         }
 
-        protected sealed override void Initiaize(VideoParameters token, IGeneralBrowser browser)
+        protected sealed override void Initiaize(VideoParameters token, IMediaBrowser browser)
         {
             base.Initiaize(token, browser);
+            LowResolutionSize = token.LowResolutionSize;
         }
 
         public override string ToString()

@@ -33,7 +33,7 @@ namespace GoPro.Hero.Browser.Media
         internal static async Task DeleteFile(this IMedia media, string name)
         {
             var path = string.Format("{0}/{1}", media.Browser.Destination, name);
-            await media.Browser.Camera.PrepareCommand<CommandCameraDeleteFile>(media.Browser.Address.Port).Set(path).ExecuteAsync();
+            await media.Browser.Camera.PrepareCommand<CommandCameraDeleteFile>().Set(path).ExecuteAsync();
         }
     }
 }

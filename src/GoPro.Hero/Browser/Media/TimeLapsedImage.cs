@@ -29,7 +29,7 @@ namespace GoPro.Hero.Browser.Media
             return await DownloadAsync(indexName);
         }
 
-        protected sealed override void Initiaize(TimeLapsedImageParameters token, IGeneralBrowser browser)
+        protected sealed override void Initiaize(TimeLapsedImageParameters token, IMediaBrowser browser)
         {
             base.Initiaize(token, browser);
 

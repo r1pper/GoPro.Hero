@@ -15,7 +15,7 @@ namespace GoPro.Hero.Browser.Media
     {
         protected const string ABSOLUTE_PATH = "{0}videos/DCIM/100GOPRO/{1}";
  
-        public IGeneralBrowser Browser { get; private set; }
+        public IMediaBrowser Browser { get; private set; }
         public string Name { get; private set; }
         public long Size { get; private set; }
 
@@ -32,7 +32,7 @@ namespace GoPro.Hero.Browser.Media
             return await webRequest.GetResponseAsync();
         }
      
-        protected virtual void Initiaize(TM token, IGeneralBrowser browser)
+        protected virtual void Initiaize(TM token, IMediaBrowser browser)
         {
             //Name = token["n"].Value<string>();
             //Size = token["s"].Value<long>();
@@ -55,12 +55,12 @@ namespace GoPro.Hero.Browser.Media
             return Name.GetHashCode() * 19;
         }
 
-        void IMediaInitializer<TM>.Initialize(TM token, IGeneralBrowser browser)
+        void IMediaInitializer<TM>.Initialize(TM token, IMediaBrowser browser)
         {
             Initiaize(token, browser);
         }
 
-        internal protected static T Create<T>(TM token, IGeneralBrowser browser) where T:Media<TM>,IMediaInitializer<TM>
+        internal protected static T Create<T>(TM token, IMediaBrowser browser) where T:Media<TM>,IMediaInitializer<TM>
         {
             var instance = Activator.CreateInstance<T>();
             instance.Initialize(token, browser);
