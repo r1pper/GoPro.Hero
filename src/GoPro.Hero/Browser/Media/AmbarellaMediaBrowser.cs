@@ -7,7 +7,7 @@ using GoPro.Hero.Browser.FileSystem;
 
 namespace GoPro.Hero.Browser.Media
 {
-    public class AmbrellaMediaBrowser:MediaBrowser
+    public class AmbarellaMediaBrowser:MediaBrowser
     {
         private const string  GROUP_ETC="etc";
         private const string GROUP_TIMELAPSED = "timeLapsed";
@@ -16,7 +16,7 @@ namespace GoPro.Hero.Browser.Media
         public override async Task<IEnumerable<IMedia>> ContentsAsync()
         {
             var heroCamera = base.Camera as Camera;
-            var fs = heroCamera.FileSystem<AmbrellaBrowser>();
+            var fs = heroCamera.FileSystem<AmbarellaBrowser>();
 
             var videos = await fs.ChildAsync("videos");
             var dcim = await videos.ChildAsync("DCIM");

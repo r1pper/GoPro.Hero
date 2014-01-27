@@ -5,7 +5,7 @@ using System.Xml.Linq;
 
 namespace GoPro.Hero.Browser.FileSystem
 {
-    public class AmbrellaBrowser : FileSystemBrowser
+    public class AmbarellaBrowser : FileSystemBrowser
     {
         private const string DEFAULT = "http://10.5.5.9:8080";
 

@@ -13,11 +13,11 @@ using GoPro.Hero.Browser.FileSystem;
 namespace GoPro.Hero.Tests
 {
     [TestClass]
-    public class AmbrellaBrowserTests
+    public class AmbarellaBrowserTests
     {
         private delegate IEnumerable<Node> ParseDelegate(XElement element, Node node);
 
-        private AmbrellaBrowser _instance;
+        private AmbarellaBrowser _instance;
         private ParseDelegate _parseDelegate;
 
         private  Node GetMainNode()
@@ -30,8 +30,8 @@ namespace GoPro.Hero.Tests
         [TestInitialize]
         public void Initialize()
         {
-            var ambrellaType = typeof (AmbrellaBrowser);
-            _instance = Activator.CreateInstance<AmbrellaBrowser>();
+            var ambrellaType = typeof (AmbarellaBrowser);
+            _instance = Activator.CreateInstance<AmbarellaBrowser>();
             (_instance as IGeneralBrowser).Initialize(null, null);
 
             var method = ambrellaType.GetMethod("Parse", BindingFlags.Instance | BindingFlags.NonPublic);

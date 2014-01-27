@@ -11,7 +11,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace GoPro.Hero.Tests
 {
     [TestClass]
-    public class AmbrellaMediaBrowserTests
+    public class AmbarellaMediaBrowserTests
     {
         private Camera GetCamera()
         {
@@ -39,7 +39,7 @@ namespace GoPro.Hero.Tests
         public void CheckContents()
         {
             var camera = GetCamera();
-            var browser = camera.Browse<AmbrellaMediaBrowser>();
+            var browser = camera.Browse<AmbarellaMediaBrowser>();
            
             var contents=browser.Contents();
         }
@@ -48,7 +48,7 @@ namespace GoPro.Hero.Tests
         public void CheckTimeLapses()
         {
             var camera = GetCamera();
-            var browser = camera.Browse<AmbrellaMediaBrowser>();
+            var browser = camera.Browse<AmbarellaMediaBrowser>();
 
             var contents = browser.TimeLapsesAsync().Result;
 
@@ -62,7 +62,7 @@ namespace GoPro.Hero.Tests
         public void CheckDownloadImage()
         {
             var camera = GetCamera();
-            var image = camera.Browse<AmbrellaMediaBrowser>().ImagesAsync().Result.FirstOrDefault();
+            var image = camera.Browse<AmbarellaMediaBrowser>().ImagesAsync().Result.FirstOrDefault();
             if (image == null)
                 Assert.Inconclusive("no image found");
 
@@ -77,7 +77,7 @@ namespace GoPro.Hero.Tests
         public void CheckImageThumbnail()
         {
             var camera = GetCamera();
-            var image = camera.Browse<AmbrellaMediaBrowser>().ImagesAsync().Result.FirstOrDefault();
+            var image = camera.Browse<AmbarellaMediaBrowser>().ImagesAsync().Result.FirstOrDefault();
             if (image == null)
                 Assert.Inconclusive("no image found");
 
@@ -91,7 +91,7 @@ namespace GoPro.Hero.Tests
         public void CheckImageBigThumbnail()
         {
             var camera = GetCamera();
-            var image = camera.Browse<AmbrellaMediaBrowser>().ImagesAsync().Result.FirstOrDefault();
+            var image = camera.Browse<AmbarellaMediaBrowser>().ImagesAsync().Result.FirstOrDefault();
             if (image == null)
                 Assert.Inconclusive("no image found");
 
