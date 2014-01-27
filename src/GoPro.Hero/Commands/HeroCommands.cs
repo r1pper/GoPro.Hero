@@ -37,6 +37,7 @@
         public const string CAMERA_DELETE_FILE = "/camera/DF";
         public const string CAMERA_DELETE_GROUP = "/camera/DG";
         public const string CAMERA_CAPABILITIES = "camera/cc";
+        public const string CAMERA_LOW_LIGHT = "camera/LW";
 
         public const string BACPAC_SHUTTER = "/bacpac/SH";
         public const string BACPAC_POWER = "/bacpac/PW";
@@ -44,5 +45,7 @@
         public const string BACPAC_GET_PASSWORD = "/bacpac/sd";
         public const string BACPAC_INFORMATION = "/bacpac/cv";
         public const string BACPAC_STATUS = "/bacpac/se";
+        public const string BACPAC_RESET = "/bacpac/RS";
+        public const string BACPAC_WIFI_CONFIG = "/bacpac/WP";
     }
 }

@@ -209,4 +209,9 @@ namespace GoPro.Hero.Commands
             return this;
         }
     }
+
+    [Command(HeroCommands.CAMERA_LOW_LIGHT)]
+    public class CommandCameraAutoLowLight : CommandBoolean<ICamera>
+    {
+    }
 }

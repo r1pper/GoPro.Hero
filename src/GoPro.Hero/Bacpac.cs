@@ -155,6 +155,42 @@ namespace GoPro.Hero
             return this;
         }
 
+        public async Task<Bacpac> ResetAsync()
+        {
+            var request = CreateCommand<CommandBacpacReset>();
+            await request.SendAsync(false);
+
+            return this;
+        }
+
+        public Bacpac Reset(bool nonBlocking=false)
+        {
+            var task = ResetAsync();
+
+            if (!nonBlocking)
+                task.Wait();
+
+            return this;
+        }
+
+        public async Task<Bacpac> ConfigureWifiAsync(string name, string password)
+        {
+            var request = CreateCommand<CommandBacpacWifiConfigure>().SetName(name).SetPassword(password);
+            await request.SendAsync();
+
+            return this;
+        }
+
+        public Bacpac ConfigureWifi(string name, string password, bool nonBlocking = false)
+        {
+            var task = ConfigureWifiAsync(name, password);
+
+            if (!nonBlocking)
+                task.Wait();
+
+            return this;
+        }
+
         private T CreateCommand<T>(string parameter = null) where T : CommandRequest<Bacpac>
         {
             var request = CommandRequest<Bacpac>.Create<T>(this, Address, passPhrase: Password, parameter: parameter);

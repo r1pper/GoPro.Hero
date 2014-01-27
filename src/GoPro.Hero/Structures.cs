@@ -96,6 +96,8 @@
 
     public enum VideoResolution : byte
     {
+        Vr720SuperView = 10,
+        Vr1080SuperView = 9,
         Vr4kCin = 8,
         Vr4K = 6,
         Vr2Point7KCin = 7,
@@ -128,7 +130,9 @@
         Hero2 = 1,
         Hero3White = 2,
         Hero3Silver = 3,
-        Hero3Black = 4
+        Hero3Black = 4,
+        Hero3PlusSilver = 10,
+        Hero3PlusBlack = 11
     }
 
     public enum LoopingVideo : byte

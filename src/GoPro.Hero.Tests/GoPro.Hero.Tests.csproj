@@ -56,8 +56,8 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
-    <Compile Include="AmbrellaBrowserTests.cs" />
-    <Compile Include="AmbrellaMediaBrowserTests.cs" />
+    <Compile Include="AmbarellaBrowserTests.cs" />
+    <Compile Include="AmbarellaMediaBrowserTests.cs" />
     <Compile Include="BacpacTests.cs" />
     <Compile Include="CameraTests.cs" />
     <Compile Include="ExpectedParameters.cs" />
