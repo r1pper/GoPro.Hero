@@ -214,4 +214,14 @@ namespace GoPro.Hero.Commands
     public class CommandCameraAutoLowLight : CommandBoolean<ICamera>
     {
     }
+
+    [Command(HeroCommands.CAMERA_CAPABILITIES, Parameterless = true)]
+    public class CommandCameraCapabilities : CommandRequest<ICamera>
+    {
+    }
+
+    [Command(HeroCommands.CAMERA_PHOTO_IN_VIDEO)]
+    public class CommandCameraPhotoInVideo : CommandMultiChoice<PhotoInVideo, ICamera>
+    {
+    }
 }

@@ -9,6 +9,20 @@
     <False />
   </CommandCameraProtune>
 
+  
+  <CommandCameraAutoLowLight Model="Hero3White" />
+  <CommandCameraAutoLowLight Model="Hero3Silver" />
+    <CommandCameraAutoLowLight Model="Hero3Black" />
+  <CommandCameraAutoLowLight Model="Hero3PlusSilver">
+    <True />
+    <False />
+  </CommandCameraAutoLowLight>
+  <CommandCameraAutoLowLight Model="Hero3PlusBlack">
+    <True />
+    <False />
+  </CommandCameraAutoLowLight>
+  
+  
   <CommandCameraWhiteBalance Protune="True">
     <Auto />
     <Wb3000K />

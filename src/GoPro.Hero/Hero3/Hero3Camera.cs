@@ -181,6 +181,63 @@ namespace GoPro.Hero.Hero3
             return this;
         }
 
+        public Hero3Camera AutoLowLight(bool state, bool nonBlocing = false)
+        {
+            return ExecuteBooleanCommand<CommandCameraAutoLowLight>(state, nonBlocing);
+        }
+
+        public async Task<Hero3Camera> AutoLowLightAsync(bool state)
+        {
+            return await base.PrepareCommand<CommandCameraAutoLowLight>().Set(state).ExecuteAsync() as Hero3Camera;
+        }
+
+        public Hero3Camera EnableAutoLowLight()
+        {
+            return AutoLowLight(true);
+        }
+
+        public async Task<Hero3Camera> EnableAutoLowLightAsync()
+        {
+            return await AutoLowLightAsync(true);
+        }
+
+        public Hero3Camera DisableAutoLowLight()
+        {
+            return AutoLowLight(false);
+        }
+
+        public async Task<Hero3Camera> DisableAutoLowLightAsync()
+        {
+            return await AutoLowLightAsync(false);
+        }
+
+        public bool SupportsAutoLowLight()
+        {
+            return base.PrepareCommand<CommandCameraAutoLowLight>().ValidStates().Any();
+        }
+
+        public Hero3Camera AutoLowLight(out bool state)
+        {
+            state = base.ExtendedSettings().AutoLowLight;
+            return this;
+        }
+
+        public async Task<bool> AutoLowLightAsync()
+        {
+            return (await base.ExtendedSettingsAsync()).AutoLowLight;
+        }
+
+        public IEnumerable<bool> ValidAutoLowLight()
+        {
+            return base.PrepareCommand<CommandCameraAutoLowLight>().ValidStates();
+        }
+
+        public Hero3Camera ValidAutoLowLight(out IEnumerable<bool> autoLowLight)
+        {
+            autoLowLight = ValidAutoLowLight();
+            return this;
+        }
+
         public Hero3Camera PhotoResolution(PhotoResolution resolution , bool nonBlocking = false)
         {
             return ExecuteMultiChoiceCommand<CommandCameraPhotoResolution, PhotoResolution>(resolution, nonBlocking);
@@ -622,6 +679,27 @@ namespace GoPro.Hero.Hero3
         public async Task<ContinuousShot> ContinuousShotAsync()
         {
             return (await base.ExtendedSettingsAsync()).ContinuousShot;
+        }
+
+        public Hero3Camera PhotoInVideo(PhotoInVideo photoInVideo, bool nonBlocking = false)
+        {
+            return ExecuteMultiChoiceCommand<CommandCameraPhotoInVideo, PhotoInVideo>(photoInVideo, nonBlocking);
+        }
+
+        public async Task<Hero3Camera> PhotoInVideoAsync(PhotoInVideo photoInVideo)
+        {
+            return await base.PrepareCommand<CommandCameraPhotoInVideo>().Select(photoInVideo).ExecuteAsync() as Hero3Camera;
+        }
+
+        public Hero3Camera PhotoInVideo(out PhotoInVideo photoInVideo)
+        {
+            photoInVideo = base.ExtendedSettings().PhotoInVideo;
+            return this;
+        }
+
+        public async Task<PhotoInVideo> PhotoInVideoAsync()
+        {
+            return (await base.ExtendedSettingsAsync()).PhotoInVideo;
         }
 
         public new Hero3Camera Shutter(bool state, bool nonBlocking = false)

@@ -153,4 +153,13 @@
         Weak = 1,
         Poor = 0
     };
+
+    public enum PhotoInVideo : byte
+    {
+        Off=0x0,
+        Sec5=0x1,
+        Sec10=0x2,
+        Sec30=0x3,
+        Sec60=0x4
+    }
 }

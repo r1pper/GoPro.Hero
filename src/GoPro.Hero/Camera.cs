@@ -14,6 +14,7 @@ namespace GoPro.Hero
         private readonly CameraExtendedSettings _extendedSettings;
         private readonly CameraInformation _information;
         private readonly CameraSettings _settings;
+        private CameraCapabilities _capabilities;
         private IFilter<ICamera> _filter;
         protected Bacpac Bacpac;
 
@@ -24,7 +25,7 @@ namespace GoPro.Hero
             _information = new CameraInformation();
             _extendedSettings = new CameraExtendedSettings();
             _settings = new CameraSettings();
-
+            
             this.Bacpac = bacpac;
         }
 
@@ -44,6 +45,12 @@ namespace GoPro.Hero
         {
                 GetSettings();
                 return _settings;
+        }
+
+        public CameraCapabilities Capabilities()
+        {
+            GetCapabilities();
+            return _capabilities;
         }
 
         private void GetInformation()
@@ -91,6 +98,20 @@ namespace GoPro.Hero
             _extendedSettings.Update(stream);
         }
 
+        private void GetCapabilities()
+        {
+            var task = GetCapabilitiesAsync();
+            task.Wait();
+        }
+
+        private async Task GetCapabilitiesAsync(int capabilityLevel=1)
+        {
+            var request = PrepareCommand<CommandCameraCapabilities>();
+            var response = await request.SendAsync(false);
+
+            _capabilities=CameraCapabilities.Parse(response.RawResponse,capabilityLevel);
+        }
+
         public ICamera SetFilter(IFilter<ICamera> filter)
         {
             _filter = filter;
@@ -129,6 +150,17 @@ namespace GoPro.Hero
         public CameraExtendedSettings ExtendedSettingsCache()
         {
             return _extendedSettings;
+        }
+
+        public async Task<CameraCapabilities> CapabilitiesAsync()
+        {
+            await GetCapabilitiesAsync();
+            return _capabilities;
+        }
+
+        public CameraCapabilities CapabilitiesCache()
+        {
+            return _capabilities;
         }
 
         public BacpacStatus BacpacStatus()
@@ -180,12 +212,6 @@ namespace GoPro.Hero
             if (!string.IsNullOrEmpty(name)) return name;
             name = Information().Name;
             return name.Fix();
-        }
-
-        public ICamera GetNameAsync(Action<string> result)
-        {
-            GetNameAsync().Result(result);
-            return this;
         }
 
         public ICamera GetName(out string name)
@@ -332,6 +358,7 @@ namespace GoPro.Hero
             await camera.InformationAsync();
             await camera.SettingsAsync();
             await camera.ExtendedSettingsAsync();
+            await camera.CapabilitiesAsync();
 
             return camera;
         }

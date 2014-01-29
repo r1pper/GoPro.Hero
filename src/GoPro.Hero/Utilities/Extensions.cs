@@ -109,9 +109,9 @@ namespace GoPro.Hero.Utilities
         //    return task.Result;
         //}
 
-        public static void Result<T>(this Task<T> task, Action<T> result)
-        {
-            task.ContinueWith(t => result(t.Result));
-        }
+        //public static void Result<T>(this Task<T> task, Action<T> result)
+        //{
+        //    task.ContinueWith(t => result(t.Result));
+        //}
     }
 }

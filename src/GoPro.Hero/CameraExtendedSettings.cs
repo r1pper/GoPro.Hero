@@ -14,7 +14,7 @@ namespace GoPro.Hero
         public ContinuousShot ContinuousShot { get; private set; }
         public WhiteBalance WhiteBalance { get; private set; }
         public byte BracketingMode { get; private set; }
-        public byte PhotoInVideo { get; private set; }
+        public PhotoInVideo PhotoInVideo { get; private set; }
         public LoopingVideo LoopingVideoMode { get; private set; }
         public byte SlideshowSettings { get; private set; }
         public byte BroadcastSettings { get; private set; }
@@ -44,7 +44,7 @@ namespace GoPro.Hero
                 ContinuousShot = binReader.ReadEnum<ContinuousShot>();
                 WhiteBalance = binReader.ReadEnum<WhiteBalance>();
                 BracketingMode = binReader.ReadByte();
-                PhotoInVideo = binReader.ReadByte();
+                PhotoInVideo = binReader.ReadEnum<PhotoInVideo>();
                 LoopingVideoMode = binReader.ReadEnum<LoopingVideo>();
                 SlideshowSettings = binReader.ReadByte();
                 BroadcastSettings = binReader.ReadByte();

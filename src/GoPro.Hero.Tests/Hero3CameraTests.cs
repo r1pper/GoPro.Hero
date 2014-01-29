@@ -272,7 +272,7 @@ namespace GoPro.Hero.Tests
         [TestMethod]
         [Ignore]
         public void CheckLoopingVideo()
-        {
+        {//only works for 1080 and 1440
             CheckMultipleChoice<LoopingVideo, CommandCameraLoopingVideo>(
                 v =>
                     {
@@ -315,6 +315,33 @@ namespace GoPro.Hero.Tests
 
             Assert.IsTrue((model == Model.Hero3Black && supports) || (model == Model.Hero3Silver && supports) ||
                           (model == Model.Hero3White && !supports));
+        }
+
+        [TestMethod]
+        public void CheckAutoLowLight()
+        {
+            bool autoLowLightInit;
+            bool autoLowLightState;
+
+            GetCamera().AutoLowLight(out autoLowLightInit).DisableAutoLowLight().AutoLowLight(out autoLowLightState);
+            Assert.IsFalse(autoLowLightState);
+
+            GetCamera().EnableAutoLowLight().AutoLowLight(out autoLowLightState);
+            Assert.IsTrue(autoLowLightState);
+
+            autoLowLightState = !autoLowLightInit;
+            GetCamera().AutoLowLight(autoLowLightInit).AutoLowLight(out autoLowLightState);
+            Assert.AreEqual(autoLowLightInit, autoLowLightState);
+        }
+
+        [TestMethod]
+        public void CheckAutoLowLightSupport()
+        {
+            var model = GetCamera().BacpacStatus().CameraModel;
+            var supports = GetCamera().SupportsAutoLowLight();
+
+            Assert.IsTrue((model == Model.Hero3PlusBlack && supports) || (model == Model.Hero3PlusSilver && supports) ||
+                          (model == Model.Hero3White && !supports) || (model == Model.Hero3Silver && !supports) || (model == Model.Hero3Black && !supports));
         }
 
         [TestMethod]
@@ -521,6 +548,26 @@ namespace GoPro.Hero.Tests
 
             GetCamera().PhotoResolution(photoResolutionInit).PhotoResolution(out photoResolutionState);
             Assert.AreEqual(photoResolutionInit, photoResolutionState);
+        }
+
+        [TestMethod]
+        public void CheckPhotoInVideo()
+        {//only works for 1080 and 1440 30fps
+            CheckMultipleChoice<PhotoInVideo, CommandCameraPhotoInVideo>(
+                v =>
+                {
+                    PhotoInVideo photoInVideo;
+                    GetCamera().PhotoInVideo(v).PhotoInVideo(out photoInVideo);
+                    return photoInVideo;
+                }
+                ,
+                () =>
+                {
+                    PhotoInVideo photoInVideo;
+                    GetCamera().PhotoInVideo(out photoInVideo);
+                    return photoInVideo;
+                }
+                );
         }
 
         [TestMethod]

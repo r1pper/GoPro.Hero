@@ -38,6 +38,7 @@
         public const string CAMERA_DELETE_GROUP = "/camera/DG";
         public const string CAMERA_CAPABILITIES = "camera/cc";
         public const string CAMERA_LOW_LIGHT = "camera/LW";
+        public const string CAMERA_PHOTO_IN_VIDEO = "camera/PN";
 
         public const string BACPAC_SHUTTER = "/bacpac/SH";
         public const string BACPAC_POWER = "/bacpac/PW";

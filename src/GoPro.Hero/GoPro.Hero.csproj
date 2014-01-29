@@ -56,9 +56,11 @@
     <Compile Include="Browser\Media\TimeLapsedImage.cs" />
     <Compile Include="Browser\Media\Video.cs" />
     <Compile Include="Camera.cs" />
+    <Compile Include="CameraCapabilities.cs" />
     <Compile Include="CameraExtendedSettings.cs" />
     <Compile Include="CameraInformation.cs" />
     <Compile Include="CameraSettings.cs" />
+    <Compile Include="CapabilityAttribute.cs" />
     <Compile Include="Commands\BacpacCommands.cs" />
     <Compile Include="Commands\CameraCommands.cs" />
     <Compile Include="Commands\CommandAttribute.cs" />

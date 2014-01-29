@@ -44,6 +44,11 @@ namespace GoPro.Hero
         public bool Protune { get; protected set; }
         public bool PreviewAvailable { get; protected set; }
 
+        //update for Hero3+
+        public bool AutoLowLight { get; protected set; }
+        public bool OtaCancelled { get; protected set; }
+        public bool OtaMode { get; protected set; }
+
         protected internal virtual void Update(Stream stream)
         {
             using (var binReader = new BinaryReader(stream))
@@ -92,6 +97,11 @@ namespace GoPro.Hero
             Busy = (byte) (field & 0x1) > 0;
             Protune = (byte) (field & 0x2) > 0;
             PreviewAvailable = (byte) (field & 0x4) > 0;
+
+            //update for Hero3+
+            AutoLowLight = (byte)(field & 0x40) > 0;
+            OtaCancelled = (byte)(field & 0x20) > 0;
+            OtaMode = (byte)(field & 0x10) > 0;
         }
     }
 }
