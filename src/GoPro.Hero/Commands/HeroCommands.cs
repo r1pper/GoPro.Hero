@@ -41,6 +41,10 @@
         public const string CAMERA_PHOTO_IN_VIDEO = "camera/PN";
         public const string CAMERA_ONE_BUTTON_MODE = "camera/OB";
 
+        public const string CAMERA_LCD_BRIGHTNESS = "camera/LN";
+        public const string CAMERA_LCD_SLEEP_TIMER = "camera/LS";
+        public const string CAMERA_LCD_VOLUME = "camera/LV";
+
         public const string BACPAC_SHUTTER = "/bacpac/SH";
         public const string BACPAC_POWER = "/bacpac/PW";
         public const string BACPAC_WIFI_MODE = "/bacpac/WI";

@@ -25,7 +25,7 @@ namespace GoPro.Hero
             _information = new CameraInformation();
             _extendedSettings = new CameraExtendedSettings();
             _settings = new CameraSettings();
-            
+
             this.Bacpac = bacpac;
         }
 
@@ -354,6 +354,11 @@ namespace GoPro.Hero
         public static async Task<T> CreateAsync<T>(Bacpac bacpac) where T : Camera, ICamera
         {
             var camera = Activator.CreateInstance(typeof(T), bacpac) as T;
+
+            var power = (await camera.BacpacStatusAsync()).CameraPower;
+
+            if (!power)
+                return camera;
 
             await camera.InformationAsync();
             await camera.SettingsAsync();
