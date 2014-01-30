@@ -162,4 +162,12 @@
         Sec30=0x3,
         Sec60=0x4
     }
+
+    public enum AutoPowerOff : byte
+    {
+        Manual=0x0,
+        Sec60=0x1,
+        Sec120=0x2,
+        Sec300=0x3
+    }
 }

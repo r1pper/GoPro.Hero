@@ -285,6 +285,40 @@ namespace GoPro.Hero.Tests
         }
 
         [TestMethod]
+        public void CheckOnScreenDisplay()
+        {
+            var camera = GetCamera();
+
+            var onScreenInit = camera.ExtendedSettings().OnScreen;
+
+            var onScreen = camera.PrepareCommand<CommandCameraOnScreenDisplay>().Set(false).Execute().ExtendedSettings().OnScreen;
+            Assert.AreEqual(onScreen, false);
+
+            onScreen = camera.PrepareCommand<CommandCameraOnScreenDisplay>().Set(true).Execute().ExtendedSettings().OnScreen;
+            Assert.AreEqual(onScreen, true);
+
+            onScreen = camera.PrepareCommand<CommandCameraOnScreenDisplay>().Set(onScreenInit).Execute().ExtendedSettings().OnScreen;
+            Assert.AreEqual(onScreen, onScreenInit);
+        }
+
+        [TestMethod]
+        public void CheckOneButtonMode()
+        {
+            var camera = GetCamera();
+
+            var oneButtonInit = camera.ExtendedSettings().OneButton;
+
+            var oneButton = camera.PrepareCommand<CommandCameraOneButtonMode>().Set(false).Execute().ExtendedSettings().OneButton;
+            Assert.AreEqual(oneButton, false);
+
+            oneButton = camera.PrepareCommand<CommandCameraOneButtonMode>().Set(true).Execute().ExtendedSettings().OneButton;
+            Assert.AreEqual(oneButton, true);
+
+            oneButton = camera.PrepareCommand<CommandCameraOneButtonMode>().Set(oneButtonInit).Execute().ExtendedSettings().OneButton;
+            Assert.AreEqual(oneButton, oneButtonInit);
+        }
+
+        [TestMethod]
         [Ignore]
         public void CheckLoopingVideo()
         {
@@ -340,6 +374,12 @@ namespace GoPro.Hero.Tests
         public void CheckBurstRate()
         {
             CheckMultiChoiceCommand<CommandCameraBurstRate, BurstRate>(c => c.ExtendedSettings().BurstRate);
+        }
+
+        [TestMethod]
+        public void CheckAutoPowerOff()
+        {
+            CheckMultiChoiceCommand<CommandCameraAutoPowerOff, AutoPowerOff>(c => c.ExtendedSettings().AutoPowerOff);
         }
 
         [TestMethod]

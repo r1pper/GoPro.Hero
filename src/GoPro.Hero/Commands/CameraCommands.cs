@@ -86,10 +86,10 @@ namespace GoPro.Hero.Commands
     {
     }
 
-    //[Command(HeroCommands.CAMERA_OSD)]
-    //public class CommandCameraOnScreenDisplay : CommandBoolean<IHeroCamera>
-    //{
-    //}
+    [Command(HeroCommands.CAMERA_OSD)]
+    public class CommandCameraOnScreenDisplay : CommandBoolean<ICamera>
+    {
+    }
 
     [Command(HeroCommands.CAMERA_VIDEO_MODE)]
     public class CommandCameraVideoStandard : CommandMultiChoice<VideoStandard, ICamera>
@@ -138,10 +138,10 @@ namespace GoPro.Hero.Commands
     {
     }
 
-    //[Command(HeroCommands.CAMREA_AUTO_POWER_OFF)]
-    //public class CommandCameraAutoPower : CommandBoolean<IHeroCamera>
-    //{
-    //}
+    [Command(HeroCommands.CAMREA_AUTO_POWER_OFF)]
+    public class CommandCameraAutoPowerOff : CommandMultiChoice<AutoPowerOff,ICamera>
+    {
+    }
 
     [Command(HeroCommands.CAMREA_DELETE_ALL_SD, Parameterless = true)]
     public class CommandCameraDeleteAllFilesOnSd : CommandRequest<ICamera>
@@ -176,7 +176,7 @@ namespace GoPro.Hero.Commands
     [Command(HeroCommands.CAMERA_LOOPING_VIDEO)]
     public class CommandCameraLoopingVideo : CommandMultiChoice<LoopingVideo, ICamera>
     {
-        //NOTE: Hero3 Black Edition does not respond to the command!
+        //NOTE: Camera only responds to the command at 1080@24, 1080@30, 1440@24 and 720@60
     }
 
     [Command(HeroCommands.CAMERA_FRAMERATE)]
@@ -222,6 +222,11 @@ namespace GoPro.Hero.Commands
 
     [Command(HeroCommands.CAMERA_PHOTO_IN_VIDEO)]
     public class CommandCameraPhotoInVideo : CommandMultiChoice<PhotoInVideo, ICamera>
+    {
+    }
+
+    [Command(HeroCommands.CAMERA_ONE_BUTTON_MODE)]
+    public class CommandCameraOneButtonMode : CommandBoolean<ICamera>
     {
     }
 }

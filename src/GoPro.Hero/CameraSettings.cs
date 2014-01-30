@@ -11,7 +11,7 @@ namespace GoPro.Hero
         public Mode OnDefault { get; protected set; }
         public bool SpotMeter { get; protected set; }
         public TimeLapse TimeLapse { get; protected set; }
-        public bool AutoPowerOff { get; protected set; }
+        public AutoPowerOff AutoPowerOff { get; protected set; }
         public FieldOfView FieldOfView { get; protected set; }
         public PhotoResolution PhotoResolution { get; protected set; }
 
@@ -66,7 +66,7 @@ namespace GoPro.Hero
             OnDefault = binReader.ReadEnum<Mode>();
             SpotMeter = binReader.ReadByte() > 0;
             TimeLapse = binReader.ReadEnum<TimeLapse>();
-            AutoPowerOff = binReader.ReadByte() > 0;
+            AutoPowerOff = binReader.ReadEnum<AutoPowerOff>();
             FieldOfView = binReader.ReadEnum<FieldOfView>();
             PhotoResolution = binReader.ReadEnum<PhotoResolution>();
             VideoResolution = binReader.ReadEnum<VideoResolution>();
