@@ -42,7 +42,8 @@
         Burst = 2,
         TimeLapse = 3,
         //SelfTimer=4,
-        //Settings=7,
+        Settings=7,
+        Playback=5
         //Unknown=-1
     }
 
