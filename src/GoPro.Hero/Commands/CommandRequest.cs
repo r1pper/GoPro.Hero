@@ -146,6 +146,13 @@ namespace GoPro.Hero.Commands
 
         protected virtual async Task<CommandResponse> SendRequestAsync()
         {
+            return Configuration.CommandRequestMode == Configuration.HttpRequestMode.Async ?
+                await SendRequestAsynchronous() :
+                SendRequestSynchronous();
+        }
+
+        private async Task<CommandResponse> SendRequestAsynchronous()
+        {
             var request = WebRequest.Create(GetUri()) as HttpWebRequest;
             //request.KeepAlive=true;
             //request.ProtocolVersion=HttpVersion.Version11;
@@ -153,8 +160,32 @@ namespace GoPro.Hero.Commands
             //request.TransferEncoding="ISO-8859-1";
 
             if (request != null)
-            {  
+            {
                 using (var response = await request.GetResponseAsync() as HttpWebResponse)
+                {
+                    if (response != null)
+                    {
+                        var stream = response.GetResponseStream();
+                        var buffer = new byte[response.ContentLength];
+                        stream.Read(buffer, 0, buffer.Length);
+                        stream.Dispose();
+                        return CommandResponse.Create(buffer);
+                    }
+                }
+            }
+            throw new GoProException();
+        }
+
+        private CommandResponse SendRequestSynchronous()
+        { //NOTE: this does method does not work in WP and WinRT devices
+            var request = WebRequest.Create(GetUri()) as HttpWebRequest;
+
+            if (request != null)
+            {
+                var asyncResponse = request.BeginGetResponse(null, null);
+                asyncResponse.AsyncWaitHandle.WaitOne();
+
+                using (var response = request.EndGetResponse(asyncResponse) as HttpWebResponse)
                 {
                     if (response != null)
                     {
