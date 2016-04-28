@@ -1,19 +1,20 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <MinimumVisualStudioVersion>10.0</MinimumVisualStudioVersion>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{5C83722F-198B-451D-8531-2AA0722F55B9}</ProjectGuid>
+    <ProjectGuid>{FE698AF6-28AE-4C69-8F9B-7103F3F060BA}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>GoPro.Hero</RootNamespace>
     <AssemblyName>GoPro.Hero</AssemblyName>
-    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
-    <TargetFrameworkProfile>Profile96</TargetFrameworkProfile>
+    <DefaultLanguage>en-US</DefaultLanguage>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{786C830F-07A1-408B-BD7F-6EE04809D6DB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <TargetFrameworkProfile>Profile111</TargetFrameworkProfile>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -33,16 +34,14 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <!-- A reference to the entire .NET Framework is automatically included -->
-    <EmbeddedResource Include="Hero3\Hero3FilterScheme.xml" />
-  </ItemGroup>
-  <ItemGroup>
     <Compile Include="Bacpac.cs" />
     <Compile Include="BacpacInformation.cs" />
     <Compile Include="BacpacStatus.cs" />
     <Compile Include="Browser\FileSystem\AmbarellaBrowser.cs" />
     <Compile Include="Browser\FileSystem\FileSystemBrowser.cs" />
     <Compile Include="Browser\FileSystem\IFileSystemBrowser.cs" />
+    <Compile Include="Browser\FileSystem\Node.cs" />
+    <Compile Include="Browser\FileSystem\NodeType.cs" />
     <Compile Include="Browser\IGeneralBrowser.cs" />
     <Compile Include="Browser\Media\AmbarellaMediaBrowser.cs" />
     <Compile Include="Browser\Media\Image.cs" />
@@ -50,8 +49,6 @@
     <Compile Include="Browser\Media\IMediaBrowser.cs" />
     <Compile Include="Browser\Media\Media.cs" />
     <Compile Include="Browser\Media\MediaBrowser.cs" />
-    <Compile Include="Browser\FileSystem\Node.cs" />
-    <Compile Include="Browser\FileSystem\NodeType.cs" />
     <Compile Include="Browser\Media\MediaBrowserParameters.cs" />
     <Compile Include="Browser\Media\TimeLapsedImage.cs" />
     <Compile Include="Browser\Media\Video.cs" />
@@ -68,53 +65,41 @@
     <Compile Include="Commands\CommandMultiChoice.cs" />
     <Compile Include="Commands\CommandRequest.cs" />
     <Compile Include="Commands\CommandResponse.cs" />
+    <Compile Include="Commands\HeroCommands.cs" />
     <Compile Include="Configuration.cs" />
     <Compile Include="Exceptions\BacpacException.cs" />
     <Compile Include="Exceptions\CameraException.cs" />
     <Compile Include="Exceptions\CommandFailedException.cs" />
     <Compile Include="Exceptions\GoProException.cs" />
-    <Compile Include="Commands\HeroCommands.cs" />
     <Compile Include="Filtering\FilterGeneric.cs" />
     <Compile Include="Filtering\IFilter.cs" />
+    <Compile Include="Filtering\IFilterProvider.cs" />
     <Compile Include="Filtering\NoFilter.cs" />
     <Compile Include="Hero3\Hero3Camera.cs" />
     <Compile Include="ICamera.cs" />
-    <Compile Include="Filtering\IFilterProvider.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Structures.cs" />
     <Compile Include="Utilities\Extensions.cs" />
-    <Compile Include="Utilities\M3U8Parser.cs" />
+    <Compile Include="Utilities\M3u8Parser.cs" />
     <Compile Include="Version.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Reference Include="Microsoft.Threading.Tasks">
-      <HintPath>..\packages\Microsoft.Bcl.Async.1.0.165\lib\portable-net40+sl4+win8+wp71\Microsoft.Threading.Tasks.dll</HintPath>
+    <Reference Include="Newtonsoft.Json, Version=8.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.8.0.3\lib\portable-net40+sl5+wp80+win8+wpa81\Newtonsoft.Json.dll</HintPath>
+      <Private>True</Private>
     </Reference>
-    <Reference Include="Microsoft.Threading.Tasks.Extensions">
-      <HintPath>..\packages\Microsoft.Bcl.Async.1.0.165\lib\portable-net40+sl4+win8+wp71\Microsoft.Threading.Tasks.Extensions.dll</HintPath>
-    </Reference>
-    <Reference Include="Newtonsoft.Json">
-      <HintPath>..\packages\Newtonsoft.Json.5.0.8\lib\portable-net40+sl4+wp7+win8\Newtonsoft.Json.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Runtime">
-      <HintPath>..\packages\Microsoft.Bcl.1.0.19\lib\portable-net40+sl4+win8+wp71\System.Runtime.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Threading.Tasks">
-      <HintPath>..\packages\Microsoft.Bcl.1.0.19\lib\portable-net40+sl4+win8+wp71\System.Threading.Tasks.dll</HintPath>
-    </Reference>
-    <Reference Include="TidyNetPortable">
+    <Reference Include="TidyNetPortable, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\TidyNetPortable.1.0.0\lib\TidyNetPortable.dll</HintPath>
+      <Private>True</Private>
     </Reference>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup>
+    <Content Include="Hero3\Hero3FilterScheme.xml" />
+  </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
-  <Import Project="..\packages\Microsoft.Bcl.Build.1.0.13\tools\Microsoft.Bcl.Build.targets" Condition="Exists('..\packages\Microsoft.Bcl.Build.1.0.13\tools\Microsoft.Bcl.Build.targets')" />
-  <Target Name="EnsureBclBuildImported" BeforeTargets="BeforeBuild" Condition="'$(BclBuildImported)' == ''">
-    <Error Condition="!Exists('..\packages\Microsoft.Bcl.Build.1.0.13\tools\Microsoft.Bcl.Build.targets')" Text="This project references NuGet package(s) that are missing on this computer. Enable NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=317567." HelpKeyword="BCLBUILD2001" />
-    <Error Condition="Exists('..\packages\Microsoft.Bcl.Build.1.0.13\tools\Microsoft.Bcl.Build.targets')" Text="The build restored NuGet packages. Build the project again to include these packages in the build. For more information, see http://go.microsoft.com/fwlink/?LinkID=317568." HelpKeyword="BCLBUILD2002" />
-  </Target>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

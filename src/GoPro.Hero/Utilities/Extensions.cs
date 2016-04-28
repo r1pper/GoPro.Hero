@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Threading.Tasks;
+using System.Reflection;
 
 namespace GoPro.Hero.Utilities
 {
@@ -78,7 +78,7 @@ namespace GoPro.Hero.Utilities
 
         public static IEnumerable<T> GetValues<T>()
         {
-            if (!typeof (T).IsEnum)
+            if (!typeof (T).GetTypeInfo().IsEnum)
                 throw new InvalidOperationException("Type must be enumeration type.");
 
             return GetEnumValues<T>();
@@ -86,32 +86,9 @@ namespace GoPro.Hero.Utilities
 
         private static IEnumerable<T> GetEnumValues<T>()
         {
-            return from field in typeof (T).GetFields()
+            return from field in typeof (T).GetRuntimeFields()
                    where field.IsLiteral && !string.IsNullOrEmpty(field.Name)
                    select (T) field.GetValue(null);
         }
-
-        //public static Task<T> WaitSelf<T>(this Task<T> task)
-        //{
-        //    task.Wait();
-        //    return task;
-        //}
-
-        //public static Task WaitSelf(this Task task)
-        //{
-        //    task.Wait();
-        //    return task;
-        //}
-
-        //public static T Await<T>(this Task<T> task)
-        //{
-        //    task.Wait();
-        //    return task.Result;
-        //}
-
-        //public static void Result<T>(this Task<T> task, Action<T> result)
-        //{
-        //    task.ContinueWith(t => result(t.Result));
-        //}
     }
 }

@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
-using System.Text;
+﻿using System.Reflection;
 
 namespace GoPro.Hero
 {
@@ -31,15 +27,13 @@ namespace GoPro.Hero
             var cameraCapabilities = new CameraCapabilities();
             var type = cameraCapabilities.GetType();
 
-            var properties=type.GetProperties();
+            var properties=type.GetRuntimeProperties();
 
             foreach (var property in properties)
             {
-                var attributes = property.GetCustomAttributes(typeof(CapabilityAttribute), true);
-                if (attributes.Length == 0)
+                var capability = property.GetCustomAttribute< CapabilityAttribute>( true);
+                if (capability==null)
                     continue;
-
-                var capability = attributes[0] as CapabilityAttribute;
 
                 SetCapability(bytes, capabilityLevel, cameraCapabilities, property, capability);
             }

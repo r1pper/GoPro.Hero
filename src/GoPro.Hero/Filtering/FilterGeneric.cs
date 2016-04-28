@@ -90,14 +90,14 @@ namespace GoPro.Hero.Filtering
                 return requiredSetting.Value == bacpacStatus.CameraModel.ToString();
 
             var type = settings.GetType();
-            var property = type.GetProperty(requiredSetting.Name.ToString());
+            var property = type.GetRuntimeProperty(requiredSetting.Name.ToString());
             var value = property.GetValue(settings, null);
             return value.ToString() == requiredSetting.Value;
         }
 
         private XElement GetFilterProfile(string name)
         {
-            var stream = Assembly.GetExecutingAssembly().GetManifestResourceStream(name);
+            var stream = typeof(FilterGeneric).GetTypeInfo().Assembly.GetManifestResourceStream(name);
             return XElement.Load(stream);
         }
 

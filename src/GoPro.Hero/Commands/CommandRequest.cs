@@ -81,10 +81,8 @@ namespace GoPro.Hero.Commands
         {
             Filter = (Owner as IFilterProvider).Filter() as IFilter<TO>;
 
-            var type = GetType();
-            var att = type.GetCustomAttributes(typeof (CommandAttribute), true);
-            if (att.Length == 0) return;
-            var commandAtt = att[0] as CommandAttribute;
+            var type = GetType().GetTypeInfo();
+            var commandAtt = type.GetCustomAttribute<CommandAttribute>(true);
             if (commandAtt == null) return;
             Command = commandAtt.Command;
             if (commandAtt.InSecure) PassPhrase = null;
@@ -177,7 +175,7 @@ namespace GoPro.Hero.Commands
         }
 
         private CommandResponse SendRequestSynchronous()
-        { //NOTE: this does method does not work in WP and WinRT devices
+        { //NOTE: this method does not work in WP and WinRT devices
             var request = WebRequest.Create(GetUri()) as HttpWebRequest;
 
             if (request != null)

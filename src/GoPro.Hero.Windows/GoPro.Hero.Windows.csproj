@@ -41,13 +41,7 @@
       <HintPath>..\packages\Newtonsoft.Json.5.0.8\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="System" />
-    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="..\GoPro.Hero.Extensions\Browser\Media\GoProMediaBrowser.cs">
@@ -84,13 +78,13 @@
     <Compile Include="Utilities\WindowsSpecific.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\GoPro.Hero\GoPro.Hero.csproj">
-      <Project>{5c83722f-198b-451d-8531-2aa0722f55b9}</Project>
-      <Name>GoPro.Hero</Name>
-    </ProjectReference>
+    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="packages.config" />
+    <ProjectReference Include="..\GoPro.Hero\GoPro.Hero.csproj">
+      <Project>{fe698af6-28ae-4c69-8f9b-7103f3f060ba}</Project>
+      <Name>GoPro.Hero</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
