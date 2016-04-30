@@ -51,28 +51,24 @@ namespace GoPro.Hero.Tests
         [TestMethod]
         public void CheckAvailablePhotoSpace()
         {
-            int photoSpaceAvailable;
-
-            var photoSpace =
-                GetCamera().AvailablePhotoSpace(out photoSpaceAvailable).ExtendedSettings().PhotosAvailableSpace;
+            var photoSpaceAvailable = GetCamera().AvailablePhotoSpace();
+            var photoSpace =GetCamera().ExtendedSettings().PhotosAvailableSpace;
             Assert.AreEqual(photoSpace, photoSpaceAvailable);
         }
 
         [TestMethod]
         public void CheckAvailableVideoSpace()
         {
-            TimeSpan videoSpaceAvailable;
-
-            var videoSpace =
-                GetCamera().AvailableVideoSpace(out videoSpaceAvailable).ExtendedSettings().VideosAvailableSpace;
+            var videoSpaceAvailable = GetCamera().AvailableVideoSpace();
+            var videoSpace = GetCamera().ExtendedSettings().VideosAvailableSpace;
             Assert.AreEqual(videoSpace, videoSpaceAvailable.TotalSeconds);
         }
 
         [TestMethod]
         public void CheckBattery()
         {
-            byte battery;
-            var batteryState = GetCamera().BatteryStatus(out battery).Settings().Battery;
+            var battery=GetCamera().BatteryStatus();
+            var batteryState = GetCamera().Settings().Battery;
 
             Assert.AreEqual(batteryState, battery);
             Assert.IsTrue(battery > 0 && battery <= 100);
@@ -81,12 +77,7 @@ namespace GoPro.Hero.Tests
         [TestMethod]
         public void CheckName()
         {
-            string name;
-            GetCamera().GetName(out name);
-
-            var name2 = GetCamera().GetName();
-
-            Assert.AreEqual(name, name2);
+            var name = GetCamera().GetName();
             Assert.AreEqual(ExpectedParameters.REAL_NAME, name);
         }
 
@@ -94,27 +85,17 @@ namespace GoPro.Hero.Tests
         public void CheckBeep()
         {
             CheckMultipleChoice<BeepSound, CommandCameraBeepSound>(
-                v =>
-                    {
-                        BeepSound beepSound;
-                        GetCamera().BeepSound(v).BeepSound(out beepSound);
-                        return beepSound;
-                    }
+                v => GetCamera().BeepSound(v).BeepSound()
                 ,
-                () =>
-                    {
-                        BeepSound beepSound;
-                        GetCamera().BeepSound(out beepSound);
-                        return beepSound;
-                    }
+                () => GetCamera().BeepSound()
                 );
         }
 
         [TestMethod]
         public void CheckBootloaderVersion()
         {
-            Version version;
-            var versionState = GetCamera().BootLoader(out version).BacpacInformation().BootloaderVersion;
+            var version = GetCamera().BootLoader();
+            var versionState = GetCamera().BacpacInformation().BootloaderVersion;
             Assert.AreEqual(versionState, version);
         }
 
@@ -122,19 +103,9 @@ namespace GoPro.Hero.Tests
         public void CheckBurstRate()
         {
             CheckMultipleChoice<BurstRate, CommandCameraBurstRate>(
-                v =>
-                    {
-                        BurstRate burstRate;
-                        GetCamera().BurstRate(v).BurstRate(out burstRate);
-                        return burstRate;
-                    }
+                v => GetCamera().BurstRate(v).BurstRate()
                 ,
-                () =>
-                    {
-                        BurstRate burstRate;
-                        GetCamera().BurstRate(out burstRate);
-                        return burstRate;
-                    }
+                () => GetCamera().BurstRate()
                 );
         }
 
@@ -142,19 +113,9 @@ namespace GoPro.Hero.Tests
         public void CheckContinuousShot()
         {
             CheckMultipleChoice<ContinuousShot, CommandCameraContinuousShot>(
-                v =>
-                    {
-                        ContinuousShot continuousShot;
-                        GetCamera().ContinuousShot(v).ContinuousShot(out continuousShot);
-                        return continuousShot;
-                    }
+                v => GetCamera().ContinuousShot(v).ContinuousShot()
                 ,
-                () =>
-                    {
-                        ContinuousShot continuousShot;
-                        GetCamera().ContinuousShot(out continuousShot);
-                        return continuousShot;
-                    }
+                () => GetCamera().ContinuousShot()
                 );
         }
 
@@ -162,19 +123,9 @@ namespace GoPro.Hero.Tests
         public void CheckDefaultMode()
         {
             CheckMultipleChoice<Mode, CommandCameraDefaultMode>(
-                v =>
-                    {
-                        Mode mode;
-                        GetCamera().DefaultModeOnPowerOn(v).DefaultModeOnPowerOn(out mode);
-                        return mode;
-                    }
+                v => GetCamera().DefaultModeOnPowerOn(v).DefaultModeOnPowerOn()
                 ,
-                () =>
-                    {
-                        Mode mode;
-                        GetCamera().DefaultModeOnPowerOn(out mode);
-                        return mode;
-                    }
+                () => GetCamera().DefaultModeOnPowerOn()
                 );
         }
 
@@ -187,19 +138,19 @@ namespace GoPro.Hero.Tests
             bool shutterInit;
             bool shutterState;
 
-            GetCamera().Mode(out initMode).Mode(Mode.Video).Shutter(out shutterInit).OpenShutter();
+            GetCamera().Chain(c => c.Mode(), out initMode).Mode(Mode.Video).Chain(c => c.Shutter(), out shutterInit).OpenShutter();
             Thread.Sleep(5000);
 
-            GetCamera().Shutter(out shutterState);
+            GetCamera().Chain(c=>c.Shutter(),out shutterState);
             Assert.IsTrue(shutterState);
 
             GetCamera().CloseShutter();
             Thread.Sleep(5000);
-            GetCamera().Shutter(out shutterState);
+            GetCamera().Chain(c => c.Shutter(), out shutterState);
             Assert.IsFalse(shutterState);
 
             shutterState = !shutterInit;
-            GetCamera().Mode(initMode).Shutter(shutterInit).Shutter(out shutterState);
+            GetCamera().Mode(initMode).Shutter(shutterInit).Chain(c => c.Shutter(), out shutterState);
             Assert.AreEqual(shutterInit, shutterState);
         }
 
@@ -211,10 +162,10 @@ namespace GoPro.Hero.Tests
             int afterDeleteVideoCount;
             int afterDeletePhotoCount;
 
-            GetCamera().VideoCount(out videoCount).PhotoCount(out photoCount).DeleteLastFileOnSdCard();
+            GetCamera().Chain(c => c.VideoCount(), out videoCount).Chain(c => c.PhotoCount(), out photoCount).DeleteLastFileOnSdCard();
 
             Thread.Sleep(5000);
-            GetCamera().VideoCount(out afterDeleteVideoCount).PhotoCount(out afterDeletePhotoCount);
+            GetCamera().Chain(c => c.VideoCount(), out afterDeleteVideoCount).Chain(c => c.PhotoCount(), out afterDeletePhotoCount);
 
             Assert.IsTrue((afterDeletePhotoCount < photoCount || photoCount == 0) ||
                           (afterDeleteVideoCount < videoCount || videoCount == 0));
@@ -229,7 +180,7 @@ namespace GoPro.Hero.Tests
             GetCamera().DeleteAllFilesOnSdCard();
 
             Thread.Sleep(5000);
-            GetCamera().VideoCount(out videoCount).PhotoCount(out photoCount);
+            GetCamera().Chain(c=>c.VideoCount(),out videoCount).Chain(c=>c.PhotoCount(),out photoCount);
 
             Assert.IsTrue(photoCount == 0);
             Assert.IsTrue(videoCount == 0);
@@ -241,14 +192,14 @@ namespace GoPro.Hero.Tests
             bool livePreviewInit;
             bool livePreviewState;
 
-            GetCamera().LivePreview(out livePreviewInit).DisableLivePreview().LivePreview(out livePreviewState);
+            GetCamera().Chain(c=>c.LivePreview(),out livePreviewInit).DisableLivePreview().Chain(c=>c.LivePreview(),out livePreviewState);
             Assert.IsFalse(livePreviewState);
 
-            GetCamera().EnableLivePreview().LivePreview(out livePreviewState);
+            GetCamera().EnableLivePreview().Chain(c=>c.LivePreview(),out livePreviewState);
             Assert.IsTrue(livePreviewState);
 
             livePreviewState = !livePreviewInit;
-            GetCamera().LivePreview(livePreviewInit).LivePreview(out livePreviewState);
+            GetCamera().LivePreview(livePreviewInit).Chain(c=>c.LivePreview(),out livePreviewState);
             Assert.AreEqual(livePreviewInit, livePreviewState);
         }
 
@@ -258,14 +209,14 @@ namespace GoPro.Hero.Tests
             bool locateInit;
             bool locateState;
 
-            GetCamera().Locate(out locateInit).DisableLocate().Locate(out locateState);
+            GetCamera().Chain(c => c.Locate(), out locateInit).DisableLocate().Chain(c => c.Locate(), out locateState);
             Assert.IsFalse(locateState);
 
-            GetCamera().EnableLocate().Locate(out locateState);
+            GetCamera().EnableLocate().Chain(c=>c.Locate(),out locateState);
             Assert.IsTrue(locateState);
 
             locateState = !locateInit;
-            GetCamera().Locate(locateInit).Locate(out locateState);
+            GetCamera().Locate(locateInit).Chain(c=>c.Locate(),out locateState);
             Assert.AreEqual(locateInit, locateState);
         }
 
@@ -277,14 +228,14 @@ namespace GoPro.Hero.Tests
                 v =>
                     {
                         LoopingVideo loopingVideo;
-                        GetCamera().LoopingVideo(v).LoopingVideo(out loopingVideo);
+                        GetCamera().LoopingVideo(v).Chain(c=>c.LoopingVideo(),out loopingVideo);
                         return loopingVideo;
                     }
                 ,
                 () =>
                     {
                         LoopingVideo loopingVideo;
-                        GetCamera().LoopingVideo(out loopingVideo);
+                        GetCamera().Chain(c=>c.LoopingVideo(),out loopingVideo);
                         return loopingVideo;
                     }
                 );
@@ -296,14 +247,14 @@ namespace GoPro.Hero.Tests
             bool protuneInit;
             bool protuneState;
 
-            GetCamera().Protune(out protuneInit).DisableProtune().Protune(out protuneState);
+            GetCamera().Chain(c=>c.Protune(),out protuneInit).DisableProtune().Chain(c => c.Protune(),out protuneState);
             Assert.IsFalse(protuneState);
 
-            GetCamera().EnableProtune().Protune(out protuneState);
+            GetCamera().EnableProtune().Chain(c => c.Protune(),out protuneState);
             Assert.IsTrue(protuneState);
 
             protuneState = !protuneInit;
-            GetCamera().Protune(protuneInit).Protune(out protuneState);
+            GetCamera().Protune(protuneInit).Chain(c => c.Protune(),out protuneState);
             Assert.AreEqual(protuneInit, protuneState);
         }
 
@@ -323,14 +274,14 @@ namespace GoPro.Hero.Tests
             bool autoLowLightInit;
             bool autoLowLightState;
 
-            GetCamera().AutoLowLight(out autoLowLightInit).DisableAutoLowLight().AutoLowLight(out autoLowLightState);
+            GetCamera().Chain(c => c.AutoLowLight(),out autoLowLightInit).DisableAutoLowLight().Chain(c => c.AutoLowLight(),out autoLowLightState);
             Assert.IsFalse(autoLowLightState);
 
-            GetCamera().EnableAutoLowLight().AutoLowLight(out autoLowLightState);
+            GetCamera().EnableAutoLowLight().Chain(c => c.AutoLowLight(),out autoLowLightState);
             Assert.IsTrue(autoLowLightState);
 
             autoLowLightState = !autoLowLightInit;
-            GetCamera().AutoLowLight(autoLowLightInit).AutoLowLight(out autoLowLightState);
+            GetCamera().AutoLowLight(autoLowLightInit).Chain(c => c.AutoLowLight(),out autoLowLightState);
             Assert.AreEqual(autoLowLightInit, autoLowLightState);
         }
 
@@ -350,14 +301,14 @@ namespace GoPro.Hero.Tests
             bool spotMeterInit;
             bool spotMeterState;
 
-            GetCamera().SpotMeter(out spotMeterInit).DisableSpotMeter().SpotMeter(out spotMeterState);
+            GetCamera().Chain(c => c.SpotMeter(),out spotMeterInit).DisableSpotMeter().Chain(c => c.SpotMeter(),out spotMeterState);
             Assert.IsFalse(spotMeterState);
 
-            GetCamera().EnableSpotMeter().SpotMeter(out spotMeterState);
+            GetCamera().EnableSpotMeter().Chain(c => c.SpotMeter(),out spotMeterState);
             Assert.IsTrue(spotMeterState);
 
             spotMeterState = !spotMeterInit;
-            GetCamera().SpotMeter(spotMeterInit).SpotMeter(out spotMeterState);
+            GetCamera().SpotMeter(spotMeterInit).Chain(c => c.SpotMeter(),out spotMeterState);
             Assert.AreEqual(spotMeterInit, spotMeterState);
         }
 
@@ -367,15 +318,15 @@ namespace GoPro.Hero.Tests
             FieldOfView fieldOfViewInit;
             FieldOfView fieldOfViewState;
 
-            var validStates = GetCamera().FieldOfView(out fieldOfViewInit).ValidFieldOfView();
+            var validStates = GetCamera().Chain(c => c.FieldOfView(),out fieldOfViewInit).ValidFieldOfView();
 
             foreach (var fieldOfView in validStates)
             {
-                GetCamera().FieldOfView(fieldOfView).FieldOfView(out fieldOfViewState);
+                GetCamera().FieldOfView(fieldOfView).Chain(c => c.FieldOfView(),out fieldOfViewState);
                 Assert.AreEqual(fieldOfView, fieldOfViewState);
             }
 
-            GetCamera().FieldOfView(fieldOfViewInit).FieldOfView(out fieldOfViewState);
+            GetCamera().FieldOfView(fieldOfViewInit).Chain(c => c.FieldOfView(),out fieldOfViewState);
             Assert.AreEqual(fieldOfViewInit, fieldOfViewState);
         }
 
@@ -385,15 +336,15 @@ namespace GoPro.Hero.Tests
             FrameRate frameRateInit;
             FrameRate frameRateState;
 
-            var validStates = GetCamera().FrameRate(out frameRateInit).ValidFrameRate();
+            var validStates = GetCamera().Chain(c=>c.FrameRate(),out frameRateInit).ValidFrameRate();
 
             foreach (var frameRate in validStates)
             {
-                GetCamera().FrameRate(frameRate).FrameRate(out frameRateState);
+                GetCamera().FrameRate(frameRate).Chain(c=>c.FrameRate(),out frameRateState);
                 Assert.AreEqual(frameRate, frameRateState);
             }
 
-            GetCamera().FrameRate(frameRateInit).FrameRate(out frameRateState);
+            GetCamera().FrameRate(frameRateInit).Chain(c=>c.FrameRate(),out frameRateState);
             Assert.AreEqual(frameRateInit, frameRateState);
         }
 
@@ -402,7 +353,7 @@ namespace GoPro.Hero.Tests
         {
             string fullName;
 
-            var fullnameState = GetCamera().FullName(out fullName).Information().Name;
+            var fullnameState = GetCamera().Chain(c=>c.FullName(),out fullName).Information().Name;
             Assert.AreEqual(fullnameState, fullName);
         }
 
@@ -411,7 +362,7 @@ namespace GoPro.Hero.Tests
         {
             string ipAddress;
 
-            GetCamera().IpAddress(out ipAddress);
+            GetCamera().Chain(c=>c.IpAddress(),out ipAddress);
             Assert.AreEqual(ExpectedParameters.IP_ADDRESS, ipAddress);
         }
 
@@ -422,14 +373,14 @@ namespace GoPro.Hero.Tests
                 v =>
                     {
                         LedBlink ledBlink;
-                        GetCamera().LedBlink(v).LedBlink(out ledBlink);
+                        GetCamera().LedBlink(v).Chain(c=>c.LedBlink(),out ledBlink);
                         return ledBlink;
                     }
                 ,
                 () =>
                     {
                         LedBlink ledBlink;
-                        GetCamera().LedBlink(out ledBlink);
+                        GetCamera().Chain(c => c.LedBlink(),out ledBlink);
                         return ledBlink;
                     }
                 );
@@ -442,14 +393,14 @@ namespace GoPro.Hero.Tests
                 v =>
                     {
                         Mode mode;
-                        GetCamera().Mode(v).Mode(out mode);
+                        GetCamera().Mode(v).Chain(c => c.Mode(),out mode);
                         return mode;
                     }
                 ,
                 () =>
                     {
                         Mode mode;
-                        GetCamera().Mode(out mode);
+                        GetCamera().Chain(c => c.Mode(),out mode);
                         return mode;
                     }
                 );
@@ -460,7 +411,7 @@ namespace GoPro.Hero.Tests
         {
             Model model;
 
-            var modelState = GetCamera().Model(out model).BacpacStatus().CameraModel;
+            var modelState = GetCamera().Chain(c => c.Model(),out model).BacpacStatus().CameraModel;
             Assert.AreEqual(modelState, model);
         }
 
@@ -471,14 +422,14 @@ namespace GoPro.Hero.Tests
                 v =>
                     {
                         Orientation orientation;
-                        GetCamera().Orientation(v).Orientation(out orientation);
+                        GetCamera().Orientation(v).Chain(c => c.Orientation(),out orientation);
                         return orientation;
                     }
                 ,
                 () =>
                     {
                         Orientation orientation;
-                        GetCamera().Orientation(out orientation);
+                        GetCamera().Chain(c => c.Orientation(),out orientation);
                         return orientation;
                     }
                 );
@@ -489,7 +440,7 @@ namespace GoPro.Hero.Tests
         {
             string password;
 
-            GetCamera().Password(out password);
+            GetCamera().Chain(c => c.Password(),out password);
             Assert.AreEqual(ExpectedParameters.PASSWORD, password);
         }
 
@@ -498,7 +449,7 @@ namespace GoPro.Hero.Tests
         {
             int count;
 
-            var countState = GetCamera().PhotoCount(out count).ExtendedSettings().PhotosCount;
+            var countState = GetCamera().Chain(c => c.PhotoCount(),out count).ExtendedSettings().PhotosCount;
             Assert.AreEqual(countState, count);
         }
 
@@ -507,7 +458,7 @@ namespace GoPro.Hero.Tests
         {
             int count;
 
-            var countState = GetCamera().VideoCount(out count).ExtendedSettings().VideosCount;
+            var countState = GetCamera().Chain(c => c.VideoCount(),out count).ExtendedSettings().VideosCount;
             Assert.AreEqual(countState, count);
         }
 
@@ -519,15 +470,15 @@ namespace GoPro.Hero.Tests
             VideoResolution videoResolutionState;
 
             var validStates =
-                GetCamera().VideoResolution(out videoResolutionInit).ValidVideoResolution();
+                GetCamera().Chain(c => c.VideoResolution(),out videoResolutionInit).ValidVideoResolution();
 
             foreach (var videoResolution in validStates)
             {
-                GetCamera().VideoResolution(videoResolution).VideoResolution(out videoResolutionState);
+                GetCamera().VideoResolution(videoResolution).Chain(c => c.VideoResolution(),out videoResolutionState);
                 Assert.AreEqual(videoResolution, videoResolutionState);
             }
 
-            GetCamera().VideoResolution(videoResolutionInit).VideoResolution(out videoResolutionState);
+            GetCamera().VideoResolution(videoResolutionInit).Chain(c => c.VideoResolution(),out videoResolutionState);
             Assert.AreEqual(videoResolutionInit, videoResolutionState);
         }
 
@@ -538,15 +489,15 @@ namespace GoPro.Hero.Tests
             PhotoResolution photoResolutionState;
 
             var validStates =
-                GetCamera().PhotoResolution(out photoResolutionInit).ValidPhotoResolution();
+                GetCamera().Chain(c => c.PhotoResolution(),out photoResolutionInit).ValidPhotoResolution();
 
             foreach (var photoResolution in validStates)
             {
-                GetCamera().PhotoResolution(photoResolution).PhotoResolution(out photoResolutionState);
+                GetCamera().PhotoResolution(photoResolution).Chain(c => c.PhotoResolution(),out photoResolutionState);
                 Assert.AreEqual(photoResolution, photoResolutionState);
             }
 
-            GetCamera().PhotoResolution(photoResolutionInit).PhotoResolution(out photoResolutionState);
+            GetCamera().PhotoResolution(photoResolutionInit).Chain(c => c.PhotoResolution(),out photoResolutionState);
             Assert.AreEqual(photoResolutionInit, photoResolutionState);
         }
 
@@ -557,14 +508,14 @@ namespace GoPro.Hero.Tests
                 v =>
                 {
                     PhotoInVideo photoInVideo;
-                    GetCamera().PhotoInVideo(v).PhotoInVideo(out photoInVideo);
+                    GetCamera().PhotoInVideo(v).Chain(c => c.PhotoInVideo(),out photoInVideo);
                     return photoInVideo;
                 }
                 ,
                 () =>
                 {
                     PhotoInVideo photoInVideo;
-                    GetCamera().PhotoInVideo(out photoInVideo);
+                    GetCamera().Chain(c => c.PhotoInVideo(),out photoInVideo);
                     return photoInVideo;
                 }
                 );
@@ -576,20 +527,20 @@ namespace GoPro.Hero.Tests
             bool powerInit;
             bool powerState;
 
-            GetCamera().Power(out powerInit).PowerOff();
+            GetCamera().Chain(c => c.Power(),out powerInit).PowerOff();
 
             Thread.Sleep(5000);
-            GetCamera().Power(out powerState);
+            GetCamera().Chain(c => c.Power(),out powerState);
             Assert.IsFalse(powerState);
 
             GetCamera().PowerOn();
             Thread.Sleep(5000);
-            GetCamera().Power(out powerState);
+            GetCamera().Chain(c => c.Power(),out powerState);
             Assert.IsTrue(powerState);
 
             GetCamera().Power(powerInit);
             Thread.Sleep(5000);
-            GetCamera().Power(out powerState);
+            GetCamera().Chain(c => c.Power(),out powerState);
             Assert.AreEqual(powerInit, powerState);
         }
 
@@ -598,7 +549,7 @@ namespace GoPro.Hero.Tests
         {
             SignalStrength signalStrength;
 
-            var signalState = GetCamera().SignalStrength(out signalStrength).BacpacStatus().Rssi;
+            var signalState = GetCamera().Chain(c => c.SignalStrength(),out signalStrength).BacpacStatus().Rssi;
             Assert.AreEqual(signalState, signalStrength);
         }
 
@@ -607,7 +558,7 @@ namespace GoPro.Hero.Tests
         {
             string ssid;
 
-            var ssidState = GetCamera().Ssid(out ssid).BacpacInformation().Ssid;
+            var ssidState = GetCamera().Chain(c => c.Ssid(),out ssid).BacpacInformation().Ssid;
             Assert.AreEqual(ssidState, ssid);
         }
 
@@ -618,14 +569,14 @@ namespace GoPro.Hero.Tests
                 v =>
                     {
                         TimeLapse timeLapse;
-                        GetCamera().TimeLapse(v).TimeLapse(out timeLapse);
+                        GetCamera().TimeLapse(v).Chain(c => c.TimeLapse(),out timeLapse);
                         return timeLapse;
                     }
                 ,
                 () =>
                     {
                         TimeLapse timeLapse;
-                        GetCamera().TimeLapse(out timeLapse);
+                        GetCamera().Chain(c => c.TimeLapse(),out timeLapse);
                         return timeLapse;
                     }
                 );
@@ -636,7 +587,7 @@ namespace GoPro.Hero.Tests
         {
             string version;
 
-            var versionState = GetCamera().Version(out version).Information().Version;
+            var versionState = GetCamera().Chain(c => c.Version(),out version).Information().Version;
             Assert.AreEqual(versionState, version);
         }
 
@@ -646,15 +597,15 @@ namespace GoPro.Hero.Tests
             WhiteBalance whiteBalanceInit;
             WhiteBalance whiteBalanceState;
 
-            var validStates = GetCamera().WhiteBalance(out whiteBalanceInit).ValidWhiteBalance();
+            var validStates = GetCamera().Chain(c => c.WhiteBalance(),out whiteBalanceInit).ValidWhiteBalance();
 
             foreach (var whiteBalance in validStates)
             {
-                GetCamera().WhiteBalance(whiteBalance).WhiteBalance(out whiteBalanceState);
+                GetCamera().WhiteBalance(whiteBalance).Chain(c => c.WhiteBalance(),out whiteBalanceState);
                 Assert.AreEqual(whiteBalance, whiteBalanceState);
             }
 
-            GetCamera().WhiteBalance(whiteBalanceInit).WhiteBalance(out whiteBalanceState);
+            GetCamera().WhiteBalance(whiteBalanceInit).Chain(c => c.WhiteBalance(),out whiteBalanceState);
             Assert.AreEqual(whiteBalanceInit, whiteBalanceState);
         }
 
@@ -665,14 +616,14 @@ namespace GoPro.Hero.Tests
                 v =>
                     {
                         VideoStandard videoStandard;
-                        GetCamera().VideoStandard(v).VideoStandard(out videoStandard);
+                        GetCamera().VideoStandard(v).Chain(c => c.VideoStandard(),out videoStandard);
                         return videoStandard;
                     }
                 ,
                 () =>
                     {
                         VideoStandard videoStandard;
-                        GetCamera().VideoStandard(out videoStandard);
+                        GetCamera().Chain(c => c.VideoStandard(),out videoStandard);
                         return videoStandard;
                     }
                 );
@@ -682,7 +633,7 @@ namespace GoPro.Hero.Tests
         public void CheckFirmware()
         {
             Version version;
-            var versionState = GetCamera().Firmware(out version).BacpacInformation().FirmwareVersion;
+            var versionState = GetCamera().Chain(c => c.Firmware(),out version).BacpacInformation().FirmwareVersion;
 
             Assert.AreEqual(versionState, version);
         }
@@ -692,7 +643,7 @@ namespace GoPro.Hero.Tests
         {
             string macAddress;
 
-            var bacPacMacAddress = GetCamera().MacAddress(out macAddress).BacpacInformation().MacAddress;
+            var bacPacMacAddress = GetCamera().Chain(c => c.MacAddress(),out macAddress).BacpacInformation().MacAddress;
             Assert.AreEqual(macAddress, bacPacMacAddress);
         }
 
@@ -702,7 +653,7 @@ namespace GoPro.Hero.Tests
             bool livePreviewAvailable;
 
             var livePreview =
-                GetCamera().LivePreviewAvailable(out livePreviewAvailable).ExtendedSettings().PreviewAvailable;
+                GetCamera().Chain(c => c.LivePreviewAvailable(),out livePreviewAvailable).ExtendedSettings().PreviewAvailable;
             Assert.AreEqual(livePreview, livePreviewAvailable);
         }
     }

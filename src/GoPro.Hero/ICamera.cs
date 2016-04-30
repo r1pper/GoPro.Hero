@@ -22,18 +22,19 @@ namespace GoPro.Hero
 
         ICamera SetFilter(IFilter<ICamera> filter);
 
-        ICamera Shutter(bool open, bool nonBlocking);
+        ICamera Shutter(bool open);
         ICamera Command(CommandRequest<ICamera> command);
-        ICamera Command(CommandRequest<ICamera> command, out CommandResponse commandResponse, bool checkStatus = true);
-        ICamera PrepareCommand<T>(out T command) where T : CommandRequest<ICamera>;
-        ICamera PrepareCommand<T>(int port,out T command) where T : CommandRequest<ICamera>;
-        ICamera Power(bool on, bool nonBlocking);
+        Task CommandAsync(CommandRequest<ICamera> command);
+        CommandResponse Command(CommandRequest<ICamera> command, bool checkStatus = true);
+        Task<CommandResponse> CommandAsync(CommandRequest<ICamera> command, bool checkStatus = true);
+
+        ICamera Power(bool on);
         T PrepareCommand<T>() where T : CommandRequest<ICamera>;
         T PrepareCommand<T>(int port) where T : CommandRequest<ICamera>;
-        CommandResponse Command(CommandRequest<ICamera> command, bool checkStatus = true);
 
-        ICamera SetName(string name, bool nonBlocking);
-        ICamera GetName(out string name);
-        string GetName();
+
+        ICamera SetName(string name);
+        Task SetNameAsync(string name);
+        Task<string> GetNameAsync();
     }
 }

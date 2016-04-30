@@ -16,7 +16,7 @@ namespace GoPro.Hero.Hero3
         public Hero3Camera(Bacpac bacpac) : base(bacpac)
         {
             var filter = FilterGeneric.Create("GoPro.Hero.Hero3.Hero3FilterScheme.xml");
-            base.SetFilter(filter);
+            SetFilter(filter);
         }
 
         public Hero3Camera(string address) : base(Bacpac.Create(address))
@@ -25,113 +25,112 @@ namespace GoPro.Hero.Hero3
 
         public Node Browse()
         {
-            return base.FileSystem<AmbarellaBrowser>();
+            return FileSystem<AmbarellaBrowser>();
         }
 
-        public Hero3Camera VideoResolution(VideoResolution resolution, bool nonBlocking = false)
+        public Hero3Camera VideoResolution(VideoResolution resolution)
         {
-            return ExecuteMultiChoiceCommand<CommandCameraVideoResolution,VideoResolution>(resolution, nonBlocking);
+            PrepareCommand<CommandCameraVideoResolution>().Select(resolution).Execute();
+            return this;
         }
 
-        public async Task<Hero3Camera> VideoResolutionAsync(VideoResolution resolution)
+        public async Task VideoResolutionAsync(VideoResolution resolution)
         {
-            return await base.PrepareCommand<CommandCameraVideoResolution>().Select(resolution).ExecuteAsync() as Hero3Camera;
+            await PrepareCommand<CommandCameraVideoResolution>().Select(resolution).ExecuteAsync();
         }
 
         public async Task<VideoResolution> VideoResolutionAsync()
         {
-            return (await base.ExtendedSettingsAsync()).VideoResolution;
+            return (await ExtendedSettingsAsync()).VideoResolution;
         }
 
-        public Hero3Camera VideoResolution(out VideoResolution resolution)
+        public VideoResolution VideoResolution()
         {
-            resolution = base.ExtendedSettings().VideoResolution;
-            return this;
+            return ExtendedSettings().VideoResolution;
         }
 
         public IEnumerable<VideoResolution> ValidVideoResolution()
         {
-            var valid = base.PrepareCommand<CommandCameraVideoResolution>().ValidStates();
+            var valid = PrepareCommand<CommandCameraVideoResolution>().ValidStates();
             return valid;
         }
 
-        public Hero3Camera ValidVideoResolution(out IEnumerable<VideoResolution> validVideoResolution)
+
+        public Hero3Camera Orientation(Orientation orientation)
         {
-            validVideoResolution = ValidVideoResolution();
+            PrepareCommand<CommandCameraOrientation>().Select(orientation).Execute();
             return this;
         }
 
-        public Hero3Camera Orientation(Orientation orientation ,bool nonBlocking = false)
+        public async Task OrientationAsync(Orientation orientation)
         {
-            return ExecuteMultiChoiceCommand<CommandCameraOrientation, Orientation>(orientation, nonBlocking);
+            await PrepareCommand<CommandCameraOrientation>().Select(orientation).ExecuteAsync();
         }
 
-        public async Task<Hero3Camera> OrientationAsync(Orientation orientation)
+        public Orientation Orientation()
         {
-            return await base.PrepareCommand<CommandCameraOrientation>().Select(orientation).ExecuteAsync() as Hero3Camera;
-        }
-
-        public Hero3Camera Orientation(out Orientation orientation)
-        {
-            orientation = base.ExtendedSettings().Orientation;
-            return this;
+            return ExtendedSettings().Orientation;
         }
 
         public async Task<Orientation> OrientationAsync()
         {
-            return (await base.ExtendedSettingsAsync()).Orientation;
+            return (await ExtendedSettingsAsync()).Orientation;
         }
 
-        public Hero3Camera TimeLapse(TimeLapse timeLapse,bool nonBlocking = false)
-        {
-            return ExecuteMultiChoiceCommand<CommandCameraTimeLapse, TimeLapse>(timeLapse, nonBlocking);
-        }
 
-        public async Task<Hero3Camera> TimeLapseAsync(TimeLapse timeLapse)
+        public Hero3Camera TimeLapse(TimeLapse timeLapse)
         {
-            return await base.PrepareCommand<CommandCameraTimeLapse>().Select(timeLapse).ExecuteAsync() as Hero3Camera;
-        }
-
-        public Hero3Camera TimeLapse(out TimeLapse timeLapse)
-        {
-            timeLapse = base.ExtendedSettings().TimeLapse;
+            PrepareCommand<CommandCameraTimeLapse>().Select(timeLapse).Execute();
             return this;
+        }
+
+        public async Task TimeLapseAsync(TimeLapse timeLapse)
+        {
+            await PrepareCommand<CommandCameraTimeLapse>().Select(timeLapse).ExecuteAsync();
+        }
+
+        public TimeLapse TimeLapse()
+        {
+            return ExtendedSettings().TimeLapse;
         }
 
         public async Task<TimeLapse> TimeLapseAsync()
         {
-            return (await base.ExtendedSettingsAsync()).TimeLapse;
+            return (await ExtendedSettingsAsync()).TimeLapse;
         }
 
-        public Hero3Camera BeepSound(BeepSound beepSound , bool nonBlocking = false)
+
+        public Hero3Camera BeepSound(BeepSound beepSound)
         {
-            return ExecuteMultiChoiceCommand<CommandCameraBeepSound, BeepSound>(beepSound, nonBlocking);
+            PrepareCommand<CommandCameraBeepSound>().Select(beepSound).Execute();
+            return this;
         }
 
-        public async Task<Hero3Camera> BeepSoundAsync(BeepSound beepSound)
+        public async Task BeepSoundAsync(BeepSound beepSound)
         {
-            return await base.PrepareCommand<CommandCameraBeepSound>().Select(beepSound).ExecuteAsync() as Hero3Camera;
+            await PrepareCommand<CommandCameraBeepSound>().Select(beepSound).ExecuteAsync();
         }
 
         public async Task<BeepSound> BeepSoundAsync()
         {
-            return (await base.ExtendedSettingsAsync()).BeepSound;
+            return (await ExtendedSettingsAsync()).BeepSound;
         }
 
-        public Hero3Camera BeepSound(out BeepSound beepSound)
+        public BeepSound BeepSound()
         {
-            beepSound = base.ExtendedSettings().BeepSound;
+            return ExtendedSettings().BeepSound;
+        }
+
+
+        public Hero3Camera Protune(bool state)
+        {
+            PrepareCommand<CommandCameraProtune>().Set(state).Execute();
             return this;
         }
 
-        public Hero3Camera Protune(bool state, bool nonBlocing = false)
+        public async Task ProtuneAsync(bool state)
         {
-            return ExecuteBooleanCommand<CommandCameraProtune>(state, nonBlocing);
-        }
-
-        public async Task<Hero3Camera> ProtuneAsync(bool state)
-        {
-            return await base.PrepareCommand<CommandCameraProtune>().Set(state).ExecuteAsync() as Hero3Camera;
+            await PrepareCommand<CommandCameraProtune>().Set(state).ExecuteAsync();
         }
 
         public Hero3Camera EnableProtune()
@@ -139,9 +138,9 @@ namespace GoPro.Hero.Hero3
             return Protune(true);
         }
 
-        public async Task<Hero3Camera> EnableProtuneAsync()
+        public async Task EnableProtuneAsync()
         {
-            return await ProtuneAsync(true);
+            await ProtuneAsync(true);
         }
 
         public Hero3Camera DisableProtune()
@@ -149,46 +148,41 @@ namespace GoPro.Hero.Hero3
             return Protune(false);
         }
 
-        public async Task<Hero3Camera> DisableProtuneAsync()
+        public async Task DisableProtuneAsync()
         {
-            return await ProtuneAsync(false);
+            await ProtuneAsync(false);
         }
 
         public bool SupportsProtune()
         {
-            return base.PrepareCommand<CommandCameraProtune>().ValidStates().Any();
+            return PrepareCommand<CommandCameraProtune>().ValidStates().Any();
         }
 
-        public Hero3Camera Protune(out bool state)
+        public bool Protune()
         {
-            state = base.ExtendedSettings().Protune;
-            return this;
+            return ExtendedSettings().Protune;
         }
 
         public async Task<bool> ProtuneAsync()
         {
-            return (await base.ExtendedSettingsAsync()).Protune;
+            return (await ExtendedSettingsAsync()).Protune;
         }
 
         public IEnumerable<bool> ValidProtune()
         {
-            return base.PrepareCommand<CommandCameraProtune>().ValidStates();
+            return PrepareCommand<CommandCameraProtune>().ValidStates();
         }
 
-        public Hero3Camera ValidProtune(out IEnumerable<bool> validProtune)
+
+        public Hero3Camera AutoLowLight(bool state)
         {
-            validProtune = ValidProtune();
+            PrepareCommand<CommandCameraAutoLowLight>().Set(state).Execute();
             return this;
         }
 
-        public Hero3Camera AutoLowLight(bool state, bool nonBlocing = false)
+        public async Task AutoLowLightAsync(bool state)
         {
-            return ExecuteBooleanCommand<CommandCameraAutoLowLight>(state, nonBlocing);
-        }
-
-        public async Task<Hero3Camera> AutoLowLightAsync(bool state)
-        {
-            return await base.PrepareCommand<CommandCameraAutoLowLight>().Set(state).ExecuteAsync() as Hero3Camera;
+            await PrepareCommand<CommandCameraAutoLowLight>().Set(state).ExecuteAsync();
         }
 
         public Hero3Camera EnableAutoLowLight()
@@ -196,9 +190,9 @@ namespace GoPro.Hero.Hero3
             return AutoLowLight(true);
         }
 
-        public async Task<Hero3Camera> EnableAutoLowLightAsync()
+        public async Task EnableAutoLowLightAsync()
         {
-            return await AutoLowLightAsync(true);
+            await AutoLowLightAsync(true);
         }
 
         public Hero3Camera DisableAutoLowLight()
@@ -206,57 +200,51 @@ namespace GoPro.Hero.Hero3
             return AutoLowLight(false);
         }
 
-        public async Task<Hero3Camera> DisableAutoLowLightAsync()
+        public async Task DisableAutoLowLightAsync()
         {
-            return await AutoLowLightAsync(false);
+            await AutoLowLightAsync(false);
         }
 
         public bool SupportsAutoLowLight()
         {
-            return base.PrepareCommand<CommandCameraAutoLowLight>().ValidStates().Any();
+            return PrepareCommand<CommandCameraAutoLowLight>().ValidStates().Any();
         }
 
-        public Hero3Camera AutoLowLight(out bool state)
+        public bool AutoLowLight()
         {
-            state = base.ExtendedSettings().AutoLowLight;
-            return this;
+            return ExtendedSettings().AutoLowLight;
         }
 
         public async Task<bool> AutoLowLightAsync()
         {
-            return (await base.ExtendedSettingsAsync()).AutoLowLight;
+            return (await ExtendedSettingsAsync()).AutoLowLight;
         }
 
         public IEnumerable<bool> ValidAutoLowLight()
         {
-            return base.PrepareCommand<CommandCameraAutoLowLight>().ValidStates();
+            return PrepareCommand<CommandCameraAutoLowLight>().ValidStates();
         }
 
-        public Hero3Camera ValidAutoLowLight(out IEnumerable<bool> autoLowLight)
+
+        public Hero3Camera PhotoResolution(PhotoResolution resolution)
         {
-            autoLowLight = ValidAutoLowLight();
+            PrepareCommand<CommandCameraPhotoResolution>().Select(resolution).Execute();
             return this;
         }
 
-        public Hero3Camera PhotoResolution(PhotoResolution resolution , bool nonBlocking = false)
+        public async Task PhotoResolutionAsync(PhotoResolution resolution)
         {
-            return ExecuteMultiChoiceCommand<CommandCameraPhotoResolution, PhotoResolution>(resolution, nonBlocking);
+            await PrepareCommand<CommandCameraPhotoResolution>().Select(resolution).ExecuteAsync();
         }
 
-        public async Task<Hero3Camera> PhotoResolutionAsync(PhotoResolution resolution)
+        public PhotoResolution PhotoResolution()
         {
-            return await base.PrepareCommand<CommandCameraPhotoResolution>().Select(resolution).ExecuteAsync() as Hero3Camera;
-        }
-
-        public Hero3Camera PhotoResolution(out PhotoResolution resolution)
-        {
-            resolution = base.ExtendedSettings().PhotoResolution;
-            return this;
+            return ExtendedSettings().PhotoResolution;
         }
 
         public async Task<PhotoResolution> PhotoResolutionAsync()
         {
-            return (await base.ExtendedSettingsAsync()).PhotoResolution;
+            return (await ExtendedSettingsAsync()).PhotoResolution;
         }
 
         public IEnumerable<PhotoResolution> ValidPhotoResolution()
@@ -265,62 +253,60 @@ namespace GoPro.Hero.Hero3
             return valid;
         }
 
-        public Hero3Camera ValidPhotoResolution(out IEnumerable<PhotoResolution> validPhotoResolution)
+
+        public Hero3Camera VideoStandard(VideoStandard videoStandard)
         {
-            validPhotoResolution = ValidPhotoResolution();
+            PrepareCommand<CommandCameraVideoStandard>().Select(videoStandard).Execute();
             return this;
         }
 
-        public Hero3Camera VideoStandard(VideoStandard videoStandard , bool nonBlocking = false)
+        public async Task VideoStandardAsync(VideoStandard videoStandard)
         {
-            return ExecuteMultiChoiceCommand<CommandCameraVideoStandard, VideoStandard>(videoStandard, nonBlocking);
+             await PrepareCommand<CommandCameraVideoStandard>().Select(videoStandard).ExecuteAsync();
         }
 
-        public async Task<Hero3Camera> VideoStandardAsync(VideoStandard videoStandard)
+        public VideoStandard VideoStandard()
         {
-            return await base.PrepareCommand<CommandCameraVideoStandard>().Select(videoStandard).ExecuteAsync() as Hero3Camera;
-        }
-
-        public Hero3Camera VideoStandard(out VideoStandard videoStandard)
-        {
-            videoStandard = base.ExtendedSettings().VideoStandard;
-            return this;
+            return ExtendedSettings().VideoStandard;
         }
 
         public async Task<VideoStandard> VideoStandardAsync()
         {
-            return (await base.ExtendedSettingsAsync()).VideoStandard;
+            return (await ExtendedSettingsAsync()).VideoStandard;
         }
 
-        public Hero3Camera Mode(Mode mode , bool nonBlocking = false)
-        {
-            return ExecuteMultiChoiceCommand<CommandCameraMode, Mode>(mode, nonBlocking);
-        }
 
-        public async Task<Hero3Camera> ModeAsync(Mode mode)
+        public Hero3Camera Mode(Mode mode)
         {
-            return await base.PrepareCommand<CommandCameraMode>().Select(mode).ExecuteAsync() as Hero3Camera;
-        }
-
-        public Hero3Camera Mode(out Mode mode)
-        {
-            mode = base.ExtendedSettings().Mode;
+            PrepareCommand<CommandCameraMode>().Select(mode).Execute();
             return this;
+        }
+
+        public async Task ModeAsync(Mode mode)
+        {
+             await PrepareCommand<CommandCameraMode>().Select(mode).ExecuteAsync();
+        }
+
+        public Mode Mode()
+        {
+            return ExtendedSettings().Mode;
         }
 
         public async Task<Mode> ModeAsync()
         {
-            return (await base.ExtendedSettingsAsync()).Mode;
+            return (await ExtendedSettingsAsync()).Mode;
         }
 
-        public Hero3Camera Locate(bool state , bool nonBlocking = false)
+
+        public Hero3Camera Locate(bool state)
         {
-            return ExecuteBooleanCommand<CommandCameraLocate>(state, nonBlocking);
+            PrepareCommand<CommandCameraLocate>().Set(state).Execute();
+            return this;
         }
 
-        public async Task<Hero3Camera> LocateAsync(bool state)
+        public async Task LocateAsync(bool state)
         {
-            return await base.PrepareCommand<CommandCameraLocate>().Set(state).ExecuteAsync() as Hero3Camera;
+            await PrepareCommand<CommandCameraLocate>().Set(state).ExecuteAsync();
         }
 
         public Hero3Camera EnableLocate()
@@ -328,9 +314,9 @@ namespace GoPro.Hero.Hero3
             return Locate(true);
         }
 
-        public async Task<Hero3Camera> EnableLocateAsync()
+        public async Task EnableLocateAsync()
         {
-            return await LocateAsync(true);
+            await LocateAsync(true);
         }
 
         public Hero3Camera DisableLocate()
@@ -338,30 +324,31 @@ namespace GoPro.Hero.Hero3
             return Locate(false);
         }
 
-        public async Task<Hero3Camera> DisableLocateAsync()
+        public async Task DisableLocateAsync()
         {
-            return await LocateAsync(false);
+            await LocateAsync(false);
         }
 
-        public Hero3Camera Locate(out bool state)
+        public bool Locate()
         {
-            state = base.ExtendedSettings().LocateCamera;
-            return this;
+            return ExtendedSettings().LocateCamera;
         }
 
         public async Task<bool> LocateAsync()
         {
-            return (await base.ExtendedSettingsAsync()).LocateCamera;
+            return (await ExtendedSettingsAsync()).LocateCamera;
         }
 
-        public Hero3Camera LivePreview(bool state , bool nonBlocking = false)
+
+        public Hero3Camera LivePreview(bool state)
         {
-            return ExecuteBooleanCommand<CommandCameraPreview>(state, nonBlocking);
+            PrepareCommand<CommandCameraPreview>().Set(state).Execute();
+            return this;
         }
 
-        public async Task<Hero3Camera> LivePreviewAsync(bool state)
+        public async Task LivePreviewAsync(bool state)
         {
-            return await base.PrepareCommand<CommandCameraPreview>().Set(state).ExecuteAsync() as Hero3Camera;
+             await PrepareCommand<CommandCameraPreview>().Set(state).ExecuteAsync();
         }
 
         public Hero3Camera EnableLivePreview()
@@ -369,9 +356,9 @@ namespace GoPro.Hero.Hero3
             return LivePreview(true);
         }
 
-        public async Task<Hero3Camera> EnableLivePreviewAsync()
+        public async Task EnableLivePreviewAsync()
         {
-            return await LivePreviewAsync(true);
+             await LivePreviewAsync(true);
         }
 
         public Hero3Camera DisableLivePreview()
@@ -379,83 +366,80 @@ namespace GoPro.Hero.Hero3
             return LivePreview(false);
         }
 
-        public async Task<Hero3Camera> DisableLivePreviewAsync()
+        public async Task DisableLivePreviewAsync()
         {
-            return await LivePreviewAsync(false);
+            await LivePreviewAsync(false);
         }
 
-        public Hero3Camera LivePreview(out bool state)
+        public bool LivePreview()
         {
-            state = base.ExtendedSettings().PreviewActive;
-            return this;
+            return ExtendedSettings().PreviewActive;
         }
 
         public async Task<bool> LivePreviewAsync()
         {
-            return (await base.ExtendedSettingsAsync()).PreviewActive;
+            return (await ExtendedSettingsAsync()).PreviewActive;
         }
 
-        public Hero3Camera LedBlink(LedBlink ledBlink , bool nonBlocking = false)
-        {
-            return ExecuteMultiChoiceCommand<CommandCameraLedBlink, LedBlink>(ledBlink, nonBlocking);
-        }
 
-        public async Task<Hero3Camera> LedBlinkAsync(LedBlink ledBlink)
+        public Hero3Camera LedBlink(LedBlink ledBlink)
         {
-            return await base.PrepareCommand<CommandCameraLedBlink>().Select(ledBlink).ExecuteAsync() as Hero3Camera;
-        }
-
-        public Hero3Camera LedBlink(out LedBlink ledBlink)
-        {
-            ledBlink = base.ExtendedSettings().LedBlink;
+            PrepareCommand<CommandCameraLedBlink>().Select(ledBlink).Execute();
             return this;
+        }
+
+        public async Task LedBlinkAsync(LedBlink ledBlink)
+        {
+             await PrepareCommand<CommandCameraLedBlink>().Select(ledBlink).ExecuteAsync();
+        }
+
+        public LedBlink LedBlink()
+        {
+            return ExtendedSettings().LedBlink;
         }
 
         public async Task<LedBlink> LedBlinkAsync()
         {
-            return (await base.ExtendedSettingsAsync()).LedBlink;
+            return (await ExtendedSettingsAsync()).LedBlink;
         }
 
-        public Hero3Camera FieldOfView(FieldOfView fieldOfView , bool nonBlocking = false)
-        {
-            return ExecuteMultiChoiceCommand<CommandCameraFieldOfView, FieldOfView>(fieldOfView, nonBlocking);
-        }
 
-        public async Task<Hero3Camera> FieldOfViewAsync(FieldOfView fieldOfView)
+        public Hero3Camera FieldOfView(FieldOfView fieldOfView)
         {
-            return await base.PrepareCommand<CommandCameraFieldOfView>().Select(fieldOfView).ExecuteAsync() as Hero3Camera;
-        }
-
-        public Hero3Camera FieldOfView(out FieldOfView fieldOfView)
-        {
-            fieldOfView = base.ExtendedSettings().FieldOfView;
+            PrepareCommand<CommandCameraFieldOfView>().Select(fieldOfView).Execute();
             return this;
+        }
+
+        public async Task FieldOfViewAsync(FieldOfView fieldOfView)
+        {
+             await PrepareCommand<CommandCameraFieldOfView>().Select(fieldOfView).ExecuteAsync();
+        }
+
+        public FieldOfView FieldOfView()
+        {
+            return ExtendedSettings().FieldOfView;
         }
 
         public async Task<FieldOfView> FieldOfViewAsync()
         {
-            return (await base.ExtendedSettingsAsync()).FieldOfView;
+            return (await ExtendedSettingsAsync()).FieldOfView;
         }
 
         public IEnumerable<FieldOfView> ValidFieldOfView()
         {
-            return base.PrepareCommand<CommandCameraFieldOfView>().ValidStates();
+            return PrepareCommand<CommandCameraFieldOfView>().ValidStates();
         }
 
-        public Hero3Camera ValidFieldOfView(out IEnumerable<FieldOfView> validFieldOfView)
+
+        public Hero3Camera SpotMeter(bool state)
         {
-            validFieldOfView = ValidFieldOfView();
+            PrepareCommand<CommandCameraSpotMeter>().Set(state).Execute();
             return this;
         }
 
-        public Hero3Camera SpotMeter(bool state , bool nonBlocking = false)
+        public async  Task SpotMeterAsync(bool state)
         {
-            return ExecuteBooleanCommand<CommandCameraSpotMeter>(state, nonBlocking);
-        }
-
-        public async  Task<Hero3Camera> SpotMeterAsync(bool state)
-        {
-            return await  base.PrepareCommand<CommandCameraSpotMeter>().Set(state).ExecuteAsync() as Hero3Camera;
+             await  PrepareCommand<CommandCameraSpotMeter>().Set(state).ExecuteAsync();
         }
 
         public Hero3Camera EnableSpotMeter()
@@ -463,9 +447,9 @@ namespace GoPro.Hero.Hero3
             return SpotMeter(true);
         }
 
-        public async Task<Hero3Camera> EnableSpotMeterAsync()
+        public async Task EnableSpotMeterAsync()
         {
-            return await SpotMeterAsync(true);
+             await SpotMeterAsync(true);
         }
 
         public Hero3Camera DisableSpotMeter()
@@ -473,92 +457,86 @@ namespace GoPro.Hero.Hero3
             return SpotMeter(false);
         }
 
-        public async Task<Hero3Camera> DisableSpotMeterAsync()
+        public async Task DisableSpotMeterAsync()
         {
-            return await SpotMeterAsync(false);
+             await SpotMeterAsync(false);
         }
 
-        public Hero3Camera SpotMeter(out bool state)
+        public bool SpotMeter()
         {
-            state = base.ExtendedSettings().SpotMeter;
-            return this;
+            return ExtendedSettings().SpotMeter;
         }
 
         public async Task<bool> SpotMeterAsync()
         {
-            return (await base.ExtendedSettingsAsync()).SpotMeter;
+            return (await ExtendedSettingsAsync()).SpotMeter;
         }
 
-        public Hero3Camera DefaultModeOnPowerOn(Mode mode , bool nonBlocking = false)
-        {
-            return ExecuteMultiChoiceCommand<CommandCameraDefaultMode, Mode>(mode, nonBlocking);
-        }
 
-        public async Task<Hero3Camera> DefaultModeOnPowerOnAsync(Mode mode)
+        public Hero3Camera DefaultModeOnPowerOn(Mode mode)
         {
-            return await base.PrepareCommand<CommandCameraDefaultMode>().Select(mode).ExecuteAsync() as Hero3Camera;
-        }
-
-        public Hero3Camera DefaultModeOnPowerOn(out Mode mode)
-        {
-            mode = base.ExtendedSettings().OnDefault;
+            PrepareCommand<CommandCameraDefaultMode>().Select(mode).Execute();
             return this;
+        }
+
+        public async Task DefaultModeOnPowerOnAsync(Mode mode)
+        {
+             await PrepareCommand<CommandCameraDefaultMode>().Select(mode).ExecuteAsync();
+        }
+
+        public Mode DefaultModeOnPowerOn()
+        {
+            return ExtendedSettings().OnDefault;
         }
 
         public async Task<Mode> DefaultModeOnPowerOnAsync()
         {
-            return (await base.ExtendedSettingsAsync()).OnDefault;
+            return (await ExtendedSettingsAsync()).OnDefault;
         }
 
-        public Hero3Camera DeleteLastFileOnSdCard(bool nonBlocking = false)
+
+        public Hero3Camera DeleteLastFileOnSdCard()
         {
-            var task= base.PrepareCommand<CommandCameraDeleteLastFileOnSd>().ExecuteAsync();
-
-            if (!nonBlocking)
-                task.Wait();
-
+            var task= PrepareCommand<CommandCameraDeleteLastFileOnSd>().Execute();
             return this;
         }
 
-        public async Task<Hero3Camera> DeleteLastFileOnSdCardAsync()
+        public async Task DeleteLastFileOnSdCardAsync()
         {
-            return await base.PrepareCommand<CommandCameraDeleteLastFileOnSd>().ExecuteAsync() as Hero3Camera;
+            await PrepareCommand<CommandCameraDeleteLastFileOnSd>().ExecuteAsync();
         }
 
-        public Hero3Camera DeleteAllFilesOnSdCard(bool nonBlocking = false)
+        public Hero3Camera DeleteAllFilesOnSdCard()
         {
-            var task=base.PrepareCommand<CommandCameraDeleteAllFilesOnSd>().ExecuteAsync();
-
-            if (!nonBlocking)
-                task.Wait();
-
+            PrepareCommand<CommandCameraDeleteAllFilesOnSd>().Execute();
             return this;
         }
 
-        public async Task<Hero3Camera> DeleteAllFilesOnSdCardAsync()
+        public async Task DeleteAllFilesOnSdCardAsync()
         {
-            return await base.PrepareCommand<CommandCameraDeleteAllFilesOnSd>().ExecuteAsync() as Hero3Camera;
+            await PrepareCommand<CommandCameraDeleteAllFilesOnSd>().ExecuteAsync();
         }
 
-        public Hero3Camera WhiteBalance(WhiteBalance whiteBalance , bool nonBlocking = false)
-        {
-            return ExecuteMultiChoiceCommand<CommandCameraWhiteBalance, WhiteBalance>(whiteBalance, nonBlocking);
-        }
 
-        public async Task<Hero3Camera> WhiteBalanceAsync(WhiteBalance whiteBalance)
+        public Hero3Camera WhiteBalance(WhiteBalance whiteBalance)
         {
-            return await base.PrepareCommand<CommandCameraWhiteBalance>().Select(whiteBalance).ExecuteAsync() as Hero3Camera;
-        }
-
-        public Hero3Camera WhiteBalance(out WhiteBalance whiteBalance)
-        {
-            whiteBalance = base.ExtendedSettings().WhiteBalance;
+            PrepareCommand<CommandCameraWhiteBalance>().Select(whiteBalance).Execute();
             return this;
+        }
+
+        public async Task WhiteBalanceAsync(WhiteBalance whiteBalance)
+        {
+             await PrepareCommand<CommandCameraWhiteBalance>().Select(whiteBalance).ExecuteAsync();
+        }
+
+        public WhiteBalance WhiteBalance()
+        {
+            return ExtendedSettings().WhiteBalance;
         }
 
         public async Task<WhiteBalance> WhiteBalanceAsync()
         {
-            return (await base.ExtendedSettingsAsync()).WhiteBalance;
+            return (await ExtendedSettingsAsync()).WhiteBalance;
         }
 
         public IEnumerable<WhiteBalance> ValidWhiteBalance()
@@ -567,31 +545,26 @@ namespace GoPro.Hero.Hero3
             return valid;
         }
 
-        public Hero3Camera ValidWhiteBalance(out IEnumerable<WhiteBalance> validWhiteBalance)
+
+        public Hero3Camera LoopingVideo(LoopingVideo loopingVideo)
         {
-            validWhiteBalance = ValidWhiteBalance();
+            PrepareCommand<CommandCameraLoopingVideo>().Select(loopingVideo).Execute();
             return this;
         }
 
-        public Hero3Camera LoopingVideo(LoopingVideo loopingVideo , bool nonBlocking = false)
+        public async Task LoopingVideoAsync(LoopingVideo loopingVideo)
         {
-            return ExecuteMultiChoiceCommand<CommandCameraLoopingVideo, LoopingVideo>(loopingVideo, nonBlocking);
+            await PrepareCommand<CommandCameraLoopingVideo>().Select(loopingVideo).ExecuteAsync();
         }
 
-        public async Task<Hero3Camera> LoopingVideoAsync(LoopingVideo loopingVideo)
+        public LoopingVideo LoopingVideo()
         {
-            return await base.PrepareCommand<CommandCameraLoopingVideo>().Select(loopingVideo).ExecuteAsync() as Hero3Camera;
-        }
-
-        public Hero3Camera LoopingVideo(out LoopingVideo loopingVideo)
-        {
-            loopingVideo = base.ExtendedSettings().LoopingVideoMode;
-            return this;
+            return ExtendedSettings().LoopingVideoMode;
         }
 
         public async Task<LoopingVideo> LoopingVideoAsync()
         {
-            return (await this.ExtendedSettingsAsync()).LoopingVideoMode;
+            return (await ExtendedSettingsAsync()).LoopingVideoMode;
         }
 
         public IEnumerable<LoopingVideo> ValidLoopingVideo()
@@ -600,31 +573,26 @@ namespace GoPro.Hero.Hero3
             return valid;
         }
 
-        public Hero3Camera ValidLoopingVideo(out IEnumerable<LoopingVideo> validLoopingVideo)
+
+        public Hero3Camera FrameRate(FrameRate frameRate)
         {
-            validLoopingVideo = ValidLoopingVideo();
+            PrepareCommand<CommandCameraFrameRate>().Select(frameRate).Execute();
             return this;
         }
 
-        public Hero3Camera FrameRate(FrameRate frameRate , bool nonBlocking = false)
+        public async Task FrameRateAsync(FrameRate frameRate)
         {
-            return ExecuteMultiChoiceCommand<CommandCameraFrameRate, FrameRate>(frameRate, nonBlocking);
+             await PrepareCommand<CommandCameraFrameRate>().Select(frameRate).ExecuteAsync();
         }
 
-        public async Task<Hero3Camera> FrameRateAsync(FrameRate frameRate)
+        public FrameRate FrameRate()
         {
-            return await base.PrepareCommand<CommandCameraFrameRate>().Select(frameRate).ExecuteAsync() as Hero3Camera;
-        }
-
-        public Hero3Camera FrameRate(out FrameRate frameRate)
-        {
-            frameRate = base.ExtendedSettings().FrameRate;
-            return this;
+            return ExtendedSettings().FrameRate;
         }
 
         public async Task<FrameRate> FrameRateAsync()
         {
-            return (await base.ExtendedSettingsAsync()).FrameRate;
+            return (await ExtendedSettingsAsync()).FrameRate;
         }
 
         public IEnumerable<FrameRate> ValidFrameRate()
@@ -633,83 +601,76 @@ namespace GoPro.Hero.Hero3
             return valid;
         }
 
-        public Hero3Camera ValidFrameRate(out IEnumerable<FrameRate> validFrameRate)
+
+        public Hero3Camera BurstRate(BurstRate burstRate)
         {
-            validFrameRate = ValidFrameRate();
+            PrepareCommand<CommandCameraBurstRate>().Select(burstRate).Execute();
             return this;
         }
 
-        public Hero3Camera BurstRate(BurstRate burstRate, bool nonBlocking = false)
+        public async Task BurstRateAsync(BurstRate burstRate)
         {
-            return ExecuteMultiChoiceCommand<CommandCameraBurstRate, BurstRate>(burstRate, nonBlocking);
+            await PrepareCommand<CommandCameraBurstRate>().Select(burstRate).ExecuteAsync();
         }
 
-        public async Task<Hero3Camera> BurstRateAsync(BurstRate burstRate)
+        public BurstRate BurstRate()
         {
-            return await base.PrepareCommand<CommandCameraBurstRate>().Select(burstRate).ExecuteAsync() as Hero3Camera;
+            return ExtendedSettings().BurstRate;
         }
 
-        public Hero3Camera BurstRate(out BurstRate burstRate)
+        public async Task<BurstRate> BurstRateAsync()
         {
-            burstRate = base.ExtendedSettings().BurstRate;
+            return (await ExtendedSettingsAsync()).BurstRate;
+        }
+
+
+        public Hero3Camera ContinuousShot(ContinuousShot continuousShot)
+        {
+            PrepareCommand<CommandCameraContinuousShot>().Select(continuousShot).Execute();
             return this;
         }
 
-        public async Task<BurstRate> BurstRate()
+        public async Task ContinuousShotAsync(ContinuousShot continuousShot)
         {
-            return (await base.ExtendedSettingsAsync()).BurstRate;
+             await PrepareCommand<CommandCameraContinuousShot>().Select(continuousShot).ExecuteAsync();
         }
 
-        public Hero3Camera ContinuousShot(ContinuousShot continuousShot , bool nonBlocking = false)
+        public ContinuousShot ContinuousShot()
         {
-            return ExecuteMultiChoiceCommand<CommandCameraContinuousShot, ContinuousShot>(continuousShot, nonBlocking);
-        }
-
-        public async Task<Hero3Camera> ContinuousShotAsync(ContinuousShot continuousShot)
-        {
-            return await base.PrepareCommand<CommandCameraContinuousShot>().Select(continuousShot).ExecuteAsync() as Hero3Camera;
-        }
-
-        public Hero3Camera ContinuousShot(out ContinuousShot continuousShot)
-        {
-            continuousShot = base.ExtendedSettings().ContinuousShot;
-            return this;
+            return ExtendedSettings().ContinuousShot;
         }
 
         public async Task<ContinuousShot> ContinuousShotAsync()
         {
-            return (await base.ExtendedSettingsAsync()).ContinuousShot;
+            return (await ExtendedSettingsAsync()).ContinuousShot;
         }
 
-        public Hero3Camera PhotoInVideo(PhotoInVideo photoInVideo, bool nonBlocking = false)
-        {
-            return ExecuteMultiChoiceCommand<CommandCameraPhotoInVideo, PhotoInVideo>(photoInVideo, nonBlocking);
-        }
 
-        public async Task<Hero3Camera> PhotoInVideoAsync(PhotoInVideo photoInVideo)
+        public Hero3Camera PhotoInVideo(PhotoInVideo photoInVideo)
         {
-            return await base.PrepareCommand<CommandCameraPhotoInVideo>().Select(photoInVideo).ExecuteAsync() as Hero3Camera;
-        }
-
-        public Hero3Camera PhotoInVideo(out PhotoInVideo photoInVideo)
-        {
-            photoInVideo = base.ExtendedSettings().PhotoInVideo;
+            PrepareCommand<CommandCameraPhotoInVideo>().Select(photoInVideo).Execute();
             return this;
+        }
+
+        public async Task PhotoInVideoAsync(PhotoInVideo photoInVideo)
+        {
+             await PrepareCommand<CommandCameraPhotoInVideo>().Select(photoInVideo).ExecuteAsync();
+        }
+
+        public PhotoInVideo PhotoInVideo()
+        {
+            return ExtendedSettings().PhotoInVideo;
         }
 
         public async Task<PhotoInVideo> PhotoInVideoAsync()
         {
-            return (await base.ExtendedSettingsAsync()).PhotoInVideo;
+            return (await ExtendedSettingsAsync()).PhotoInVideo;
         }
 
-        public new Hero3Camera Shutter(bool state, bool nonBlocking = false)
-        {
-            return base.Shutter(state, nonBlocking) as Hero3Camera;
-        }
 
-        public new async Task<Hero3Camera> ShutterAsync(bool state)
+        public new Hero3Camera Shutter(bool state)
         {
-            return await base.ShutterAsync(state) as Hero3Camera;
+            return base.Shutter(state) as Hero3Camera;
         }
 
         public Hero3Camera OpenShutter()
@@ -717,9 +678,9 @@ namespace GoPro.Hero.Hero3
             return Shutter(true);
         }
 
-        public async Task<Hero3Camera> OpenShutterAsync()
+        public async Task OpenShutterAsync()
         {
-            return await ShutterAsync(true);
+             await ShutterAsync(true);
         }
 
         public Hero3Camera CloseShutter()
@@ -727,30 +688,25 @@ namespace GoPro.Hero.Hero3
             return Shutter(false);
         }
 
-        public async Task<Hero3Camera> CloseShutterAsync()
+        public async Task CloseShutterAsync()
         {
-            return await ShutterAsync(false);
+             await ShutterAsync(false);
         }
 
-        public Hero3Camera Shutter(out bool state)
+        public bool Shutter()
         {
-            state = base.ExtendedSettings().Shutter || base.BacpacStatus().ShutterStatus > 0;
-            return this;
+            return ExtendedSettings().Shutter || BacpacStatus().ShutterStatus > 0;
         }
 
         public async Task<bool> ShutterAsync()
         {
-            return (await base.ExtendedSettingsAsync()).Shutter || (await base.BacpacStatusAsync()).ShutterStatus > 0;
+            return (await ExtendedSettingsAsync()).Shutter || (await BacpacStatusAsync()).ShutterStatus > 0;
         }
 
-        public new Hero3Camera Power(bool state, bool nonBlocking = false)
-        {
-            return base.Power(state, nonBlocking) as Hero3Camera;
-        }
 
-        public new async Task<Hero3Camera> PowerAsync(bool state)
+        public new Hero3Camera Power(bool state)
         {
-            return await base.PowerAsync(state) as Hero3Camera;
+            return base.Power(state) as Hero3Camera;
         }
 
         public Hero3Camera PowerOn()
@@ -758,9 +714,9 @@ namespace GoPro.Hero.Hero3
             return Power(true);
         }
 
-        public async Task<Hero3Camera> PowerOnAsync()
+        public async Task PowerOnAsync()
         {
-            return await PowerAsync(true);
+             await PowerAsync(true);
         }
 
         public Hero3Camera PowerOff()
@@ -768,178 +724,179 @@ namespace GoPro.Hero.Hero3
             return Power(false);
         }
 
-        public async Task<Hero3Camera> PowerOffAsync()
+        public async Task PowerOffAsync()
         {
-            return await PowerAsync(false);
+             await PowerAsync(false);
         }
 
-        public Hero3Camera Power(out bool state)
+        public bool Power()
         {
-            state = base.BacpacStatus().CameraPower;
-            return this;
+           return BacpacStatus().CameraPower;
         }
 
         public async Task<bool> PowerAsync()
         {
-            return (await base.BacpacStatusAsync()).CameraPower;
+            return (await BacpacStatusAsync()).CameraPower;
         }
 
-        public Hero3Camera Model(out Model model)
+        public Model Model()
         {
-            model = base.BacpacStatusCache().CameraModel;
-            return this;
+            return BacpacStatusCache().CameraModel;
         }
 
-        public Hero3Camera SignalStrength(out SignalStrength signalStrength)
+        public SignalStrength SignalStrength()
         {
-            signalStrength = base.BacpacStatus().Rssi;
-            return this;
+            return  BacpacStatus().Rssi;
         }
 
         public async Task<SignalStrength> SignalStrengthAsync()
         {
-            return (await base.BacpacStatusAsync()).Rssi;
+            return (await BacpacStatusAsync()).Rssi;
         }
 
-        public Hero3Camera BatteryStatus(out byte batteryStatus)
+        public byte BatteryStatus()
         {
-            batteryStatus = base.Settings().Battery;
-            return this;
+            return Settings().Battery;
         }
 
         public async Task<byte> BatteryStatusAsync()
         {
-            return (await base.SettingsAsync()).Battery;
+            return (await SettingsAsync()).Battery;
         }
 
-        public Hero3Camera PhotoCount(out int photoCount)
+        public int PhotoCount()
         {
-            photoCount = base.ExtendedSettings().PhotosCount;
-            return this;
+            return ExtendedSettings().PhotosCount;
         }
 
         public async Task<int> PhotoCountAsync()
         {
-            return (await base.ExtendedSettingsAsync()).PhotosCount;
+            return (await ExtendedSettingsAsync()).PhotosCount;
         }
 
-        public Hero3Camera AvailablePhotoSpace(out int availableSpace)
+        public int AvailablePhotoSpace()
         {
-            availableSpace = base.ExtendedSettings().PhotosAvailableSpace;
-            return this;
+            return ExtendedSettings().PhotosAvailableSpace;
         }
 
         public async Task<int> AvailablePhotoSpaceAsync()
         {
-            return (await base.ExtendedSettingsAsync()).PhotosAvailableSpace;
+            return (await ExtendedSettingsAsync()).PhotosAvailableSpace;
         }
 
-        public Hero3Camera VideoCount(out int videoCount)
+        public int VideoCount()
         {
-            videoCount = base.ExtendedSettings().VideosCount;
-            return this;
+            return ExtendedSettings().VideosCount;
         }
 
         public async Task<int> VideoCountAsync()
         {
-            return (await base.ExtendedSettingsAsync()).VideosCount;
+            return (await ExtendedSettingsAsync()).VideosCount;
         }
 
-        public Hero3Camera AvailableVideoSpace(out TimeSpan availableSpace)
+        public TimeSpan AvailableVideoSpace()
         {
-            var seconds = base.ExtendedSettings().VideosAvailableSpace;
-            availableSpace = new TimeSpan(0, 0, seconds);
-            return this;
+            var seconds = ExtendedSettings().VideosAvailableSpace;
+            return new TimeSpan(0, 0, seconds);
         }
 
         public async Task<TimeSpan> AvailableVideoSpaceAsync()
         {
-            var seconds = (await base.ExtendedSettingsAsync()).VideosAvailableSpace;
+            var seconds = (await ExtendedSettingsAsync()).VideosAvailableSpace;
             var availableSpace = new TimeSpan(0, 0, seconds);
             return availableSpace;
         }
 
-        public Hero3Camera MacAddress(out string macAddress)
+        public string MacAddress()
         {
-            macAddress = base.BacpacInformationCache().MacAddress;
-            return this;
+            return BacpacInformationCache().MacAddress;
         }
 
-        public Hero3Camera IpAddress(out string ipAddress)
+        public string IpAddress()
         {
-            ipAddress = base.Bacpac.Address;
-            return this;
+            return Bacpac.Address;
         }
 
-        public Hero3Camera Password(out string password)
+        public string Password()
         {
-            password = base.Bacpac.Password;
-            return this;
+            return Bacpac.Password;
         }
 
-        public Hero3Camera BootLoader(out Version version)
+        public Version BootLoader()
         {
-            version = base.BacpacInformationCache().BootloaderVersion;
-            return this;
+            return BacpacInformationCache().BootloaderVersion;
         }
 
-        public Hero3Camera Firmware(out Version version)
+        public Version Firmware()
         {
-            version = base.BacpacInformationCache().FirmwareVersion;
-            return this;
+            return BacpacInformationCache().FirmwareVersion;
         }
 
-        public Hero3Camera Ssid(out string ssid)
+        public string Ssid()
         {
-            ssid = base.BacpacInformationCache().Ssid;
-            return this;
+            return BacpacInformationCache().Ssid;
         }
 
-        public Hero3Camera FullName(out string fullName)
+        public string FullName()
         {
-            fullName = base.Information().Name;
-            return this;
+            return Information().Name;
         }
 
         public async Task<string> FullNameAsync()
         {
-            return (await base.InformationAsync()).Name;
+            return (await InformationAsync()).Name;
         }
 
-        public Hero3Camera Version(out string version)
+        public string Version()
         {
-            version = base.InformationCache().Version;
-            return this;
+            return InformationCache().Version;
         }
 
-        public Hero3Camera LivePreviewAvailable(out bool state)
+        public bool LivePreviewAvailable()
         {
-            state = base.ExtendedSettings().PreviewAvailable;
-            return this;
+            return ExtendedSettings().PreviewAvailable;
         }
 
         public async Task<bool> LivePreviewAvailableAsync()
         {
-            return (await base.ExtendedSettingsAsync()).PreviewAvailable;
+            return (await ExtendedSettingsAsync()).PreviewAvailable;
         }
 
-        private Hero3Camera ExecuteMultiChoiceCommand<T, TO>(TO selection, bool nonBlocking) where T : CommandMultiChoice<TO, ICamera>
+
+        public Hero3Camera Chain(params Func<Hero3Camera, object>[] actions)
         {
-            var task = base.PrepareCommand<T>().Select(selection).ExecuteAsync();
+            foreach (var a in actions)
+            {
+                var res = a(this);
+                if (res is ICamera)
+                    continue;
 
-            if (!nonBlocking)
-                task.Wait();
-
+                AsyncHelpers.RunSync(() => (Task)res);
+            }
             return this;
         }
 
-        private Hero3Camera ExecuteBooleanCommand<T>(bool value, bool nonBlocking) where T : CommandBoolean<ICamera>
+        public async Task ChainAsync(params Func<Hero3Camera, object>[] actions)
         {
-            var task = base.PrepareCommand<T>().Set(value).ExecuteAsync();
+            foreach (var a in actions)
+            {
+                var res = a(this);
+                if (res is ICamera)
+                    continue;
 
-            if (!nonBlocking)
-                task.Wait();
+                await (Task)res;
+            }
+        }
 
+        public async Task ChainAsync(params Func<Hero3Camera, Task>[] actions)
+        {
+            foreach (var a in actions)
+                await a(this);
+        }
+
+        public Hero3Camera Chain<T>(Func<Hero3Camera, T> f, out T output)
+        {
+            output = f(this);
             return this;
         }
     }

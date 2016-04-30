@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using GoPro.Hero.Commands;
 using GoPro.Hero.Filtering;
+using GoPro.Hero.Utilities;
 
 namespace GoPro.Hero
 {
@@ -94,100 +95,72 @@ namespace GoPro.Hero
             return _filter;
         }
 
-        public Bacpac UpdatePassword(bool nonBlocking = false)
+        public Bacpac UpdatePassword()
         {
-            var task=UpdatePasswordAsync();
-
-            if (!nonBlocking) 
-                task.Wait();
-
+            AsyncHelpers.RunSync(UpdatePasswordAsync);
             return this;
         }
 
-        public async Task<Bacpac> UpdatePasswordAsync()
+        public async Task UpdatePasswordAsync()
         {
             var request = CreateCommand<CommandBacpacRetrievePassword>();
             var response = await request.SendAsync();
 
             var length = response.RawResponse[1];
             Password = Encoding.UTF8.GetString(response.RawResponse, 2, length);
-
-            return this;
         }
 
-        public Bacpac Shutter(bool open, bool nonBlocking = false)
+        public Bacpac Shutter(bool open)
         {
-            var task = ShutterAsync(open);
-
-            if (!nonBlocking)
-                task.Wait();
-
+            AsyncHelpers.RunSync(() => ShutterAsync(open));
             return this;
         }
 
-        public async Task<Bacpac> ShutterAsync(bool open)
+        public async Task ShutterAsync(bool open)
         {
             var request = CreateCommand<CommandBacpacShutter>();
             request.State = open;
             await request.SendAsync();
 
             await UpdateStatusAsync();
-            return this;
         }
 
-        public Bacpac Power(bool on, bool nonBlocking = false)
+        public Bacpac Power(bool on)
         {
-            var task = PowerAsync(on);
-
-            if (!nonBlocking)
-                task.Wait();
-
+            AsyncHelpers.RunSync(() => PowerAsync(on));
             return this;
         }
 
-        public async Task<Bacpac> PowerAsync(bool on)
+        public async Task PowerAsync(bool on)
         {
             var request = CreateCommand<CommandBacpacPowerUp>();
             request.State = on;
             await request.SendAsync();
 
             await UpdateStatusAsync();
-            return this;
         }
 
-        public async Task<Bacpac> ResetAsync()
+        public async Task ResetAsync()
         {
             var request = CreateCommand<CommandBacpacReset>();
             await request.SendAsync(false);
-
-            return this;
         }
 
-        public Bacpac Reset(bool nonBlocking=false)
+        public Bacpac Reset()
         {
-            var task = ResetAsync();
-
-            if (!nonBlocking)
-                task.Wait();
-
+            AsyncHelpers.RunSync(ResetAsync);
             return this;
         }
 
-        public async Task<Bacpac> ConfigureWifiAsync(string name, string password)
+        public async Task ConfigureWifiAsync(string name, string password)
         {
             var request = CreateCommand<CommandBacpacWifiConfigure>().SetName(name).SetPassword(password);
             await request.SendAsync();
-
-            return this;
         }
 
         public Bacpac ConfigureWifi(string name, string password, bool nonBlocking = false)
         {
-            var task = ConfigureWifiAsync(name, password);
-
-            if (!nonBlocking)
-                task.Wait();
-
+            AsyncHelpers.RunSync(() => ConfigureWifiAsync(name, password));
             return this;
         }
 
@@ -210,10 +183,7 @@ namespace GoPro.Hero
 
         public static Bacpac Create(string address)
         {
-            var task = CreateAsync(address);
-            task.Wait();
-
-            return task.Result;
+            return AsyncHelpers.RunSync(() => CreateAsync(address));
         }
     }
 }

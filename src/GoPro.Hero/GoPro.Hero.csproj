@@ -79,6 +79,7 @@
     <Compile Include="ICamera.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Structures.cs" />
+    <Compile Include="Utilities\AsyncHelpers.cs" />
     <Compile Include="Utilities\Extensions.cs" />
     <Compile Include="Utilities\M3u8Parser.cs" />
     <Compile Include="Version.cs" />

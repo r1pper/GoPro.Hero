@@ -4,6 +4,9 @@ using System.Reflection;
 using System.Threading.Tasks;
 using GoPro.Hero.Exceptions;
 using GoPro.Hero.Filtering;
+using System.Net.Http;
+using System.IO;
+using GoPro.Hero.Utilities;
 
 namespace GoPro.Hero.Commands
 {
@@ -28,9 +31,14 @@ namespace GoPro.Hero.Commands
 
         public CommandResponse Send(bool checkStatus = true)
         {
-            var task = SendAsync(checkStatus);
-            task.Wait();
-            return task.Result;
+            var response =  SendRequest();
+
+            if (!checkStatus) return response;
+
+            if (response.Status != CommandResponse.ResponseStatus.Ok)
+                throw new CommandFailedException();
+
+            return response;
         }
 
         public async Task<CommandResponse> SendAsync(bool checkStatus = true)
@@ -45,29 +53,20 @@ namespace GoPro.Hero.Commands
             return response;
         }
 
-        public TO Execute(bool checkStatus = true, bool nonBlocking = false)
+        public TO Execute(bool checkStatus = true)
         {
-            var task = SendAsync(checkStatus);
-
-            if (!nonBlocking)
-                task.Wait();
-
+            Send(checkStatus);
             return Owner;
         }
 
-        public async Task<TO> ExecuteAsync(bool checkStatus = true)
+        public async Task ExecuteAsync(bool checkStatus = true)
         {
             await SendAsync(checkStatus);
-            return Owner;
         }
 
-        public CommandRequest<TO> ExecuteSelf(bool checkStatus = true, bool nonBlocking = false)
+        public CommandRequest<TO> ExecuteSelf(bool checkStatus = true)
         {
-            var task = SendAsync(checkStatus);
-
-            if (!nonBlocking)
-                task.Wait();
-
+            Send(checkStatus);
             return this;
         }
 
@@ -137,63 +136,19 @@ namespace GoPro.Hero.Commands
 
         protected CommandResponse SendRequest()
         {
-            var task = SendRequestAsync();
-            task.Wait();
-            return task.Result;
+            return AsyncHelpers.RunSync(SendRequestAsync);
         }
 
         protected virtual async Task<CommandResponse> SendRequestAsync()
         {
-            return Configuration.CommandRequestMode == Configuration.HttpRequestMode.Async ?
-                await SendRequestAsynchronous() :
-                SendRequestSynchronous();
-        }
+            var uri = GetUri();
+            var request = new HttpClient();
+            var response = await request.GetAsync(uri);
 
-        private async Task<CommandResponse> SendRequestAsynchronous()
-        {
-            var request = WebRequest.Create(GetUri()) as HttpWebRequest;
-            //request.KeepAlive=true;
-            //request.ProtocolVersion=HttpVersion.Version11;
-            //request.SendChunked = true;
-            //request.TransferEncoding="ISO-8859-1";
-
-            if (request != null)
+            using (var ms = new MemoryStream())
             {
-                using (var response = await request.GetResponseAsync() as HttpWebResponse)
-                {
-                    if (response != null)
-                    {
-                        var stream = response.GetResponseStream();
-                        var buffer = new byte[response.ContentLength];
-                        stream.Read(buffer, 0, buffer.Length);
-                        stream.Dispose();
-                        return CommandResponse.Create(buffer);
-                    }
-                }
-            }
-            throw new GoProException();
-        }
-
-        private CommandResponse SendRequestSynchronous()
-        { //NOTE: this method does not work in WP and WinRT devices
-            var request = WebRequest.Create(GetUri()) as HttpWebRequest;
-
-            if (request != null)
-            {
-                var asyncResponse = request.BeginGetResponse(null, null);
-                asyncResponse.AsyncWaitHandle.WaitOne();
-
-                using (var response = request.EndGetResponse(asyncResponse) as HttpWebResponse)
-                {
-                    if (response != null)
-                    {
-                        var stream = response.GetResponseStream();
-                        var buffer = new byte[response.ContentLength];
-                        stream.Read(buffer, 0, buffer.Length);
-                        stream.Dispose();
-                        return CommandResponse.Create(buffer);
-                    }
-                }
+                await response.Content.CopyToAsync(ms);
+                return CommandResponse.Create(ms.ToArray());
             }
             throw new GoProException();
         }

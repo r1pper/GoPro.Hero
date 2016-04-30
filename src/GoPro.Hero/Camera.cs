@@ -18,6 +18,7 @@ namespace GoPro.Hero
         private IFilter<ICamera> _filter;
         protected Bacpac Bacpac;
 
+
         public Camera(Bacpac bacpac)
         {
             SetFilter(new NoFilter<ICamera>());
@@ -214,13 +215,7 @@ namespace GoPro.Hero
             return name.Fix();
         }
 
-        public ICamera GetName(out string name)
-        {
-            name = GetName();
-            return this;
-        }
-
-        public async Task<ICamera> SetNameAsync(string name)
+        public async Task SetNameAsync(string name)
         {
             name = name.UrlEncode();
 
@@ -228,42 +223,34 @@ namespace GoPro.Hero
             request.Name = name;
 
             await request.SendAsync();
-
-            return this;
         }
 
-        public ICamera SetName(string name, bool nonBlocking = false)
+        public ICamera SetName(string name)
         {
-            var task = SetNameAsync(name);
-
-            if (!nonBlocking)
-                task.Wait();
-
+            AsyncHelpers.RunSync (()=>SetNameAsync(name));
             return this;
         }
 
-        public ICamera Shutter(bool open, bool nonBlocking = false)
+        public ICamera Shutter(bool open)
         {
-            Bacpac.Shutter(open, nonBlocking);
+            Bacpac.Shutter(open);
             return this;
         }
 
-        public async Task<ICamera> ShutterAsync(bool open)
+        public async Task ShutterAsync(bool open)
         {
             await Bacpac.ShutterAsync(open);
-            return this;
         }
 
-        public ICamera Power(bool on, bool nonBlocking = false)
+        public ICamera Power(bool on)
         {
-            Bacpac.Power(on , nonBlocking);
+            Bacpac.Power(on);
             return this;
         }
 
-        public async Task<ICamera> PowerAsync(bool on)
+        public async Task PowerAsync(bool on)
         {
             await Bacpac.PowerAsync(on);
-            return this;
         }
 
         public ICamera Command(CommandRequest<ICamera> command)
@@ -272,25 +259,9 @@ namespace GoPro.Hero
             return this;
         }
 
-        public async Task<ICamera> CommandAsync(CommandRequest<ICamera> command)
+        public async Task CommandAsync(CommandRequest<ICamera> command)
         {
             await command.SendAsync();
-            return this;
-        }
-
-        public ICamera Command(CommandRequest<ICamera> command, out CommandResponse commandResponse,
-                               bool checkStatus = true)
-        {
-            commandResponse = Command(command, checkStatus);
-            return this;
-        }
-
-        public async Task<ICamera> CommandAsync(CommandRequest<ICamera> command, Action<CommandResponse> result,
-                       bool checkStatus = true)
-        {
-            var response = await CommandAsync(command, checkStatus);
-            result(response);
-            return this;
         }
 
         public CommandResponse Command(CommandRequest<ICamera> command, bool checkStatus = true)
@@ -311,18 +282,6 @@ namespace GoPro.Hero
         public T PrepareCommand<T>(int port) where T : CommandRequest<ICamera>
         {
             return CommandRequest<ICamera>.Create<T>(this, string.Format("{0}:{1}", Bacpac.Address, port), passPhrase: Bacpac.Password);
-        }
-
-        public ICamera PrepareCommand<T>(out T command) where T : CommandRequest<ICamera>
-        {
-            command = PrepareCommand<T>();
-            return this;
-        }
-
-        public ICamera PrepareCommand<T>(int port, out T command) where T : CommandRequest<ICamera>
-        {
-            command = PrepareCommand<T>(port);
-            return this;
         }
 
         object IFilterProvider.Filter()
