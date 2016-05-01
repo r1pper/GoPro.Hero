@@ -6,7 +6,7 @@ using GoPro.Hero.Utilities;
 
 namespace GoPro.Hero
 {
-    public sealed class Bacpac : IFilterProvider
+    public sealed class Bacpac : IFilterProvider<Bacpac>
     {
         private readonly IFilter<Bacpac> _filter;
         private readonly BacpacInformation _information;
@@ -90,7 +90,7 @@ namespace GoPro.Hero
             _status.Update(stream);
         }
 
-        object IFilterProvider.Filter()
+        IFilter<Bacpac> IFilterProvider<Bacpac>.Filter()
         {
             return _filter;
         }

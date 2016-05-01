@@ -1,7 +1,7 @@
 ﻿namespace GoPro.Hero.Filtering
 {
-    public interface IFilterProvider
+    public interface IFilterProvider<T>where T :IFilterProvider<T>
     {
-        object Filter();
+        IFilter<T> Filter();
     }
 }

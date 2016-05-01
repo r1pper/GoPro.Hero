@@ -4,7 +4,7 @@ using GoPro.Hero.Utilities;
 
 namespace GoPro.Hero.Filtering
 {
-    internal class NoFilter<TO> : IFilter<TO> where TO : IFilterProvider
+    internal class NoFilter<TO> : IFilter<TO> where TO : IFilterProvider<TO>
     {
         public TO Owner { get; set; }
 

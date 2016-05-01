@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Net;
 using System.Reflection;
 using System.Threading.Tasks;
 using GoPro.Hero.Exceptions;
@@ -10,7 +9,7 @@ using GoPro.Hero.Utilities;
 
 namespace GoPro.Hero.Commands
 {
-    public class CommandRequest<TO> where TO : IFilterProvider
+    public class CommandRequest<TO> where TO : IFilterProvider<TO>
     {
         protected string Address;
         protected string Command;
@@ -78,7 +77,7 @@ namespace GoPro.Hero.Commands
 
         protected virtual void Initialize()
         {
-            Filter = (Owner as IFilterProvider).Filter() as IFilter<TO>;
+            Filter = (Owner as IFilterProvider<TO>).Filter();
 
             var type = GetType().GetTypeInfo();
             var commandAtt = type.GetCustomAttribute<CommandAttribute>(true);

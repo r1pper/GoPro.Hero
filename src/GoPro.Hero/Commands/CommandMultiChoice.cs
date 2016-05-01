@@ -4,7 +4,7 @@ using GoPro.Hero.Filtering;
 
 namespace GoPro.Hero.Commands
 {
-    public abstract class CommandMultiChoice<T, TO> : CommandRequest<TO> where TO : IFilterProvider
+    public abstract class CommandMultiChoice<T, TO> : CommandRequest<TO> where TO : IFilterProvider<TO>
     {
         public T Selection
         {

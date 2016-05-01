@@ -3,7 +3,7 @@ using GoPro.Hero.Commands;
 
 namespace GoPro.Hero.Filtering
 {
-    public interface IFilter<TO> where TO : IFilterProvider
+    public interface IFilter<TO> where TO : IFilterProvider<TO>
     {
         void Initialize(TO owner);
 

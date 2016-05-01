@@ -3,7 +3,7 @@ using GoPro.Hero.Filtering;
 
 namespace GoPro.Hero.Commands
 {
-    public abstract class CommandBoolean<TO> : CommandRequest<TO> where TO : IFilterProvider
+    public abstract class CommandBoolean<TO> : CommandRequest<TO> where TO : IFilterProvider<TO>
     {
         protected const string ON = "%01";
         protected const string OFF = "%00";

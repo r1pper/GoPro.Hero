@@ -4,7 +4,7 @@ using GoPro.Hero.Filtering;
 
 namespace GoPro.Hero
 {
-    public interface ICamera : IFilterProvider
+    public interface ICamera : IFilterProvider<ICamera>
     {
         CameraSettings Settings();
         Task<CameraSettings> SettingsAsync();

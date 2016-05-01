@@ -284,7 +284,7 @@ namespace GoPro.Hero
             return CommandRequest<ICamera>.Create<T>(this, string.Format("{0}:{1}", Bacpac.Address, port), passPhrase: Bacpac.Password);
         }
 
-        object IFilterProvider.Filter()
+        IFilter<ICamera> IFilterProvider<ICamera>.Filter()
         {
             return _filter;
         }
