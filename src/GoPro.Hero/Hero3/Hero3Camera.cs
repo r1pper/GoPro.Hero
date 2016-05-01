@@ -863,40 +863,46 @@ namespace GoPro.Hero.Hero3
         }
 
 
-        public Hero3Camera Chain(params Func<Hero3Camera, object>[] actions)
+        public Hero3Camera Chain(params Func<Hero3Camera, Task>[] fs)
         {
-            foreach (var a in actions)
-            {
-                var res = a(this);
-                if (res is ICamera)
-                    continue;
+            foreach (var f in fs)
+                AsyncHelpers.RunSync(() => f(this));
 
-                AsyncHelpers.RunSync(() => (Task)res);
-            }
             return this;
         }
 
-        public async Task ChainAsync(params Func<Hero3Camera, object>[] actions)
+        public async Task ChainAsync(params Func<Hero3Camera, Task>[] fs)
         {
-            foreach (var a in actions)
-            {
-                var res = a(this);
-                if (res is ICamera)
-                    continue;
-
-                await (Task)res;
-            }
-        }
-
-        public async Task ChainAsync(params Func<Hero3Camera, Task>[] actions)
-        {
-            foreach (var a in actions)
-                await a(this);
+            foreach (var f in fs)
+                await f(this);
         }
 
         public Hero3Camera Chain<T>(Func<Hero3Camera, T> f, out T output)
         {
             output = f(this);
+            return this;
+        }
+
+        public Hero3Camera Chain<T>(Func<Hero3Camera, Task<T>> f, out T output)
+        {
+            output =AsyncHelpers.RunSync(()=>f(this));
+            return this;
+        }
+
+        public Hero3Camera Chain<T>(Func<Hero3Camera, T> f, Action<T> output)
+        {
+            output(f(this));
+            return this;
+        }
+
+        public async Task ChainAsync<T>(Func<Hero3Camera, Task<T>> f, Action<T> output)
+        {
+            output(await f(this));
+        }
+
+        public Hero3Camera Chain<T>(Func<Hero3Camera, Task<T>> f, Action<T> output)
+        {
+            output(AsyncHelpers.RunSync(() => f(this)));
             return this;
         }
     }
