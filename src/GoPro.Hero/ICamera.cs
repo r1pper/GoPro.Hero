@@ -1,6 +1,8 @@
 ﻿using System.Threading.Tasks;
 using GoPro.Hero.Commands;
 using GoPro.Hero.Filtering;
+using GoPro.Hero.Browser.FileSystem;
+using System;
 
 namespace GoPro.Hero
 {
@@ -23,12 +25,14 @@ namespace GoPro.Hero
         ICamera SetFilter(IFilter<ICamera> filter);
 
         ICamera Shutter(bool open);
+        Task ShutterAsync(bool open);
         ICamera Command(CommandRequest<ICamera> command);
         Task CommandAsync(CommandRequest<ICamera> command);
         CommandResponse Command(CommandRequest<ICamera> command, bool checkStatus = true);
         Task<CommandResponse> CommandAsync(CommandRequest<ICamera> command, bool checkStatus = true);
 
         ICamera Power(bool on);
+        Task PowerAsync(bool on);
         T PrepareCommand<T>() where T : CommandRequest<ICamera>;
         T PrepareCommand<T>(int port) where T : CommandRequest<ICamera>;
 
@@ -36,5 +40,15 @@ namespace GoPro.Hero
         ICamera SetName(string name);
         Task SetNameAsync(string name);
         Task<string> GetNameAsync();
+
+        Node FileSystem<T>(int port = 8080) where T : IFileSystemBrowser;
+
+        ICamera Chain(params Func<ICamera, Task>[] fs);   
+        ICamera Chain<T>(Func<ICamera, T> f, out T output);
+        ICamera Chain<T>(Func<ICamera, Task<T>> f, out T output);
+        ICamera Chain<T>(Func<ICamera, T> f, Action<T> output);
+        ICamera Chain<T>(Func<ICamera, Task<T>> f, Action<T> output);
+        Task ChainAsync(params Func<ICamera, Task>[] fs);
+        Task ChainAsync<T>(Func<ICamera, Task<T>> f, Action<T> output);
     }
 }

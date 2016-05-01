@@ -360,9 +360,7 @@ namespace GoPro.Hero.Tests
         [TestMethod]
         public void CheckIpAddress()
         {
-            string ipAddress;
-
-            GetCamera().Chain(c=>c.IpAddress(),out ipAddress);
+            var ipAddress = GetCamera().IpAddress();
             Assert.AreEqual(ExpectedParameters.IP_ADDRESS, ipAddress);
         }
 
@@ -411,7 +409,7 @@ namespace GoPro.Hero.Tests
         {
             Model model;
 
-            var modelState = GetCamera().Chain(c => c.Model(),out model).BacpacStatus().CameraModel;
+            var modelState = GetCamera().Chain(c => ((Camera)c).Model(),out model).BacpacStatus().CameraModel;
             Assert.AreEqual(modelState, model);
         }
 
@@ -438,9 +436,7 @@ namespace GoPro.Hero.Tests
         [TestMethod]
         public void CheckPassword()
         {
-            string password;
-
-            GetCamera().Chain(c => c.Password(),out password);
+            var password=GetCamera().Password();
             Assert.AreEqual(ExpectedParameters.PASSWORD, password);
         }
 
@@ -558,7 +554,7 @@ namespace GoPro.Hero.Tests
         {
             string ssid;
 
-            var ssidState = GetCamera().Chain(c => c.Ssid(),out ssid).BacpacInformation().Ssid;
+            var ssidState = GetCamera().Chain(c => ((Camera)c).Ssid(),out ssid).BacpacInformation().Ssid;
             Assert.AreEqual(ssidState, ssid);
         }
 
@@ -587,7 +583,7 @@ namespace GoPro.Hero.Tests
         {
             string version;
 
-            var versionState = GetCamera().Chain(c => c.Version(),out version).Information().Version;
+            var versionState = GetCamera().Chain(c => ((Camera)c).Version(),out version).Information().Version;
             Assert.AreEqual(versionState, version);
         }
 
@@ -633,7 +629,7 @@ namespace GoPro.Hero.Tests
         public void CheckFirmware()
         {
             Version version;
-            var versionState = GetCamera().Chain(c => c.Firmware(),out version).BacpacInformation().FirmwareVersion;
+            var versionState = GetCamera().Chain(c => ((Camera)c).Firmware(),out version).BacpacInformation().FirmwareVersion;
 
             Assert.AreEqual(versionState, version);
         }
@@ -643,7 +639,7 @@ namespace GoPro.Hero.Tests
         {
             string macAddress;
 
-            var bacPacMacAddress = GetCamera().Chain(c => c.MacAddress(),out macAddress).BacpacInformation().MacAddress;
+            var bacPacMacAddress = GetCamera().Chain(c => ((Camera)c).MacAddress(),out macAddress).BacpacInformation().MacAddress;
             Assert.AreEqual(macAddress, bacPacMacAddress);
         }
 

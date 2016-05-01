@@ -75,6 +75,7 @@
     <Compile Include="Filtering\IFilter.cs" />
     <Compile Include="Filtering\IFilterProvider.cs" />
     <Compile Include="Filtering\NoFilter.cs" />
+    <Compile Include="Hero3\Extensions.cs" />
     <Compile Include="Hero3\Hero3Camera.cs" />
     <Compile Include="ICamera.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

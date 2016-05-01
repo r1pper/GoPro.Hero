@@ -302,6 +302,89 @@ namespace GoPro.Hero
             return node;
         }
 
+        public string MacAddress()
+        {
+            return BacpacInformationCache().MacAddress;
+        }
+
+        public string IpAddress()
+        {
+            return Bacpac.Address;
+        }
+
+        public string Password()
+        {
+            return Bacpac.Password;
+        }
+
+        public Version BootLoader()
+        {
+            return BacpacInformationCache().BootloaderVersion;
+        }
+
+        public Version Firmware()
+        {
+            return BacpacInformationCache().FirmwareVersion;
+        }
+
+        public string Ssid()
+        {
+            return BacpacInformationCache().Ssid;
+        }
+
+        public string Version()
+        {
+            return InformationCache().Version;
+        }
+
+        public Model Model()
+        {
+            return BacpacStatusCache().CameraModel;
+        }
+
+        public ICamera Chain(params Func<ICamera, Task>[] fs)
+        {
+            foreach (var f in fs)
+                AsyncHelpers.RunSync(() => f(this));
+
+            return this;
+        }
+
+        public async Task ChainAsync(params Func<ICamera, Task>[] fs)
+        {
+            foreach (var f in fs)
+                await f(this);
+        }
+
+        public ICamera Chain<T>(Func<ICamera, T> f, out T output)
+        {
+            output = f(this);
+            return this;
+        }
+
+        public ICamera Chain<T>(Func<ICamera, Task<T>> f, out T output)
+        {
+            output = AsyncHelpers.RunSync(() => f(this));
+            return this;
+        }
+
+        public ICamera Chain<T>(Func<ICamera, T> f, Action<T> output)
+        {
+            output(f(this));
+            return this;
+        }
+
+        public async Task ChainAsync<T>(Func<ICamera, Task<T>> f, Action<T> output)
+        {
+            output(await f(this));
+        }
+
+        public ICamera Chain<T>(Func<ICamera, Task<T>> f, Action<T> output)
+        {
+            output(AsyncHelpers.RunSync(() => f(this)));
+            return this;
+        }
+
         public static T Create<T>(Bacpac bacpac) where T : Camera, ICamera
         {
             var task = CreateAsync<T>(bacpac);
