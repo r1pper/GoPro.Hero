@@ -6,7 +6,20 @@ using System;
 
 namespace GoPro.Hero
 {
-    public interface ICamera<T> where T :ICamera<T>,IFilterProvider<T>
+    public interface ICamera
+    {
+        void Command(ICommandRequest command);
+        Task CommandAsync(ICommandRequest command);
+        CommandResponse Command(ICommandRequest command, bool checkStatus = true);
+        Task<CommandResponse> CommandAsync(ICommandRequest command, bool checkStatus = true);
+
+        TC PrepareCommand<TC>() where TC : CommandRequest;
+        TC PrepareCommand<TC>(int port) where TC : CommandRequest;
+
+        Node FileSystem<TF>(int port = 8080) where TF : IFileSystemBrowser;
+    }
+
+    public interface ICamera<T>:ICamera where T :ICamera<T>,IFilterProvider<T>
     {
         T SetFilter(IFilter<T> filter);
 
@@ -19,10 +32,8 @@ namespace GoPro.Hero
 
         T Power(bool on);
         Task PowerAsync(bool on);
-        TC PrepareCommand<TC>() where TC : CommandRequest<T>;
-        TC PrepareCommand<TC>(int port) where TC : CommandRequest<T>;
-
-        Node<T> FileSystem<TF>(int port = 8080) where TF : IFileSystemBrowser<T>;
+        new TC PrepareCommand<TC>() where TC : CommandRequest<T>;
+        new TC PrepareCommand<TC>(int port) where TC : CommandRequest<T>;
 
         T Chain(params Func<T, Task>[] fs);   
         T Chain<TD>(Func<T, TD> f, out TD output);

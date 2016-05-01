@@ -19,8 +19,8 @@ namespace GoPro.Hero.Tests
             return camera;
         }
 
-        private void ChangeSelection<T, TS>(Camera camera, TS select, Func<ICamera, TS> valueRetriever)
-            where T : CommandMultiChoice<TS, ICamera>
+        private void ChangeSelection<T, TS>(Camera camera, TS select, Func<Camera, TS> valueRetriever)
+            where T : CommandMultiChoice<TS, Camera>
         {
             var command = camera.PrepareCommand<T>();
             command.Selection = select;
@@ -29,8 +29,8 @@ namespace GoPro.Hero.Tests
             Assert.AreEqual(select, res);
         }
 
-        public void CheckMultiChoiceCommand<T, TS>(Func<ICamera, TS> valueRetriever)
-            where T : CommandMultiChoice<TS, ICamera>
+        public void CheckMultiChoiceCommand<T, TS>(Func<Camera, TS> valueRetriever)
+            where T : CommandMultiChoice<TS, Camera>
         {
             var camera = GetCamera();
             var init = valueRetriever(camera);
@@ -46,7 +46,7 @@ namespace GoPro.Hero.Tests
             ChangeSelection<T, TS>(camera, init, valueRetriever);
         }
 
-        private void CheckBooleanCommand<T>(Func<ICamera, bool> valueRetriever) where T : CommandBoolean<ICamera>
+        private void CheckBooleanCommand<T>(Func<Camera, bool> valueRetriever) where T : CommandBoolean<Camera>
         {
             var camera = GetCamera();
             var init = valueRetriever(camera);
@@ -406,20 +406,20 @@ namespace GoPro.Hero.Tests
             Assert.IsTrue(batteryCamera<=100);
         }
 
-        private class FilterTest : IFilter<ICamera>
+        private class FilterTest : IFilter<Camera>
         {
-            public void Initialize(ICamera owner)
+            public void Initialize(Camera owner)
             {
                 if (owner == null)
                     Assert.Fail("Owner is Null");
             }
 
-            public IEnumerable<T> GetValidStates<T, TC>(string command) where TC : CommandMultiChoice<T, ICamera>
+            public IEnumerable<T> GetValidStates<T, TC>(string command) where TC : CommandMultiChoice<T, Camera>
             {
                 throw new NotImplementedException();
             }
 
-            public IEnumerable<bool> GetValidStates<TC>(string command) where TC : CommandBoolean<ICamera>
+            public IEnumerable<bool> GetValidStates<TC>(string command) where TC : CommandBoolean<Camera>
             {
                 throw new NotImplementedException();
             }

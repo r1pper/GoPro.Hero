@@ -2,14 +2,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using GoPro.Hero.Filtering;
 
 namespace GoPro.Hero.Browser.Media
 {
-    public abstract class MediaBrowser<T>:IMediaBrowser<T>where T :ICamera<T>,IFilterProvider<T>
+    public abstract class MediaBrowser:IMediaBrowser
     {
         public Uri Address { get; private set; }
-        public T Camera { get; private set; }
+        public ICamera Camera { get; private set; }
 
         public string Id { get; protected set; }
         public string Destination { get; protected set; }
@@ -19,13 +18,13 @@ namespace GoPro.Hero.Browser.Media
             get { return ContentAsync(name).Result; }
         }
 
-        protected virtual void Initialize(T camera, Uri address)
+        protected virtual void Initialize(ICamera camera, Uri address)
         {
             Address = address;
             Camera = camera;
         }
 
-        void IGeneralBrowser<T>.Initialize(T camera, Uri address)
+        void IGeneralBrowser.Initialize(ICamera camera, Uri address)
         {
             Initialize(camera, address);
         }
@@ -52,9 +51,9 @@ namespace GoPro.Hero.Browser.Media
 
         public abstract Task<IEnumerable<IMedia>> ContentsAsync();
 
-        public async Task<IEnumerable<TC>> ContentsAsync<TC>() where TC : IMedia
+        public async Task<IEnumerable<T>> ContentsAsync<T>() where T : IMedia
         {
-            return  (await ContentsAsync()).Where(c => c.GetType() == typeof(T)).Cast<TC>();
+            return  (await ContentsAsync()).Where(c => c.GetType() == typeof(T)).Cast<T>();
         }
 
         public async Task<IEnumerable<TimeLapsedImage>> TimeLapsesAsync()

@@ -9,7 +9,7 @@ using GoPro.Hero.Utilities;
 namespace GoPro.Hero.Commands
 {
     [Command(HeroCommands.GOPRO_MEDIALIST,InSecure=true,Parameterless=true)]
-    public class CommandGoProMediaList : CommandRequest<ICamera>
+    public class CommandGoProMediaList : CommandRequest
     {
         protected override sealed async Task<CommandResponse> SendRequestAsync()
         {
@@ -21,7 +21,7 @@ namespace GoPro.Hero.Commands
     }
 
     [Command(HeroCommands.GOPRO_MEDIADATA,InSecure=true)]
-    public class CommandGoProThumbnail : CommandRequest<ICamera>
+    public class CommandGoProThumbnail : CommandRequest
     {
         public string Path
         {
@@ -56,7 +56,7 @@ namespace GoPro.Hero.Commands
         }
     }
 
-    public abstract class CommandGoProMetaData : CommandRequest<ICamera>
+    public abstract class CommandGoProMetaData : CommandRequest
     {
         public string Path
         {

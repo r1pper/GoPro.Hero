@@ -2,12 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using GoPro.Hero.Filtering;
 using GoPro.Hero.Browser.FileSystem;
 
 namespace GoPro.Hero.Browser.Media
 {
-    public class AmbarellaMediaBrowser<T>:MediaBrowser<T> where T :ICamera<T>, IFilterProvider<T>
+    public class AmbarellaMediaBrowser:MediaBrowser
     {
         private const string  GROUP_ETC="etc";
         private const string GROUP_TIMELAPSED = "timeLapsed";
@@ -15,7 +14,7 @@ namespace GoPro.Hero.Browser.Media
 
         public override async Task<IEnumerable<IMedia>> ContentsAsync()
         {
-            var fs = Camera.FileSystem<AmbarellaBrowser<T>>();
+            var fs = Camera.FileSystem<AmbarellaBrowser>();
 
             var videos = await fs.ChildAsync("videos");
             var dcim = await videos.ChildAsync("DCIM");
@@ -26,13 +25,13 @@ namespace GoPro.Hero.Browser.Media
             return Convert(groups);
         }
 
-        protected override void Initialize(T camera, Uri address)
+        protected override void Initialize(ICamera camera, Uri address)
         {
             base.Initialize(camera, address);
             Destination = DESTINATION;
         }
 
-        private IEnumerable<IMedia> Convert(IEnumerable<IGrouping<string, Node<T>>> groups)
+        private IEnumerable<IMedia> Convert(IEnumerable<IGrouping<string, Node>> groups)
         {
             var etc = groups.Where(g => g.Key == GROUP_ETC).FirstOrDefault();
             if (etc == null) 
@@ -56,7 +55,7 @@ namespace GoPro.Hero.Browser.Media
             return images.Cast<IMedia>().Union(videos.Cast<IMedia>()).Union(timeLapses.Cast<IMedia>());
         }
 
-        private Image Image(Node<T> node)
+        private Image Image(Node node)
         {
             var image = new ImageParameters
             {
@@ -67,7 +66,7 @@ namespace GoPro.Hero.Browser.Media
             return Media<ImageParameters>.Create<Image>(image, this);
         }
 
-        private Video Video(Node<T> node, IEnumerable<Node<T>> loweResVideo)
+        private Video Video(Node node, IEnumerable<Node> loweResVideo)
         {
             var lowRes = loweResVideo != null ? loweResVideo.Where(n => n.NameWithoutExtension() == node.NameWithoutExtension()).FirstOrDefault() : null;
 
@@ -81,7 +80,7 @@ namespace GoPro.Hero.Browser.Media
             return Media<VideoParameters>.Create<Video>(video, this);
         }
 
-        private TimeLapsedImage TimeLapse(IEnumerable<Node<T>> nodes)
+        private TimeLapsedImage TimeLapse(IEnumerable<Node> nodes)
         {
             var timeLapse=new TimeLapsedImageParameters
             {

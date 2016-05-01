@@ -3,15 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
-using GoPro.Hero.Filtering;
 
 namespace GoPro.Hero.Browser.FileSystem
 {
-    public class Node<T> where T :ICamera<T>,IFilterProvider<T>
+    public class Node
     {
-        private readonly IFileSystemBrowser<T> _browser;
+        private readonly IFileSystemBrowser _browser;
 
-        private Node(T camera, Uri address, IFileSystemBrowser<T> browser)
+        private Node(ICamera camera, Uri address, IFileSystemBrowser browser)
             : this(camera, address, NodeType.Root, string.Empty, browser)
         {
             Type = address.AbsolutePath == "/"
@@ -21,7 +20,7 @@ namespace GoPro.Hero.Browser.FileSystem
                              : NodeType.Folder;
         }
 
-        internal Node(T camera, Uri address, NodeType type, string size, IFileSystemBrowser<T> browser)
+        internal Node(ICamera camera, Uri address, NodeType type, string size, IFileSystemBrowser browser)
         {
             _browser = browser;
             Camera = camera;
@@ -33,13 +32,13 @@ namespace GoPro.Hero.Browser.FileSystem
             Name = string.IsNullOrEmpty(segments.Last()) ? segments[segments.Length - 2] : segments.Last();
         }
 
-        public T Camera { get; private set; }
+        public ICamera Camera { get; private set; }
         public string Name { get; private set; }
         public Uri Path { get; private set; }
         public NodeType Type { get; private set; }
         public string Size { get; private set; }
 
-        public Node<T> this[string name]
+        public Node this[string name]
         {
             get { return Child(name); }
         }
@@ -69,52 +68,52 @@ namespace GoPro.Hero.Browser.FileSystem
             return Name.Split('.').First();
         }
 
-        public IEnumerable<Node<T>> Children(string name)
+        public IEnumerable<Node> Children(string name)
         {
             return ChildrenAsync(name).Result;
         }
 
-        public async Task<IEnumerable<Node<T>>> ChildrenAsync(string name)
+        public async Task<IEnumerable<Node>> ChildrenAsync(string name)
         {
             return (await NodesAsync()).Where(n => n.Name == name);
         }
 
-        public Node<T> Child(string name)
+        public Node Child(string name)
         {
             return ChildAsync(name).Result;
         }
 
-        public async Task<Node<T>> ChildAsync(string name)
+        public async Task<Node> ChildAsync(string name)
         {
             return (await this.ChildrenAsync(name)).FirstOrDefault();
         }
 
-        public IEnumerable<Node<T>> Nodes()
+        public IEnumerable<Node> Nodes()
         {
             return _browser.Nodes(this);
         }
 
-        public async Task<IEnumerable<Node<T>>> NodesAsync()
+        public async Task<IEnumerable<Node>> NodesAsync()
         {
             return await _browser.NodesAsync(this);
         }
 
-        public IEnumerable<Node<T>> Folders()
+        public IEnumerable<Node> Folders()
         {
             return FoldersAsync().Result;
         }
 
-        public async Task<IEnumerable<Node<T>>> FoldersAsync()
+        public async Task<IEnumerable<Node>> FoldersAsync()
         {
             return (await _browser.NodesAsync(this)).Where(node => node.Type == NodeType.Folder);
         }
 
-        public IEnumerable<Node<T>> Files()
+        public IEnumerable<Node> Files()
         {
             return FilesAsync().Result;
         }
 
-        public async Task<IEnumerable<Node<T>>> FilesAsync()
+        public async Task<IEnumerable<Node>> FilesAsync()
         {
             return (await _browser.NodesAsync(this)).Where(node => node.Type == NodeType.File);
         }
@@ -134,18 +133,18 @@ namespace GoPro.Hero.Browser.FileSystem
             return Name;
         }
 
-        public static Node<T> Create<TB>(T camera, Uri address) where TB : IFileSystemBrowser<T>
+        public static Node Create<TB>(ICamera camera, Uri address) where TB : IFileSystemBrowser
         {
             var browser = Activator.CreateInstance<TB>();
             browser.Initialize(camera, address);
 
-            var node = new Node<T>(camera, address, browser);
+            var node = new Node(camera, address, browser);
             return node;
         }
 
-        public static Node<T> Create(IFileSystemBrowser<T> browser)
+        public static Node Create(IFileSystemBrowser browser)
         {
-            var node = new Node<T>(browser.Camera, browser.Address, browser);
+            var node = new Node(browser.Camera, browser.Address, browser);
             return node;
         }
     }

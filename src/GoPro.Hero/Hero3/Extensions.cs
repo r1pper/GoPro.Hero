@@ -11,9 +11,9 @@ namespace GoPro.Hero.Hero3
     public static class Hero3Extensions
     {
 
-        public static Node<Camera> Browse(this Camera camera)
+        public static Node Browse(this Camera camera)
         {
-            return camera.FileSystem<AmbarellaBrowser<Camera>>();
+            return camera.FileSystem<AmbarellaBrowser>();
         }
 
         public static Camera VideoResolution(this Camera camera, VideoResolution resolution)

@@ -16,7 +16,7 @@ namespace GoPro.Hero.Tests
         }
 
         private void CheckMultipleChoice<T, TC>(Func<T, T> checkDelegate, Func<T> getInit)
-            where TC : CommandMultiChoice<T, ICamera>
+            where TC : CommandMultiChoice<T, Camera>
         {
             var availableValues = GetCamera().PrepareCommand<TC>().ValidStates(); //Enum.GetValues(typeof(T));
             var init = getInit();

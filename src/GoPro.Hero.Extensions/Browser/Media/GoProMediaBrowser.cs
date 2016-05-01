@@ -8,6 +8,7 @@ using GoPro.Hero.Commands;
 using GoPro.Hero.Utilities;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using GoPro.Hero.Filtering;
 
 namespace GoPro.Hero.Browser.Media
 {

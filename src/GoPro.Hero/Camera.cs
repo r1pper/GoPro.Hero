@@ -289,16 +289,16 @@ namespace GoPro.Hero
             return _filter;
         }
 
-        public T Browse<T>(int port = 8080) where T : IGeneralBrowser<Camera>
+        public T Browse<T>(int port = 8080) where T : IGeneralBrowser
         {
             var instance = Activator.CreateInstance<T>();
             instance.Initialize(this,new Uri(string.Format("http://{0}:{1}", Bacpac.Address, port)));
             return instance;
         }
 
-        public Node<Camera> FileSystem<T>(int port = 8080) where T : IFileSystemBrowser<Camera>
+        public Node FileSystem<T>(int port = 8080) where T : IFileSystemBrowser
         {
-            var node = Node<Camera>.Create<T>(this, new Uri(string.Format("http://{0}:{1}", Bacpac.Address, port)));
+            var node = Node.Create<T>(this, new Uri(string.Format("http://{0}:{1}", Bacpac.Address, port)));
             return node;
         }
 
@@ -424,6 +424,37 @@ namespace GoPro.Hero
             var camera = await CreateAsync<T>(bacpac);
 
             return camera;
+        }
+
+
+        void ICamera.Command(ICommandRequest command)
+        {
+            command.Execute();
+        }
+
+        async Task ICamera.CommandAsync(ICommandRequest command)
+        {
+            await command.ExecuteAsync();
+        }
+
+        CommandResponse ICamera.Command(ICommandRequest command, bool checkStatus)
+        {
+            return command.Send(checkStatus);
+        }
+
+        async Task<CommandResponse> ICamera.CommandAsync(ICommandRequest command, bool checkStatus)
+        {
+            return await command.SendAsync(checkStatus);
+        }
+
+        T ICamera.PrepareCommand<T>()
+        {
+            return CommandRequest.Create<T>(Bacpac.Address, passPhrase: Bacpac.Password);
+        }
+
+        T ICamera.PrepareCommand<T>(int port)
+        {
+            return CommandRequest.Create<T>(string.Format("{0}:{1}", Bacpac.Address, port), passPhrase: Bacpac.Password);
         }
     }
 }

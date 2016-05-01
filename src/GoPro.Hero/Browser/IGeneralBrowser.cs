@@ -1,14 +1,13 @@
-﻿using GoPro.Hero.Filtering;
-using System;
+﻿using System;
 
 namespace GoPro.Hero.Browser
 {
-    public interface IGeneralBrowser<T> where T :ICamera<T>, IFilterProvider<T>
+    public interface IGeneralBrowser
     {
         Uri Address { get; }
-        T Camera { get; }
+        ICamera Camera { get; }
         string Destination { get; }
 
-        void Initialize(T camera, Uri address);
+        void Initialize(ICamera camera, Uri address);
     }
 }
