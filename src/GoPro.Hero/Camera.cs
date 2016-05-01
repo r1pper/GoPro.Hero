@@ -9,25 +9,25 @@ using GoPro.Hero.Utilities;
 
 namespace GoPro.Hero
 {
-    public class Camera : ICamera
+    public class Camera : ICamera<Camera>,IFilterProvider<Camera>
     {
         private readonly CameraExtendedSettings _extendedSettings;
         private readonly CameraInformation _information;
         private readonly CameraSettings _settings;
         private CameraCapabilities _capabilities;
-        private IFilter<ICamera> _filter;
+        private IFilter<Camera> _filter;
         protected Bacpac Bacpac;
 
 
         public Camera(Bacpac bacpac)
         {
-            SetFilter(new NoFilter<ICamera>());
+            SetFilter(new NoFilter<Camera>());
 
             _information = new CameraInformation();
             _extendedSettings = new CameraExtendedSettings();
             _settings = new CameraSettings();
 
-            this.Bacpac = bacpac;
+            Bacpac = bacpac;
         }
 
         public CameraInformation Information()
@@ -113,7 +113,7 @@ namespace GoPro.Hero
             _capabilities=CameraCapabilities.Parse(response.RawResponse,capabilityLevel);
         }
 
-        public ICamera SetFilter(IFilter<ICamera> filter)
+        public Camera SetFilter(IFilter<Camera> filter)
         {
             _filter = filter;
             filter.Initialize(this);
@@ -225,13 +225,13 @@ namespace GoPro.Hero
             await request.SendAsync();
         }
 
-        public ICamera SetName(string name)
+        public Camera SetName(string name)
         {
             AsyncHelpers.RunSync (()=>SetNameAsync(name));
             return this;
         }
 
-        public ICamera Shutter(bool open)
+        public Camera Shutter(bool open)
         {
             Bacpac.Shutter(open);
             return this;
@@ -242,7 +242,7 @@ namespace GoPro.Hero
             await Bacpac.ShutterAsync(open);
         }
 
-        public ICamera Power(bool on)
+        public Camera Power(bool on)
         {
             Bacpac.Power(on);
             return this;
@@ -253,52 +253,52 @@ namespace GoPro.Hero
             await Bacpac.PowerAsync(on);
         }
 
-        public ICamera Command(CommandRequest<ICamera> command)
+        public Camera Command(CommandRequest<Camera> command)
         {
             command.Send();
             return this;
         }
 
-        public async Task CommandAsync(CommandRequest<ICamera> command)
+        public async Task CommandAsync(CommandRequest<Camera> command)
         {
             await command.SendAsync();
         }
 
-        public CommandResponse Command(CommandRequest<ICamera> command, bool checkStatus = true)
+        public CommandResponse Command(CommandRequest<Camera> command, bool checkStatus = true)
         {
             return command.Send(checkStatus);
         }
 
-        public async Task<CommandResponse> CommandAsync(CommandRequest<ICamera> command, bool checkStatus = true)
+        public async Task<CommandResponse> CommandAsync(CommandRequest<Camera> command, bool checkStatus = true)
         {
             return await command.SendAsync(checkStatus);
         }
 
-        public T PrepareCommand<T>() where T : CommandRequest<ICamera>
+        public T PrepareCommand<T>() where T : CommandRequest<Camera>
         {
-            return CommandRequest<ICamera>.Create<T>(this, Bacpac.Address, passPhrase: Bacpac.Password);
+            return CommandRequest<Camera>.Create<T>(this, Bacpac.Address, passPhrase: Bacpac.Password);
         }
 
-        public T PrepareCommand<T>(int port) where T : CommandRequest<ICamera>
+        public T PrepareCommand<T>(int port) where T : CommandRequest<Camera>
         {
-            return CommandRequest<ICamera>.Create<T>(this, string.Format("{0}:{1}", Bacpac.Address, port), passPhrase: Bacpac.Password);
+            return CommandRequest<Camera>.Create<T>(this, string.Format("{0}:{1}", Bacpac.Address, port), passPhrase: Bacpac.Password);
         }
 
-        IFilter<ICamera> IFilterProvider<ICamera>.Filter()
+        IFilter<Camera> IFilterProvider<Camera>.Filter()
         {
             return _filter;
         }
 
-        public T Browse<T>(int port = 8080) where T : IGeneralBrowser
+        public T Browse<T>(int port = 8080) where T : IGeneralBrowser<Camera>
         {
             var instance = Activator.CreateInstance<T>();
             instance.Initialize(this,new Uri(string.Format("http://{0}:{1}", Bacpac.Address, port)));
             return instance;
         }
 
-        public Node FileSystem<T>(int port = 8080) where T : IFileSystemBrowser
+        public Node<Camera> FileSystem<T>(int port = 8080) where T : IFileSystemBrowser<Camera>
         {
-            var node = Node.Create<T>(this, new Uri(string.Format("http://{0}:{1}", Bacpac.Address, port)));
+            var node = Node<Camera>.Create<T>(this, new Uri(string.Format("http://{0}:{1}", Bacpac.Address, port)));
             return node;
         }
 
@@ -342,7 +342,7 @@ namespace GoPro.Hero
             return BacpacStatusCache().CameraModel;
         }
 
-        public ICamera Chain(params Func<ICamera, Task>[] fs)
+        public Camera Chain(params Func<Camera, Task>[] fs)
         {
             foreach (var f in fs)
                 AsyncHelpers.RunSync(() => f(this));
@@ -350,42 +350,42 @@ namespace GoPro.Hero
             return this;
         }
 
-        public async Task ChainAsync(params Func<ICamera, Task>[] fs)
+        public async Task ChainAsync(params Func<Camera, Task>[] fs)
         {
             foreach (var f in fs)
                 await f(this);
         }
 
-        public ICamera Chain<T>(Func<ICamera, T> f, out T output)
+        public Camera Chain<T>(Func<Camera, T> f, out T output)
         {
             output = f(this);
             return this;
         }
 
-        public ICamera Chain<T>(Func<ICamera, Task<T>> f, out T output)
+        public Camera Chain<T>(Func<Camera, Task<T>> f, out T output)
         {
             output = AsyncHelpers.RunSync(() => f(this));
             return this;
         }
 
-        public ICamera Chain<T>(Func<ICamera, T> f, Action<T> output)
+        public Camera Chain<T>(Func<Camera, T> f, Action<T> output)
         {
             output(f(this));
             return this;
         }
 
-        public async Task ChainAsync<T>(Func<ICamera, Task<T>> f, Action<T> output)
+        public async Task ChainAsync<T>(Func<Camera, Task<T>> f, Action<T> output)
         {
             output(await f(this));
         }
 
-        public ICamera Chain<T>(Func<ICamera, Task<T>> f, Action<T> output)
+        public Camera Chain<T>(Func<Camera, Task<T>> f, Action<T> output)
         {
             output(AsyncHelpers.RunSync(() => f(this)));
             return this;
         }
 
-        public static T Create<T>(Bacpac bacpac) where T : Camera, ICamera
+        public static T Create<T>(Bacpac bacpac) where T : Camera
         {
             var task = CreateAsync<T>(bacpac);
             task.Wait();
@@ -393,7 +393,7 @@ namespace GoPro.Hero
             return task.Result;
         }
 
-        public static async Task<T> CreateAsync<T>(Bacpac bacpac) where T : Camera, ICamera
+        public static async Task<T> CreateAsync<T>(Bacpac bacpac) where T : Camera
         {
             var camera = Activator.CreateInstance(typeof(T), bacpac) as T;
 
@@ -410,7 +410,7 @@ namespace GoPro.Hero
             return camera;
         }
 
-        public static T Create<T>(string address) where T : Camera, ICamera
+        public static T Create<T>(string address) where T : Camera
         {
             var task = CreateAsync<T>(address);
             task.Wait();
@@ -418,7 +418,7 @@ namespace GoPro.Hero
             return task.Result;
         }
 
-        public static async Task<T> CreateAsync<T>(string address) where T : Camera, ICamera
+        public static async Task<T> CreateAsync<T>(string address) where T : Camera
         {
             var bacpac = await Bacpac.CreateAsync(address);
             var camera = await CreateAsync<T>(bacpac);

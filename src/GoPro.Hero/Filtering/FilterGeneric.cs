@@ -9,36 +9,36 @@ using Extensions = GoPro.Hero.Utilities.Extensions;
 
 namespace GoPro.Hero.Filtering
 {
-    internal class FilterGeneric : IFilter<ICamera>
+    internal class FilterGeneric : IFilter<Camera>
     {
         private const string ROOT = "Filter";
         private const string MODEL = "Model";
 
         private readonly XElement _root;
-        private ICamera _owner;
+        private Camera _owner;
 
         public FilterGeneric(string profileName)
         {
             _root = GetFilterProfile(profileName);
         }
 
-        public void Initialize(ICamera owner)
+        public void Initialize(Camera owner)
         {
             _owner = owner;
         }
 
-        public  IEnumerable<T> GetValidStates<T, TC>(string command) where TC : CommandMultiChoice<T, ICamera>
+        public  IEnumerable<TD> GetValidStates<TD, TC>(string command) where TC : CommandMultiChoice<TD, Camera>
         {
-            var task = GetValidStatesAsync<T, TC>(command);
+            var task = GetValidStatesAsync<TD, TC>(command);
             task.Wait();
             return task.Result;
         }
 
-        public async Task<IEnumerable<T>> GetValidStatesAsync<T, TC>(string command) where TC : CommandMultiChoice<T, ICamera>
+        public async Task<IEnumerable<TD>> GetValidStatesAsync<TD, TC>(string command) where TC : CommandMultiChoice<TD, Camera>
         {
             var elements = _root.Elements(command).ToArray();
             if (!elements.Any())
-                return Extensions.GetValues<T>();
+                return Extensions.GetValues<TD>();
 
             var extendedSettings = await _owner.ExtendedSettingsAsync();
             var bacpacStatus = await _owner.BacpacStatusAsync();
@@ -46,23 +46,23 @@ namespace GoPro.Hero.Filtering
                 elements.First(
                     element =>
                     element.Attributes().All(attribute => HasRequiredSetting(attribute, extendedSettings, bacpacStatus)));
-            if (selectedConfig == null) return new T[0];
+            if (selectedConfig == null) return new TD[0];
 
             var result =
                 selectedConfig.DescendantNodes()
                               .Cast<XElement>()
-                              .Select<XElement, T>(element => (T) Enum.Parse(typeof (T), element.Name.ToString(), true));
+                              .Select(element => (TD) Enum.Parse(typeof (TD), element.Name.ToString(), true));
             return result;
         }
 
-        public  IEnumerable<bool> GetValidStates<TC>(string command) where TC : CommandBoolean<ICamera>
+        public  IEnumerable<bool> GetValidStates<TC>(string command) where TC : CommandBoolean<Camera>
         {
             var task = GetValidStatesAsync<TC>(command);
             task.Wait();
             return task.Result;
         }
 
-        public async Task<IEnumerable<bool>> GetValidStatesAsync<TC>(string command) where TC : CommandBoolean<ICamera>
+        public async Task<IEnumerable<bool>> GetValidStatesAsync<TC>(string command) where TC : CommandBoolean<Camera>
         {
             var elements = _root.Elements(command).ToArray();
             if (!elements.Any())
@@ -79,7 +79,7 @@ namespace GoPro.Hero.Filtering
             var result =
                 selectedConfig.DescendantNodes()
                               .Cast<XElement>()
-                              .Select<XElement, bool>(element => Convert.ToBoolean(element.Name.ToString()));
+                              .Select(element => Convert.ToBoolean(element.Name.ToString()));
             return result;
         }
 

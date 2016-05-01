@@ -1,18 +1,19 @@
-﻿using System;
+﻿using GoPro.Hero.Filtering;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Xml.Linq;
 
 namespace GoPro.Hero.Browser.FileSystem
 {
-    public class AmbarellaBrowser : FileSystemBrowser
+    public class AmbarellaBrowser<T> : FileSystemBrowser<T>where T :ICamera<T>,IFilterProvider<T>
     {
         private const string DEFAULT = "http://10.5.5.9:8080";
 
-        protected override IEnumerable<Node> Parse(XElement page, Node parent)
+        protected override IEnumerable<Node<T>> Parse(XElement page, Node<T> parent)
         {
             if (parent == null)
-                parent = new Node(null, new Uri(DEFAULT), NodeType.Root, string.Empty, this);
+                parent = new Node<T>(default(T), new Uri(DEFAULT), NodeType.Root, string.Empty, this);
 
             var xmlns = page.GetDefaultNamespace().NamespaceName;
             var body = page.Element(XName.Get("body", xmlns));
@@ -46,13 +47,13 @@ namespace GoPro.Hero.Browser.FileSystem
                     var uri = path.StartsWith(parent.Path.ToString()) ? new Uri(path) : new Uri(parent.Path, path);
 
                     yield return 
-                        new Node(Camera, uri, type == "[DIR]" ? NodeType.Folder : NodeType.File, size, this);
+                        new Node<T>(Camera, uri, type == "[DIR]" ? NodeType.Folder : NodeType.File, size, this);
                 }
         }
 
-        public Node Root()
+        public Node<T> Root()
         {
-            return Node.Create(this);
+            return Node<T>.Create(this);
         }
     }
 }

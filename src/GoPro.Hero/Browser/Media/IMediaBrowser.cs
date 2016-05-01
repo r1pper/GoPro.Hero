@@ -1,17 +1,15 @@
-﻿using System;
+﻿using GoPro.Hero.Filtering;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace GoPro.Hero.Browser.Media
 {
-    public interface IMediaBrowser:IGeneralBrowser
+    public interface IMediaBrowser<T>:IGeneralBrowser<T> where T :ICamera<T>,IFilterProvider<T>
     {
-        Task<IMedia> ContentAsync(string name);
-        IMedia Content(string name);
+        Task<IMedia<T>> ContentAsync(string name);
+        IMedia<T> Content(string name);
 
-        Task<IEnumerable<IMedia>> ContentsAsync();
-        IEnumerable<IMedia> Contents();
+        Task<IEnumerable<IMedia<T>>> ContentsAsync();
+        IEnumerable<IMedia<T>> Contents();
     }
 }

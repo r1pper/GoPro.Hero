@@ -5,17 +5,15 @@ using System.Linq;
 using System.Net;
 using System.Text;
 using System.Threading.Tasks;
-using GoPro.Hero.Commands;
-using GoPro.Hero.Exceptions;
-using Newtonsoft.Json.Linq;
+using GoPro.Hero.Filtering;
 
 namespace GoPro.Hero.Browser.Media
 {
-    public abstract class Media<TM>:IMedia,IMediaInitializer<TM> where TM:MediaParameters
+    public abstract class Media<TC,TM>:IMedia<TC>,IMediaInitializer<TC,TM> where TM:MediaParameters where TC :ICamera<TC>,IFilterProvider<TC>
     {
         protected const string ABSOLUTE_PATH = "{0}videos/DCIM/100GOPRO/{1}";
  
-        public IMediaBrowser Browser { get; private set; }
+        public IMediaBrowser<TC> Browser { get; private set; }
         public string Name { get; private set; }
         public long Size { get; private set; }
 
@@ -32,7 +30,7 @@ namespace GoPro.Hero.Browser.Media
             return await webRequest.GetResponseAsync();
         }
      
-        protected virtual void Initiaize(TM token, IMediaBrowser browser)
+        protected virtual void Initiaize(TM token, IMediaBrowser<TC> browser)
         {
             //Name = token["n"].Value<string>();
             //Size = token["s"].Value<long>();
@@ -45,7 +43,7 @@ namespace GoPro.Hero.Browser.Media
 
         public override bool Equals(object obj)
         {
-            var media = obj as Media<TM>;
+            var media = obj as Media<TC,TM>;
             if (media == null) return false;
             return Name == media.Name;
         }
@@ -55,12 +53,12 @@ namespace GoPro.Hero.Browser.Media
             return Name.GetHashCode() * 19;
         }
 
-        void IMediaInitializer<TM>.Initialize(TM token, IMediaBrowser browser)
+        void IMediaInitializer<TC,TM>.Initialize(TM token, IMediaBrowser<TC> browser)
         {
             Initiaize(token, browser);
         }
 
-        internal protected static T Create<T>(TM token, IMediaBrowser browser) where T:Media<TM>,IMediaInitializer<TM>
+        internal protected static T Create<T>(TM token, IMediaBrowser<TC> browser) where T:Media<TC,TM>,IMediaInitializer<TC,TM>
         {
             var instance = Activator.CreateInstance<T>();
             instance.Initialize(token, browser);

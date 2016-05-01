@@ -1,22 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Net;
-using System.Text;
+﻿using System.Net;
 using System.Threading.Tasks;
-using Newtonsoft.Json.Linq;
+using GoPro.Hero.Filtering;
 
 namespace GoPro.Hero.Browser.Media
 {
-    public interface IMediaInitializer<T>where T:MediaParameters
+    public interface IMediaInitializer<TC,T>where T:MediaParameters where TC :ICamera<TC>, IFilterProvider<TC>
     {
-        void Initialize(T token, IMediaBrowser browser);
+        void Initialize(T token, IMediaBrowser<TC> browser);
     }
 
-    public interface IMedia
+    public interface IMedia<T>where T :ICamera<T>, IFilterProvider<T>
     {
-        IMediaBrowser Browser { get; }
+        IMediaBrowser<T> Browser { get; }
         string Name { get;  }
         long Size { get; }
 

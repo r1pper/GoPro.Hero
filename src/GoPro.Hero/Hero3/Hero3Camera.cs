@@ -1,13 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using GoPro.Hero.Browser;
-using GoPro.Hero.Commands;
-using GoPro.Hero.Filtering;
-using System.Linq;
-using GoPro.Hero.Browser.FileSystem;
-using GoPro.Hero.Browser.Media;
-using System.Threading.Tasks;
-using GoPro.Hero.Utilities;
+﻿using GoPro.Hero.Filtering;
 
 namespace GoPro.Hero.Hero3
 {

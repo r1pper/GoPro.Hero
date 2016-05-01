@@ -4,12 +4,12 @@ using GoPro.Hero.Utilities;
 namespace GoPro.Hero.Commands
 {
     [Command(HeroCommands.CAMERA_GET_NAME, Parameterless = true)]
-    internal class CommandCameraGetName : CommandRequest<ICamera>
+    internal class CommandCameraGetName : CommandRequest<Camera>
     {
     }
 
     [Command(HeroCommands.CAMERA_SET_NAME)]
-    internal class CommandCameraSetName : CommandRequest<ICamera>
+    internal class CommandCameraSetName : CommandRequest<Camera>
     {
         public string Name
         {
@@ -35,7 +35,7 @@ namespace GoPro.Hero.Commands
     }
 
     [Command(HeroCommands.CAMERA_TIME)]
-    public class CommandCameraSetTime : CommandRequest<ICamera>
+    public class CommandCameraSetTime : CommandRequest<Camera>
     {
         public DateTime Date
         {
@@ -57,57 +57,57 @@ namespace GoPro.Hero.Commands
     }
 
     [Command(HeroCommands.CAMERA_VIDEO_RESOLUTION)]
-    public class CommandCameraVideoResolution : CommandMultiChoice<VideoResolution, ICamera>
+    public class CommandCameraVideoResolution : CommandMultiChoice<VideoResolution, Camera>
     {
     }
 
     [Command(HeroCommands.CAMERA_ORIENTATION)]
-    public class CommandCameraOrientation : CommandMultiChoice<Orientation, ICamera>
+    public class CommandCameraOrientation : CommandMultiChoice<Orientation, Camera>
     {
     }
 
     [Command(HeroCommands.CAMERA_TIMELAPSE_TI)]
-    public class CommandCameraTimeLapse : CommandMultiChoice<TimeLapse, ICamera>
+    public class CommandCameraTimeLapse : CommandMultiChoice<TimeLapse, Camera>
     {
     }
 
     [Command(HeroCommands.CAMERA_BEEP)]
-    public class CommandCameraBeepSound : CommandMultiChoice<BeepSound, ICamera>
+    public class CommandCameraBeepSound : CommandMultiChoice<BeepSound, Camera>
     {
     }
 
     [Command(HeroCommands.CAMERA_PROTUNE)]
-    public class CommandCameraProtune : CommandBoolean<ICamera>
+    public class CommandCameraProtune : CommandBoolean<Camera>
     {
     }
 
     [Command(HeroCommands.CAMERA_PHOTO_RESOLUTION)]
-    public class CommandCameraPhotoResolution : CommandMultiChoice<PhotoResolution, ICamera>
+    public class CommandCameraPhotoResolution : CommandMultiChoice<PhotoResolution, Camera>
     {
     }
 
     [Command(HeroCommands.CAMERA_OSD)]
-    public class CommandCameraOnScreenDisplay : CommandBoolean<ICamera>
+    public class CommandCameraOnScreenDisplay : CommandBoolean<Camera>
     {
     }
 
     [Command(HeroCommands.CAMERA_VIDEO_MODE)]
-    public class CommandCameraVideoStandard : CommandMultiChoice<VideoStandard, ICamera>
+    public class CommandCameraVideoStandard : CommandMultiChoice<VideoStandard, Camera>
     {
     }
 
     [Command(HeroCommands.CAMERA_MODE)]
-    public class CommandCameraMode : CommandMultiChoice<Mode, ICamera>
+    public class CommandCameraMode : CommandMultiChoice<Mode, Camera>
     {
     }
 
     [Command(HeroCommands.CAMREA_LOCATE)]
-    public class CommandCameraLocate : CommandBoolean<ICamera>
+    public class CommandCameraLocate : CommandBoolean<Camera>
     {
     }
 
     [Command(HeroCommands.CAMREA_LIVE_PREVIEW)]
-    public class CommandCameraPreview : CommandBoolean<ICamera>
+    public class CommandCameraPreview : CommandBoolean<Camera>
     {
         private const string PREVIEW_ON = "%02";
 
@@ -119,83 +119,83 @@ namespace GoPro.Hero.Commands
     }
 
     [Command(HeroCommands.CAMREA_LED_BLINK)]
-    public class CommandCameraLedBlink : CommandMultiChoice<LedBlink, ICamera>
+    public class CommandCameraLedBlink : CommandMultiChoice<LedBlink, Camera>
     {
     }
 
     [Command(HeroCommands.CAMREA_FIELD_OF_VIEW)]
-    public class CommandCameraFieldOfView : CommandMultiChoice<FieldOfView, ICamera>
+    public class CommandCameraFieldOfView : CommandMultiChoice<FieldOfView, Camera>
     {
     }
 
     [Command(HeroCommands.CAMREA_EXPOSURE)]
-    public class CommandCameraSpotMeter : CommandBoolean<ICamera>
+    public class CommandCameraSpotMeter : CommandBoolean<Camera>
     {
     }
 
     [Command(HeroCommands.CAMREA_DEFAULT_MODE)]
-    public class CommandCameraDefaultMode : CommandMultiChoice<Mode, ICamera>
+    public class CommandCameraDefaultMode : CommandMultiChoice<Mode, Camera>
     {
     }
 
     [Command(HeroCommands.CAMREA_AUTO_POWER_OFF)]
-    public class CommandCameraAutoPowerOff : CommandMultiChoice<AutoPowerOff,ICamera>
+    public class CommandCameraAutoPowerOff : CommandMultiChoice<AutoPowerOff, Camera>
     {
     }
 
     [Command(HeroCommands.CAMREA_DELETE_ALL_SD, Parameterless = true)]
-    public class CommandCameraDeleteAllFilesOnSd : CommandRequest<ICamera>
+    public class CommandCameraDeleteAllFilesOnSd : CommandRequest<Camera>
     {
     }
 
     [Command(HeroCommands.CAMERA_DELETE_LAST_SD, Parameterless = true)]
-    public class CommandCameraDeleteLastFileOnSd : CommandRequest<ICamera>
+    public class CommandCameraDeleteLastFileOnSd : CommandRequest<Camera>
     {
     }
 
     [Command(HeroCommands.CAMREA_INFORMATION, Parameterless = true)]
-    public class CommandCameraInformation : CommandRequest<ICamera>
+    public class CommandCameraInformation : CommandRequest<Camera>
     {
     }
 
     [Command(HeroCommands.CAMERA_SETTINGS, Parameterless = true)]
-    public class CommandCameraSettings : CommandRequest<ICamera>
+    public class CommandCameraSettings : CommandRequest<Camera>
     {
     }
 
     [Command(HeroCommands.CAMERA_EXTENDED_SETTINGS, Parameterless = true)]
-    public class CommandCameraExtendedSettings : CommandRequest<ICamera>
+    public class CommandCameraExtendedSettings : CommandRequest<Camera>
     {
     }
 
     [Command(HeroCommands.CAMERA_WHITE_BALANCE)]
-    public class CommandCameraWhiteBalance : CommandMultiChoice<WhiteBalance, ICamera>
+    public class CommandCameraWhiteBalance : CommandMultiChoice<WhiteBalance, Camera>
     {
     }
 
     [Command(HeroCommands.CAMERA_LOOPING_VIDEO)]
-    public class CommandCameraLoopingVideo : CommandMultiChoice<LoopingVideo, ICamera>
+    public class CommandCameraLoopingVideo : CommandMultiChoice<LoopingVideo, Camera>
     {
         //NOTE: Camera only responds to the command at 1080@24, 1080@30, 1440@24 and 720@60
     }
 
     [Command(HeroCommands.CAMERA_FRAMERATE)]
-    public class CommandCameraFrameRate : CommandMultiChoice<FrameRate, ICamera>
+    public class CommandCameraFrameRate : CommandMultiChoice<FrameRate, Camera>
     {
     }
 
     [Command(HeroCommands.CAMERA_BURSTRATE)]
-    public class CommandCameraBurstRate : CommandMultiChoice<BurstRate, ICamera>
+    public class CommandCameraBurstRate : CommandMultiChoice<BurstRate, Camera>
     {
     }
 
     [Command(HeroCommands.CAMERA_CONTINUOUS)]
-    public class CommandCameraContinuousShot : CommandMultiChoice<ContinuousShot, ICamera>
+    public class CommandCameraContinuousShot : CommandMultiChoice<ContinuousShot, Camera>
     {
     }
 
     [Command(HeroCommands.CAMERA_DELETE_FILE)]
-    public class CommandCameraDeleteFile : CommandRequest<ICamera>
+    public class CommandCameraDeleteFile : CommandRequest<Camera>
     {
         public string Path
         {
@@ -211,22 +211,22 @@ namespace GoPro.Hero.Commands
     }
 
     [Command(HeroCommands.CAMERA_LOW_LIGHT)]
-    public class CommandCameraAutoLowLight : CommandBoolean<ICamera>
+    public class CommandCameraAutoLowLight : CommandBoolean<Camera>
     {
     }
 
     [Command(HeroCommands.CAMERA_CAPABILITIES, Parameterless = true)]
-    public class CommandCameraCapabilities : CommandRequest<ICamera>
+    public class CommandCameraCapabilities : CommandRequest<Camera>
     {
     }
 
     [Command(HeroCommands.CAMERA_PHOTO_IN_VIDEO)]
-    public class CommandCameraPhotoInVideo : CommandMultiChoice<PhotoInVideo, ICamera>
+    public class CommandCameraPhotoInVideo : CommandMultiChoice<PhotoInVideo, Camera>
     {
     }
 
     [Command(HeroCommands.CAMERA_ONE_BUTTON_MODE)]
-    public class CommandCameraOneButtonMode : CommandBoolean<ICamera>
+    public class CommandCameraOneButtonMode : CommandBoolean<Camera>
     {
     }
 }
