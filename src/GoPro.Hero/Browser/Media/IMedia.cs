@@ -1,17 +1,16 @@
 ﻿using System.Net;
 using System.Threading.Tasks;
-using GoPro.Hero.Filtering;
 
 namespace GoPro.Hero.Browser.Media
 {
-    public interface IMediaInitializer<TC,T>where T:MediaParameters where TC :ICamera<TC>, IFilterProvider<TC>
+    public interface IMediaInitializer<T>where T:MediaParameters
     {
-        void Initialize(T token, IMediaBrowser<TC> browser);
+        void Initialize(T token, IMediaBrowser browser);
     }
 
-    public interface IMedia<T>where T :ICamera<T>, IFilterProvider<T>
+    public interface IMedia
     {
-        IMediaBrowser<T> Browser { get; }
+        IMediaBrowser Browser { get; }
         string Name { get;  }
         long Size { get; }
 

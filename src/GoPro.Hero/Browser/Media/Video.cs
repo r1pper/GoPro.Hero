@@ -1,18 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Net;
-using System.Text;
+﻿using System.Net;
 using System.Threading.Tasks;
-using GoPro.Hero.Commands;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
-using GoPro.Hero.Filtering;
 
 namespace GoPro.Hero.Browser.Media
 {
-    public class Video<T>:Media<T,VideoParameters> where T : ICamera<T>, IFilterProvider<T>
+    public class Video:Media<VideoParameters>
     {
         private const string EXTENSION_LOW = "LRV";
         private const string EXTENSION_HIGH = "MP4";
@@ -25,7 +16,7 @@ namespace GoPro.Hero.Browser.Media
             return await base.DownloadAsync(lowResName);
         }
 
-        protected sealed override void Initiaize(VideoParameters token, IMediaBrowser<T> browser)
+        protected sealed override void Initiaize(VideoParameters token, IMediaBrowser browser)
         {
             base.Initiaize(token, browser);
             LowResolutionSize = token.LowResolutionSize;

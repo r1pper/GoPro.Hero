@@ -1,17 +1,11 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
-using System.IO;
-using System.Linq;
 using System.Net;
-using System.Text;
 using System.Threading.Tasks;
-using Newtonsoft.Json.Linq;
-using GoPro.Hero.Filtering;
 
 namespace GoPro.Hero.Browser.Media
 {
-    public class TimeLapsedImage<T>:Media<T,TimeLapsedImageParameters>,IEnumerable<WebResponse> where T : ICamera<T>, IFilterProvider<T>
+    public class TimeLapsedImage:Media<TimeLapsedImageParameters>,IEnumerable<WebResponse>
     {
         public int Group { get; private set; }
         public int Start { get; private set; }
@@ -30,7 +24,7 @@ namespace GoPro.Hero.Browser.Media
             return await DownloadAsync(indexName);
         }
 
-        protected sealed override void Initiaize(TimeLapsedImageParameters token, IMediaBrowser<T> browser)
+        protected sealed override void Initiaize(TimeLapsedImageParameters token, IMediaBrowser browser)
         {
             base.Initiaize(token, browser);
 
@@ -57,7 +51,7 @@ namespace GoPro.Hero.Browser.Media
         class TimeLapsedImageEnumerator : IEnumerator<WebResponse>
         {
             public int CurrentIndex { get; private set; }
-            public TimeLapsedImage<T> Owner { get; private set; }
+            public TimeLapsedImage Owner { get; private set; }
             public WebResponse Current{get;private set;}
             object IEnumerator.Current{get { return Current; }}
 
@@ -83,7 +77,7 @@ namespace GoPro.Hero.Browser.Media
 
             }
 
-            public TimeLapsedImageEnumerator(TimeLapsedImage<T> owner)
+            public TimeLapsedImageEnumerator(TimeLapsedImage owner)
             {
                 Owner = owner;
                 CurrentIndex = Owner.Start -1;

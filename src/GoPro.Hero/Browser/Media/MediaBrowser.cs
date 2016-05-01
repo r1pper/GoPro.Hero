@@ -14,7 +14,7 @@ namespace GoPro.Hero.Browser.Media
         public string Id { get; protected set; }
         public string Destination { get; protected set; }
 
-        public IMedia<T> this[string name]
+        public IMedia this[string name]
         {
             get { return ContentAsync(name).Result; }
         }
@@ -30,46 +30,46 @@ namespace GoPro.Hero.Browser.Media
             Initialize(camera, address);
         }
 
-        public IMedia<T> Content(string name)
+        public IMedia Content(string name)
         {
             return ContentAsync(name).Result;
         }
 
-        public IEnumerable<IMedia<T>> Contents()
+        public IEnumerable<IMedia> Contents()
         {
             return ContentsAsync().Result;
         }
 
-        public async Task<IMedia<T>> ContentAsync(string name)
+        public async Task<IMedia> ContentAsync(string name)
         {
             return (await ContentsAsync()).Where(c => c.Name == name).FirstOrDefault();
         }
 
-        public async Task<TC> ContentAsync<TC>(string name)where TC: IMedia<T>
+        public async Task<TC> ContentAsync<TC>(string name)where TC: IMedia
         {
             return (await ContentsAsync<TC>()).Where(c => c.Name == name).FirstOrDefault();
         }
 
-        public abstract Task<IEnumerable<IMedia<T>>> ContentsAsync();
+        public abstract Task<IEnumerable<IMedia>> ContentsAsync();
 
-        public async Task<IEnumerable<TC>> ContentsAsync<TC>() where TC : IMedia<T>
+        public async Task<IEnumerable<TC>> ContentsAsync<TC>() where TC : IMedia
         {
             return  (await ContentsAsync()).Where(c => c.GetType() == typeof(T)).Cast<TC>();
         }
 
-        public async Task<IEnumerable<TimeLapsedImage<T>>> TimeLapsesAsync()
+        public async Task<IEnumerable<TimeLapsedImage>> TimeLapsesAsync()
         {
-            return await ContentsAsync<TimeLapsedImage<T>>();
+            return await ContentsAsync<TimeLapsedImage>();
         }
 
-        public async Task<IEnumerable<Video<T>>> VideosAsync()
+        public async Task<IEnumerable<Video>> VideosAsync()
         {
-            return await ContentsAsync<Video<T>>();
+            return await ContentsAsync<Video>();
         }
 
-        public async Task<IEnumerable<Image<T>>> ImagesAsync()
+        public async Task<IEnumerable<Image>> ImagesAsync()
         {
-            return await ContentsAsync<Image<T>>();
+            return await ContentsAsync<Image>();
         }
     }
 }
