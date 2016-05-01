@@ -66,7 +66,6 @@
     <Compile Include="Commands\CommandRequest.cs" />
     <Compile Include="Commands\CommandResponse.cs" />
     <Compile Include="Commands\HeroCommands.cs" />
-    <Compile Include="Configuration.cs" />
     <Compile Include="Exceptions\BacpacException.cs" />
     <Compile Include="Exceptions\CameraException.cs" />
     <Compile Include="Exceptions\CommandFailedException.cs" />
