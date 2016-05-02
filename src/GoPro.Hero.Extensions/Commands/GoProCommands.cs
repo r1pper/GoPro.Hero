@@ -14,36 +14,38 @@ namespace GoPro.Hero.Commands
         {
             var uri = base.GetUri();
 
-            var tcpClient = new TcpSocketClient();
-            await tcpClient.ConnectAsync(uri.Host, uri.Port);
-
-            var writer = new StreamWriter(tcpClient.WriteStream);
-            await writer.WriteLineAsync(string.Format("GET {0} HTTP/1.1",uri));
-            await writer.WriteLineAsync(string.Format("Host: {0}", uri.Host));
-            await writer.WriteLineAsync();
-            await writer.WriteLineAsync();
-            await writer.FlushAsync();
-
-            var reader = new StreamReader(tcpClient.ReadStream,Encoding.UTF8,false,1);
-            while (true)
+            using (var tcpClient = new TcpSocketClient())
             {
-                var line = reader.ReadLine();
-                if (line == string.Empty)
-                    break;
-            }
+                await tcpClient.ConnectAsync(uri.Host, uri.Port);
 
-            var len = int.Parse(reader.ReadLine(), System.Globalization.NumberStyles.HexNumber);
+                var writer = new StreamWriter(tcpClient.WriteStream);
+                await writer.WriteLineAsync(string.Format("GET {0} HTTP/1.1", uri));
+                await writer.WriteLineAsync(string.Format("Host: {0}", uri.Host));
+                await writer.WriteLineAsync();
+                await writer.WriteLineAsync();
+                await writer.FlushAsync();
 
-            var json = reader.ReadLine();
+                var reader = new StreamReader(tcpClient.ReadStream, Encoding.UTF8, false, 1);
+                while (true)
+                {
+                    var line = reader.ReadLine();
+                    if (line == string.Empty)
+                        break;
+                }
 
-            using (var ms = new MemoryStream())
-            using (var w = new StreamWriter(ms))
-            {
-                await w.WriteAsync(json);
-                await w.FlushAsync();
-                if (ms.Length != len-1)
-                    throw new Exceptions.GoProException();
-                return CommandResponse.Create(ms.ToArray());
+                var len = int.Parse(reader.ReadLine(), System.Globalization.NumberStyles.HexNumber);
+
+                var json = reader.ReadLine();
+
+                using (var ms = new MemoryStream())
+                using (var w = new StreamWriter(ms))
+                {
+                    await w.WriteAsync(json);
+                    await w.FlushAsync();
+                    if (ms.Length != len - 1)
+                        throw new Exceptions.GoProException();
+                    return CommandResponse.Create(ms.ToArray());
+                }
             }
         }
     }
