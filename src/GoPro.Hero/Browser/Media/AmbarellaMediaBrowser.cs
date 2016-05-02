@@ -19,6 +19,10 @@ namespace GoPro.Hero.Browser.Media
             var videos = await fs.ChildAsync("videos");
             var dcim = await videos.ChildAsync("DCIM");
             var goPro = await dcim.ChildAsync("100GOPRO");
+
+            if (goPro == null)
+                return new IMedia[] { };
+
             var files = await goPro.NodesAsync();
 
             var groups=files.GroupBy(n => n.Name.StartsWith("GOPR") ? GROUP_ETC : GROUP_TIMELAPSED);

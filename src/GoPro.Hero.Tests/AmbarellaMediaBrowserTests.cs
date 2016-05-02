@@ -76,7 +76,10 @@ namespace GoPro.Hero.Tests
             var camera = GetCamera();
             var image = camera.Browse<AmbarellaMediaBrowser>().ImagesAsync().Result.FirstOrDefault();
             if (image == null)
+            {
                 Assert.Inconclusive("no image found");
+                return;
+            }
 
             var thumbnail = image.ThumbnailAsync().Result;
             var memory = ReadToMemory(thumbnail);
@@ -90,7 +93,10 @@ namespace GoPro.Hero.Tests
             var camera = GetCamera();
             var image = camera.Browse<AmbarellaMediaBrowser>().ImagesAsync().Result.FirstOrDefault();
             if (image == null)
+            {
                 Assert.Inconclusive("no image found");
+                return;
+            }
 
             var thumbnail = image.ThumbnailAsync().Result;
             var memory = ReadToMemory(thumbnail);

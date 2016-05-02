@@ -37,7 +37,11 @@ namespace GoPro.Hero.Browser.Media
 
                 Id = mediaList["id"].Value<string>();
 
-                var media = mediaList["media"].ElementAt(0);
+                var rootMedia = mediaList["media"];
+                if (rootMedia.Count() == 0)
+                    return new IMedia[] { };
+
+                var media = rootMedia.ElementAt(0);
 
                 Destination = media["d"].Value<string>();
 

@@ -273,6 +273,12 @@ namespace GoPro.Hero.Tests
             bool autoLowLightInit;
             bool autoLowLightState;
 
+            if(GetCamera().Camera().Model()!=Model.Hero3PlusBlack || GetCamera().Camera().Model() != Model.Hero3PlusSilver)
+            {
+                Assert.Inconclusive("camera does not support this feature.");
+                return;
+            }
+
             GetCamera().Chain(c => c.AutoLowLight(),out autoLowLightInit).DisableAutoLowLight().Chain(c => c.AutoLowLight(),out autoLowLightState);
             Assert.IsFalse(autoLowLightState);
 
@@ -408,7 +414,7 @@ namespace GoPro.Hero.Tests
         {
             Model model;
 
-            var modelState = GetCamera().Chain(c => ((LegacyCamera)c).Model(),out model).Camera().BacpacStatus().CameraModel;
+            var modelState = GetCamera().Chain(c => c.Camera().Model(),out model).Camera().BacpacStatus().CameraModel;
             Assert.AreEqual(modelState, model);
         }
 
@@ -553,7 +559,7 @@ namespace GoPro.Hero.Tests
         {
             string ssid;
 
-            var ssidState = GetCamera().Chain(c => ((LegacyCamera)c).Ssid(),out ssid).Camera().BacpacInformation().Ssid;
+            var ssidState = GetCamera().Chain(c => c.Camera().Ssid(),out ssid).Camera().BacpacInformation().Ssid;
             Assert.AreEqual(ssidState, ssid);
         }
 
@@ -582,7 +588,7 @@ namespace GoPro.Hero.Tests
         {
             string version;
 
-            var versionState = GetCamera().Chain(c => ((LegacyCamera)c).Version(),out version).Camera().Information().Version;
+            var versionState = GetCamera().Chain(c => c.Camera().Version(),out version).Camera().Information().Version;
             Assert.AreEqual(versionState, version);
         }
 
@@ -628,7 +634,7 @@ namespace GoPro.Hero.Tests
         public void CheckFirmware()
         {
             Version version;
-            var versionState = GetCamera().Chain(c => ((LegacyCamera)c).Firmware(),out version).Camera().BacpacInformation().FirmwareVersion;
+            var versionState = GetCamera().Chain(c => c.Camera().Firmware(),out version).Camera().BacpacInformation().FirmwareVersion;
 
             Assert.AreEqual(versionState, version);
         }
@@ -638,7 +644,7 @@ namespace GoPro.Hero.Tests
         {
             string macAddress;
 
-            var bacPacMacAddress = GetCamera().Chain(c => ((LegacyCamera)c).MacAddress(),out macAddress).Camera().BacpacInformation().MacAddress;
+            var bacPacMacAddress = GetCamera().Chain(c => c.Camera().MacAddress(),out macAddress).Camera().BacpacInformation().MacAddress;
             Assert.AreEqual(macAddress, bacPacMacAddress);
         }
 

@@ -46,8 +46,11 @@ namespace GoPro.Hero.Tests
         public void CheckContentsFromCamera()
         {
             var camera = GetCamera();
-            var contents=camera.Browse<GoProMediaBrowser>().ContentsAsync().Result;
-            Assert.IsNotNull(contents);
+            var contents = camera.Browse<GoProMediaBrowser>().ContentsAsync().Result;
+            if (contents == null)
+                Assert.Inconclusive("no content found.");
+            else
+                Assert.IsNotNull(contents);
         }
 
         [TestMethod]
@@ -64,7 +67,7 @@ namespace GoPro.Hero.Tests
             CollectionAssert.AreEquivalent(third, forth);
             CollectionAssert.AreEquivalent(forth, first);
 
-            if (first == null)
+            if (first.Count == 0)
                 Assert.Inconclusive("no image found");
         }
 
@@ -82,7 +85,7 @@ namespace GoPro.Hero.Tests
             CollectionAssert.AreEquivalent(third, forth);
             CollectionAssert.AreEquivalent(forth, first);
 
-            if (first == null)
+            if (first.Count == 0)
                 Assert.Inconclusive("no timelapsed image found");
         }
 
@@ -92,8 +95,10 @@ namespace GoPro.Hero.Tests
             var camera = GetCamera();
             var image=camera.Contents().ImagesAsync().Result.FirstOrDefault();
             if (image == null)
+            {
                 Assert.Inconclusive("no image found");
-
+                return;
+            }
             var response=image.DownloadAsync().Result.GetResponseStream();
 
             var memory = ReadToMemory(response);
@@ -107,7 +112,10 @@ namespace GoPro.Hero.Tests
             var camera = GetCamera();
             var video = camera.Contents().VideosAsync().Result.FirstOrDefault();
             if (video == null)
+            {
                 Assert.Inconclusive("no video found");
+                return;
+            }
 
             var response = video.DownloadAsync().Result.GetResponseStream();
 
@@ -122,7 +130,10 @@ namespace GoPro.Hero.Tests
             var camera = GetCamera();
             var video = camera.Contents().VideosAsync().Result.Where(v => v.LowResolutionSize > 0).FirstOrDefault();
             if (video == null)
+            {
                 Assert.Inconclusive("no video found");
+                return;
+            }
 
             var response = video.DownloadLowResolutionAsync().Result.GetResponseStream();
 
@@ -137,7 +148,10 @@ namespace GoPro.Hero.Tests
             var camera = GetCamera();
             var timeLapsed = camera.Contents().TimeLapsesAsync().Result.FirstOrDefault();
             if (timeLapsed == null)
+            {
                 Assert.Inconclusive("no timelapsed image found");
+                return;
+            }
 
             long size = 0;
             foreach (var item in timeLapsed)
@@ -155,6 +169,11 @@ namespace GoPro.Hero.Tests
         {
             var camera = GetCamera();
             var image = camera.Contents().ImagesAsync().Result.FirstOrDefault();
+            if (image == null)
+            {
+                Assert.Inconclusive("no image found.");
+                return;
+            }
             var thumbnail=image.ThumbnailAsync().Result;
             var memory = ReadToMemory(thumbnail);
         }
@@ -164,6 +183,11 @@ namespace GoPro.Hero.Tests
         {
             var camera = GetCamera();
             var image = camera.Contents().ImagesAsync().Result.FirstOrDefault();
+            if (image == null)
+            {
+                Assert.Inconclusive("no image found.");
+                return;
+            }
             var thumbnail = image.BigThumbnailAsync().Result;
             var memory = ReadToMemory(thumbnail);
         }
@@ -173,6 +197,11 @@ namespace GoPro.Hero.Tests
         {
             var camera = GetCamera();
             var timeLapse = camera.Contents().TimeLapsesAsync().Result.FirstOrDefault();
+            if (timeLapse == null)
+            {
+                Assert.Inconclusive("no timelapse found.");
+                return;
+            }
             var thumbnail = timeLapse.ThumbnailAsync().Result;
             var memory = ReadToMemory(thumbnail);
             Assert.IsTrue(memory.Length > 1024);
@@ -183,6 +212,11 @@ namespace GoPro.Hero.Tests
         {
             var camera = GetCamera();
             var timeLapse = camera.Contents().TimeLapsesAsync().Result.FirstOrDefault();
+            if (timeLapse == null)
+            {
+                Assert.Inconclusive("no timelapse found.");
+                return;
+            }
             var thumbnail = timeLapse.BigThumbnailAsync().Result;
             var memory = ReadToMemory(thumbnail);
             Assert.IsTrue(memory.Length > 1024);
@@ -193,6 +227,11 @@ namespace GoPro.Hero.Tests
         {
             var camera = GetCamera();
             var video = camera.Contents().VideosAsync().Result.FirstOrDefault();
+            if (video == null)
+            {
+                Assert.Inconclusive("no video found.");
+                return;
+            }
             var thumbnail = video.ThumbnailAsync().Result;
             var memory = ReadToMemory(thumbnail);
             Assert.IsTrue(memory.Length > 1024);
@@ -203,6 +242,11 @@ namespace GoPro.Hero.Tests
         {
             var camera = GetCamera();
             var video = camera.Contents().VideosAsync().Result.FirstOrDefault();
+            if (video == null)
+            {
+                Assert.Inconclusive("no timelapse found.");
+                return;
+            }
             var videoInfo = video.InfoAsync().Result;
             Assert.IsNotNull(videoInfo);
         }
@@ -212,6 +256,10 @@ namespace GoPro.Hero.Tests
         {
             var camera = GetCamera();
             var video = camera.Contents().VideosAsync().Result.FirstOrDefault();
+            if (video == null) {
+                Assert.Inconclusive("no video found.");
+                    return;
+            }
             var deleted=video.DeleteAsync().Result.ContentAsync(video.Name).Result;
             Assert.IsNull(deleted);
         }
@@ -221,6 +269,10 @@ namespace GoPro.Hero.Tests
         {
             var camera = GetCamera();
             var image = camera.Contents().ImagesAsync().Result.FirstOrDefault();
+            if (image == null) {
+                Assert.Inconclusive("no image found.");
+                    return;
+            }
             var deleted = image.DeleteAsync().Result.ContentAsync(image.Name).Result;
             Assert.IsNull(deleted);
         }
@@ -230,6 +282,11 @@ namespace GoPro.Hero.Tests
         {
             var camera = GetCamera();
             var timeLapse = camera.Contents().TimeLapsesAsync().Result.FirstOrDefault();
+            if (timeLapse == null)
+            {
+                Assert.Inconclusive("no timeLapse found.");
+                return;
+            }
             var deleted = timeLapse.DeleteAsync().Result.ContentAsync(timeLapse.Name).Result;
             Assert.IsNull(deleted);
         }
