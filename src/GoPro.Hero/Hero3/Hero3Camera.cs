@@ -1,8 +1,6 @@
-﻿using GoPro.Hero.Filtering;
-
-namespace GoPro.Hero.Hero3
+﻿namespace GoPro.Hero.Hero3
 {
-    public class Hero3Camera : Camera
+    public class Hero3Camera : LegacyCamera
     {
         public Hero3Camera(Bacpac bacpac) : base(bacpac)
         {

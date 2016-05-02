@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using GoPro.Hero.Filtering;
+using GoPro.Hero.Commands;
 
-namespace GoPro.Hero.Commands
+namespace GoPro.Hero.Hero3
 {
-    public abstract class CommandMultiChoice<T, TO> : CommandRequest<TO> where TO : IFilterProvider<TO>
+    public abstract class CommandMultiChoice<T, TO> : CommandRequest<TO>, ICommandMultiChoice<T, TO, CommandMultiChoice<T, TO>> where TO : IFilterProvider<TO>
     {
         public T Selection
         {
@@ -29,12 +30,6 @@ namespace GoPro.Hero.Commands
         public IEnumerable<T> ValidStates()
         {
             return base.Filter.GetValidStates<T, CommandMultiChoice<T, TO>>(this.GetType().Name);
-        }
-
-        public CommandMultiChoice<T, TO> ValidStates(out IEnumerable<T> validStates)
-        {
-            validStates = base.Filter.GetValidStates<T, CommandMultiChoice<T, TO>>(this.GetType().Name);
-            return this;
         }
     }
 }

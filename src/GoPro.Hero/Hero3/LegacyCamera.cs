@@ -7,21 +7,21 @@ using GoPro.Hero.Commands;
 using GoPro.Hero.Filtering;
 using GoPro.Hero.Utilities;
 
-namespace GoPro.Hero
+namespace GoPro.Hero.Hero3
 {
-    public class Camera : ICamera<Camera>,IFilterProvider<Camera>
+    public class LegacyCamera : ICamera<LegacyCamera>,IFilterProvider<LegacyCamera>
     {
         private readonly CameraExtendedSettings _extendedSettings;
         private readonly CameraInformation _information;
         private readonly CameraSettings _settings;
         private CameraCapabilities _capabilities;
-        private IFilter<Camera> _filter;
+        private IFilter<LegacyCamera> _filter;
         protected Bacpac Bacpac;
 
 
-        public Camera(Bacpac bacpac)
+        public LegacyCamera(Bacpac bacpac)
         {
-            SetFilter(new NoFilter<Camera>());
+            SetFilter(new NoFilter<LegacyCamera>());
 
             _information = new CameraInformation();
             _extendedSettings = new CameraExtendedSettings();
@@ -113,7 +113,7 @@ namespace GoPro.Hero
             _capabilities=CameraCapabilities.Parse(response.RawResponse,capabilityLevel);
         }
 
-        public Camera SetFilter(IFilter<Camera> filter)
+        public LegacyCamera SetFilter(IFilter<LegacyCamera> filter)
         {
             _filter = filter;
             filter.Initialize(this);
@@ -225,13 +225,13 @@ namespace GoPro.Hero
             await request.SendAsync();
         }
 
-        public Camera SetName(string name)
+        public LegacyCamera SetName(string name)
         {
             AsyncHelpers.RunSync (()=>SetNameAsync(name));
             return this;
         }
 
-        public Camera Shutter(bool open)
+        public LegacyCamera Shutter(bool open)
         {
             Bacpac.Shutter(open);
             return this;
@@ -242,7 +242,7 @@ namespace GoPro.Hero
             await Bacpac.ShutterAsync(open);
         }
 
-        public Camera Power(bool on)
+        public LegacyCamera Power(bool on)
         {
             Bacpac.Power(on);
             return this;
@@ -253,38 +253,38 @@ namespace GoPro.Hero
             await Bacpac.PowerAsync(on);
         }
 
-        public Camera Command(CommandRequest<Camera> command)
+        public LegacyCamera Command(CommandRequest<LegacyCamera> command)
         {
             command.Send();
             return this;
         }
 
-        public async Task CommandAsync(CommandRequest<Camera> command)
+        public async Task CommandAsync(CommandRequest<LegacyCamera> command)
         {
             await command.SendAsync();
         }
 
-        public CommandResponse Command(CommandRequest<Camera> command, bool checkStatus = true)
+        public CommandResponse Command(CommandRequest<LegacyCamera> command, bool checkStatus = true)
         {
             return command.Send(checkStatus);
         }
 
-        public async Task<CommandResponse> CommandAsync(CommandRequest<Camera> command, bool checkStatus = true)
+        public async Task<CommandResponse> CommandAsync(CommandRequest<LegacyCamera> command, bool checkStatus = true)
         {
             return await command.SendAsync(checkStatus);
         }
 
-        public T PrepareCommand<T>() where T : CommandRequest<Camera>
+        public T PrepareCommand<T>() where T : CommandRequest<LegacyCamera>
         {
-            return CommandRequest<Camera>.Create<T>(this, Bacpac.Address, passPhrase: Bacpac.Password);
+            return CommandRequest<LegacyCamera>.Create<T>(this, Bacpac.Address, passPhrase: Bacpac.Password);
         }
 
-        public T PrepareCommand<T>(int port) where T : CommandRequest<Camera>
+        public T PrepareCommand<T>(int port) where T : CommandRequest<LegacyCamera>
         {
-            return CommandRequest<Camera>.Create<T>(this, string.Format("{0}:{1}", Bacpac.Address, port), passPhrase: Bacpac.Password);
+            return CommandRequest<LegacyCamera>.Create<T>(this, string.Format("{0}:{1}", Bacpac.Address, port), passPhrase: Bacpac.Password);
         }
 
-        IFilter<Camera> IFilterProvider<Camera>.Filter()
+        IFilter<LegacyCamera> IFilterProvider<LegacyCamera>.Filter()
         {
             return _filter;
         }
@@ -342,7 +342,7 @@ namespace GoPro.Hero
             return BacpacStatusCache().CameraModel;
         }
 
-        public Camera Chain(params Func<Camera, Task>[] fs)
+        public LegacyCamera Chain(params Func<LegacyCamera, Task>[] fs)
         {
             foreach (var f in fs)
                 AsyncHelpers.RunSync(() => f(this));
@@ -350,42 +350,42 @@ namespace GoPro.Hero
             return this;
         }
 
-        public async Task ChainAsync(params Func<Camera, Task>[] fs)
+        public async Task ChainAsync(params Func<LegacyCamera, Task>[] fs)
         {
             foreach (var f in fs)
                 await f(this);
         }
 
-        public Camera Chain<T>(Func<Camera, T> f, out T output)
+        public LegacyCamera Chain<T>(Func<LegacyCamera, T> f, out T output)
         {
             output = f(this);
             return this;
         }
 
-        public Camera Chain<T>(Func<Camera, Task<T>> f, out T output)
+        public LegacyCamera Chain<T>(Func<LegacyCamera, Task<T>> f, out T output)
         {
             output = AsyncHelpers.RunSync(() => f(this));
             return this;
         }
 
-        public Camera Chain<T>(Func<Camera, T> f, Action<T> output)
+        public LegacyCamera Chain<T>(Func<LegacyCamera, T> f, Action<T> output)
         {
             output(f(this));
             return this;
         }
 
-        public async Task ChainAsync<T>(Func<Camera, Task<T>> f, Action<T> output)
+        public async Task ChainAsync<T>(Func<LegacyCamera, Task<T>> f, Action<T> output)
         {
             output(await f(this));
         }
 
-        public Camera Chain<T>(Func<Camera, Task<T>> f, Action<T> output)
+        public LegacyCamera Chain<T>(Func<LegacyCamera, Task<T>> f, Action<T> output)
         {
             output(AsyncHelpers.RunSync(() => f(this)));
             return this;
         }
 
-        public static T Create<T>(Bacpac bacpac) where T : Camera
+        public static T Create<T>(Bacpac bacpac) where T : LegacyCamera
         {
             var task = CreateAsync<T>(bacpac);
             task.Wait();
@@ -393,7 +393,7 @@ namespace GoPro.Hero
             return task.Result;
         }
 
-        public static async Task<T> CreateAsync<T>(Bacpac bacpac) where T : Camera
+        public static async Task<T> CreateAsync<T>(Bacpac bacpac) where T : LegacyCamera
         {
             var camera = Activator.CreateInstance(typeof(T), bacpac) as T;
 
@@ -410,15 +410,12 @@ namespace GoPro.Hero
             return camera;
         }
 
-        public static T Create<T>(string address) where T : Camera
+        public static T Create<T>(string address) where T : LegacyCamera
         {
-            var task = CreateAsync<T>(address);
-            task.Wait();
-
-            return task.Result;
+            return AsyncHelpers.RunSync(()=>CreateAsync<T>(address));
         }
 
-        public static async Task<T> CreateAsync<T>(string address) where T : Camera
+        public static async Task<T> CreateAsync<T>(string address) where T : LegacyCamera
         {
             var bacpac = await Bacpac.CreateAsync(address);
             var camera = await CreateAsync<T>(bacpac);

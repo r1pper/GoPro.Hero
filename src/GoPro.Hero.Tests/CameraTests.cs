@@ -1,26 +1,27 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading;
-using GoPro.Hero.Commands;
 using GoPro.Hero.Filtering;
 using GoPro.Hero.Utilities;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using GoPro.Hero.Hero3;
+using GoPro.Hero.Commands;
 
 namespace GoPro.Hero.Tests
 {
     [TestClass]
     public class CameraTests
     {
-        private Camera GetCamera()
+        private LegacyCamera GetCamera()
         {
             var bacpac = Bacpac.Create(ExpectedParameters.IP_ADDRESS);
-            var camera = Camera.Create<Camera>(bacpac);
+            var camera = LegacyCamera.Create<LegacyCamera>(bacpac);
 
             return camera;
         }
 
-        private void ChangeSelection<T, TS>(Camera camera, TS select, Func<Camera, TS> valueRetriever)
-            where T : CommandMultiChoice<TS, Camera>
+        private void ChangeSelection<T, TS>(LegacyCamera camera, TS select, Func<LegacyCamera, TS> valueRetriever)
+            where T : CommandMultiChoice<TS, LegacyCamera>
         {
             var command = camera.PrepareCommand<T>();
             command.Selection = select;
@@ -29,8 +30,8 @@ namespace GoPro.Hero.Tests
             Assert.AreEqual(select, res);
         }
 
-        public void CheckMultiChoiceCommand<T, TS>(Func<Camera, TS> valueRetriever)
-            where T : CommandMultiChoice<TS, Camera>
+        public void CheckMultiChoiceCommand<T, TS>(Func<LegacyCamera, TS> valueRetriever)
+            where T : CommandMultiChoice<TS, LegacyCamera>
         {
             var camera = GetCamera();
             var init = valueRetriever(camera);
@@ -46,7 +47,7 @@ namespace GoPro.Hero.Tests
             ChangeSelection<T, TS>(camera, init, valueRetriever);
         }
 
-        private void CheckBooleanCommand<T>(Func<Camera, bool> valueRetriever) where T : CommandBoolean<Camera>
+        private void CheckBooleanCommand<T>(Func<LegacyCamera, bool> valueRetriever) where T : CommandBoolean<LegacyCamera>
         {
             var camera = GetCamera();
             var init = valueRetriever(camera);
@@ -406,20 +407,18 @@ namespace GoPro.Hero.Tests
             Assert.IsTrue(batteryCamera<=100);
         }
 
-        private class FilterTest : IFilter<Camera>
+        private class FilterTest : IFilter<LegacyCamera>
         {
-            public void Initialize(Camera owner)
+            public void Initialize(LegacyCamera owner)
             {
                 if (owner == null)
                     Assert.Fail("Owner is Null");
             }
 
-            public IEnumerable<T> GetValidStates<T, TC>(string command) where TC : CommandMultiChoice<T, Camera>
             {
                 throw new NotImplementedException();
             }
 
-            public IEnumerable<bool> GetValidStates<TC>(string command) where TC : CommandBoolean<Camera>
             {
                 throw new NotImplementedException();
             }

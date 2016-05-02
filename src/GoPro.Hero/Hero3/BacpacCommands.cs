@@ -1,36 +1,38 @@
-﻿namespace GoPro.Hero.Commands
+﻿using GoPro.Hero.Commands;
+
+namespace GoPro.Hero.Hero3
 {
-    [Command(HeroCommands.BACPAC_SHUTTER)]
+    [Command(LegacyCommands.BACPAC_SHUTTER)]
     internal class CommandBacpacShutter : CommandBoolean<Bacpac>
     {
     }
 
-    [Command(HeroCommands.BACPAC_POWER)]
+    [Command(LegacyCommands.BACPAC_POWER)]
     internal class CommandBacpacPowerUp : CommandBoolean<Bacpac>
     {
     }
 
-    [Command(HeroCommands.BACPAC_GET_PASSWORD, InSecure = true, Parameterless = true)]
+    [Command(LegacyCommands.BACPAC_GET_PASSWORD, InSecure = true, Parameterless = true)]
     internal class CommandBacpacRetrievePassword : CommandRequest<Bacpac>
     {
     }
 
-    [Command(HeroCommands.BACPAC_INFORMATION, InSecure = true, Parameterless = true)]
+    [Command(LegacyCommands.BACPAC_INFORMATION, InSecure = true, Parameterless = true)]
     internal class CommandBacpacInformation : CommandRequest<Bacpac>
     {
     }
 
-    [Command(HeroCommands.BACPAC_STATUS, Parameterless = true)]
+    [Command(LegacyCommands.BACPAC_STATUS, Parameterless = true)]
     internal class CommandBacpacStatus : CommandRequest<Bacpac>
     {
     }
 
-    [Command(HeroCommands.BACPAC_RESET, Parameterless = true)]
+    [Command(LegacyCommands.BACPAC_RESET, Parameterless = true)]
     internal class CommandBacpacReset : CommandRequest<Bacpac>
     {
     }
 
-    [Command(HeroCommands.BACPAC_WIFI_CONFIG)]
+    [Command(LegacyCommands.BACPAC_WIFI_CONFIG)]
     internal class CommandBacpacWifiConfigure : CommandRequest<Bacpac>
     {
         private string _password=string.Empty;

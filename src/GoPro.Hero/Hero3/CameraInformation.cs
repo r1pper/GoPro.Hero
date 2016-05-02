@@ -3,7 +3,7 @@ using System.IO;
 using System.Text;
 using GoPro.Hero.Utilities;
 
-namespace GoPro.Hero
+namespace GoPro.Hero.Hero3
 {
     public class CameraInformation
     {

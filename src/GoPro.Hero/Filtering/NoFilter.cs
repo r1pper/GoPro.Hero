@@ -13,12 +13,12 @@ namespace GoPro.Hero.Filtering
             Owner = owner;
         }
 
-        public IEnumerable<T> GetValidStates<T, TC>(string command) where TC : CommandMultiChoice<T, TO>
+        public IEnumerable<T> GetValidStates<T, TC>(string command) where TC : ICommandMultiChoice<T, TO,TC>
         {
             return Extensions.GetValues<T>();
         }
 
-        public IEnumerable<bool> GetValidStates<TC>(string command) where TC : CommandBoolean<TO>
+        public IEnumerable<bool> GetValidStates<TC>(string command) where TC : ICommandBoolean<TO,TC>
         {
             return new[] {true, false};
         }

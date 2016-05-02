@@ -249,7 +249,7 @@ namespace GoPro.Hero.Tests
 
         private Hero3Camera GetCamera()
         {
-            return Camera.Create<Hero3Camera>(ExpectedParameters.IP_ADDRESS);
+            return LegacyCamera.Create<Hero3Camera>(ExpectedParameters.IP_ADDRESS);
         }
 
         private Stream GetSample()

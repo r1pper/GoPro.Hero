@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace GoPro.Hero
+namespace GoPro.Hero.Hero3
 {
     class CapabilityAttribute:Attribute
     {

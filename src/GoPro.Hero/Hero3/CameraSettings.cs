@@ -2,7 +2,7 @@
 using System.IO;
 using GoPro.Hero.Utilities;
 
-namespace GoPro.Hero
+namespace GoPro.Hero.Hero3
 {
     public class CameraSettings
     {

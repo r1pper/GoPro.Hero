@@ -4,37 +4,38 @@ using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
 using System.Xml.Linq;
-using GoPro.Hero.Commands;
 using Extensions = GoPro.Hero.Utilities.Extensions;
+using GoPro.Hero.Filtering;
+using GoPro.Hero.Commands;
 
-namespace GoPro.Hero.Filtering
+namespace GoPro.Hero.Hero3
 {
-    internal class FilterGeneric : IFilter<Camera>
+    internal class FilterGeneric : IFilter<LegacyCamera>
     {
         private const string ROOT = "Filter";
         private const string MODEL = "Model";
 
         private readonly XElement _root;
-        private Camera _owner;
+        private LegacyCamera _owner;
 
         public FilterGeneric(string profileName)
         {
             _root = GetFilterProfile(profileName);
         }
 
-        public void Initialize(Camera owner)
+        public void Initialize(LegacyCamera owner)
         {
             _owner = owner;
         }
 
-        public  IEnumerable<TD> GetValidStates<TD, TC>(string command) where TC : CommandMultiChoice<TD, Camera>
+        public  IEnumerable<TD> GetValidStates<TD, TC>(string command) where TC : ICommandMultiChoice<TD, LegacyCamera,TC>
         {
             var task = GetValidStatesAsync<TD, TC>(command);
             task.Wait();
             return task.Result;
         }
 
-        public async Task<IEnumerable<TD>> GetValidStatesAsync<TD, TC>(string command) where TC : CommandMultiChoice<TD, Camera>
+        public async Task<IEnumerable<TD>> GetValidStatesAsync<TD, TC>(string command) where TC : ICommandMultiChoice<TD, LegacyCamera,TC>
         {
             var elements = _root.Elements(command).ToArray();
             if (!elements.Any())
@@ -55,14 +56,14 @@ namespace GoPro.Hero.Filtering
             return result;
         }
 
-        public  IEnumerable<bool> GetValidStates<TC>(string command) where TC : CommandBoolean<Camera>
+        public  IEnumerable<bool> GetValidStates<TC>(string command) where TC : ICommandBoolean<LegacyCamera,TC>
         {
             var task = GetValidStatesAsync<TC>(command);
             task.Wait();
             return task.Result;
         }
 
-        public async Task<IEnumerable<bool>> GetValidStatesAsync<TC>(string command) where TC : CommandBoolean<Camera>
+        public async Task<IEnumerable<bool>> GetValidStatesAsync<TC>(string command) where TC : ICommandBoolean<LegacyCamera,TC>
         {
             var elements = _root.Elements(command).ToArray();
             if (!elements.Any())

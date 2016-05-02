@@ -1,6 +1,6 @@
-﻿namespace GoPro.Hero.Commands
+﻿namespace GoPro.Hero.Hero3
 {
-    internal static class HeroCommands
+    internal static class LegacyCommands
     {
         public const string CAMERA_TIME = "/camera/TM";
         public const string CAMERA_GET_NAME = "/camera/cn";

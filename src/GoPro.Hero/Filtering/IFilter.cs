@@ -7,7 +7,7 @@ namespace GoPro.Hero.Filtering
     {
         void Initialize(TO owner);
 
-        IEnumerable<T> GetValidStates<T, TC>(string command) where TC : CommandMultiChoice<T, TO>;
-        IEnumerable<bool> GetValidStates<TC>(string command) where TC : CommandBoolean<TO>;
+        IEnumerable<T> GetValidStates<T, TC>(string command) where TC : ICommandMultiChoice<T, TO,TC>;
+        IEnumerable<bool> GetValidStates<TC>(string command) where TC : ICommandBoolean<TO,TC>;
     }
 }

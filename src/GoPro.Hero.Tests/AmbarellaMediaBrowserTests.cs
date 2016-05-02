@@ -3,16 +3,17 @@ using System.Linq;
 using System.Threading;
 using GoPro.Hero.Browser.Media;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using GoPro.Hero.Hero3;
 
 namespace GoPro.Hero.Tests
 {
     [TestClass]
     public class AmbarellaMediaBrowserTests
     {
-        private Camera GetCamera()
+        private LegacyCamera GetCamera()
         {
             var bacpac = Bacpac.Create(ExpectedParameters.IP_ADDRESS);
-            var camera = Camera.Create<Camera>(bacpac);
+            var camera = LegacyCamera.Create<LegacyCamera>(bacpac);
 
             return camera;
         }

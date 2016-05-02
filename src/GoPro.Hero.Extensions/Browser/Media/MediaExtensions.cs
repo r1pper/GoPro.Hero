@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using GoPro.Hero.Browser.Media;
 using GoPro.Hero.Commands;
+using GoPro.Hero.Hero3;
 
 namespace GoPro.Hero.Browser.Media
 {

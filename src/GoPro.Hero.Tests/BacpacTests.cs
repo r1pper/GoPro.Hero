@@ -1,5 +1,6 @@
 ﻿using System.Threading;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using GoPro.Hero.Hero3;
 
 namespace GoPro.Hero.Tests
 {

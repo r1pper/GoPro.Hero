@@ -4,7 +4,7 @@ using GoPro.Hero.Commands;
 using GoPro.Hero.Filtering;
 using GoPro.Hero.Utilities;
 
-namespace GoPro.Hero
+namespace GoPro.Hero.Hero3
 {
     public sealed class Bacpac : IFilterProvider<Bacpac>
     {

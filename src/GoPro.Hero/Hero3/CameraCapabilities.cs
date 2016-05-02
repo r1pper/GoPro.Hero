@@ -1,6 +1,6 @@
 ﻿using System.Reflection;
 
-namespace GoPro.Hero
+namespace GoPro.Hero.Hero3
 {
     public class CameraCapabilities
     {

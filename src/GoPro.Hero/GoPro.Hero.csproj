@@ -34,9 +34,11 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="Bacpac.cs" />
-    <Compile Include="BacpacInformation.cs" />
-    <Compile Include="BacpacStatus.cs" />
+    <Compile Include="Commands\ICommandBoolean.cs" />
+    <Compile Include="Commands\ICommandMultiChoice.cs" />
+    <Compile Include="Hero3\Bacpac.cs" />
+    <Compile Include="Hero3\BacpacInformation.cs" />
+    <Compile Include="Hero3\BacpacStatus.cs" />
     <Compile Include="Browser\FileSystem\AmbarellaBrowser.cs" />
     <Compile Include="Browser\FileSystem\FileSystemBrowser.cs" />
     <Compile Include="Browser\FileSystem\IFileSystemBrowser.cs" />
@@ -52,29 +54,29 @@
     <Compile Include="Browser\Media\MediaBrowserParameters.cs" />
     <Compile Include="Browser\Media\TimeLapsedImage.cs" />
     <Compile Include="Browser\Media\Video.cs" />
-    <Compile Include="Camera.cs" />
-    <Compile Include="CameraCapabilities.cs" />
-    <Compile Include="CameraExtendedSettings.cs" />
-    <Compile Include="CameraInformation.cs" />
-    <Compile Include="CameraSettings.cs" />
-    <Compile Include="CapabilityAttribute.cs" />
-    <Compile Include="Commands\BacpacCommands.cs" />
-    <Compile Include="Commands\CameraCommands.cs" />
+    <Compile Include="Hero3\LegacyCamera.cs" />
+    <Compile Include="Hero3\CameraCapabilities.cs" />
+    <Compile Include="Hero3\CameraExtendedSettings.cs" />
+    <Compile Include="Hero3\CameraInformation.cs" />
+    <Compile Include="Hero3\CameraSettings.cs" />
+    <Compile Include="Hero3\CapabilityAttribute.cs" />
+    <Compile Include="Hero3\BacpacCommands.cs" />
+    <Compile Include="Hero3\CameraCommands.cs" />
     <Compile Include="Commands\CommandAttribute.cs" />
-    <Compile Include="Commands\CommandBoolean.cs" />
-    <Compile Include="Commands\CommandMultiChoice.cs" />
+    <Compile Include="Hero3\CommandBoolean.cs" />
+    <Compile Include="Hero3\CommandMultiChoice.cs" />
     <Compile Include="Commands\CommandRequest.cs" />
     <Compile Include="Commands\CommandResponse.cs" />
-    <Compile Include="Commands\HeroCommands.cs" />
+    <Compile Include="Hero3\LegacyCommands.cs" />
     <Compile Include="Exceptions\BacpacException.cs" />
     <Compile Include="Exceptions\CameraException.cs" />
     <Compile Include="Exceptions\CommandFailedException.cs" />
     <Compile Include="Exceptions\GoProException.cs" />
-    <Compile Include="Filtering\FilterGeneric.cs" />
+    <Compile Include="Hero3\FilterGeneric.cs" />
     <Compile Include="Filtering\IFilter.cs" />
     <Compile Include="Filtering\IFilterProvider.cs" />
     <Compile Include="Filtering\NoFilter.cs" />
-    <Compile Include="Hero3\Extensions.cs" />
+    <Compile Include="Hero3\ApiExtensions.cs" />
     <Compile Include="Hero3\Hero3Camera.cs" />
     <Compile Include="ICamera.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -98,7 +100,7 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Hero3\Hero3FilterScheme.xml" />
+    <EmbeddedResource Include="Hero3\Hero3FilterScheme.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
