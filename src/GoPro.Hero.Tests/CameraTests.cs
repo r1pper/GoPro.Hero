@@ -409,18 +409,20 @@ namespace GoPro.Hero.Tests
 
         private class FilterTest : IFilter<LegacyCamera>
         {
+            public IEnumerable<bool> GetValidStates<TC>(string command) where TC : ICommandBoolean<LegacyCamera, TC>
+            {
+                throw new NotImplementedException();
+            }
+
+            public IEnumerable<T> GetValidStates<T, TC>(string command) where TC : ICommandMultiChoice<T, LegacyCamera, TC>
+            {
+                throw new NotImplementedException();
+            }
+
             public void Initialize(LegacyCamera owner)
             {
                 if (owner == null)
                     Assert.Fail("Owner is Null");
-            }
-
-            {
-                throw new NotImplementedException();
-            }
-
-            {
-                throw new NotImplementedException();
             }
         }
     }
