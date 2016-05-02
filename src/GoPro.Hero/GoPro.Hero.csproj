@@ -36,6 +36,7 @@
   <ItemGroup>
     <Compile Include="Commands\ICommandBoolean.cs" />
     <Compile Include="Commands\ICommandMultiChoice.cs" />
+    <Compile Include="ApiExtensions.cs" />
     <Compile Include="Hero3\Bacpac.cs" />
     <Compile Include="Hero3\BacpacInformation.cs" />
     <Compile Include="Hero3\BacpacStatus.cs" />
@@ -54,6 +55,7 @@
     <Compile Include="Browser\Media\MediaBrowserParameters.cs" />
     <Compile Include="Browser\Media\TimeLapsedImage.cs" />
     <Compile Include="Browser\Media\Video.cs" />
+    <Compile Include="ICameraFacade.cs" />
     <Compile Include="Hero3\LegacyCamera.cs" />
     <Compile Include="Hero3\CameraCapabilities.cs" />
     <Compile Include="Hero3\CameraExtendedSettings.cs" />
@@ -76,7 +78,7 @@
     <Compile Include="Filtering\IFilter.cs" />
     <Compile Include="Filtering\IFilterProvider.cs" />
     <Compile Include="Filtering\NoFilter.cs" />
-    <Compile Include="Hero3\ApiExtensions.cs" />
+    <Compile Include="Hero3\LegacyFacade.cs" />
     <Compile Include="Hero3\Hero3Camera.cs" />
     <Compile Include="ICamera.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

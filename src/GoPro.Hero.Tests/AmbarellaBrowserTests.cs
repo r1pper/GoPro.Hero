@@ -23,7 +23,7 @@ namespace GoPro.Hero.Tests
         private  Node GetMainNode()
         {
             var camera = LegacyCamera.Create<Hero3Camera>(ExpectedParameters.IP_ADDRESS);
-            var mainNode = camera.Browse();
+            var mainNode = camera.UnifiedApi().Browse();
             return mainNode;
         }
 

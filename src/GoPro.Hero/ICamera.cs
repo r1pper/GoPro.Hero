@@ -35,12 +35,6 @@ namespace GoPro.Hero
         new TC PrepareCommand<TC>() where TC : CommandRequest<T>;
         new TC PrepareCommand<TC>(int port) where TC : CommandRequest<T>;
 
-        T Chain(params Func<T, Task>[] fs);   
-        T Chain<TD>(Func<T, TD> f, out TD output);
-        T Chain<TD>(Func<T, Task<TD>> f, out TD output);
-        T Chain<TD>(Func<T, TD> f, Action<TD> output);
-        T Chain<TD>(Func<T, Task<TD>> f, Action<TD> output);
-        Task ChainAsync(params Func<T, Task>[] fs);
-        Task ChainAsync<TD>(Func<T, Task<TD>> f, Action<TD> output);
+        ICameraFacade<T> UnifiedApi();
     }
 }

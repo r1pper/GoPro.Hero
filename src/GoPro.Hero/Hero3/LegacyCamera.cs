@@ -342,55 +342,17 @@ namespace GoPro.Hero.Hero3
             return BacpacStatusCache().CameraModel;
         }
 
-        public LegacyCamera Chain(params Func<LegacyCamera, Task>[] fs)
-        {
-            foreach (var f in fs)
-                AsyncHelpers.RunSync(() => f(this));
-
-            return this;
-        }
-
-        public async Task ChainAsync(params Func<LegacyCamera, Task>[] fs)
-        {
-            foreach (var f in fs)
-                await f(this);
-        }
-
-        public LegacyCamera Chain<T>(Func<LegacyCamera, T> f, out T output)
-        {
-            output = f(this);
-            return this;
-        }
-
-        public LegacyCamera Chain<T>(Func<LegacyCamera, Task<T>> f, out T output)
-        {
-            output = AsyncHelpers.RunSync(() => f(this));
-            return this;
-        }
-
-        public LegacyCamera Chain<T>(Func<LegacyCamera, T> f, Action<T> output)
-        {
-            output(f(this));
-            return this;
-        }
-
-        public async Task ChainAsync<T>(Func<LegacyCamera, Task<T>> f, Action<T> output)
-        {
-            output(await f(this));
-        }
-
-        public LegacyCamera Chain<T>(Func<LegacyCamera, Task<T>> f, Action<T> output)
-        {
-            output(AsyncHelpers.RunSync(() => f(this)));
-            return this;
-        }
-
         public static T Create<T>(Bacpac bacpac) where T : LegacyCamera
         {
             var task = CreateAsync<T>(bacpac);
             task.Wait();
 
             return task.Result;
+        }
+
+        public ICameraFacade<LegacyCamera> UnifiedApi()
+        {
+            return new LegacyFacade(this);
         }
 
         public static async Task<T> CreateAsync<T>(Bacpac bacpac) where T : LegacyCamera
