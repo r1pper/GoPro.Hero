@@ -35,6 +35,14 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Sockets.Plugin, Version=1.3.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\rda.SocketsForPCL.1.2.2\lib\net45\Sockets.Plugin.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Sockets.Plugin.Abstractions, Version=1.3.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\rda.SocketsForPCL.1.2.2\lib\net45\Sockets.Plugin.Abstractions.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Net" />
     <Reference Include="System.XML" />
@@ -67,9 +75,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\GoPro.Hero.Windows\GoPro.Hero.Windows.csproj">
-      <Project>{6ee14717-7464-4dfe-ae63-3bbe0317724c}</Project>
-      <Name>GoPro.Hero.Windows</Name>
+    <ProjectReference Include="..\GoPro.Hero.Extensions\GoPro.Hero.Extensions.csproj">
+      <Project>{92586935-94e8-4257-bbf8-3b7a2035e155}</Project>
+      <Name>GoPro.Hero.Extensions</Name>
     </ProjectReference>
     <ProjectReference Include="..\GoPro.Hero\GoPro.Hero.csproj">
       <Project>{fe698af6-28ae-4c69-8f9b-7103f3f060ba}</Project>

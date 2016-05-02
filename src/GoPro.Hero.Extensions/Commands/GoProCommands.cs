@@ -1,19 +1,59 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
-using GoPro.Hero.Commands;
 using GoPro.Hero.Utilities;
+using Sockets.Plugin;
+using System.IO;
+using System.Text;
 
 namespace GoPro.Hero.Commands
 {
     [Command(HeroCommands.GOPRO_MEDIALIST,InSecure=true,Parameterless=true)]
-    public class CommandGoProMediaList : CommandRequest
+    public class CommandUnsafeGoProMediaList : CommandRequest
     {
         protected override sealed async Task<CommandResponse> SendRequestAsync()
         {
             var uri = base.GetUri();
+
+            var tcpClient = new TcpSocketClient();
+            await tcpClient.ConnectAsync(uri.Host, uri.Port);
+
+            var writer = new StreamWriter(tcpClient.WriteStream);
+            await writer.WriteLineAsync(string.Format("GET {0} HTTP/1.1",uri));
+            await writer.WriteLineAsync(string.Format("Host: {0}", uri.Host));
+            await writer.WriteLineAsync();
+            await writer.WriteLineAsync();
+            await writer.FlushAsync();
+
+            var reader = new StreamReader(tcpClient.ReadStream,Encoding.UTF8,false,1);
+            while (true)
+            {
+                var line = reader.ReadLine();
+                if (line == string.Empty)
+                    break;
+            }
+
+            var len = int.Parse(reader.ReadLine(), System.Globalization.NumberStyles.HexNumber);
+
+            var json = reader.ReadLine();
+
+            using (var ms = new MemoryStream())
+            using (var w = new StreamWriter(ms))
+            {
+                await w.WriteAsync(json);
+                await w.FlushAsync();
+                if (ms.Length != len-1)
+                    throw new Exceptions.GoProException();
+                return CommandResponse.Create(ms.ToArray());
+            }
+        }
+    }
+
+    [Command(HeroCommands.GOPRO_MEDIALIST, InSecure = true, Parameterless = true)]
+    public class CommandGoProMediaList : CommandRequest
+    {
+        protected override sealed async Task<CommandResponse> SendRequestAsync()
+        {
+            var uri = GetUri();
             var buffer = await WebHelper.BufferRequestAsync(uri.ToString());
 
             return CommandResponse.Create(buffer);

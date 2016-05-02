@@ -8,22 +8,24 @@ using GoPro.Hero.Commands;
 using GoPro.Hero.Utilities;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using GoPro.Hero.Filtering;
 
 namespace GoPro.Hero.Browser.Media
 {
     public class GoProMediaBrowser:MediaBrowser
     {
-        static GoProMediaBrowser()
+        private bool _forceRead;
+
+        public GoProMediaBrowser IgnoreProtocolViolation(bool state)
         {
-#if WINDOWS
-            WindowsSpecific.UseUnsafeHeaderParsing();
-#endif
+            _forceRead = state;
+            return this;
         }
 
         public override async Task<IEnumerable<IMedia>> ContentsAsync()
         {
-            var response = await Camera.PrepareCommand<CommandGoProMediaList>(8080).SendAsync(checkStatus:false);
+            var response = _forceRead 
+                ? await Camera.PrepareCommand<CommandUnsafeGoProMediaList>(8080).SendAsync(checkStatus: false)
+                : await Camera.PrepareCommand<CommandGoProMediaList>(8080).SendAsync(checkStatus: false);
             var jsonStream = response.GetResponseStream();
 
             return Parse(jsonStream);

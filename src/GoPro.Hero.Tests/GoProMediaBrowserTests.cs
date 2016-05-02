@@ -46,7 +46,7 @@ namespace GoPro.Hero.Tests
         public void CheckContentsFromCamera()
         {
             var camera = GetCamera();
-            var contents = camera.Browse<GoProMediaBrowser>().ContentsAsync().Result;
+            var contents = camera.Browse<GoProMediaBrowser>().IgnoreProtocolViolation(true).ContentsAsync().Result;
             if (contents == null)
                 Assert.Inconclusive("no content found.");
             else
