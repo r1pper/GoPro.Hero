@@ -10,7 +10,7 @@ using GoPro.Hero.Commands;
 
 namespace GoPro.Hero.Hero3
 {
-    internal class FilterGeneric : IFilter<LegacyCamera>
+    public sealed class LegacyFilter : IFilter<LegacyCamera>
     {
         private const string ROOT = "Filter";
         private const string MODEL = "Model";
@@ -18,7 +18,7 @@ namespace GoPro.Hero.Hero3
         private readonly XElement _root;
         private LegacyCamera _owner;
 
-        public FilterGeneric(string profileName)
+        public LegacyFilter(string profileName)
         {
             _root = GetFilterProfile(profileName);
         }
@@ -98,14 +98,19 @@ namespace GoPro.Hero.Hero3
 
         private XElement GetFilterProfile(string name)
         {
-            var stream = typeof(FilterGeneric).GetTypeInfo().Assembly.GetManifestResourceStream(name);
+            var stream = typeof(LegacyFilter).GetTypeInfo().Assembly.GetManifestResourceStream(name);
             return XElement.Load(stream);
         }
 
-        public static FilterGeneric Create(string profileName)
+        internal static LegacyFilter Create(string profileName)
         {
-            var filter = new FilterGeneric(profileName);
+            var filter = new LegacyFilter(profileName);
             return filter;
+        }
+
+        public static LegacyFilter Hero3Profile()
+        {
+            return Create("GoPro.Hero.Hero3.Hero3FilterScheme.xml");
         }
     }
 }

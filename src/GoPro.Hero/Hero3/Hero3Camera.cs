@@ -4,7 +4,7 @@
     {
         public Hero3Camera(Bacpac bacpac) : base(bacpac)
         {
-            var filter = FilterGeneric.Create("GoPro.Hero.Hero3.Hero3FilterScheme.xml");
+            var filter = LegacyFilter.Hero3Profile();
             SetFilter(filter);
         }
 

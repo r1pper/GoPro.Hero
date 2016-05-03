@@ -57,7 +57,7 @@ namespace GoPro.Hero.Tests
         public void CheckImagesFromCamera()
         {
             var camera = GetCamera();
-            var first = camera.Contents().ContentsAsync<Image>().Result.ToList();
+            var first = camera.Contents().IgnoreProtocolViolation(true).ContentsAsync<Image>().Result.ToList();
             var second = camera.Browse<GoProMediaBrowser>().ImagesAsync().Result.ToList();
             var third = camera.Contents().ImagesAsync().Result.ToList();
             var forth = camera.Browse<GoProMediaBrowser>().ContentsAsync<Image>().Result.ToList();
@@ -75,10 +75,10 @@ namespace GoPro.Hero.Tests
         public void CheckTimeLapsesFromCamera()
         {
             var camera = GetCamera();
-            var first = camera.Contents().ContentsAsync<TimeLapsedImage>().Result.ToList();
-            var second = camera.Browse<GoProMediaBrowser>().TimeLapsesAsync().Result.ToList();
-            var third = camera.Contents().TimeLapsesAsync().Result.ToList();
-            var forth = camera.Browse<GoProMediaBrowser>().ContentsAsync<TimeLapsedImage>().Result.ToList();
+            var first = camera.Contents().IgnoreProtocolViolation(true).ContentsAsync<TimeLapsedImage>().Result.ToList();
+            var second = camera.Browse<GoProMediaBrowser>().IgnoreProtocolViolation(true).TimeLapsesAsync().Result.ToList();
+            var third = camera.Contents().IgnoreProtocolViolation(true).TimeLapsesAsync().Result.ToList();
+            var forth = camera.Browse<GoProMediaBrowser>().IgnoreProtocolViolation(true).ContentsAsync<TimeLapsedImage>().Result.ToList();
 
 
             CollectionAssert.AreEquivalent(first, second);
@@ -93,7 +93,7 @@ namespace GoPro.Hero.Tests
         public void CheckDownloadImage()
         {
             var camera = GetCamera();
-            var image=camera.Contents().ImagesAsync().Result.FirstOrDefault();
+            var image=camera.Contents().IgnoreProtocolViolation(true).ImagesAsync().Result.FirstOrDefault();
             if (image == null)
             {
                 Assert.Inconclusive("no image found");
@@ -110,7 +110,7 @@ namespace GoPro.Hero.Tests
         public void CheckDownloadVideo()
         {
             var camera = GetCamera();
-            var video = camera.Contents().VideosAsync().Result.FirstOrDefault();
+            var video = camera.Contents().IgnoreProtocolViolation(true).VideosAsync().Result.FirstOrDefault();
             if (video == null)
             {
                 Assert.Inconclusive("no video found");
@@ -128,7 +128,7 @@ namespace GoPro.Hero.Tests
         public void CheckDownloadVideoLowResolution()
         {
             var camera = GetCamera();
-            var video = camera.Contents().VideosAsync().Result.Where(v => v.LowResolutionSize > 0).FirstOrDefault();
+            var video = camera.Contents().IgnoreProtocolViolation(true).VideosAsync().Result.Where(v => v.LowResolutionSize > 0).FirstOrDefault();
             if (video == null)
             {
                 Assert.Inconclusive("no video found");
@@ -146,7 +146,7 @@ namespace GoPro.Hero.Tests
         public void CheckDownloadTimeLapsedImage()
         {
             var camera = GetCamera();
-            var timeLapsed = camera.Contents().TimeLapsesAsync().Result.FirstOrDefault();
+            var timeLapsed = camera.Contents().IgnoreProtocolViolation(true).TimeLapsesAsync().Result.FirstOrDefault();
             if (timeLapsed == null)
             {
                 Assert.Inconclusive("no timelapsed image found");
@@ -182,7 +182,7 @@ namespace GoPro.Hero.Tests
         public void CheckDownloadImageBigThumbnail()
         {
             var camera = GetCamera();
-            var image = camera.Contents().ImagesAsync().Result.FirstOrDefault();
+            var image = camera.Contents().IgnoreProtocolViolation(true).ImagesAsync().Result.FirstOrDefault();
             if (image == null)
             {
                 Assert.Inconclusive("no image found.");
@@ -196,7 +196,7 @@ namespace GoPro.Hero.Tests
         public void CheckDownloadTimeLapsedThumbnail()
         {
             var camera = GetCamera();
-            var timeLapse = camera.Contents().TimeLapsesAsync().Result.FirstOrDefault();
+            var timeLapse = camera.Contents().IgnoreProtocolViolation(true).TimeLapsesAsync().Result.FirstOrDefault();
             if (timeLapse == null)
             {
                 Assert.Inconclusive("no timelapse found.");
@@ -211,7 +211,7 @@ namespace GoPro.Hero.Tests
         public void CheckDownloadTimeLapsedBigThumbnail()
         {
             var camera = GetCamera();
-            var timeLapse = camera.Contents().TimeLapsesAsync().Result.FirstOrDefault();
+            var timeLapse = camera.Contents().IgnoreProtocolViolation(true).TimeLapsesAsync().Result.FirstOrDefault();
             if (timeLapse == null)
             {
                 Assert.Inconclusive("no timelapse found.");
@@ -226,7 +226,7 @@ namespace GoPro.Hero.Tests
         public void CheckDownloadVideoThumbnail()
         {
             var camera = GetCamera();
-            var video = camera.Contents().VideosAsync().Result.FirstOrDefault();
+            var video = camera.Contents().IgnoreProtocolViolation(true).VideosAsync().Result.FirstOrDefault();
             if (video == null)
             {
                 Assert.Inconclusive("no video found.");
@@ -241,7 +241,7 @@ namespace GoPro.Hero.Tests
         public void CheckVideoInfo()
         {
             var camera = GetCamera();
-            var video = camera.Contents().VideosAsync().Result.FirstOrDefault();
+            var video = camera.Contents().IgnoreProtocolViolation(true).VideosAsync().Result.FirstOrDefault();
             if (video == null)
             {
                 Assert.Inconclusive("no timelapse found.");
@@ -255,7 +255,7 @@ namespace GoPro.Hero.Tests
         public void CheckDeleteVideo()
         {
             var camera = GetCamera();
-            var video = camera.Contents().VideosAsync().Result.FirstOrDefault();
+            var video = camera.Contents().IgnoreProtocolViolation(true).VideosAsync().Result.FirstOrDefault();
             if (video == null) {
                 Assert.Inconclusive("no video found.");
                     return;
@@ -268,7 +268,7 @@ namespace GoPro.Hero.Tests
         public void CheckDeleteImage()
         {
             var camera = GetCamera();
-            var image = camera.Contents().ImagesAsync().Result.FirstOrDefault();
+            var image = camera.Contents().IgnoreProtocolViolation(true).ImagesAsync().Result.FirstOrDefault();
             if (image == null) {
                 Assert.Inconclusive("no image found.");
                     return;
@@ -281,7 +281,7 @@ namespace GoPro.Hero.Tests
         public void CheckDeleteTimeLapse()
         {
             var camera = GetCamera();
-            var timeLapse = camera.Contents().TimeLapsesAsync().Result.FirstOrDefault();
+            var timeLapse = camera.Contents().IgnoreProtocolViolation(true).TimeLapsesAsync().Result.FirstOrDefault();
             if (timeLapse == null)
             {
                 Assert.Inconclusive("no timeLapse found.");

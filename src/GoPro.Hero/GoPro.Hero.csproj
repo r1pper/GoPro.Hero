@@ -82,7 +82,7 @@
     <Compile Include="Exceptions\CameraException.cs" />
     <Compile Include="Exceptions\CommandFailedException.cs" />
     <Compile Include="Exceptions\GoProException.cs" />
-    <Compile Include="Hero3\FilterGeneric.cs" />
+    <Compile Include="Hero3\LegacyFilter.cs" />
     <Compile Include="Filtering\IFilter.cs" />
     <Compile Include="Filtering\IFilterProvider.cs" />
     <Compile Include="Filtering\NoFilter.cs" />

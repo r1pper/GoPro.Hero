@@ -6,6 +6,7 @@ using GoPro.Hero.Utilities;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using GoPro.Hero.Hero3;
 using GoPro.Hero.Commands;
+using System.Linq;
 
 namespace GoPro.Hero.Tests
 {
@@ -16,7 +17,7 @@ namespace GoPro.Hero.Tests
         {
             var bacpac = Bacpac.Create(ExpectedParameters.IP_ADDRESS);
             var camera = LegacyCamera.Create<LegacyCamera>(bacpac);
-
+            camera.SetFilter(LegacyFilter.Hero3Profile()); //NOTE: the filter scheme is incompatible, and in case Hero 2 testing, its useless
             return camera;
         }
 
@@ -24,6 +25,9 @@ namespace GoPro.Hero.Tests
             where T : CommandMultiChoice<TS, LegacyCamera>
         {
             var command = camera.PrepareCommand<T>();
+            if (!command.ValidStates().Contains(select))
+                return;
+
             command.Selection = select;
 
             var res = valueRetriever(camera.Command(command));
@@ -146,8 +150,6 @@ namespace GoPro.Hero.Tests
         [TestMethod]
         public void CheckPhotoResolution()
         {
-            Assert.Inconclusive("needs specific camera filtering");
-
             CheckMultiChoiceCommand<CommandCameraPhotoResolution, PhotoResolution>(
                 c => c.ExtendedSettings().PhotoResolution);
         }

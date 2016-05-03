@@ -196,7 +196,7 @@ namespace GoPro.Hero.Hero3
     }
 
     [Command(LegacyCommands.CAMERA_DELETE_FILE)]
-    public class CommandCameraDeleteFile : CommandRequest<LegacyCamera>
+    public class CommandCameraDeleteFile : CommandRequest
     {
         public string Path
         {

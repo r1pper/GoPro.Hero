@@ -46,7 +46,12 @@ namespace GoPro.Hero.Browser.FileSystem
         public long SizeAsBytes()
         {
             var type = Size[Size.Length - 1];
-            var value = double.Parse(Size.Substring(0, Size.Length - 1));
+            double value = -1;
+
+            var res = double.TryParse(Size.Substring(0, Size.Length - 1),out value);
+            if (!res)
+                return -1;
+
             switch (type)
             {
                 case 'M':

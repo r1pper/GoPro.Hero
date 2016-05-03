@@ -7,7 +7,7 @@ namespace GoPro.Hero
 {
     public static  class ApiExtensions
     {
-        public static MediaBrowser Contents(this ICamera camera)
+        public static GoProMediaBrowser Contents(this ICamera camera)
         {
             return camera.Browse<GoProMediaBrowser>();
         }

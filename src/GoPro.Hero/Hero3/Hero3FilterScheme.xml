@@ -9,6 +9,12 @@
     <False />
   </CommandCameraProtune>
 
+  <CommandCameraDefaultMode>
+    <Video/>
+    <Photo/>
+    <Burst/>
+    <TimeLapse/>
+  </CommandCameraDefaultMode>
   
   <CommandCameraAutoLowLight Model="Hero3White" />
   <CommandCameraAutoLowLight Model="Hero3Silver" />
