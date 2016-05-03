@@ -2,7 +2,7 @@
 using GoPro.Hero.Commands;
 using GoPro.Hero.Filtering;
 using GoPro.Hero.Browser.FileSystem;
-using System;
+using GoPro.Hero.Browser;
 
 namespace GoPro.Hero
 {
@@ -17,6 +17,7 @@ namespace GoPro.Hero
         TC PrepareCommand<TC>(int port) where TC : CommandRequest;
 
         Node FileSystem<TF>(int port = 8080) where TF : IFileSystemBrowser;
+        TB Browse<TB>(int port = 8080) where TB : IGeneralBrowser;
     }
 
     public interface ICamera<T>:ICamera where T :ICamera<T>,IFilterProvider<T>

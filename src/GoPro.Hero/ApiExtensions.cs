@@ -1,5 +1,5 @@
-﻿using GoPro.Hero.Filtering;
-using GoPro.Hero.Hero3;
+﻿using GoPro.Hero.Browser.Media;
+using GoPro.Hero.Filtering;
 
 using System.Threading.Tasks;
 
@@ -7,6 +7,11 @@ namespace GoPro.Hero
 {
     public static  class ApiExtensions
     {
+        public static MediaBrowser Contents(this ICamera camera)
+        {
+            return camera.Browse<GoProMediaBrowser>();
+        }
+
         public static  ICameraFacade<T> EnableProtune<T>(this ICameraFacade<T> camera) where T: ICamera<T>,IFilterProvider<T>
         {
             return camera.Protune(true);

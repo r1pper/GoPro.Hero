@@ -9,8 +9,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GoPro.Hero.Windows", "GoPro
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GoPro.Hero", "GoPro.Hero\GoPro.Hero.csproj", "{FE698AF6-28AE-4C69-8F9B-7103F3F060BA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GoPro.Hero.Extensions", "GoPro.Hero.Extensions\GoPro.Hero.Extensions.csproj", "{92586935-94E8-4257-BBF8-3B7A2035E155}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -29,10 +27,6 @@ Global
 		{FE698AF6-28AE-4C69-8F9B-7103F3F060BA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FE698AF6-28AE-4C69-8F9B-7103F3F060BA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FE698AF6-28AE-4C69-8F9B-7103F3F060BA}.Release|Any CPU.Build.0 = Release|Any CPU
-		{92586935-94E8-4257-BBF8-3B7A2035E155}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{92586935-94E8-4257-BBF8-3B7A2035E155}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{92586935-94E8-4257-BBF8-3B7A2035E155}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{92586935-94E8-4257-BBF8-3B7A2035E155}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
