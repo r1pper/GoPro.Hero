@@ -58,9 +58,9 @@ namespace GoPro.Hero.Tests
         {
             var camera = GetCamera();
             var first = camera.Contents().IgnoreProtocolViolation(true).ContentsAsync<Image>().Result.ToList();
-            var second = camera.Browse<GoProMediaBrowser>().ImagesAsync().Result.ToList();
-            var third = camera.Contents().ImagesAsync().Result.ToList();
-            var forth = camera.Browse<GoProMediaBrowser>().ContentsAsync<Image>().Result.ToList();
+            var second = camera.Browse<GoProMediaBrowser>().IgnoreProtocolViolation(true).ImagesAsync().Result.ToList();
+            var third = camera.Contents().IgnoreProtocolViolation(true).ImagesAsync().Result.ToList();
+            var forth = camera.Browse<GoProMediaBrowser>().IgnoreProtocolViolation(true).ContentsAsync<Image>().Result.ToList();
 
             
             CollectionAssert.AreEquivalent(first, second);
