@@ -234,7 +234,7 @@ namespace GoPro.Hero.Tests
             }
             var thumbnail = video.ThumbnailAsync().Result;
             var memory = ReadToMemory(thumbnail);
-            Assert.IsTrue(memory.Length > 1024);
+            Assert.IsTrue(memory.Length > 0);
         }
 
         [TestMethod]
