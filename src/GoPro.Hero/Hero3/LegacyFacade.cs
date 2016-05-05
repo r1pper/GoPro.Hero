@@ -7,13 +7,18 @@ using System.Threading.Tasks;
 
 namespace GoPro.Hero.Hero3
 {
-    public  class LegacyFacade :ICameraFacade<LegacyCamera>
+    public  class LegacyFacade :ICameraFacade
     {
         private readonly LegacyCamera _camera;
 
-        public LegacyCamera Camera()
+        public ICamera Camera()
         {
             return _camera;
+        }
+
+        public T Camera<T>() where T : class, ICamera
+        {
+            return _camera as T;
         }
 
         public  Node Browse()
@@ -21,7 +26,7 @@ namespace GoPro.Hero.Hero3
             return _camera.FileSystem<AmbarellaBrowser>();
         }
 
-        public ICameraFacade<LegacyCamera> VideoResolution( VideoResolution resolution)
+        public ICameraFacade VideoResolution( VideoResolution resolution)
         {
             _camera.PrepareCommand<CommandCameraVideoResolution>().Select(resolution).Execute();
             return this;
@@ -49,7 +54,7 @@ namespace GoPro.Hero.Hero3
         }
 
 
-        public  ICameraFacade<LegacyCamera> Orientation( Orientation orientation)
+        public  ICameraFacade Orientation( Orientation orientation)
         {
             _camera.PrepareCommand<CommandCameraOrientation>().Select(orientation).Execute();
             return this;
@@ -71,7 +76,7 @@ namespace GoPro.Hero.Hero3
         }
 
 
-        public  ICameraFacade<LegacyCamera> TimeLapse( TimeLapse timeLapse)
+        public  ICameraFacade TimeLapse( TimeLapse timeLapse)
         {
             _camera.PrepareCommand<CommandCameraTimeLapse>().Select(timeLapse).Execute();
             return this;
@@ -93,7 +98,7 @@ namespace GoPro.Hero.Hero3
         }
 
 
-        public  ICameraFacade<LegacyCamera> BeepSound( BeepSound beepSound)
+        public  ICameraFacade BeepSound( BeepSound beepSound)
         {
             _camera.PrepareCommand<CommandCameraBeepSound>().Select(beepSound).Execute();
             return this;
@@ -115,7 +120,7 @@ namespace GoPro.Hero.Hero3
         }
 
 
-        public  ICameraFacade<LegacyCamera> Protune( bool state)
+        public  ICameraFacade Protune( bool state)
         {
             _camera.PrepareCommand<CommandCameraProtune>().Set(state).Execute();
             return this;
@@ -147,7 +152,7 @@ namespace GoPro.Hero.Hero3
         }
 
 
-        public  ICameraFacade<LegacyCamera> AutoLowLight( bool state)
+        public  ICameraFacade AutoLowLight( bool state)
         {
             _camera.PrepareCommand<CommandCameraAutoLowLight>().Set(state).Execute();
             return this;
@@ -179,7 +184,7 @@ namespace GoPro.Hero.Hero3
         }
 
 
-        public  ICameraFacade<LegacyCamera> PhotoResolution( PhotoResolution resolution)
+        public  ICameraFacade PhotoResolution( PhotoResolution resolution)
         {
             _camera.PrepareCommand<CommandCameraPhotoResolution>().Select(resolution).Execute();
             return this;
@@ -207,7 +212,7 @@ namespace GoPro.Hero.Hero3
         }
 
 
-        public  ICameraFacade<LegacyCamera> VideoStandard( VideoStandard videoStandard)
+        public  ICameraFacade VideoStandard( VideoStandard videoStandard)
         {
             _camera.PrepareCommand<CommandCameraVideoStandard>().Select(videoStandard).Execute();
             return this;
@@ -229,7 +234,7 @@ namespace GoPro.Hero.Hero3
         }
 
 
-        public  ICameraFacade<LegacyCamera> Mode( Mode mode)
+        public  ICameraFacade Mode( Mode mode)
         {
             _camera.PrepareCommand<CommandCameraMode>().Select(mode).Execute();
             return this;
@@ -251,7 +256,7 @@ namespace GoPro.Hero.Hero3
         }
 
 
-        public  ICameraFacade<LegacyCamera> Locate( bool state)
+        public  ICameraFacade Locate( bool state)
         {
             _camera.PrepareCommand<CommandCameraLocate>().Set(state).Execute();
             return this;
@@ -273,7 +278,7 @@ namespace GoPro.Hero.Hero3
         }
 
 
-        public  ICameraFacade<LegacyCamera> LivePreview( bool state)
+        public  ICameraFacade LivePreview( bool state)
         {
             _camera.PrepareCommand<CommandCameraPreview>().Set(state).Execute();
             return this;
@@ -295,7 +300,7 @@ namespace GoPro.Hero.Hero3
         }
 
 
-        public  ICameraFacade<LegacyCamera> LedBlink( LedBlink ledBlink)
+        public  ICameraFacade LedBlink( LedBlink ledBlink)
         {
             _camera.PrepareCommand<CommandCameraLedBlink>().Select(ledBlink).Execute();
             return this;
@@ -317,7 +322,7 @@ namespace GoPro.Hero.Hero3
         }
 
 
-        public  ICameraFacade<LegacyCamera> FieldOfView( FieldOfView fieldOfView)
+        public  ICameraFacade FieldOfView( FieldOfView fieldOfView)
         {
             _camera.PrepareCommand<CommandCameraFieldOfView>().Select(fieldOfView).Execute();
             return this;
@@ -344,7 +349,7 @@ namespace GoPro.Hero.Hero3
         }
 
 
-        public  ICameraFacade<LegacyCamera> SpotMeter( bool state)
+        public  ICameraFacade SpotMeter( bool state)
         {
             _camera.PrepareCommand<CommandCameraSpotMeter>().Set(state).Execute();
             return this;
@@ -366,7 +371,7 @@ namespace GoPro.Hero.Hero3
         }
 
 
-        public  ICameraFacade<LegacyCamera> DefaultModeOnPowerOn( Mode mode)
+        public  ICameraFacade DefaultModeOnPowerOn( Mode mode)
         {
             _camera.PrepareCommand<CommandCameraDefaultMode>().Select(mode).Execute();
             return this;
@@ -388,7 +393,7 @@ namespace GoPro.Hero.Hero3
         }
 
 
-        public  ICameraFacade<LegacyCamera> DeleteLastFileOnSdCard()
+        public  ICameraFacade DeleteLastFileOnSdCard()
         {
             var task = _camera.PrepareCommand<CommandCameraDeleteLastFileOnSd>().Execute();
             return this;
@@ -399,7 +404,7 @@ namespace GoPro.Hero.Hero3
             await _camera.PrepareCommand<CommandCameraDeleteLastFileOnSd>().ExecuteAsync();
         }
 
-        public  ICameraFacade<LegacyCamera> DeleteAllFilesOnSdCard()
+        public  ICameraFacade DeleteAllFilesOnSdCard()
         {
             _camera.PrepareCommand<CommandCameraDeleteAllFilesOnSd>().Execute();
             return this;
@@ -411,7 +416,7 @@ namespace GoPro.Hero.Hero3
         }
 
 
-        public  ICameraFacade<LegacyCamera> WhiteBalance( WhiteBalance whiteBalance)
+        public  ICameraFacade WhiteBalance( WhiteBalance whiteBalance)
         {
             _camera.PrepareCommand<CommandCameraWhiteBalance>().Select(whiteBalance).Execute();
             return this;
@@ -439,7 +444,7 @@ namespace GoPro.Hero.Hero3
         }
 
 
-        public  ICameraFacade<LegacyCamera> LoopingVideo( LoopingVideo loopingVideo)
+        public  ICameraFacade LoopingVideo( LoopingVideo loopingVideo)
         {
             _camera.PrepareCommand<CommandCameraLoopingVideo>().Select(loopingVideo).Execute();
             return this;
@@ -467,7 +472,7 @@ namespace GoPro.Hero.Hero3
         }
 
 
-        public  ICameraFacade<LegacyCamera> FrameRate( FrameRate frameRate)
+        public  ICameraFacade FrameRate( FrameRate frameRate)
         {
             _camera.PrepareCommand<CommandCameraFrameRate>().Select(frameRate).Execute();
             return this;
@@ -495,7 +500,7 @@ namespace GoPro.Hero.Hero3
         }
 
 
-        public  ICameraFacade<LegacyCamera> BurstRate( BurstRate burstRate)
+        public  ICameraFacade BurstRate( BurstRate burstRate)
         {
             _camera.PrepareCommand<CommandCameraBurstRate>().Select(burstRate).Execute();
             return this;
@@ -517,7 +522,7 @@ namespace GoPro.Hero.Hero3
         }
 
 
-        public  ICameraFacade<LegacyCamera> ContinuousShot( ContinuousShot continuousShot)
+        public  ICameraFacade ContinuousShot( ContinuousShot continuousShot)
         {
             _camera.PrepareCommand<CommandCameraContinuousShot>().Select(continuousShot).Execute();
             return this;
@@ -539,7 +544,7 @@ namespace GoPro.Hero.Hero3
         }
 
 
-        public  ICameraFacade<LegacyCamera> PhotoInVideo( PhotoInVideo photoInVideo)
+        public  ICameraFacade PhotoInVideo( PhotoInVideo photoInVideo)
         {
             _camera.PrepareCommand<CommandCameraPhotoInVideo>().Select(photoInVideo).Execute();
             return this;
@@ -570,7 +575,7 @@ namespace GoPro.Hero.Hero3
             return (await _camera.ExtendedSettingsAsync()).Shutter || (await _camera.BacpacStatusAsync()).ShutterStatus > 0;
         }
 
-        public ICameraFacade<LegacyCamera> Shutter(bool state)
+        public ICameraFacade Shutter(bool state)
         {
             _camera.Shutter(state);
             return this;
@@ -581,7 +586,7 @@ namespace GoPro.Hero.Hero3
             await _camera.ShutterAsync(state);
         }
 
-        public ICameraFacade<LegacyCamera> Power(bool power)
+        public ICameraFacade Power(bool power)
         {
             _camera.Power(power);
             return this;
@@ -687,7 +692,7 @@ namespace GoPro.Hero.Hero3
         }
 
 
-        public ICameraFacade<LegacyCamera> Chain(params Func<ICameraFacade<LegacyCamera>, Task>[] fs)
+        public ICameraFacade Chain(params Func<ICameraFacade, Task>[] fs)
         {
             foreach (var f in fs)
                 AsyncHelpers.RunSync(() => f(this));
@@ -695,36 +700,36 @@ namespace GoPro.Hero.Hero3
             return this;
         }
 
-        public async Task ChainAsync(params Func<ICameraFacade<LegacyCamera>, Task>[] fs)
+        public async Task ChainAsync(params Func<ICameraFacade, Task>[] fs)
         {
             foreach (var f in fs)
                 await f(this);
         }
 
-        public ICameraFacade<LegacyCamera> Chain<T>(Func<ICameraFacade<LegacyCamera>, T> f, out T output)
+        public ICameraFacade Chain<T>(Func<ICameraFacade, T> f, out T output)
         {
             output = f(this);
             return this;
         }
 
-        public ICameraFacade<LegacyCamera> Chain<T>(Func<ICameraFacade<LegacyCamera>, Task<T>> f, out T output)
+        public ICameraFacade Chain<T>(Func<ICameraFacade, Task<T>> f, out T output)
         {
             output = AsyncHelpers.RunSync(() => f(this));
             return this;
         }
 
-        public ICameraFacade<LegacyCamera> Chain<T>(Func<ICameraFacade<LegacyCamera>, T> f, Action<T> output)
+        public ICameraFacade Chain<T>(Func<ICameraFacade, T> f, Action<T> output)
         {
             output(f(this));
             return this;
         }
 
-        public async Task ChainAsync<T>(Func<ICameraFacade<LegacyCamera>, Task<T>> f, Action<T> output)
+        public async Task ChainAsync<T>(Func<ICameraFacade, Task<T>> f, Action<T> output)
         {
             output(await f(this));
         }
 
-        public ICameraFacade<LegacyCamera> Chain<T>(Func<ICameraFacade<LegacyCamera>, Task<T>> f, Action<T> output)
+        public ICameraFacade Chain<T>(Func<ICameraFacade, Task<T>> f, Action<T> output)
         {
             output(AsyncHelpers.RunSync(() => f(this)));
             return this;

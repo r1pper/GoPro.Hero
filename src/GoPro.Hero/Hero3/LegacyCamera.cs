@@ -9,7 +9,7 @@ using GoPro.Hero.Utilities;
 
 namespace GoPro.Hero.Hero3
 {
-    public class LegacyCamera : ICamera<LegacyCamera>,IFilterProvider<LegacyCamera>
+    public class LegacyCamera : ICamera<LegacyCamera>,IFilterProvider<LegacyCamera>,ICamera
     {
         private readonly CameraExtendedSettings _extendedSettings;
         private readonly CameraInformation _information;
@@ -350,7 +350,7 @@ namespace GoPro.Hero.Hero3
             return task.Result;
         }
 
-        public ICameraFacade<LegacyCamera> UnifiedApi()
+        public ICameraFacade UnifiedApi()
         {
             return new LegacyFacade(this);
         }

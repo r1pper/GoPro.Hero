@@ -20,7 +20,7 @@ namespace GoPro.Hero
         TB Browse<TB>(int port = 8080) where TB : IGeneralBrowser;
     }
 
-    public interface ICamera<T>:ICamera where T :ICamera<T>,IFilterProvider<T>
+    public interface ICamera<T>:ICamera where T :ICamera<T>,IFilterProvider<T>,ICamera
     {
         T SetFilter(IFilter<T> filter);
 
@@ -36,6 +36,6 @@ namespace GoPro.Hero
         new TC PrepareCommand<TC>() where TC : CommandRequest<T>;
         new TC PrepareCommand<TC>(int port) where TC : CommandRequest<T>;
 
-        ICameraFacade<T> UnifiedApi();
+        ICameraFacade UnifiedApi();
     }
 }

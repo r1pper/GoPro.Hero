@@ -63,6 +63,7 @@
     <Compile Include="Browser\Media\MediaBrowserParameters.cs" />
     <Compile Include="Browser\Media\TimeLapsedImage.cs" />
     <Compile Include="Browser\Media\Video.cs" />
+    <Compile Include="Hero4\Hero4Commands.cs" />
     <Compile Include="ICameraFacade.cs" />
     <Compile Include="Hero3\LegacyCamera.cs" />
     <Compile Include="Hero3\CameraCapabilities.cs" />

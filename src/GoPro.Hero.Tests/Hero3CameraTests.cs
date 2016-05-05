@@ -8,7 +8,7 @@ namespace GoPro.Hero.Tests
     [TestClass]
     public class Hero3CameraTests
     {
-        private ICameraFacade<LegacyCamera> GetCamera()
+        private ICameraFacade GetCamera()
         {
             var camera = LegacyCamera.Create<Hero3Camera>(ExpectedParameters.IP_ADDRESS);
             return camera.UnifiedApi();
@@ -31,12 +31,12 @@ namespace GoPro.Hero.Tests
         {
             var camera = GetCamera();
 
-            var init = camera.Camera().BacpacStatus().CameraPower;
+            var init = camera.Camera<Hero3Camera>().BacpacStatus().CameraPower;
             if (init) return;
 
             camera.Power(true);
             Thread.Sleep(5000);
-            var res = camera.Camera().BacpacStatus().CameraPower;
+            var res = camera.Camera<Hero3Camera>().BacpacStatus().CameraPower;
             Assert.AreEqual(true, res);
         }
 
@@ -51,7 +51,7 @@ namespace GoPro.Hero.Tests
         public void CheckAvailablePhotoSpace()
         {
             var photoSpaceAvailable = GetCamera().AvailablePhotoSpace();
-            var photoSpace =GetCamera().Camera().ExtendedSettings().PhotosAvailableSpace;
+            var photoSpace =GetCamera().Camera<Hero3Camera>().ExtendedSettings().PhotosAvailableSpace;
             Assert.AreEqual(photoSpace, photoSpaceAvailable);
         }
 
@@ -59,7 +59,7 @@ namespace GoPro.Hero.Tests
         public void CheckAvailableVideoSpace()
         {
             var videoSpaceAvailable = GetCamera().AvailableVideoSpace();
-            var videoSpace = GetCamera().Camera().ExtendedSettings().VideosAvailableSpace;
+            var videoSpace = GetCamera().Camera<Hero3Camera>().ExtendedSettings().VideosAvailableSpace;
             Assert.AreEqual(videoSpace, videoSpaceAvailable.TotalSeconds);
         }
 
@@ -67,7 +67,7 @@ namespace GoPro.Hero.Tests
         public void CheckBattery()
         {
             var battery=GetCamera().BatteryStatus();
-            var batteryState = GetCamera().Camera().Settings().Battery;
+            var batteryState = GetCamera().Camera<Hero3Camera>().Settings().Battery;
 
             Assert.AreEqual(batteryState, battery);
             Assert.IsTrue(battery > 0 && battery <= 100);
@@ -76,7 +76,7 @@ namespace GoPro.Hero.Tests
         [TestMethod]
         public void CheckName()
         {
-            var name = GetCamera().Camera().GetName();
+            var name = GetCamera().Camera<Hero3Camera>().GetName();
             Assert.AreEqual(ExpectedParameters.REAL_NAME, name);
         }
 
@@ -93,8 +93,8 @@ namespace GoPro.Hero.Tests
         [TestMethod]
         public void CheckBootloaderVersion()
         {
-            var version = GetCamera().Camera().BootLoader();
-            var versionState = GetCamera().Camera().BacpacInformation().BootloaderVersion;
+            var version = GetCamera().Camera<Hero3Camera>().BootLoader();
+            var versionState = GetCamera().Camera<Hero3Camera>().BacpacInformation().BootloaderVersion;
             Assert.AreEqual(versionState, version);
         }
 
@@ -260,7 +260,7 @@ namespace GoPro.Hero.Tests
         [TestMethod]
         public void CheckProtuneSupport()
         { 
-            var model = GetCamera().Camera().BacpacStatus().CameraModel;
+            var model = GetCamera().Camera<Hero3Camera>().BacpacStatus().CameraModel;
             var supports = GetCamera().SupportsProtune();
 
             Assert.IsTrue((model == Model.Hero3Black && supports) || (model == Model.Hero3Silver && supports) ||
@@ -273,7 +273,7 @@ namespace GoPro.Hero.Tests
             bool autoLowLightInit;
             bool autoLowLightState;
 
-            if(GetCamera().Camera().Model()!=Model.Hero3PlusBlack || GetCamera().Camera().Model() != Model.Hero3PlusSilver)
+            if(GetCamera().Camera<Hero3Camera>().Model()!=Model.Hero3PlusBlack || GetCamera().Camera<Hero3Camera>().Model() != Model.Hero3PlusSilver)
             {
                 Assert.Inconclusive("camera does not support this feature.");
                 return;
@@ -293,7 +293,7 @@ namespace GoPro.Hero.Tests
         [TestMethod]
         public void CheckAutoLowLightSupport()
         {
-            var model = GetCamera().Camera().BacpacStatus().CameraModel;
+            var model = GetCamera().Camera<Hero3Camera>().BacpacStatus().CameraModel;
             var supports = GetCamera().SupportsAutoLowLight();
 
             Assert.IsTrue((model == Model.Hero3PlusBlack && supports) || (model == Model.Hero3PlusSilver && supports) ||
@@ -358,14 +358,14 @@ namespace GoPro.Hero.Tests
         {
             string fullName;
 
-            var fullnameState = GetCamera().Chain(c=>c.FullName(),out fullName).Camera().Information().Name;
+            var fullnameState = GetCamera().Chain(c=>c.FullName(),out fullName).Camera<Hero3Camera>().Information().Name;
             Assert.AreEqual(fullnameState, fullName);
         }
 
         [TestMethod]
         public void CheckIpAddress()
         {
-            var ipAddress = GetCamera().Camera().IpAddress();
+            var ipAddress = GetCamera().Camera<Hero3Camera>().IpAddress();
             Assert.AreEqual(ExpectedParameters.IP_ADDRESS, ipAddress);
         }
 
@@ -414,7 +414,7 @@ namespace GoPro.Hero.Tests
         {
             Model model;
 
-            var modelState = GetCamera().Chain(c => c.Camera().Model(),out model).Camera().BacpacStatus().CameraModel;
+            var modelState = GetCamera().Chain(c => c.Camera<Hero3Camera>().Model(),out model).Camera<Hero3Camera>().BacpacStatus().CameraModel;
             Assert.AreEqual(modelState, model);
         }
 
@@ -441,7 +441,7 @@ namespace GoPro.Hero.Tests
         [TestMethod]
         public void CheckPassword()
         {
-            var password=GetCamera().Camera().Password();
+            var password=GetCamera().Camera<Hero3Camera>().Password();
             Assert.AreEqual(ExpectedParameters.PASSWORD, password);
         }
 
@@ -450,7 +450,7 @@ namespace GoPro.Hero.Tests
         {
             int count;
 
-            var countState = GetCamera().Chain(c => c.PhotoCount(),out count).Camera().ExtendedSettings().PhotosCount;
+            var countState = GetCamera().Chain(c => c.PhotoCount(),out count).Camera<Hero3Camera>().ExtendedSettings().PhotosCount;
             Assert.AreEqual(countState, count);
         }
 
@@ -459,7 +459,7 @@ namespace GoPro.Hero.Tests
         {
             int count;
 
-            var countState = GetCamera().Chain(c => c.VideoCount(),out count).Camera().ExtendedSettings().VideosCount;
+            var countState = GetCamera().Chain(c => c.VideoCount(),out count).Camera<Hero3Camera>().ExtendedSettings().VideosCount;
             Assert.AreEqual(countState, count);
         }
 
@@ -550,7 +550,7 @@ namespace GoPro.Hero.Tests
         {
             SignalStrength signalStrength;
 
-            var signalState = GetCamera().Chain(c => c.SignalStrength(),out signalStrength).Camera().BacpacStatus().Rssi;
+            var signalState = GetCamera().Chain(c => c.SignalStrength(),out signalStrength).Camera<Hero3Camera>().BacpacStatus().Rssi;
             Assert.AreEqual(signalState, signalStrength);
         }
 
@@ -559,7 +559,7 @@ namespace GoPro.Hero.Tests
         {
             string ssid;
 
-            var ssidState = GetCamera().Chain(c => c.Camera().Ssid(),out ssid).Camera().BacpacInformation().Ssid;
+            var ssidState = GetCamera().Chain(c => c.Camera<Hero3Camera>().Ssid(),out ssid).Camera<Hero3Camera>().BacpacInformation().Ssid;
             Assert.AreEqual(ssidState, ssid);
         }
 
@@ -588,7 +588,7 @@ namespace GoPro.Hero.Tests
         {
             string version;
 
-            var versionState = GetCamera().Chain(c => c.Camera().Version(),out version).Camera().Information().Version;
+            var versionState = GetCamera().Chain(c => c.Camera<Hero3Camera>().Version(),out version).Camera<Hero3Camera>().Information().Version;
             Assert.AreEqual(versionState, version);
         }
 
@@ -634,7 +634,7 @@ namespace GoPro.Hero.Tests
         public void CheckFirmware()
         {
             Version version;
-            var versionState = GetCamera().Chain(c => c.Camera().Firmware(),out version).Camera().BacpacInformation().FirmwareVersion;
+            var versionState = GetCamera().Chain(c => c.Camera<Hero3Camera>().Firmware(),out version).Camera<Hero3Camera>().BacpacInformation().FirmwareVersion;
 
             Assert.AreEqual(versionState, version);
         }
@@ -644,7 +644,7 @@ namespace GoPro.Hero.Tests
         {
             string macAddress;
 
-            var bacPacMacAddress = GetCamera().Chain(c => c.Camera().MacAddress(),out macAddress).Camera().BacpacInformation().MacAddress;
+            var bacPacMacAddress = GetCamera().Chain(c => c.Camera<Hero3Camera>().MacAddress(),out macAddress).Camera<Hero3Camera>().BacpacInformation().MacAddress;
             Assert.AreEqual(macAddress, bacPacMacAddress);
         }
 
@@ -654,7 +654,7 @@ namespace GoPro.Hero.Tests
             bool livePreviewAvailable;
 
             var livePreview =
-                GetCamera().Chain(c => c.LivePreviewAvailable(),out livePreviewAvailable).Camera().ExtendedSettings().PreviewAvailable;
+                GetCamera().Chain(c => c.LivePreviewAvailable(),out livePreviewAvailable).Camera<Hero3Camera>().ExtendedSettings().PreviewAvailable;
             Assert.AreEqual(livePreview, livePreviewAvailable);
         }
     }

@@ -1,5 +1,4 @@
 ﻿using GoPro.Hero.Browser.Media;
-using GoPro.Hero.Filtering;
 
 using System.Threading.Tasks;
 
@@ -12,145 +11,145 @@ namespace GoPro.Hero
             return camera.Browse<GoProMediaBrowser>();
         }
 
-        public static  ICameraFacade<T> EnableProtune<T>(this ICameraFacade<T> camera) where T: ICamera<T>,IFilterProvider<T>
+        public static  ICameraFacade EnableProtune(this ICameraFacade camera) 
         {
             return camera.Protune(true);
         }
 
-        public static  async Task EnableProtuneAsync<T>(this ICameraFacade<T> camera) where T : ICamera<T>, IFilterProvider<T>
+        public static  async Task EnableProtuneAsync(this ICameraFacade camera) 
         {
             await camera.ProtuneAsync(true);
         }
 
-        public static  ICameraFacade<T> DisableProtune<T>(this ICameraFacade<T> camera) where T : ICamera<T>, IFilterProvider<T>
+        public static  ICameraFacade DisableProtune(this ICameraFacade camera) 
         {
             return camera.Protune(false);
         }
 
-        public static  async Task DisableProtuneAsync<T>(this ICameraFacade<T> camera) where T : ICamera<T>, IFilterProvider<T>
+        public static  async Task DisableProtuneAsync(this ICameraFacade camera) 
         {
             await camera.ProtuneAsync(false);
         }
 
-        public static  ICameraFacade<T> EnableAutoLowLight<T>(this ICameraFacade<T> camera) where T : ICamera<T>, IFilterProvider<T>
+        public static  ICameraFacade EnableAutoLowLight(this ICameraFacade camera) 
         {
             return camera.AutoLowLight(true);
         }
 
-        public static  async Task EnableAutoLowLightAsync<T>(this ICameraFacade<T> camera) where T : ICamera<T>, IFilterProvider<T>
+        public static  async Task EnableAutoLowLightAsync(this ICameraFacade camera) 
         {
             await camera.AutoLowLightAsync(true);
         }
 
-        public static  ICameraFacade<T> DisableAutoLowLight<T>(this ICameraFacade<T> camera) where T : ICamera<T>, IFilterProvider<T>
+        public static  ICameraFacade DisableAutoLowLight(this ICameraFacade camera) 
         {
             return camera.AutoLowLight(false);
         }
 
-        public static  async Task DisableAutoLowLightAsync<T>(this ICameraFacade<T> camera) where T : ICamera<T>, IFilterProvider<T>
+        public static  async Task DisableAutoLowLightAsync(this ICameraFacade camera) 
         {
             await camera.AutoLowLightAsync(false);
         }
 
 
-        public static  ICameraFacade<T> EnableLocate<T>(this ICameraFacade<T> camera) where T : ICamera<T>, IFilterProvider<T>
+        public static  ICameraFacade EnableLocate(this ICameraFacade camera) 
         {
             return camera.Locate(true);
         }
 
-        public static  async Task EnableLocateAsync<T>(this ICameraFacade<T> camera) where T : ICamera<T>, IFilterProvider<T>
+        public static  async Task EnableLocateAsync(this ICameraFacade camera) 
         {
             await camera.LocateAsync(true);
         }
 
-        public static  ICameraFacade<T> DisableLocate<T>(this ICameraFacade<T> camera) where T : ICamera<T>, IFilterProvider<T>
+        public static  ICameraFacade DisableLocate(this ICameraFacade camera) 
         {
             return camera.Locate(false);
         }
 
-        public static  async Task DisableLocateAsync<T>(this ICameraFacade<T> camera) where T : ICamera<T>, IFilterProvider<T>
+        public static  async Task DisableLocateAsync(this ICameraFacade camera) 
         {
             await camera.LocateAsync(false);
         }
 
-        public static  ICameraFacade<T> EnableLivePreview<T>(this ICameraFacade<T> camera) where T : ICamera<T>, IFilterProvider<T>
+        public static  ICameraFacade EnableLivePreview(this ICameraFacade camera) 
         {
             return camera.LivePreview(true);
         }
 
-        public static  async Task EnableLivePreviewAsync<T>(this ICameraFacade<T> camera) where T : ICamera<T>, IFilterProvider<T>
+        public static  async Task EnableLivePreviewAsync(this ICameraFacade camera) 
         {
             await camera.LivePreviewAsync(true);
         }
 
-        public static  ICameraFacade<T> DisableLivePreview<T>(this ICameraFacade<T> camera) where T : ICamera<T>, IFilterProvider<T>
+        public static  ICameraFacade DisableLivePreview(this ICameraFacade camera) 
         {
             return camera.LivePreview(false);
         }
 
-        public static  async Task DisableLivePreviewAsync<T>(this ICameraFacade<T> camera) where T : ICamera<T>, IFilterProvider<T>
+        public static  async Task DisableLivePreviewAsync(this ICameraFacade camera) 
         {
             await camera.LivePreviewAsync(false);
         }
 
-        public static  ICameraFacade<T> EnableSpotMeter<T>(this ICameraFacade<T> camera) where T : ICamera<T>, IFilterProvider<T>
+        public static  ICameraFacade EnableSpotMeter(this ICameraFacade camera) 
         {
             return camera.SpotMeter(true);
         }
 
-        public static  async Task EnableSpotMeterAsync<T>(this ICameraFacade<T> camera) where T : ICamera<T>, IFilterProvider<T>
+        public static  async Task EnableSpotMeterAsync(this ICameraFacade camera) 
         {
             await camera.SpotMeterAsync(true);
         }
 
-        public static  ICameraFacade<T> DisableSpotMeter<T>(this ICameraFacade<T> camera) where T : ICamera<T>, IFilterProvider<T>
+        public static  ICameraFacade DisableSpotMeter(this ICameraFacade camera) 
         {
             return camera.SpotMeter(false);
         }
 
-        public static  async Task DisableSpotMeterAsync<T>(this ICameraFacade<T> camera) where T : ICamera<T>, IFilterProvider<T>
+        public static  async Task DisableSpotMeterAsync(this ICameraFacade camera) 
         {
             await camera.SpotMeterAsync(false);
         }
 
-        public static  ICameraFacade<T> OpenShutter<T>(this ICameraFacade<T> camera) where T : ICamera<T>, IFilterProvider<T>
+        public static  ICameraFacade OpenShutter(this ICameraFacade camera) 
         {
             return camera.Shutter(true);
         }
 
-        public static  async Task OpenShutterAsync<T>(this ICameraFacade<T> camera) where T : ICamera<T>, IFilterProvider<T>
+        public static  async Task OpenShutterAsync(this ICameraFacade camera) 
         {
             await camera.ShutterAsync(true);
         }
 
-        public static  ICameraFacade<T> CloseShutter<T>(this ICameraFacade<T> camera) where T : ICamera<T>, IFilterProvider<T>
+        public static  ICameraFacade CloseShutter(this ICameraFacade camera) 
         {
             return camera.Shutter(false);
         }
 
-        public static  async Task CloseShutterAsync<T>(this ICameraFacade<T> camera) where T : ICamera<T>, IFilterProvider<T>
+        public static  async Task CloseShutterAsync(this ICameraFacade camera) 
         {
             await camera.ShutterAsync(false);
         }
 
-        public static  ICameraFacade<T> PowerOn<T>(this ICameraFacade<T> camera) where T : ICamera<T>, IFilterProvider<T>
+        public static  ICameraFacade PowerOn(this ICameraFacade camera) 
         {
             camera.Power(true);
             return camera;
         }
 
-        public static  async Task PowerOnAsync<T>(this ICameraFacade<T> camera) where T : ICamera<T>, IFilterProvider<T>
+        public static  async Task PowerOnAsync(this ICameraFacade camera) 
         {
             await camera.PowerAsync(true);
         }
 
-        public static  ICameraFacade<T> PowerOff<T>(this ICameraFacade<T> camera) where T : ICamera<T>, IFilterProvider<T>
+        public static  ICameraFacade PowerOff(this ICameraFacade camera) 
         {
             camera.Power(false);
             return camera;
         }
 
-        public static  async Task PowerOffAsync<T>(this ICameraFacade<T> camera) where T : ICamera<T>, IFilterProvider<T>
+        public static  async Task PowerOffAsync(this ICameraFacade camera) 
         {
             await camera.PowerAsync(false);
         }
